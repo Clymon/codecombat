@@ -1,0 +1,49 @@
+{
+  "_id": "6a68461d0de43b289d6c35fc",
+  "name": "Dot",
+  "original": "5e9e97e46c32030029c6ca35",
+  "kind": "Misc",
+  "components": [
+    {
+      "config": {
+        "pos": {
+          "z": 0.5,
+          "y": 0,
+          "x": 0
+        },
+        "depth": 1,
+        "height": 1,
+        "width": 1,
+        "shape": "box",
+        "rotation": 0
+      },
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    },
+    {
+      "config": {
+        "stateless": false
+      },
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "config": {
+        "layerPriority": -25
+      },
+      "majorVersion": 0,
+      "original": "53f3c73b9ca49ad96d60afcd"
+    },
+    {
+      "config": {
+        "alpha": 1
+      },
+      "majorVersion": 0,
+      "original": "52bdf7f58c4289607b00002f"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b85837fc0f6d519000020"
+    }
+  ]
+}

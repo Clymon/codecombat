@@ -304,6 +304,9 @@ module.exports = class LevelLoader extends CocoClass
       )
 
   loadDependenciesForSession: (session) ->
+    # Original local levels own their sessions; they never write to the upstream service.
+    if /^local-python-\d{2}$/.test(@levelID)
+      session.set 'creator', me.id
     console.debug "Loading dependencies for session: ", session if LOG
     if me.id isnt session.get('creator') or @spectateMode
       session.patch = session.save = session.put = -> console.error "Not saving session, since we didn't create it."

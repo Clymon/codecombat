@@ -1,0 +1,27 @@
+{
+  "_id": "543ea58d9692aa00006208f4",
+  "name": "Dungeon Pillar",
+  "original": "543ea0ff9692aa00006208e7",
+  "components": [
+    {
+      "config": {
+        "stateless": true
+      },
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    },
+    {
+      "config": {
+        "fixedRotation": true,
+        "collisionType": "static"
+      },
+      "majorVersion": 0,
+      "original": "524b7b857fc0f6d519000012"
+    }
+  ],
+  "kind": "Doodad"
+}

@@ -1,0 +1,87 @@
+{
+  "_id": "5572393d9cf50ba409b1c6dd",
+  "name": "Dungeon Door",
+  "original": "52a0e5123abf480000000001",
+  "components": [
+    {
+      "majorVersion": 0,
+      "original": "524b85837fc0f6d519000020"
+    },
+    {
+      "config": {
+        "team": "neutral"
+      },
+      "majorVersion": 0,
+      "original": "524b7b747fc0f6d519000010"
+    },
+    {
+      "config": {
+        "restitution": 1,
+        "mass": 100,
+        "fixedRotation": true,
+        "collisionType": "static",
+        "collisionCategory": "ground"
+      },
+      "majorVersion": 0,
+      "original": "524b7b857fc0f6d519000012"
+    },
+    {
+      "config": {
+        "health": 0,
+        "healthReplenishRate": 0,
+        "maxHealth": 40
+      },
+      "majorVersion": 0,
+      "original": "524b7bab7fc0f6d519000017"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b3e3fff92f1f4f800000d"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "config": {
+        "shape": "box",
+        "depth": 8,
+        "height": 1.5,
+        "width": 4,
+        "pos": {
+          "z": 4,
+          "y": 10,
+          "x": 10
+        }
+      },
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b457bff92f1f4f8000031"
+    },
+    {
+      "config": {
+        "apiMethods": [
+          "findNearest",
+          "distanceTo",
+          "findNearestEnemy",
+          "findEnemies"
+        ],
+        "apiProperties": [
+          "id",
+          "health",
+          "pos",
+          "team",
+          "type",
+          "maxHealth"
+        ],
+        "type": "door"
+      },
+      "majorVersion": 0,
+      "original": "52e816058c875f0000000001"
+    }
+  ],
+  "kind": "Doodad"
+}

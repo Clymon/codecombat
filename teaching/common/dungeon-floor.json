@@ -1,0 +1,42 @@
+{
+  "_id": "681c7a66f5cd124517acc48b",
+  "name": "Dungeon Floor",
+  "original": "52af688f6320a8049d000001",
+  "components": [
+    {
+      "config": {
+        "stateless": true
+      },
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b7aff7fc0f6d519000006"
+    },
+    {
+      "config": {
+        "shape": "sheet",
+        "depth": 2,
+        "height": 17,
+        "width": 20,
+        "pos": {
+          "z": 1,
+          "y": 8.5,
+          "x": 10
+        }
+      },
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    },
+    {
+      "config": {
+        "scaleFactorY": 0.85,
+        "quickScale": true
+      },
+      "majorVersion": 0,
+      "original": "52a399b98537a70000000003"
+    }
+  ],
+  "kind": "Floor"
+}

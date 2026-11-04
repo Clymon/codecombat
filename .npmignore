@@ -115,3 +115,8 @@ temp/
 
 # Created by git LFS
 .gitattributes
+
+# Private classroom data and local browser verification artifacts
+teaching/state/
+local-checks/
+teaching/checks/

@@ -1,0 +1,4545 @@
+{
+  "_id": "facade000000000000000020",
+  "original": "facade000000000000000020",
+  "slug": "local-python-20",
+  "name": "第4节 · 等巡逻走开再前进【选做】",
+  "description": "守卫在第二格上下巡逻。hero.nextTileSafe() 会检查从当前位置向右走一格的整段路程；安全才返回 True。用 while 到信标为止，每轮用 if 判断：安全就右走一格，不安全就 hero.wait() 等一拍，再检查。",
+  "loadingTip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+  "type": "hero",
+  "product": "codecombat",
+  "version": {
+    "major": 0,
+    "minor": 0,
+    "isLatestMajor": true,
+    "isLatestMinor": true
+  },
+  "permissions": [
+    {
+      "target": "public",
+      "access": "read"
+    }
+  ],
+  "thangs": [
+    {
+      "thangType": "52af688f6320a8049d000001",
+      "id": "Floor 10-8.5",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 10,
+              "y": 8.5,
+              "z": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "52af688f6320a8049d000001",
+      "id": "Floor 10-25.5",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 10,
+              "y": 25.5,
+              "z": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "52af688f6320a8049d000001",
+      "id": "Floor 30-8.5",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 30,
+              "y": 8.5,
+              "z": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "52af688f6320a8049d000001",
+      "id": "Floor 30-25.5",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 30,
+              "y": 25.5,
+              "z": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "52af688f6320a8049d000001",
+      "id": "Floor 50-8.5",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 50,
+              "y": 8.5,
+              "z": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "52af688f6320a8049d000001",
+      "id": "Floor 50-25.5",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 50,
+              "y": 25.5,
+              "z": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "52af688f6320a8049d000001",
+      "id": "Floor 70-8.5",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 70,
+              "y": 8.5,
+              "z": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "52af688f6320a8049d000001",
+      "id": "Floor 70-25.5",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 70,
+              "y": 25.5,
+              "z": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 2-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 2,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 2-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 2,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 2-10",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 2,
+              "y": 10,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 2-14",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 2,
+              "y": 14,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 2-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 2,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 2-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 2,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 2-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 2,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 2-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 2,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 2-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 2,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 2-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 2,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 6-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 6,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 6-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 6,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 6-10",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 6,
+              "y": 10,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 6-14",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 6,
+              "y": 14,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 6-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 6,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 6-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 6,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 6-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 6,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 6-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 6,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 6-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 6,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 6-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 6,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 10-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 10,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 10-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 10,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 10-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 10,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 10-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 10,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 10-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 10,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 10-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 10,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 10-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 10,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 10-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 10,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 14-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 14,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 14-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 14,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 14-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 14,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 14-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 14,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 14-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 14,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 14-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 14,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 14-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 14,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 14-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 14,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 18-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 18,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 18-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 18,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 18-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 18,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 18-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 18,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 18-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 18,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 18-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 18,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 18-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 18,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 18-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 18,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 22-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 22,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 22-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 22,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 22-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 22,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 22-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 22,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 22-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 22,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 22-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 22,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 22-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 22,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 22-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 22,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 26-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 26,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 26-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 26,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 26-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 26,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 26-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 26,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 26-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 26,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 26-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 26,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 26-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 26,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 26-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 26,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 30-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 30,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 30-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 30,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 30-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 30,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 30-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 30,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 30-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 30,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 30-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 30,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 30-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 30,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 30-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 30,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 34-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 34,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 34-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 34,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 38-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 38,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 38-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 38,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 42-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 42,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 42-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 42,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 42-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 42,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 42-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 42,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 42-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 42,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 42-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 42,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 42-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 42,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 42-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 42,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 46-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 46,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 46-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 46,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 46-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 46,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 46-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 46,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 46-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 46,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 46-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 46,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 46-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 46,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 46-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 46,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 50-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 50,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 50-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 50,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 50-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 50,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 50-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 50,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 50-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 50,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 50-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 50,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 50-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 50,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 50-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 50,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 54-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 54,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 54-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 54,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 54-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 54,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 54-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 54,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 54-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 54,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 54-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 54,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 54-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 54,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 54-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 54,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 58-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 58,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 58-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 58,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 58-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 58,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 58-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 58,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 58-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 58,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 58-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 58,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 58-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 58,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 58-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 58,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 62-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 62,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 62-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 62,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 62-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 62,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 62-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 62,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 62-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 62,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 62-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 62,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 62-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 62,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 62-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 62,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 66-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 66,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 66-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 66,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 66-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 66,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 66-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 66,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 66-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 66,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 66-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 66,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 66-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 66,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 66-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 66,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 70-2",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 70,
+              "y": 2,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 70-6",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 70,
+              "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 70-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 70,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 70-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 70,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 70-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 70,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 70-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 70,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 70-34",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 70,
+              "y": 34,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 70-38",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 70,
+              "y": 38,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "52aa608b20fccb0000000005",
+      "id": "Torch 6-24",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 6,
+              "y": 24,
+              "z": 2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e40856febb9ca7e000004",
+      "id": "Patrol",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 36,
+              "y": 24,
+              "z": 1.5
+            }
+          }
+        },
+        {
+          "original": "524b7b8c7fc0f6d519000013",
+          "majorVersion": 0,
+          "config": {
+            "maxSpeed": 0
+          }
+        },
+        {
+          "original": "524b7ba57fc0f6d519000016",
+          "majorVersion": 0,
+          "config": {
+            "attackDamage": 0,
+            "attackRange": 0
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529ffbf1cf1818f2be000001",
+      "id": "Hero Placeholder",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 12,
+              "y": 12,
+              "z": 1
+            }
+          }
+        },
+        {
+          "original": "524b7b427fc0f6d51900000b",
+          "majorVersion": 0,
+          "config": {
+            "allowsArguments": true,
+            "allowsSimpleMoveArguments": true
+          }
+        },
+        {
+          "original": "524b7b5a7fc0f6d51900000e",
+          "majorVersion": 0,
+          "config": {
+            "programmableProperties": [
+              "moveRight",
+              "moveLeft",
+              "moveUp",
+              "moveDown",
+              "say",
+              "atBeacon",
+              "nextTileSafe",
+              "wait"
+            ],
+            "programmableMethods": {
+              "plan": {
+                "name": "plan",
+                "source": "// Write movement commands here.\n",
+                "languages": {
+                  "python": "# 观察地图，在下面写移动命令。\n"
+                },
+                "permissions": {
+                  "read": [],
+                  "readwrite": [
+                    "humans"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "original": "524b7b517fc0f6d51900000d",
+          "majorVersion": 0,
+          "config": {
+            "worldEndsAfter": 3.3
+          }
+        },
+        {
+          "original": "524b7bab7fc0f6d519000017",
+          "majorVersion": 0,
+          "config": {
+            "maxHealth": 100
+          }
+        },
+        {
+          "original": "524b7b8c7fc0f6d519000013",
+          "majorVersion": 0,
+          "config": {
+            "maxSpeed": 12
+          }
+        }
+      ]
+    }
+  ],
+  "systems": [
+    {
+      "original": "528112c00268d018e3000008",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "5280f83b8ae1581b66000001",
+      "majorVersion": 0,
+      "config": {
+        "lifespan": 40,
+        "frameRate": 20,
+        "randomSeed": "zero"
+      }
+    },
+    {
+      "original": "5281146f0268d018e3000014",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "528110f30268d018e3000001",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "52810ffa33e01a6e86000012",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "528114b20268d018e3000017",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "528105f833e01a6e86000007",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "528113240268d018e300000c",
+      "majorVersion": 0,
+      "config": {
+        "simpleMoveDistance": 12,
+        "simpleMoveSnapPoints": [
+          {
+            "x": 0,
+            "y": 0
+          },
+          {
+            "x": 0,
+            "y": 12
+          },
+          {
+            "x": 0,
+            "y": 24
+          },
+          {
+            "x": 0,
+            "y": 36
+          },
+          {
+            "x": 12,
+            "y": 0
+          },
+          {
+            "x": 12,
+            "y": 12
+          },
+          {
+            "x": 12,
+            "y": 24
+          },
+          {
+            "x": 12,
+            "y": 36
+          },
+          {
+            "x": 24,
+            "y": 0
+          },
+          {
+            "x": 24,
+            "y": 12
+          },
+          {
+            "x": 24,
+            "y": 24
+          },
+          {
+            "x": 24,
+            "y": 36
+          },
+          {
+            "x": 36,
+            "y": 0
+          },
+          {
+            "x": 36,
+            "y": 12
+          },
+          {
+            "x": 36,
+            "y": 24
+          },
+          {
+            "x": 36,
+            "y": 36
+          },
+          {
+            "x": 48,
+            "y": 0
+          },
+          {
+            "x": 48,
+            "y": 12
+          },
+          {
+            "x": 48,
+            "y": 24
+          },
+          {
+            "x": 48,
+            "y": 36
+          },
+          {
+            "x": 60,
+            "y": 0
+          },
+          {
+            "x": 60,
+            "y": 12
+          },
+          {
+            "x": 60,
+            "y": 24
+          },
+          {
+            "x": 60,
+            "y": 36
+          },
+          {
+            "x": 72,
+            "y": 0
+          },
+          {
+            "x": 72,
+            "y": 12
+          },
+          {
+            "x": 72,
+            "y": 24
+          },
+          {
+            "x": 72,
+            "y": 36
+          }
+        ],
+        "simpleMoveSnapThreshold": 2.5
+      }
+    },
+    {
+      "original": "528112530268d018e3000007",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "52810f4933e01a6e8600000c",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "528115040268d018e300001b",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "5280dc4d251616c907000001",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "528111b30268d018e3000004",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "528114e60268d018e300001a",
+      "majorVersion": 0,
+      "config": {
+        "showCoordinates": false,
+        "showGrid": false,
+        "preventZoomToHero": true,
+        "showPaths": "never",
+        "showTargetMark": false
+      }
+    },
+    {
+      "original": "528114040268d018e3000011",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "52ae4f02a4dcd4415200000b",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "52e953e81b2028d102000004",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "52f1354370fb890000000005",
+      "majorVersion": 0,
+      "config": {}
+    },
+    {
+      "original": "facadecccc00000000000001",
+      "majorVersion": 0,
+      "config": {
+        "walls": [
+          {
+            "x": 2,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 2,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 2,
+            "y": 10,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 2,
+            "y": 14,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 2,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 2,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 2,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 2,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 2,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 2,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 6,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 6,
+            "y": 10,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 6,
+            "y": 14,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 6,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 6,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 6,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 6,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 6,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 6,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 10,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 10,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 10,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 10,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 10,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 10,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 10,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 10,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 14,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 14,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 14,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 14,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 14,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 14,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 14,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 14,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 18,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 18,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 18,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 18,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 18,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 18,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 18,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 18,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 22,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 22,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 22,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 22,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 22,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 22,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 22,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 22,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 26,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 26,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 26,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 26,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 26,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 26,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 26,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 26,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 30,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 30,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 30,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 30,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 30,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 30,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 30,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 30,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 34,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 34,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 38,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 38,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 42,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 42,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 42,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 42,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 42,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 42,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 42,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 42,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 46,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 46,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 46,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 46,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 46,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 46,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 46,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 46,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 50,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 50,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 50,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 50,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 50,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 50,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 50,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 50,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 54,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 54,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 54,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 54,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 54,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 54,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 54,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 54,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 58,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 58,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 58,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 58,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 58,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 58,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 58,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 58,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 62,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 62,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 62,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 62,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 62,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 62,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 62,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 62,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 66,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 66,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 66,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 66,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 66,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 66,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 66,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 66,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 70,
+            "y": 2,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 70,
+            "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 70,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 70,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 70,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 70,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 70,
+            "y": 34,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 70,
+            "y": 38,
+            "halfWidth": 2,
+            "halfHeight": 2
+          }
+        ],
+        "bounds": {
+          "x1": 0,
+          "y1": 0,
+          "x2": 72,
+          "y2": 40
+        },
+        "guard": {
+          "id": "Patrol",
+          "x": 36,
+          "y": 24,
+          "axis": "y",
+          "amplitude": 12,
+          "radius": 5,
+          "speed": 0.7,
+          "phase": 3.141592653589793
+        },
+        "checkpoints": [],
+        "exit": [
+          60,
+          12
+        ],
+        "hazards": [],
+        "gates": [],
+        "noGems": true,
+        "requireFinished": true,
+        "exitStyle": "beacon",
+        "exitDirection": [
+          1,
+          0
+        ],
+        "exitDuration": 1.6,
+        "sensor": {},
+        "switches": [],
+        "singleStep": true,
+        "maxActions": 45,
+        "expectedSpeech": null
+      }
+    }
+  ],
+  "goals": [
+    {
+      "id": "stay-safe",
+      "saveThangs": [
+        "Hero Placeholder"
+      ],
+      "name": "避开巡逻警戒圈",
+      "worldEndsAfter": 1
+    },
+    {
+      "id": "reach-exit",
+      "name": "到达信标并传送",
+      "worldEndsAfter": 1
+    }
+  ],
+  "documentation": {
+    "generalArticles": [],
+    "specificArticles": [
+      {
+        "name": "本关任务",
+        "body": "守卫在第二格上下巡逻。hero.nextTileSafe() 会检查从当前位置向右走一格的整段路程；安全才返回 True。用 while 到信标为止，每轮用 if 判断：安全就右走一格，不安全就 hero.wait() 等一拍，再检查。"
+      }
+    ]
+  },
+  "scripts": [
+    {
+      "id": "Local Camera",
+      "channel": "god:new-world-created",
+      "noteChain": [
+        {
+          "name": "View",
+          "script": {
+            "duration": 0.01
+          },
+          "playback": {
+            "playing": true
+          }
+        }
+      ]
+    }
+  ],
+  "teachingMap": {
+    "index": 20,
+    "section": 4,
+    "revision": 1,
+    "lessonOrder": 20,
+    "name": "第4节 · 等巡逻走开再前进【选做】",
+    "description": "守卫在第二格上下巡逻。hero.nextTileSafe() 会检查从当前位置向右走一格的整段路程；安全才返回 True。用 while 到信标为止，每轮用 if 判断：安全就右走一格，不安全就 hero.wait() 等一拍，再检查。",
+    "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+    "size": [
+      72,
+      40
+    ],
+    "start": [
+      12,
+      12
+    ],
+    "corridors": [
+      [
+        12,
+        12,
+        68,
+        12
+      ],
+      [
+        36,
+        12,
+        36,
+        36
+      ]
+    ],
+    "checkpoints": [],
+    "exit": [
+      60,
+      12
+    ],
+    "exitMarker": {
+      "x": 60,
+      "y": 5,
+      "direction": "→",
+      "label": "终点"
+    },
+    "hazards": [],
+    "gems": [],
+    "torches": [
+      [
+        6,
+        24
+      ]
+    ],
+    "labels": [],
+    "knowledge": "while + if / 等待",
+    "optional": true,
+    "apis": [
+      "atBeacon",
+      "nextTileSafe",
+      "wait"
+    ],
+    "singleStep": true,
+    "maxActions": 45,
+    "quest": "食人魔来回经过必经之路。观察它的节奏，等路安全了再继续前进，到达信标。",
+    "inscriptions": [],
+    "exitStyle": "beacon",
+    "exitDirection": [
+      1,
+      0
+    ],
+    "title": "巡逻场景2",
+    "guard": {
+      "id": "Patrol",
+      "x": 36,
+      "y": 24,
+      "axis": "y",
+      "amplitude": 12,
+      "radius": 5,
+      "speed": 0.7,
+      "phase": 3.141592653589793
+    },
+    "scenarioIndex": 1,
+    "scenarioTitles": [
+      "巡逻场景1",
+      "巡逻场景2"
+    ],
+    "slug": "local-python-20"
+  },
+  "victory": {},
+  "campaign": "local-teaching",
+  "concepts": [
+    "basic_syntax"
+  ],
+  "i18n": {},
+  "releasePhase": "internalRelease",
+  "aiChatKind": "none"
+}

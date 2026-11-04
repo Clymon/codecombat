@@ -1,0 +1,40 @@
+{
+  "_id": "68887259c95086c01932d189",
+  "name": "Gargoyle",
+  "original": "52afc8f0c5b1813ec2000008",
+  "components": [
+    {
+      "config": {
+        "restitution": 0.75,
+        "mass": 500,
+        "fixedRotation": true,
+        "collisionType": "static"
+      },
+      "majorVersion": 0,
+      "original": "524b7b857fc0f6d519000012"
+    },
+    {
+      "config": {
+        "stateless": true
+      },
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "config": {
+        "shape": "box",
+        "depth": 5,
+        "height": 2,
+        "width": 2,
+        "pos": {
+          "z": 2.5,
+          "y": 10,
+          "x": 10
+        }
+      },
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    }
+  ],
+  "kind": "Doodad"
+}

@@ -1,0 +1,43 @@
+{
+  "_id": "6890549b51b1568cb9b1684d",
+  "name": "Dungeon Wall",
+  "original": "529e7aecc423d4e83b000004",
+  "components": [
+    {
+      "config": {
+        "restitution": 1,
+        "mass": 1000,
+        "isBullet": false,
+        "fixedRotation": true,
+        "collisionType": "static",
+        "collisionCategory": "obstacles"
+      },
+      "majorVersion": 0,
+      "original": "524b7b857fc0f6d519000012"
+    },
+    {
+      "config": {
+        "stateless": true
+      },
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "config": {
+        "shape": "box",
+        "depth": 12,
+        "height": 4,
+        "width": 4,
+        "pos": {
+          "z": 6,
+          "y": 10,
+          "x": 10
+        },
+        "rotation": 0
+      },
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    }
+  ],
+  "kind": "Wall"
+}

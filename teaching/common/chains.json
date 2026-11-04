@@ -1,0 +1,30 @@
+{
+  "_id": "52cb30ca8d69350000000041",
+  "name": "Chains",
+  "original": "52aa602020fccb0000000004",
+  "components": [
+    {
+      "config": {
+        "stateless": true
+      },
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "config": {
+        "shape": "box",
+        "depth": 4,
+        "height": 4,
+        "width": 4,
+        "pos": {
+          "z": 2,
+          "y": 10,
+          "x": 10
+        }
+      },
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    }
+  ],
+  "kind": "Doodad"
+}

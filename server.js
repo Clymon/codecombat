@@ -16,7 +16,7 @@ const config = require('./server_config')
 
 module.exports.startServer = function (done) {
   const app = createAndConfigureApp()
-  const httpServer = http.createServer(app).listen(app.get('port'), () => typeof done === 'function' ? done() : undefined)
+  const httpServer = http.createServer(app).listen(app.get('port'), process.env.COCO_BIND_HOST || '127.0.0.1', () => typeof done === 'function' ? done() : undefined)
   console.info('Express SSL server listening on port ' + app.get('port'))
   return { app, httpServer }
 }

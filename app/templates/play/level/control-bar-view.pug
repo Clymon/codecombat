@@ -11,7 +11,7 @@ if includeHomeLink
 
 if includeHomeLink
   .levels-link-area
-    a.levels-link(href=homeLink || "/", dir="ltr")
+    a.levels-link(href=/^local-python-\d{2}$/.test(view.level.get('slug') || '') ? "/teaching" : (homeLink || "/"), dir="ltr")
       .glyphicon.glyphicon-play
       span(data-i18n=me.isSessionless() ? "nav.courses" : (ladderGame ? "general.ladder" : "nav.map")).home-text
 
@@ -52,7 +52,7 @@ if includeHomeLink
     button.btn.btn-xs.btn-success.btn-illustrated#level-done-button(title="$t('play_level.next_level')", class="junior")
       img.success-icon(src="/images/level/goal-icons/next-level.png" alt="")
       
-  if me.get('anonymous') && !features.noAuth
+  if me.get('anonymous') && !features.noAuth && !/^local-python-\d{2}$/.test(view.level.get('slug') || '')
     button.btn.btn-xs.btn-primary.banner#control-bar-sign-up-button(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="signup.sign_up")
 
   if view.level.get('product', true) != 'codecombat-junior' && view.options.hintsState && view.options.hintsState.get('total') > 0
@@ -61,6 +61,6 @@ if includeHomeLink
         span(data-i18n="play_level.docs")
       else
         span(data-i18n="play_level.hints")
-  if view.showAiBotHelp
+  if view.showAiBotHelp && !/^local-python-\d{2}$/.test(view.level.get('slug') || '')
     button.btn.btn-small.btn-illustrated.ai-help-button(type="button" data-i18n="[aria-label]play_level.ask_ai")
       span(data-i18n="play_level.ask_ai")

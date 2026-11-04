@@ -1,0 +1,34 @@
+{
+  "_id": "54737be803607900007339ba",
+  "name": "Dungeon Stairs Horizontal",
+  "original": "5463dc27c295cc4fb9c06257",
+  "components": [
+    {
+      "config": {
+        "stateless": true
+      },
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "config": {
+        "shape": "box",
+        "depth": 3,
+        "height": 2,
+        "width": 3,
+        "rotation": 0
+      },
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    },
+    {
+      "config": {
+        "fixedRotation": true,
+        "collisionType": "static"
+      },
+      "majorVersion": 0,
+      "original": "524b7b857fc0f6d519000012"
+    }
+  ],
+  "kind": "Doodad"
+}

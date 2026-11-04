@@ -9,6 +9,7 @@ Angel = require 'lib/Angel'
 GameUIState = require 'models/GameUIState'
 errors = require 'core/errors'
 globalVar = require 'core/globalVar'
+{ rewritePrintAsHeroSay } = require 'teaching/print-to-say'
 
 module.exports = class God extends CocoClass
   @nicks: ['Athena', 'Baldr', 'Crom', 'Dagr', 'Eris', 'Freyja', 'Great Gish', 'Hades', 'Ishtar', 'Janus', 'Khronos', 'Loki', 'Marduk', 'Negafook', 'Odin', 'Poseidon', 'Quetzalcoatl', 'Ra', 'Shiva', 'Thor', 'Umvelinqangi', 'Týr', 'Vishnu', 'Wepwawet', 'Xipe Totec', 'Yahweh', 'Zeus', '上帝', 'Tiamat', '盘古', 'Phoebe', 'Artemis', 'Osiris', '嫦娥', 'Anhur', 'Teshub', 'Enlil', 'Perkele', 'Chaos', 'Hera', 'Iris', 'Theia', 'Uranus', 'Stribog', 'Sabazios', 'Izanagi', 'Ao', 'Tāwhirimātea', 'Tengri', 'Inmar', 'Torngarsuk', 'Centzonhuitznahua', 'Hunab Ku', 'Apollo', 'Helios', 'Thoth', 'Hyperion', 'Alectrona', 'Eos', 'Mitra', 'Saranyu', 'Freyr', 'Koyash', 'Atropos', 'Clotho', 'Lachesis', 'Tyche', 'Skuld', 'Urðr', 'Verðandi', 'Camaxtli', 'Huhetotl', 'Set', 'Anu', 'Allah', 'Anshar', 'Hermes', 'Lugh', 'Brigit', 'Manannan Mac Lir', 'Persephone', 'Mercury', 'Venus', 'Mars', 'Azrael', 'He-Man', 'Anansi', 'Issek', 'Mog', 'Kos', 'Amaterasu Omikami', 'Raijin', 'Susanowo', 'Blind Io', 'The Lady', 'Offler', 'Ptah', 'Anubis', 'Ereshkigal', 'Nergal', 'Thanatos', 'Macaria', 'Angelos', 'Erebus', 'Hecate', 'Hel', 'Orcus', 'Ishtar-Deela Nakh', 'Prometheus', 'Hephaestus', 'Sekhmet', 'Ares', 'Enyo', 'Otrera', 'Pele', 'Hadúr', 'Hachiman', 'Dayisun Tngri', 'Ullr', 'Lua', 'Minerva']
@@ -86,6 +87,7 @@ module.exports = class God extends CocoClass
   createWorld: ({spells, preload, realTime, justBegin, keyValueDb, synchronous, spellJustLoaded}) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
     userCodeMap = @getUserCodeMap spells
+
     if spellJustLoaded and not justBegin
       # If spellJustLoaded it signals that this is the first world after the level
       # was created. We want no user code to run on loading and no errors to show up.
@@ -136,7 +138,17 @@ module.exports = class God extends CocoClass
   getUserCodeMap: (spells) ->
     userCodeMap = {}
     for spellKey, spell of spells
-      (userCodeMap[spell.thang.thang.id] ?= {})[spell.name] = spell.thang.aether.serialize()
+      serialized = spell.thang.aether.serialize()
+      # Linting can transpile again after Spell's adapter. Normalize the final AST
+      # sent to the world so the very first local Python run also speaks.
+      if serialized.originalOptions?.language is 'python' and /^local-python-\d{2}$/.test(@level?.slug or '')
+        # The lint worker updates aether.raw without replacing the executable AST.
+        # Recompile at the simulation boundary so text, AST and credited source agree.
+        if typeof spell.source is 'string'
+          spell.thang.aether.transpile spell.source
+          serialized = spell.thang.aether.serialize()
+        rewritePrintAsHeroSay serialized.ast
+      (userCodeMap[spell.thang.thang.id] ?= {})[spell.name] = serialized
     userCodeMap
 
 

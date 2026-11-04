@@ -66,7 +66,7 @@ module.exports = (env) => {
       }),
       //devtool: 'eval-source-map', // Recommended choice for development builds with high quality SourceMaps. https://webpack.js.org/configuration/devtool/
       //devtool: 'eval-cheap-source-map', // Tradeoff choice for development builds.
-      devtool: 'eval', // Recommended choice for development builds with maximum performance.
+      devtool: false, // Local teaching preview: avoid eval-block redeclaration in legacy console-browserify.
       plugins: prePlugins.concat(baseConfig.plugins).concat(plugins),
       watchOptions: {
         ignored: /node_modules(?!\/ai\/dist)|bower_components|\.#|~$/,

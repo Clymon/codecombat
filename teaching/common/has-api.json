@@ -1,0 +1,351 @@
+{
+  "version": {
+    "major": 0,
+    "minor": 37,
+    "isLatestMajor": true,
+    "isLatestMinor": true
+  },
+  "_id": "69c116b5057e4f0f1dba222a",
+  "description": "This Component lets the Thang specify its API to other Programmable Thangs. You can also use it to add random properties to a Thang.",
+  "system": "programming",
+  "name": "HasAPI",
+  "slug": "hasapi",
+  "permissions": [
+    {
+      "target": "512ef4805a67a8c507000001",
+      "access": "owner"
+    },
+    {
+      "target": "public",
+      "access": "read"
+    }
+  ],
+  "original": "52e816058c875f0000000001",
+  "parent": "698d9d6f8323d2faab3631ca",
+  "creator": "5d6562596b4c1a0023d1113d",
+  "commitMessage": "Fix unblock return a value always if we have",
+  "index": true,
+  "__v": 0,
+  "watchers": [
+    "512ef4805a67a8c507000001"
+  ],
+  "js": "var HasAPI, slugify, _ref,\n  __hasProp = {}.hasOwnProperty,\n  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };\n\nslugify = function(str) {\n  var from, i, to, _i, _ref;\n  str = str.replace(/^\\s+|\\s+$/g, \"\").toLowerCase();\n  from = \"\u00e0\u00e1\u00e4\u00e2\u00e8\u00e9\u00eb\u00ea\u00ec\u00ed\u00ef\u00ee\u00f2\u00f3\u00f6\u00f4\u00f9\u00fa\u00fc\u00fb\u00f1\u00e7\u00b7/_,:;\";\n  to = \"aaaaeeeeiiiioooouuuunc------\";\n  for (i = _i = i, _ref = from.length; i <= _ref ? _i <= _ref : _i >= _ref; i = i <= _ref ? ++_i : --_i) {\n    str = str.replace(new RegExp(from.charAt(i), \"g\"), to.charAt(i));\n  }\n  return str.replace(/[^a-z0-9 -]/g, \"\").replace(/\\s+/g, \"-\").replace(/-+/g, \"-\");\n};\n\nHasAPI = (function(_super) {\n  __extends(HasAPI, _super);\n\n  function HasAPI() {\n    _ref = HasAPI.__super__.constructor.apply(this, arguments);\n    return _ref;\n  }\n\n  HasAPI.className = 'HasAPI';\n\n  HasAPI.prototype.attach = function(thang) {\n    var _ref1;\n    HasAPI.__super__.attach.call(this, thang);\n    if ((_ref1 = thang.spriteName) === 'Ogre M' || _ref1 === 'Ogre F') {\n      return thang.type || (thang.type = 'ogre');\n    } else {\n      return thang.type || (thang.type = slugify(thang.spriteName).replace(/(^ogre-|^human-|(-[mf])?(-[0-9]+)?$|(-monster)?(-junior)?$)/g, ''));\n    }\n  };\n\n  HasAPI.prototype.block = function() {\n    var FutureValue, _ref1;\n    if ((_ref1 = this.future) != null) {\n      _ref1.resolve(esper.Value.fromNative('interrupted'));\n    }\n    FutureValue = esper.FutureValue;\n    this.future = new FutureValue();\n    return this.future;\n  };\n\n  HasAPI.prototype.update = function() {\n    if (!(this.waitingToUnblock && this.actionHeats.all <= this.world.dt)) {\n      return;\n    }\n    return this.finishUnblocking();\n  };\n\n  HasAPI.prototype.finishUnblocking = function() {\n    var esperEngine, heroOwner, _ref1, _ref2, _ref3, _ref4;\n    heroOwner = {\n      humans: 'Hero Placeholder',\n      ogres: 'Hero Placeholder 1'\n    }[this.team || 'humans'];\n    esperEngine = (_ref1 = this.world.userCodeMap[heroOwner]) != null ? (_ref2 = _ref1.plan) != null ? _ref2.esperEngine : void 0 : void 0;\n    if (esperEngine == null) {\n      esperEngine = (_ref3 = this.world.userCodeMap['Hero Placeholder']) != null ? (_ref4 = _ref3.plan) != null ? _ref4.esperEngine : void 0 : void 0;\n    }\n    if (!esperEngine) {\n      return;\n    }\n    this.future.resolve(esperEngine.realm.makeForForeignObject(this.waitingToUnblockReturnValue));\n    this.future = void 0;\n    if (this.plan) {\n      this.currentPlanMethodResolved = true;\n    }\n    this.waitingToUnblock = void 0;\n    return this.waitingToUnblockReturnValue = void 0;\n  };\n\n  HasAPI.prototype.unblock = function(returnValue) {\n    if (!this.future) {\n      return;\n    }\n    this.waitingToUnblockReturnValue = returnValue;\n    if (this.actionHeats.all <= this.world.dt) {\n      return this.finishUnblocking();\n    } else {\n      return this.waitingToUnblock = true;\n    }\n  };\n\n  return HasAPI;\n\n})(Component);\n",
+  "codeLanguage": "coffeescript",
+  "patches": [],
+  "official": false,
+  "configSchema": {
+    "properties": {
+      "apiMethods": {
+        "type": "array",
+        "description": "Names of methods in this Thang's API. These methods operate on the original Thang and are accessible to any team.",
+        "items": {
+          "type": "string",
+          "name": "Name of a method in this Thang's API."
+        },
+        "default": [
+          "findNearest",
+          "hasEffect",
+          "distanceTo",
+          "findNearestEnemy",
+          "findEnemies"
+        ]
+      },
+      "apiProperties": {
+        "type": "array",
+        "description": "Names of properties in this Thang's API.",
+        "items": {
+          "type": "string",
+          "name": "Name of a property in this Thang's API."
+        },
+        "default": [
+          "id",
+          "health",
+          "pos",
+          "target",
+          "team",
+          "type",
+          "maxHealth"
+        ]
+      },
+      "type": {
+        "type": "string",
+        "description": "What's the player-visible type of this Thang, like 'soldier', 'thrower', 'arrow', or 'beam-tower'."
+      }
+    },
+    "default": {
+      "apiProperties": [
+        "id",
+        "health",
+        "pos",
+        "target",
+        "team",
+        "type",
+        "maxHealth"
+      ],
+      "apiMethods": [
+        "findNearest",
+        "hasEffect",
+        "distanceTo",
+        "findNearestEnemy",
+        "findEnemies",
+        "findByType"
+      ],
+      "type": ""
+    },
+    "additionalProperties": true,
+    "type": "object"
+  },
+  "propertyDocumentation": [
+    {
+      "snippets": {
+        "python": {
+          "tab": "type",
+          "code": "self.type"
+        },
+        "javascript": {
+          "tab": "type",
+          "code": "this.type"
+        }
+      },
+      "description": "What type of unit is this?",
+      "type": "string",
+      "name": "type",
+      "i18n": {
+        "ru": {
+          "description": "[AI_TRANSLATION]\u041a\u0430\u043a\u043e\u0439 \u044d\u0442\u043e \u0442\u0438\u043f \u044e\u043d\u0438\u0442\u0430?",
+          "name": "[AI_TRANSLATION]\u0442\u0438\u043f"
+        },
+        "zh-HANS": {
+          "description": "[AI_TRANSLATION]\u8fd9\u662f\u4ec0\u4e48\u7c7b\u578b\u7684\u5355\u4f4d\uff1f",
+          "name": "[AI_TRANSLATION]\u8f93\u5165\u7c7b\u578b"
+        },
+        "zh-HANT": {
+          "description": "[AI_TRANSLATION]\u9019\u662f\u4ec0\u9ebc\u985e\u578b\u7684\u55ae\u4f4d\uff1f",
+          "name": null
+        },
+        "es-ES": {
+          "description": "[AI_TRANSLATION]Qu\u00e9 tipo de unidad es esta?",
+          "name": null
+        },
+        "fr": {
+          "description": "[AI_TRANSLATION]Quel type d'unit\u00e9 est-ce?",
+          "name": null
+        },
+        "pt-PT": {
+          "description": "[AI_TRANSLATION]Que tipo de unidade \u00e9 esta?",
+          "name": null
+        },
+        "vi": {
+          "name": "[AI_TRANSLATION]type",
+          "description": "[AI_TRANSLATION]\u0110\u00e2y l\u00e0 lo\u1ea1i \u0111\u01a1n v\u1ecb g\u00ec?\n"
+        },
+        "ar": {
+          "name": "[AI_TRANSLATION]\u0646\u0648\u0639",
+          "description": "[AI_TRANSLATION]\u0645\u0627 \u0646\u0648\u0639 \u0647\u0630\u0647 \u0627\u0644\u0648\u062d\u062f\u0629\u061f"
+        },
+        "cs": {
+          "name": "[AI_TRANSLATION]typ",
+          "description": "[AI_TRANSLATION]Jak\u00fd typ jednotky to je?"
+        },
+        "de-DE": {
+          "name": "[AI_TRANSLATION]Art",
+          "description": "[AI_TRANSLATION]Welcher Einheitstyp ist das?"
+        },
+        "ko": {
+          "name": "[AI_TRANSLATION]\ud0c0\uc785",
+          "description": "[AI_TRANSLATION]\uc774 \uc720\ub2db\uc758 \uc885\ub958\ub294 \ubb50\uc57c?"
+        },
+        "hu": {
+          "name": "[AI_TRANSLATION]t\u00edpus",
+          "description": "[AI_TRANSLATION]Milyen t\u00edpus\u00fa egys\u00e9g ez?"
+        },
+        "id": {
+          "name": "[AI_TRANSLATION]jenis",
+          "description": "[AI_TRANSLATION]Jenis unit apakah ini?"
+        },
+        "it": {
+          "name": "[AI_TRANSLATION]tipo",
+          "description": "[AI_TRANSLATION]Che tipo di unit\u00e0 \u00e8 questa?"
+        },
+        "hi": {
+          "name": "[AI_TRANSLATION]\u092a\u094d\u0930\u0915\u093e\u0930\u0964",
+          "description": "[AI_TRANSLATION]\u092f\u0939 \u0915\u093f\u0938 \u092a\u094d\u0930\u0915\u093e\u0930 \u0915\u0940 \u0907\u0915\u093e\u0908 \u0939\u0948?"
+        },
+        "nl": {
+          "name": "[AI_TRANSLATION]type",
+          "description": "[AI_TRANSLATION]Wat voor soort eenheid is dit?"
+        },
+        "th": {
+          "name": "[AI_TRANSLATION]\u0e0a\u0e19\u0e34\u0e14",
+          "description": "[AI_TRANSLATION]\u0e2b\u0e19\u0e48\u0e27\u0e22\u0e19\u0e35\u0e49\u0e04\u0e37\u0e2d\u0e2b\u0e19\u0e48\u0e27\u0e22\u0e41\u0e1a\u0e1a\u0e44\u0e2b\u0e19?"
+        },
+        "ur": {
+          "name": "[AI_TRANSLATION]\u0642\u0633\u0645",
+          "description": "[AI_TRANSLATION]\u06cc\u06c1 \u06a9\u0633 \u0642\u0633\u0645 \u06a9\u06cc \u06cc\u0648\u0646\u0679 \u06c1\u06d2\u061f"
+        }
+      }
+    },
+    {
+      "description": "What color the #{spriteName} is.",
+      "type": "string",
+      "name": "color",
+      "i18n": {
+        "zh-HANS": {
+          "name": "[AI_TRANSLATION]\u989c\u8272",
+          "description": "[AI_TRANSLATION]#{spriteName} \u662f\u4ec0\u4e48\u989c\u8272\u3002"
+        },
+        "ru": {
+          "name": "[AI_TRANSLATION]\u0446\u0432\u0435\u0442",
+          "description": "[AI_TRANSLATION]\u041a\u0430\u043a\u043e\u0439 \u0446\u0432\u0435\u0442 \u0443 #{spriteName}."
+        },
+        "zh-HANT": {
+          "name": "[AI_TRANSLATION]\u984f\u8272",
+          "description": "[AI_TRANSLATION]#{spriteName} \u7684\u984f\u8272\u3002"
+        },
+        "es-ES": {
+          "name": "[AI_TRANSLATION]color",
+          "description": "[AI_TRANSLATION]De qu\u00e9 color es el #{spriteName}."
+        },
+        "fr": {
+          "name": "[AI_TRANSLATION]couleur",
+          "description": "[AI_TRANSLATION]Quelle est la couleur de #{spriteName} ?"
+        },
+        "pt-PT": {
+          "name": "[AI_TRANSLATION]cor",
+          "description": "[AI_TRANSLATION]De que cor \u00e9 o #{spriteName}."
+        },
+        "vi": {
+          "name": "[AI_TRANSLATION]m\u00e0u s\u1eafc",
+          "description": "[AI_TRANSLATION]#{spriteName} c\u00f3 m\u00e0u g\u00ec."
+        },
+        "ar": {
+          "name": "[AI_TRANSLATION]\u0627\u0644\u0644\u0648\u0646",
+          "description": "[AI_TRANSLATION]\u0645\u0627 \u0644\u0648\u0646 \u0627\u0644\u0640 #{spriteName}."
+        },
+        "cs": {
+          "name": "[AI_TRANSLATION]Farbe",
+          "description": "[AI_TRANSLATION]Jakou barvu m\u00e1 #{spriteName}."
+        },
+        "de-DE": {
+          "name": "[AI_TRANSLATION]Farbe  ",
+          "description": "[AI_TRANSLATION]Welche Farbe hat der #{spriteName}."
+        },
+        "ko": {
+          "name": "[AI_TRANSLATION]\uc0c9\uae54",
+          "description": "[AI_TRANSLATION]#{spriteName}\uc758 \uc0c9\uae54\uc740 \ubb50\uc57c."
+        },
+        "hu": {
+          "name": "[AI_TRANSLATION]sz\u00edn",
+          "description": "[AI_TRANSLATION]Milyen sz\u00edn\u0171 a #{spriteName}."
+        },
+        "id": {
+          "name": "[AI_TRANSLATION]warna",
+          "description": "[AI_TRANSLATION]Warna apa #{spriteName}."
+        },
+        "it": {
+          "name": "[AI_TRANSLATION]colore",
+          "description": "[AI_TRANSLATION]Di che colore \u00e8 #{spriteName}."
+        },
+        "hi": {
+          "name": "[AI_TRANSLATION]\u0930\u0902\u0917",
+          "description": "[AI_TRANSLATION]#{spriteName} \u0915\u093e \u0930\u0902\u0917 \u0915\u094d\u092f\u093e \u0939\u0948\u0964"
+        },
+        "nl": {
+          "name": "[AI_TRANSLATION]kleur",
+          "description": "[AI_TRANSLATION]Welke kleur de #{spriteName} heeft."
+        },
+        "th": {
+          "name": "[AI_TRANSLATION]color",
+          "description": "[AI_TRANSLATION]\u0e2a\u0e35\u0e02\u0e2d\u0e07 #{spriteName} \u0e04\u0e37\u0e2d\u0e2d\u0e30\u0e44\u0e23 "
+        },
+        "ur": {
+          "name": "[AI_TRANSLATION]\u0631\u0646\u06af",
+          "description": "[AI_TRANSLATION]#{spriteName} \u06a9\u0627 \u0631\u0646\u06af \u06a9\u06cc\u0627 \u06c1\u06d2\u06d4"
+        }
+      }
+    },
+    {
+      "description": "When the #{spriteName} was first created, in seconds since the world began.",
+      "type": "number",
+      "name": "creationTime",
+      "i18n": {
+        "zh-HANS": {
+          "name": "[AI_TRANSLATION]\u521b\u5efa\u65f6\u95f4",
+          "description": "[AI_TRANSLATION]\u5f53 #{spriteName} \u9996\u6b21\u521b\u5efa\u65f6\uff0c\u4ee5\u4e16\u754c\u5f00\u59cb\u4ee5\u6765\u7684\u79d2\u6570\u8ba1\u7b97\u3002"
+        },
+        "ru": {
+          "name": "[AI_TRANSLATION]\u0432\u0440\u0435\u043c\u044f \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u044f",
+          "description": "[AI_TRANSLATION]\u041a\u043e\u0433\u0434\u0430 #{spriteName} \u0431\u044b\u043b \u0432\u043f\u0435\u0440\u0432\u044b\u0435 \u0441\u043e\u0437\u0434\u0430\u043d, \u0432 \u0441\u0435\u043a\u0443\u043d\u0434\u0430\u0445 \u0441 \u043d\u0430\u0447\u0430\u043b\u0430 \u043c\u0438\u0440\u0430."
+        },
+        "zh-HANT": {
+          "name": "[AI_TRANSLATION]creationTime",
+          "description": "[AI_TRANSLATION]\u7576 #{spriteName} \u9996\u6b21\u5275\u5efa\u6642\uff0c\u4e16\u754c\u958b\u59cb\u5f8c\u7684\u79d2\u6578\u3002"
+        },
+        "es-ES": {
+          "name": "[AI_TRANSLATION]tiempoDeCreaci\u00f3n",
+          "description": null
+        },
+        "fr": {
+          "name": "[AI_TRANSLATION]heureDeCr\u00e9ation",
+          "description": "[AI_TRANSLATION]Quand le #{spriteName} a \u00e9t\u00e9 cr\u00e9\u00e9 pour la premi\u00e8re fois, en secondes depuis le d\u00e9but du monde."
+        },
+        "pt-PT": {
+          "name": "[AI_TRANSLATION]creationTime",
+          "description": "[AI_TRANSLATION]Quando o #{spriteName} foi criado pela primeira vez, em segundos desde o in\u00edcio do mundo."
+        },
+        "vi": {
+          "name": "[AI_TRANSLATION]creationTime",
+          "description": "[AI_TRANSLATION]Khi #{spriteName} \u0111\u01b0\u1ee3c t\u1ea1o ra l\u1ea7n \u0111\u1ea7u, t\u00ednh t\u1eeb khi th\u1ebf gi\u1edbi b\u1eaft \u0111\u1ea7u."
+        },
+        "ar": {
+          "name": "[AI_TRANSLATION]creationTime",
+          "description": "[AI_TRANSLATION]\u0639\u0646\u062f\u0645\u0627 \u062a\u0645 \u0625\u0646\u0634\u0627\u0621 #{spriteName} \u0644\u0623\u0648\u0644 \u0645\u0631\u0629\u060c \u0628\u0639\u062f\u062f \u0627\u0644\u062b\u0648\u0627\u0646\u064a \u0645\u0646\u0630 \u0628\u062f\u0627\u064a\u0629 \u0627\u0644\u0639\u0627\u0644\u0645."
+        },
+        "cs": {
+          "name": "[AI_TRANSLATION]`creationTime`",
+          "description": "[AI_TRANSLATION]Kdy\u017e byl #{spriteName} poprv\u00e9 vytvo\u0159en, v sekund\u00e1ch od za\u010d\u00e1tku sv\u011bta."
+        },
+        "de-DE": {
+          "name": "[AI_TRANSLATION]creationTime",
+          "description": "[AI_TRANSLATION]Als der #{spriteName} erstmals erschaffen wurde, in Sekunden seit Beginn der Welt."
+        },
+        "ko": {
+          "name": "[AI_TRANSLATION]creationTime",
+          "description": "[AI_TRANSLATION]#{spriteName}\uc774 \ucc98\uc74c \ub9cc\ub4e4\uc5b4\uc84c\ub358 \uc21c\uac04, \uc138\uacc4\uac00 \uc2dc\uc791\ub41c \uc774\ud6c4 \uba87 \ucd08\uac00 \uc9c0\ub0ac\ub294\uc9c0."
+        },
+        "hu": {
+          "name": "[AI_TRANSLATION]creationTime",
+          "description": "[AI_TRANSLATION]Amikor a #{spriteName} el\u0151sz\u00f6r l\u00e9trej\u00f6tt, a vil\u00e1g kezdete \u00f3ta eltelt m\u00e1sodpercekben."
+        },
+        "id": {
+          "name": "[AI_TRANSLATION]creationTime",
+          "description": "[AI_TRANSLATION]Ketika #{spriteName} pertama kali dibuat, dalam hitungan detik sejak dunia dimulai."
+        },
+        "it": {
+          "name": "[AI_TRANSLATION]creationTime",
+          "description": "[AI_TRANSLATION]Quando il #{spriteName} \u00e8 stato creato per la prima volta, in secondi dall'inizio del mondo."
+        },
+        "hi": {
+          "name": "[AI_TRANSLATION]creationTime",
+          "description": "[AI_TRANSLATION]\u091c\u092c #{spriteName} \u092a\u0939\u0932\u0940 \u092c\u093e\u0930 \u092c\u0928\u093e\u092f\u093e \u0917\u092f\u093e \u0925\u093e, \u0924\u092c \u0938\u0902\u0938\u093e\u0930 \u0936\u0941\u0930\u0942 \u0939\u094b\u0928\u0947 \u0915\u0947 \u092c\u093e\u0926 \u0938\u0947 \u0938\u0947\u0915\u0902\u0921\u094b\u0902 \u092e\u0947\u0902\u0964"
+        },
+        "nl": {
+          "name": "[AI_TRANSLATION]creationTime",
+          "description": "[AI_TRANSLATION]Toen de #{spriteName} voor het eerst werd gemaakt, in seconden sinds het begin van de wereld."
+        },
+        "th": {
+          "name": "[AI_TRANSLATION]creationTime",
+          "description": "[AI_TRANSLATION]\u0e40\u0e21\u0e37\u0e48\u0e2d #{spriteName} \u0e16\u0e39\u0e01\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e02\u0e36\u0e49\u0e19\u0e04\u0e23\u0e31\u0e49\u0e07\u0e41\u0e23\u0e01 \u0e40\u0e1b\u0e47\u0e19\u0e27\u0e34\u0e19\u0e32\u0e17\u0e35\u0e2b\u0e25\u0e31\u0e07\u0e08\u0e32\u0e01\u0e17\u0e35\u0e48\u0e42\u0e25\u0e01\u0e40\u0e23\u0e34\u0e48\u0e21\u0e15\u0e49\u0e19"
+        },
+        "ur": {
+          "name": "[AI_TRANSLATION]\u062a\u0634\u06a9\u06cc\u0644 \u06a9\u0627 \u0648\u0642\u062a",
+          "description": "[AI_TRANSLATION]\u062c\u0628 #{spriteName} \u067e\u06c1\u0644\u06cc \u0628\u0627\u0631 \u0628\u0646\u0627\u06cc\u0627 \u06af\u06cc\u0627\u060c \u062f\u0646\u06cc\u0627 \u06a9\u06d2 \u0622\u063a\u0627\u0632 \u0633\u06d2 \u0633\u06cc\u06a9\u0646\u0688\u0648\u06ba \u0645\u06cc\u06ba\u06d4"
+        }
+      }
+    }
+  ],
+  "dependencies": [],
+  "code": "# https://gist.github.com/keenahn/3184241\nslugify = (str) ->\n  # Trim and force lowercase\n  str = str.replace(/^\\s+|\\s+$/g, \"\").toLowerCase()\n\n  # Remove accents, swap \u00f1 for n, etc\n  from = \"\u00e0\u00e1\u00e4\u00e2\u00e8\u00e9\u00eb\u00ea\u00ec\u00ed\u00ef\u00ee\u00f2\u00f3\u00f6\u00f4\u00f9\u00fa\u00fc\u00fb\u00f1\u00e7\u00b7/_,:;\"\n  to   = \"aaaaeeeeiiiioooouuuunc------\"\n  for i in [i .. from.length]\n    str = str.replace(new RegExp(from.charAt(i), \"g\"), to.charAt(i))\n    \n  # Remove invalid chars, collapse whitespace and replace by -, collapse dashes\n  str.replace(/[^a-z0-9 -]/g, \"\").replace(/\\s+/g, \"-\").replace(/-+/g, \"-\")\n\nclass HasAPI extends Component\n  @className: 'HasAPI'\n  attach: (thang) ->\n    super thang\n    # \"ogre-munchkin-m-2\" -> \"munchkin\"\n    # \"crab-monster-junior\" -> \"crab\"\n    if thang.spriteName in ['Ogre M', 'Ogre F']\n      thang.type ||= 'ogre'\n    else\n      thang.type ||= slugify(thang.spriteName).replace(///(\n          ^ogre- |\n          ^human- |\n          (-[mf])?(-[0-9]+)?$ |\n          (-monster)?(-junior)?$\n        )///g, '')\n\n  block: ->\n    @future?.resolve esper.Value.fromNative 'interrupted'\n    FutureValue = esper.FutureValue  #IE14 had troubles calling (esper.FutureValue())\n    @future = new FutureValue()\n    return @future\n  \n  update: ->\n    # TODO: This makes return values not work when interrupted by an event thread\n    return unless @waitingToUnblock and @actionHeats.all <= @world.dt\n    @finishUnblocking()\n    \n  finishUnblocking: ->\n    heroOwner = {humans: 'Hero Placeholder', ogres: 'Hero Placeholder 1'}[@team or 'humans']\n    esperEngine = @world.userCodeMap[heroOwner]?.plan?.esperEngine\n    esperEngine ?= @world.userCodeMap['Hero Placeholder']?.plan?.esperEngine  # Just in case we can't find the one we think is the right one\n    return unless esperEngine\n    @future.resolve esperEngine.realm.makeForForeignObject @waitingToUnblockReturnValue\n    @future = undefined\n    @currentPlanMethodResolved = true if @plan\n    @waitingToUnblock = undefined\n    @waitingToUnblockReturnValue = undefined\n  \n  unblock: (returnValue) ->\n    return unless @future\n    # No idea how it worked before -- change in March 2026 and can be we get some weird issue with unblock/return then look here\n    @waitingToUnblockReturnValue = returnValue\n    # Check if we're nearing the end our of cooldown to actually check if we should unblock, else create a 'promise' to resolve it later\n    # This is so that we make sure the action remains consistent throughout our action cooldown\n    if @actionHeats.all <= @world.dt\n      @finishUnblocking()\n    else\n      # TODO: This makes return values not work when interrupted by an event thread\n      @waitingToUnblock = true\n",
+  "searchStrings": "has api h ha has hasa",
+  "created": "2026-03-23T10:32:21.525Z"
+}

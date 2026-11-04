@@ -1,0 +1,38 @@
+{
+  "_id": "54af4494b31cb97e5f2a9942",
+  "name": "Dungeon Entrance",
+  "original": "544d850e8494308424f564dd",
+  "components": [
+    {
+      "config": {
+        "stateless": true
+      },
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "config": {
+        "pos": {
+          "z": 5,
+          "y": 0,
+          "x": 0
+        },
+        "depth": 10,
+        "height": 10,
+        "width": 10,
+        "rotation": 0
+      },
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    },
+    {
+      "config": {
+        "fixedRotation": true,
+        "collisionType": "static"
+      },
+      "majorVersion": 0,
+      "original": "524b7b857fc0f6d519000012"
+    }
+  ],
+  "kind": "Doodad"
+}

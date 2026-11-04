@@ -628,6 +628,7 @@ module.exports = (Level = (function () {
     }
 
     usesSessionHeroThangType () {
+      if (/^local-python-\d{2}$/.test(this.get('slug') || '')) { return false }
       if (this.isType('ladder', 'course-ladder', 'game-dev', 'web-dev')) { return false }
       if (this.get('assessment') === 'open-ended') { return false }
       if (this.usesLevelHeroLadderEquipment()) { return false }
@@ -635,6 +636,7 @@ module.exports = (Level = (function () {
     }
 
     usesSessionHeroInventory () {
+      if (/^local-python-\d{2}$/.test(this.get('slug') || '')) { return false }
       if (utils.showOzaria() || this.isOzaria()) { return false }
       if (this.get('product', true) === 'codecombat-junior') { return false }
       if (this.isType('course') && !me.showHeroAndInventoryModalsToStudents()) { return false }

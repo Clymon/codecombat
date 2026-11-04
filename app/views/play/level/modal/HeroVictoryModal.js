@@ -350,6 +350,7 @@ module.exports = (HeroVictoryModal = (function () {
       for (const original in this.thangTypes) { const hero = this.thangTypes[original]; this.playSelectionSound(hero, true) } // Preload them
       this.updateSavingProgressStatus()
       this.initializeAnimations()
+      if (/^local-python-\d{2}$/.test(this.level.get('slug') || '')) this.prepareTeachingContinuation()
       _.delay(() => this.$el?.find('button.btn-success').last()?.focus(), 200)
       if (this.level.isLadder()) {
         this.ladderSubmissionView = new LadderSubmissionView({ session: this.session, level: this.level })
@@ -580,7 +581,61 @@ module.exports = (HeroVictoryModal = (function () {
       return campaign
     }
 
+    async prepareTeachingContinuation () {
+      if (this.preparingTeachingContinuation) return
+      this.preparingTeachingContinuation = true
+      this.$('#continue-button').prop('disabled', true).text('正在保存…')
+      try {
+        // Await our own save, not the native debounced background save.
+        const saved = await fetch(`/db/level.session/${this.session.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: this.session.get('code'), state: this.session.get('state'), codeLanguage: 'python' }),
+        })
+        if (!saved.ok) throw new Error('进度尚未保存成功，请重试。')
+        const response = await fetch(`/teaching/continue/${this.level.get('slug')}?sessionId=${this.session.id}`)
+        const next = await response.json()
+        if (!response.ok) throw new Error(next.message || '暂时无法读取下一关，请重试。')
+        this.teachingNext = next
+        this.$('.local-save-notice').text(next.message)
+        this.$('#continue-button').text(next.label)
+      } catch (error) {
+        this.teachingNext = null
+        this.$('.local-save-notice').text(error.message)
+        this.$('#continue-button').text('重试保存')
+      } finally {
+        this.preparingTeachingContinuation = false
+        this.$('#continue-button').prop('disabled', false)
+      }
+    }
+
+    async continueTeaching () {
+      if (this.preparingTeachingContinuation || this.continuingTeaching) return
+      const next = this.teachingNext
+      if (!next || next.kind === 'waiting') return this.prepareTeachingContinuation()
+      if (next.kind === 'retry') return this.hide()
+      if (next.kind === 'finished') return window.location.assign('/teaching')
+      this.continuingTeaching = true
+      this.$('#continue-button').prop('disabled', true).text('正在进入…')
+      try {
+        const response = await fetch(`/teaching/continue/${this.level.get('slug')}`, {
+          method: 'POST', body: new URLSearchParams({ formToken: next.formToken, sessionId: this.session.id }),
+        })
+        const result = await response.json()
+        if (!response.ok) throw new Error(result.message || '下一关暂时无法进入，请重试。')
+        window.location.assign(result.url)
+      } catch (error) {
+        this.teachingNext = null
+        this.$('.local-save-notice').text(error.message)
+        this.$('#continue-button').prop('disabled', false).text('重试')
+        this.continuingTeaching = false
+      }
+    }
+
     onClickContinue (e, extraOptions = null) {
+      if (/^local-python-\d{2}$/.test(this.level.get('slug') || '')) {
+        return this.continueTeaching()
+      }
       let needle1, viewArgs, viewClass
       this.playSound('menu-button-click')
       // Preserve the supermodel as we navigate back to the world map.

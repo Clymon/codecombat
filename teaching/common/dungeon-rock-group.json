@@ -1,0 +1,39 @@
+{
+  "_id": "54f10086b873a228c7249fa3",
+  "name": "Dungeon Rock Group",
+  "original": "54ef9e0583b08b7d054ba331",
+  "components": [
+    {
+      "config": {
+        "stateless": true
+      },
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "config": {
+        "pos": {
+          "z": 0.5,
+          "y": 0,
+          "x": 0
+        },
+        "shape": "box",
+        "depth": 1,
+        "height": 2.5,
+        "width": 5,
+        "rotation": 0
+      },
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    },
+    {
+      "config": {
+        "fixedRotation": true,
+        "collisionType": "static"
+      },
+      "majorVersion": 0,
+      "original": "524b7b857fc0f6d519000012"
+    }
+  ],
+  "kind": "Doodad"
+}

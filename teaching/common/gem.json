@@ -1,0 +1,76 @@
+{
+  "_id": "59f9bbdf7af602004449f702",
+  "name": "Gem",
+  "original": "52aa3b9eccbd588d4d000003",
+  "components": [
+    {
+      "majorVersion": 0,
+      "original": "524b3e3fff92f1f4f800000d"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524d94d83ea855e0ab000279"
+    },
+    {
+      "config": {
+        "shape": "ellipsoid",
+        "depth": 1,
+        "height": 1,
+        "width": 1,
+        "pos": {
+          "z": 0.5,
+          "y": 10,
+          "x": 10
+        }
+      },
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    },
+    {
+      "config": {
+        "bountyGold": 5
+      },
+      "majorVersion": 0,
+      "original": "52f7f45d89fec100006eef81"
+    },
+    {
+      "config": {
+        "excludedHUDProperties": [
+          "target",
+          "targetPos",
+          "health"
+        ],
+        "extraHUDProperties": [
+          "value"
+        ],
+        "inThangList": false
+      },
+      "majorVersion": 0,
+      "original": "524b7bb67fc0f6d519000018"
+    },
+    {
+      "config": {
+        "type": "gem",
+        "apiProperties": [
+          "id",
+          "pos",
+          "type",
+          "bountyGold",
+          "distance",
+          "value"
+        ]
+      },
+      "majorVersion": 0,
+      "original": "52e816058c875f0000000001"
+    },
+    {
+      "majorVersion": 0,
+      "original": "52a399b98537a70000000003"
+    }
+  ],
+  "kind": "Misc"
+}

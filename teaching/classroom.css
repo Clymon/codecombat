@@ -1,0 +1,804 @@
+:root {
+  color-scheme: dark;
+  font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei",
+    sans-serif;
+  color: #f4e8ce;
+  background: #151613;
+  font-synthesis: none;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 20% 16%, #a677312b, transparent 58%),
+    linear-gradient(#111510c9, #11130fe8),
+    url("/images/pages/editor/level/preset_dungeon_large.jpg") center top/960px
+      auto fixed;
+}
+a {
+  color: inherit;
+}
+button,
+input {
+  font: inherit;
+}
+button,
+a,
+input,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+button,
+a,
+summary {
+  touch-action: manipulation;
+}
+button {
+  cursor: pointer;
+}
+a {
+  text-decoration: none;
+}
+button:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+  outline: 3px solid #f3c969;
+  outline-offset: 5px;
+}
+button:disabled {
+  cursor: default;
+}
+.skip {
+  position: fixed;
+  left: 15px;
+  top: -100px;
+  background: #eed6a1;
+  color: #292014;
+  padding: 12px;
+  z-index: 10;
+}
+.skip:focus {
+  top: 10px;
+}
+.masthead {
+  max-width: 1220px;
+  margin: auto;
+  padding: 26px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #bca06a40;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 23px;
+  font-weight: 850;
+  letter-spacing: 1px;
+}
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 45px;
+  height: 49px;
+  color: #f0c66d;
+  border: 2px solid #ab8b51;
+  background: #382b18;
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+  font-size: 25px;
+}
+.brand small {
+  display: block;
+  color: #c6b38c;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  margin-top: 3px;
+}
+.class-tag {
+  color: #eadab9;
+  font-size: 15px;
+  padding: 9px 14px;
+  border: 1px solid #9c86554d;
+  background: #1d2019;
+}
+.eyebrow {
+  font-size: 14px;
+  color: #e5bd70;
+  letter-spacing: 2px;
+  font-weight: 650;
+  margin: 0 0 17px;
+}
+h1,
+h2,
+h3,
+p {
+  overflow-wrap: anywhere;
+}
+h1 {
+  font-size: clamp(32px, 3.2vw, 48px);
+  line-height: 1.35;
+  letter-spacing: 1px;
+  margin: 0;
+}
+p {
+  line-height: 1.7;
+}
+.login-layout {
+  max-width: 1140px;
+  min-height: 660px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: 70px;
+  padding: 56px 30px 40px;
+}
+.welcome {
+  position: relative;
+  min-height: 510px;
+}
+.welcome h1 {
+  color: #fff0cf;
+  text-shadow: 0 3px #100e0a;
+}
+.welcome-copy {
+  color: #c7c5ae;
+  font-size: 17px;
+  line-height: 1.9;
+}
+.hero-scene {
+  position: relative;
+  height: 260px;
+  margin-top: 5px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.hero-scene img {
+  position: relative;
+  z-index: 2;
+  height: 246px;
+  width: auto;
+  filter: drop-shadow(5px 9px 4px #0009);
+  transform: rotate(-3deg);
+}
+.hero-glow {
+  position: absolute;
+  width: 330px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #e3b35230, transparent 65%);
+  bottom: 0;
+}
+.hero-plinth {
+  position: absolute;
+  bottom: -8px;
+  width: 230px;
+  height: 46px;
+  border-radius: 50%;
+  background: #1c1f16;
+  border: 2px solid #776d45;
+  box-shadow: 0 7px #10120e, 0 10px 30px #0008;
+}
+.scene-caption {
+  position: absolute;
+  bottom: -44px;
+  color: #b4a888;
+  font-size: 13px;
+  letter-spacing: 4px;
+}
+.parchment {
+  color: #30291d;
+  background: url("/images/level/code_editor_background.png") center/100% 100%
+    no-repeat;
+  filter: drop-shadow(0 15px 25px #0007);
+}
+.login-panel {
+  padding: 64px 40px 48px;
+  min-height: 510px;
+}
+.paper-eyebrow {
+  color: #786032;
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: 1px;
+  margin: 0 0 12px;
+}
+.login-panel h2 {
+  font-size: 28px;
+  margin: 0 0 12px;
+}
+.login-description {
+  font-size: 16px;
+  color: #615339;
+  margin: 0 0 27px;
+}
+label {
+  display: block;
+  font-size: 15px;
+  font-weight: 750;
+  margin-bottom: 10px;
+}
+input {
+  width: 100%;
+  height: 56px;
+  border: 2px solid #8c7650;
+  border-radius: 4px;
+  background: #fff8e1;
+  color: #30291d;
+  padding: 13px 15px;
+  font-size: 19px;
+  box-shadow: inset 0 2px 5px #715a2326;
+}
+input::placeholder {
+  color: #8a7b5e;
+  font-size: 16px;
+}
+input:focus {
+  outline: 3px solid #9b651d;
+  outline-offset: 3px;
+}
+.field-hint {
+  font-size: 13px;
+  color: #68593e;
+  margin: 11px 0 23px;
+}
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  min-height: 46px;
+  padding: 11px 18px;
+  background: linear-gradient(#f2cf7a, #d9aa45);
+  color: #35240e;
+  font-weight: 800;
+  border: 2px solid #80551d;
+  box-shadow: inset 0 2px #fff0b9, 0 3px 0 #4a3218;
+  text-shadow: 0 1px #ffe4a0;
+  border-radius: 5px;
+  line-height: 1.4;
+  transition: filter 0.15s, transform 0.15s;
+}
+.button:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+.button:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 1px #fff0b9, 0 1px 0 #4a3218;
+}
+.button.primary {
+  font-size: 18px;
+  min-height: 52px;
+}
+.login-panel .button {
+  width: 100%;
+}
+.login-footnote {
+  margin: 25px 0 0;
+  text-align: center;
+  font-size: 12px;
+  color: #756444;
+}
+.error {
+  border-left: 4px solid #a3452b;
+  background: #efd6bb;
+  color: #742b1e;
+  padding: 10px 13px;
+  border-radius: 3px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  font-size: 14px;
+  color: #d2c5a6;
+}
+.identity strong {
+  color: #ffe6a9;
+  letter-spacing: 1px;
+}
+.identity form {
+  margin: 0;
+}
+.logout {
+  border: 1px solid #9b85525c;
+  background: #241e14;
+  color: #d8c8a6;
+  border-radius: 4px;
+  padding: 9px 13px;
+  font-size: 13px;
+}
+.logout:hover {
+  color: white;
+  border-color: #d3b169;
+}
+.campaign {
+  max-width: 1220px;
+  padding: 34px 30px 70px;
+  margin: auto;
+}
+.campaign-banner {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 38px;
+  align-items: center;
+  padding: 32px 38px;
+  border: 2px solid #917344;
+  box-shadow: inset 0 0 0 4px #322519, 0 12px 30px #0005;
+  background: linear-gradient(110deg, #281c10a8, #130f09a8),
+    url("/images/level/wood_texture.png") center/570px;
+  border-radius: 7px;
+  position: relative;
+}
+.campaign-banner h1 {
+  font-size: clamp(26px, 2.5vw, 34px);
+  color: #fff1cc;
+}
+.campaign-banner p:not(.eyebrow) {
+  color: #c9bda2;
+  font-size: 15px;
+  margin: 12px 0;
+}
+.campaign-banner .eyebrow {
+  font-size: 12px;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+.journey-count {
+  margin-top: 19px;
+  font-size: 14px;
+  color: #e6d7b7;
+}
+.journey-count strong {
+  font-size: 29px;
+  color: #f4cb78;
+  margin-right: 3px;
+}
+.journey-count span {
+  margin-left: 8px;
+  color: #b6aa8f;
+}
+.next-stop {
+  border-left: 1px solid #b398565c;
+  padding: 6px 0 6px 35px;
+}
+.next-stop h2 {
+  font-size: 23px;
+  color: #f9e6bd;
+  margin: 10px 0 20px;
+}
+.next-stop .button {
+  min-width: 190px;
+}
+.chapter-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 24px 0 39px;
+}
+.chapter-nav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  padding: 14px 8px;
+  color: #dcccaa;
+  background: #24271f;
+  border: 1px solid #8171458c;
+  border-radius: 4px;
+  font-size: 15px;
+}
+.chapter-nav a:hover {
+  background: #373525;
+  border-color: #cfaa60;
+  color: #fff1ce;
+}
+.chapter-nav b {
+  font-family: Georgia, serif;
+  color: #e5bc69;
+  font-size: 23px;
+}
+.chapter {
+  scroll-margin-top: 24px;
+  margin: 0 0 42px;
+}
+.chapter-heading {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin: 0 0 20px;
+}
+.chapter-seal {
+  font: 30px Georgia, serif;
+  border: 1px solid #9f895d;
+  color: #e5c48a;
+  background: #302d20;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 0 0 4px #202019;
+}
+.chapter-heading h2 {
+  font-size: 26px;
+  margin: 4px 0 0;
+  color: #f2e5c6;
+}
+.chapter-heading p {
+  font-size: 12px;
+  color: #b1ad96;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+.chapter-progress {
+  margin-left: auto;
+  color: #b9ad8f;
+  font-size: 13px;
+}
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.level-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 22px;
+  background: linear-gradient(130deg, #f0e2bd, #d1c29b);
+  color: #31291e;
+  border: 2px solid #a28a54;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 4px #f3e8c82b, 0 7px 15px #0003;
+  scroll-margin-top: 20px;
+}
+.level-card:before,
+.level-card:after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #7a643f;
+  box-shadow: 0 1px #f2e2bc;
+  top: 9px;
+}
+.level-card:before {
+  left: 9px;
+}
+.level-card:after {
+  right: 9px;
+}
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.level-number {
+  font: bold 22px Georgia, serif;
+  color: #8b6c38;
+  min-width: 30px;
+}
+.status {
+  font-size: 12px;
+  font-weight: 750;
+  color: #71634b;
+}
+.status.available {
+  color: #654514;
+}
+.status.done {
+  color: #285c40;
+}
+.optional {
+  margin-left: auto;
+  border: 1px solid #8b795b;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 11px;
+  color: #67533b;
+}
+.level-card h3 {
+  font-size: 21px;
+  line-height: 1.45;
+  margin: 0 0 7px;
+}
+.knowledge {
+  font-size: 12px;
+  color: #78613c;
+  margin: 0 0 13px;
+}
+.quest {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #5f533e;
+  margin: 0 0 20px;
+}
+.card-bottom {
+  margin-top: auto;
+  display: flex;
+  padding-top: 8px;
+}
+.card-bottom .button {
+  font-size: 14px;
+  padding: 9px 15px;
+  min-height: 40px;
+  width: 100%;
+}
+.button.quiet {
+  background: #ddd3b6;
+  color: #4c492e;
+  border-color: #817551;
+  text-shadow: none;
+  box-shadow: inset 0 1px #f3ebd2, 0 2px #514932;
+}
+.level-card.locked {
+  background: linear-gradient(135deg, #3b3b2e, #2b2e25);
+  border-color: #666448;
+  color: #d2c7a6;
+  box-shadow: inset 0 0 0 4px #ffffff03, 0 7px 15px #0002;
+  min-height: 207px;
+}
+.level-card.locked .level-number {
+  color: #a29872;
+}
+.level-card.locked .status,
+.level-card.locked .knowledge {
+  color: #b5ae91;
+}
+.level-card.locked .optional {
+  color: #c4b99b;
+  border-color: #857859;
+}
+.level-card.locked .done {
+  color: #b9dcb8;
+}
+.locked-label {
+  color: #aaa68c;
+  font-size: 13px;
+  border-top: 1px solid #77735280;
+  padding-top: 12px;
+  width: 100%;
+}
+.scenes {
+  border-top: 1px solid #96825777;
+  margin-top: 19px;
+  padding-top: 12px;
+}
+.scenes summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #5d4a2b;
+  font-weight: 600;
+  padding: 3px 0;
+}
+.scenes summary strong {
+  color: #4f5b30;
+}
+.scenes summary span {
+  margin-left: auto;
+}
+.scenes p {
+  font-size: 12px;
+  color: #625940;
+}
+.scene-list {
+  display: grid;
+  gap: 7px;
+}
+.scene-button {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid #9b8b67;
+  border-radius: 3px;
+  background: #efe5c9;
+  color: #504229;
+  padding: 8px;
+  font-size: 12px;
+}
+.scene-button:hover {
+  background: #fff3cd;
+}
+footer {
+  max-width: 1160px;
+  margin: auto;
+  border-top: 1px solid #bca06a30;
+  padding: 23px 0 30px;
+  font-size: 12px;
+  color: #a49a7b;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+footer a {
+  text-decoration: underline;
+}
+.login-page footer {
+  max-width: 1080px;
+  margin-top: 10px;
+}
+@media (min-width: 1500px) {
+  .login-layout {
+    padding-top: 85px;
+    padding-bottom: 70px;
+    min-height: 720px;
+  }
+}
+@media (max-width: 960px) {
+  .login-layout {
+    gap: 20px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .login-panel {
+    padding: 60px 35px 45px;
+  }
+  .welcome h1 {
+    font-size: 34px;
+  }
+  .welcome-copy {
+    font-size: 15px;
+  }
+  .level-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .campaign-banner {
+    padding: 27px;
+    gap: 22px;
+  }
+  .next-stop {
+    padding-left: 22px;
+  }
+  footer {
+    margin: 0 30px !important;
+  }
+}
+@media (max-width: 640px) {
+  .masthead {
+    padding: 20px;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .brand {
+    font-size: 18px;
+    gap: 9px;
+  }
+  .brand-mark {
+    width: 35px;
+    height: 40px;
+    font-size: 20px;
+  }
+  .brand small {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+  .class-tag {
+    font-size: 12px;
+    padding: 7px;
+  }
+  .login-layout {
+    display: block;
+    padding: 30px 18px;
+  }
+  .welcome {
+    min-height: 0;
+  }
+  .welcome h1 {
+    font-size: 31px;
+  }
+  .welcome .eyebrow {
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+  .welcome-copy {
+    font-size: 14px;
+  }
+  .hero-scene {
+    display: none;
+  }
+  .login-panel {
+    min-height: 0;
+    margin-top: 25px;
+    padding: 55px 30px 40px;
+  }
+  .login-panel h2 {
+    font-size: 25px;
+  }
+  .identity {
+    display: block;
+    text-align: right;
+    font-size: 11px;
+  }
+  .identity .logout {
+    margin-top: 7px;
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+  .campaign {
+    padding: 23px 17px 40px;
+  }
+  .campaign-banner {
+    display: block;
+    padding: 24px;
+  }
+  .campaign-banner h1 {
+    font-size: 28px;
+  }
+  .next-stop {
+    border-left: 0;
+    border-top: 1px solid #b398565c;
+    padding: 22px 0 0;
+    margin-top: 20px;
+  }
+  .next-stop h2 {
+    font-size: 22px;
+  }
+  .next-stop .button {
+    width: 100%;
+  }
+  .chapter-nav {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin: 20px 0 30px;
+  }
+  .chapter-nav a {
+    font-size: 13px;
+    padding: 10px;
+  }
+  .chapter-heading {
+    gap: 11px;
+  }
+  .chapter-heading h2 {
+    font-size: 24px;
+  }
+  .chapter-heading p {
+    font-size: 10px;
+  }
+  .chapter-seal {
+    width: 42px;
+    height: 46px;
+    font-size: 25px;
+  }
+  .chapter-progress {
+    font-size: 10px;
+  }
+  .level-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .level-card.locked {
+    min-height: 185px;
+  }
+  .level-card {
+    padding: 20px;
+  }
+  .quest {
+    font-size: 14px;
+  }
+  footer {
+    display: block;
+    margin: 0 20px !important;
+    padding-top: 19px;
+    line-height: 1.8;
+  }
+  footer span {
+    display: block;
+    margin-top: 5px;
+  }
+}

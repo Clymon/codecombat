@@ -1,0 +1,55 @@
+{
+  "_id": "54172729571f116c0b1f0083",
+  "kind": "Unit",
+  "name": "Hero Placeholder",
+  "original": "53ed1d9c2b65b0e32b9c96a9",
+  "components": [
+    {
+      "config": {
+        "team": "humans"
+      },
+      "majorVersion": 0,
+      "original": "524b7b747fc0f6d519000010"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "config": {
+        "rotation": 0,
+        "pos": {
+          "z": 0.5,
+          "y": 10,
+          "x": 10
+        }
+      },
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    },
+    {
+      "config": {
+        "programmableProperties": [],
+        "programmableMethods": {
+          "plan": {
+            "source": "// Should fill in some default source\n",
+            "languages": {
+              "python": "# Should fill in some default source\n"
+            },
+            "name": "plan"
+          }
+        }
+      },
+      "majorVersion": 0,
+      "original": "524b7b5a7fc0f6d51900000e"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b7b517fc0f6d51900000d"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b85837fc0f6d519000020"
+    }
+  ]
+}

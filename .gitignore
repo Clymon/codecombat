@@ -130,3 +130,9 @@ scripts/analytics/mongodb/.mainAuth.json
 
 # Storybook build output
 storybook-static/
+# Private classroom data (never commit student records or sessions)
+teaching/state/
+
+# Local browser verification artifacts
+local-checks/
+teaching/checks/

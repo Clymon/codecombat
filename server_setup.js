@@ -20,6 +20,8 @@ const morgan = require('morgan')
 const timeout = require('connect-timeout')
 const PWD = process.env.PWD || __dirname
 const devUtils = require('./development/utils')
+const teachingAccounts = require('./teaching/student-accounts')
+const teachingClassroom = require('./teaching/classroom-state')
 const {
   publicFolderName,
 } = devUtils
@@ -60,6 +62,7 @@ const setupExpressMiddleware = function (app) {
   // more secure server — is responsible for cookies/sessions/auth/etc, so this
   // repo has no need for its own favicon, cookie/body parsing, or feature-mode
   // middleware.
+  require('./teaching/local-levels')(app)
   return setupProxyMiddleware(app) // TODO: Flatten setup into one function. This doesn't fit its function name.
 }
 
@@ -108,7 +111,14 @@ const setupQuickBailToMainHTML = function (app) {
   app.get('/', fast('home.html'))
   app.get('/home', fast('home.html'))
   app.get('/play', fast('overworld.html'))
-  app.get('/play/level/:slug', fast('main.html'))
+  const levelPage = fast('main.html')
+  app.get('/play/level/:slug', (req, res, next) => {
+    if (/^local-python-\d{2}$/.test(req.params.slug)) {
+      if (!teachingAccounts.currentStudent(req) || !teachingClassroom.isUnlocked(req.params.slug)) return res.redirect('/teaching')
+    }
+    return levelPage(req, res, next)
+  })
+  app.get('/play/local-teaching', (req, res) => res.redirect('/teaching'))
   app.get('/play/:slug', fast('main.html'))
   if (config.product === 'codecombat') {
     app.get('/about', fast('about.html'))
@@ -169,10 +179,17 @@ const setupProxyMiddleware = function (app) {
   const proxy = httpProxy.createProxyServer({
     target,
     headers,
-    secure: false,
+    changeOrigin: true,
+    secure: true,
   })
   console.info('Using dev proxy server')
   return app.use(function (req, res, next) {
+    // The local classroom token belongs only to this server, never the upstream.
+    if (req.headers.cookie) {
+      const forwarded = teachingAccounts.withoutLocalCookies(req.headers.cookie)
+      if (forwarded) req.headers.cookie = forwarded
+      else delete req.headers.cookie
+    }
     req.proxied = true
     return proxy.web(req, res, function (e) {
       console.warn('Failed to proxy: ', e)

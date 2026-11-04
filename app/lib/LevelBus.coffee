@@ -134,6 +134,12 @@ module.exports = class LevelBus extends Bus
       # lets always set heroCode for ladder so that we don't save hero-placeholder-1 anyway
       @changedSessionProperties.heroCode = e.spell.getSource()
     @session.set({'code': code})
+    if /^local-python-\d{2}$/.test(e.spell.level.get('slug') or '')
+      state = @session.get('state') or {}
+      state.complete = false
+      delete state.teachingVictoryCode
+      @session.set('state', state)
+      @changedSessionProperties.state = true
     @saveSession()
 
   onSpellCreated: (e) ->
@@ -217,6 +223,8 @@ module.exports = class LevelBus extends Bus
     if utils.isCodeCombat
       return if state.complete
       state.complete = true
+      if /^facebe/.test(@session.id or '')
+        state.teachingVictoryCode = @session.get('code')?['hero-placeholder']?.plan
       @session.set('state', state)
       @changedSessionProperties.state = true
       @reallySaveSession()  # Make sure it saves right away; don't debounce it.

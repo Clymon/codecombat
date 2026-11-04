@@ -1,0 +1,136 @@
+{
+  "_id": "698e7a9e1088d410cd2270f6",
+  "name": "Knight",
+  "original": "529ffbf1cf1818f2be000001",
+  "components": [
+    {
+      "original": "524b85837fc0f6d519000020",
+      "majorVersion": 0
+    },
+    {
+      "original": "524b7b747fc0f6d519000010",
+      "majorVersion": 0,
+      "config": {
+        "team": "humans"
+      }
+    },
+    {
+      "original": "524b7b857fc0f6d519000012",
+      "majorVersion": 0,
+      "config": {
+        "collisionType": "dynamic",
+        "collisionCategory": "ground",
+        "mass": 70,
+        "fixedRotation": true
+      }
+    },
+    {
+      "original": "524b7bab7fc0f6d519000017",
+      "majorVersion": 0,
+      "config": {
+        "maxHealth": 11,
+        "healthReplenishRate": 0
+      }
+    },
+    {
+      "original": "52e95818a3ca8546b7000001",
+      "majorVersion": 0
+    },
+    {
+      "original": "524b3e3fff92f1f4f800000d",
+      "majorVersion": 0
+    },
+    {
+      "original": "524b4150ff92f1f4f8000024",
+      "majorVersion": 0
+    },
+    {
+      "original": "524b7b977fc0f6d519000014",
+      "majorVersion": 0
+    },
+    {
+      "original": "524b7b9f7fc0f6d519000015",
+      "majorVersion": 0
+    },
+    {
+      "original": "524b7bbe7fc0f6d519000019",
+      "majorVersion": 0,
+      "config": {
+        "collectRange": 2
+      }
+    },
+    {
+      "original": "53e217d253457600003e3ebb",
+      "majorVersion": 0,
+      "config": {
+        "attackDamageFactor": 1.2,
+        "maxHealthFactor": 1.4
+      }
+    },
+    {
+      "original": "524b7b8c7fc0f6d519000013",
+      "majorVersion": 0,
+      "config": {
+        "locomotionType": "running",
+        "maxSpeed": 6
+      }
+    },
+    {
+      "original": "524b75ad7fc0f6d519000001",
+      "majorVersion": 0,
+      "config": {
+        "pos": {
+          "x": 10,
+          "y": 10,
+          "z": 1
+        },
+        "width": 1.5,
+        "height": 1.5,
+        "depth": 2,
+        "shape": "ellipsoid"
+      }
+    },
+    {
+      "original": "524b7b5a7fc0f6d51900000e",
+      "majorVersion": 0,
+      "config": {
+        "programmableProperties": [
+          "say"
+        ]
+      }
+    },
+    {
+      "original": "524b7b7c7fc0f6d519000011",
+      "majorVersion": 0
+    },
+    {
+      "original": "524b7bb67fc0f6d519000018",
+      "majorVersion": 0,
+      "config": {
+        "excludedHUDProperties": [
+          "action"
+        ]
+      }
+    },
+    {
+      "original": "52a399b98537a70000000003",
+      "majorVersion": 0
+    },
+    {
+      "original": "524b457bff92f1f4f8000031",
+      "majorVersion": 0,
+      "config": {
+        "visualRange": 60
+      }
+    },
+    {
+      "original": "52e816058c875f0000000001",
+      "majorVersion": 0
+    },
+    {
+      "original": "52872b0ead92b98561000002",
+      "majorVersion": 0
+    }
+  ],
+  "kind": "Hero"
+}

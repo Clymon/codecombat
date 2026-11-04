@@ -1,0 +1,154 @@
+{
+  "version": {
+    "major": 0,
+    "minor": 40,
+    "isLatestMajor": true,
+    "isLatestMinor": true
+  },
+  "_id": "691c4d5dbe396c1bd418799b",
+  "description": "This System is currently just a namespace for UI-related Components, plus a bit of UI overlay configuration.",
+  "name": "UI",
+  "permissions": [
+    {
+      "target": "512ef4805a67a8c507000001",
+      "access": "owner"
+    },
+    {
+      "target": "public",
+      "access": "read"
+    }
+  ],
+  "original": "528114e60268d018e300001a",
+  "parent": "6447f0fb2bba050019604430",
+  "creator": "52dcc798acbf5e120a00291d",
+  "commitMessage": "merged version of OZ and Coco",
+  "index": true,
+  "__v": 0,
+  "js": "var UI,\n  __hasProp = {}.hasOwnProperty,\n  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };\n\nUI = (function(_super) {\n  __extends(UI, _super);\n\n  function UI(world, config) {\n    UI.__super__.constructor.call(this, world, config);\n    this.world.addTrackedProperties('showCoordinates', 'showGrid', 'showPaths', 'showTargetMark', 'showPathFor');\n    this.world.showCoordinates = this.showCoordinates;\n    this.world.showCoordinatesOptions = this.showCoordinatesOptions || {};\n    this.world.showGrid = this.showGrid;\n    this.world.showPaths = this.showPaths;\n    if (this.showPathFor) {\n      this.world.showPathFor = this.showPathFor.slice();\n    }\n    this.world.trackMouseMove = this.trackMouseMove;\n    this.world.keyArray = [];\n    this.world.keyStack = [];\n    this.world.realTimeInputEvents = [];\n    this.world.showsDuelStats = this.showsDuelStats;\n    this.world.preventZoomToHero = this.preventZoomToHero;\n    this.world.showTargetMark = this.showTargetMark;\n  }\n\n  UI.prototype.update = function() {\n    var hash, key, realTimeInputEvent, _i, _j, _len, _len1, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;\n    hash = 0;\n    _ref = this.world.realTimeInputEvents;\n    for (_i = 0, _len = _ref.length; _i < _len; _i++) {\n      realTimeInputEvent = _ref[_i];\n      if (!(realTimeInputEvent.time <= this.world.age)) {\n        continue;\n      }\n      hash += this.processRealTimeInputEvent(realTimeInputEvent);\n      realTimeInputEvent.processed = true;\n    }\n    _ref1 = this.world.keyStack;\n    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {\n      key = _ref1[_j];\n      if ((_ref2 = this.world.player) != null) {\n        if (typeof _ref2.trigger === \"function\") {\n          _ref2.trigger(\"keyheld\", this.world.keyArray[key]);\n        }\n      }\n      if ((_ref3 = this.world.gameReferee) != null ? (_ref4 = _ref3.eventHandlers) != null ? _ref4.keyheld : void 0 : void 0) {\n        if ((_ref5 = this.world.gameReferee) != null) {\n          if (typeof _ref5.trigger === \"function\") {\n            _ref5.trigger(\"keyheld\", _.clone(this.world.keyArray[key]));\n          }\n        }\n      }\n    }\n    this.world.realTimeInputEvents = this.world.realTimeInputEvents.filter(function(elem) {\n      return !elem.processed;\n    });\n    return hash;\n  };\n\n  UI.prototype.processRealTimeInputEvent = function(event) {\n    var hash, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;\n    if (!(this.world.player || this.world.gameReferee)) {\n      return;\n    }\n    event.processed = true;\n    event.other = this.world.getThangByID(event.thangID);\n    if (event.keyCode) {\n      event.keyChar = String.fromCharCode(event.keyCode);\n    }\n    if (event.type === 'mousedown') {\n      if ((_ref = this.world.player) != null) {\n        if (typeof _ref.trigger === \"function\") {\n          _ref.trigger(\"click\", event);\n        }\n      }\n      if ((_ref1 = this.world.gameReferee) != null ? (_ref2 = _ref1.eventHandlers) != null ? _ref2.click : void 0 : void 0) {\n        if ((_ref3 = this.world.gameReferee) != null) {\n          if (typeof _ref3.trigger === \"function\") {\n            _ref3.trigger(\"click\", _.clone(event));\n          }\n        }\n      }\n    }\n    if (event.type === 'mousemove') {\n      if ((_ref4 = this.world.gameReferee) != null ? (_ref5 = _ref4.eventHandlers) != null ? _ref5.mousemove : void 0 : void 0) {\n        if ((_ref6 = this.world.gameReferee) != null) {\n          if (typeof _ref6.trigger === \"function\") {\n            _ref6.trigger(\"mousemove\", _.clone(event));\n          }\n        }\n      }\n    }\n    if (event.type === 'keyup') {\n      if ((_ref7 = this.world.player) != null) {\n        if (typeof _ref7.trigger === \"function\") {\n          _ref7.trigger('keyup', event);\n        }\n      }\n      if ((_ref8 = this.world.gameReferee) != null ? (_ref9 = _ref8.eventHandlers) != null ? _ref9.keyup : void 0 : void 0) {\n        if ((_ref10 = this.world.gameReferee) != null) {\n          if (typeof _ref10.trigger === \"function\") {\n            _ref10.trigger(\"keyup\", _.clone(event));\n          }\n        }\n      }\n      this.world.keyArray[event.keyCode] = void 0;\n      this.world.keyStack.splice(this.world.keyStack.indexOf(event.keyCode), 1);\n    }\n    if (event.type === 'keydown' && this.world.keyStack.indexOf(event.keyCode) === -1) {\n      if ((_ref11 = this.world.player) != null) {\n        if (typeof _ref11.trigger === \"function\") {\n          _ref11.trigger('keydown', event);\n        }\n      }\n      if ((_ref12 = this.world.gameReferee) != null ? (_ref13 = _ref12.eventHandlers) != null ? _ref13.keydown : void 0 : void 0) {\n        if ((_ref14 = this.world.gameReferee) != null) {\n          if (typeof _ref14.trigger === \"function\") {\n            _ref14.trigger(\"keydown\", _.clone(event));\n          }\n        }\n      }\n      this.world.keyStack.push(event.keyCode);\n      this.world.keyArray[event.keyCode] = event;\n    }\n    if (((_ref15 = event.pos) != null ? _ref15.x : void 0) && ((_ref16 = event.pos) != null ? _ref16.y : void 0)) {\n      hash = event.time + event.pos.x - event.pos.y;\n    } else {\n      hash = event.time;\n    }\n    return hash;\n  };\n\n  UI.prototype.displayClick = function(pos) {\n    var args, color, endAngle, hero, radius, startAngle;\n    if (!(hero = this.world.getThangByID(\"Hero Placeholder\"))) {\n      return;\n    }\n    radius = 1;\n    color = '#008FFF';\n    startAngle = endAngle = 0;\n    args = [pos.x, pos.y, radius, color, endAngle, startAngle];\n    return hero.addCurrentEvent(\"aoe-\" + (JSON.stringify(args)));\n  };\n\n  return UI;\n\n})(System);\n",
+  "watchers": [
+    "512ef4805a67a8c507000001"
+  ],
+  "codeLanguage": "coffeescript",
+  "official": false,
+  "configSchema": {
+    "properties": {
+      "showCoordinates": {
+        "type": "boolean",
+        "description": "Whether to show the coordinates on mouse hover.",
+        "default": true
+      },
+      "showGrid": {
+        "type": "boolean",
+        "description": "Whether to show the grid by default.",
+        "default": false
+      },
+      "showPaths": {
+        "type": "string",
+        "enum": [
+          "never",
+          "paused",
+          "selected",
+          "always"
+        ],
+        "default": "paused",
+        "description": "When to show past/future paths for Thangs in the World."
+      },
+      "trackMouseMove": {
+        "type": "boolean",
+        "default": false
+      },
+      "cameraDragDisabled ": {
+        "type": "boolean",
+        "default": false
+      },
+      "showsDuelStats": {
+        "type": "boolean"
+      },
+      "preventZoomToHero": {
+        "type": "boolean"
+      },
+      "showTargetMark": {
+        "type": "boolean"
+      },
+      "showCoordinatesOptions": {
+        "additionalProperties": true,
+        "properties": {
+          "fontFamily": {
+            "type": "string",
+            "default": "Arial",
+            "additionalProperties": false
+          },
+          "fontWeight": {
+            "type": "string",
+            "default": "bold",
+            "additionalProperties": false
+          },
+          "fontColor": {
+            "type": "string",
+            "default": "#FFFFFF"
+          },
+          "fontSize": {
+            "type": "string",
+            "default": "16px"
+          },
+          "templateString": {
+            "type": "string",
+            "default": "{<%= x %>, <%= y %>}",
+            "description": "The template get x and y vars as an input. They can be transformed and shown with different ways."
+          },
+          "backgroundFillColor": {
+            "type": "string",
+            "default": "rgba(0,0,0,0.4)"
+          },
+          "backgroundStrokeColor": {
+            "type": "string",
+            "default": "rgba(0,0,0,0.6)"
+          },
+          "backgroundStroke": {
+            "type": "number",
+            "default": 1
+          },
+          "pointMarkerColor": {
+            "type": "string",
+            "default": "rgb(255, 255, 255)"
+          },
+          "pointMarkerLength": {
+            "type": "number",
+            "default": 8
+          },
+          "pointMarkerStroke": {
+            "type": "number",
+            "default": 3
+          },
+          "backgroundMargin": {
+            "type": "number",
+            "default": 3
+          }
+        },
+        "description": "Allows to customise how coordinates look"
+      }
+    },
+    "default": {
+      "showCoordinates": true,
+      "showGrid": false,
+      "showPaths": "paused",
+      "trackMouseMove": false,
+      "cameraDragDisabled ": false,
+      "showsDuelStats": true,
+      "preventZoomToHero": false,
+      "showTargetMark": true
+    },
+    "additionalProperties": false,
+    "type": "object"
+  },
+  "dependencies": [
+    {
+      "majorVersion": 0,
+      "original": "5280f83b8ae1581b66000001"
+    }
+  ],
+  "code": "class UI extends System\n  constructor: (world, config) ->\n    super world, config\n    @world.addTrackedProperties 'showCoordinates', 'showGrid', 'showPaths', 'showTargetMark', 'showPathFor'\n    @world.showCoordinates = @showCoordinates\n    @world.showCoordinatesOptions = @showCoordinatesOptions or {}\n    @world.showGrid = @showGrid\n    @world.showPaths = @showPaths\n    if @showPathFor\n      @world.showPathFor = @showPathFor.slice()\n    @world.trackMouseMove = @trackMouseMove\n    @world.keyArray = []\n    @world.keyStack = []\n    @world.realTimeInputEvents = []\n    @world.showsDuelStats = @showsDuelStats\n    @world.preventZoomToHero = @preventZoomToHero\n    @world.showTargetMark = @showTargetMark\n    \n  update: ->\n    hash = 0\n\n    for realTimeInputEvent in @world.realTimeInputEvents when realTimeInputEvent.time <= @world.age\n      hash += @processRealTimeInputEvent realTimeInputEvent\n      realTimeInputEvent.processed = true\n    \n    #if @world.keyStack.length\n      #@world.player.trigger? \"keyheld\", @world.keyArray[@world.keyStack[@world.keyStack.length - 1]]\n\n    for key in @world.keyStack\n      @world.player?.trigger? \"keyheld\", @world.keyArray[key]\n      if @world.gameReferee?.eventHandlers?.keyheld\n          @world.gameReferee?.trigger? \"keyheld\", _.clone(@world.keyArray[key])\n    @world.realTimeInputEvents = @world.realTimeInputEvents.filter((elem) -> return not elem.processed)\n    \n    return hash\n\n  processRealTimeInputEvent: (event) ->\n    return unless @world.player or @world.gameReferee\n    # events have type ('mousedown'), pos, time, and thangID\n    event.processed = true\n    event.other = @world.getThangByID event.thangID\n    #console.log event.time, event.type, event.pos?.x, event.pos?.y, event.thangID, event.other\n    if event.keyCode\n      event.keyChar = String.fromCharCode(event.keyCode)\n    if event.type is 'mousedown'\n      @world.player?.trigger? \"click\", event\n      if @world.gameReferee?.eventHandlers?.click\n          @world.gameReferee?.trigger? \"click\", _.clone(event)\n    if event.type is 'mousemove'\n      # @world.player?.trigger? \"mousemove\", event\n      if @world.gameReferee?.eventHandlers?.mousemove\n          @world.gameReferee?.trigger? \"mousemove\", _.clone(event)\n          \n    if event.type is 'keyup'\n      @world.player?.trigger? 'keyup', event\n      if @world.gameReferee?.eventHandlers?.keyup\n          @world.gameReferee?.trigger? \"keyup\", _.clone(event)\n      @world.keyArray[event.keyCode] = undefined\n      @world.keyStack.splice(@world.keyStack.indexOf(event.keyCode), 1)\n    \n    if event.type is 'keydown' and @world.keyStack.indexOf(event.keyCode) is -1\n      @world.player?.trigger? 'keydown', event\n      if @world.gameReferee?.eventHandlers?.keydown\n          @world.gameReferee?.trigger? \"keydown\", _.clone(event)\n      @world.keyStack.push(event.keyCode)\n      @world.keyArray[event.keyCode] = event\n    \n    if event.pos?.x and event.pos?.y\n      hash = event.time + event.pos.x - event.pos.y\n    else\n      hash = event.time\n    hash\n    \n  displayClick: (pos) ->\n    return unless hero = @world.getThangByID \"Hero Placeholder\"\n    radius = 1\n    color = '#008FFF'\n    startAngle = endAngle = 0\n    args = [pos.x, pos.y, radius, color, endAngle, startAngle]\n    hero.addCurrentEvent \"aoe-#{JSON.stringify(args)}\"\n",
+  "patches": [],
+  "created": "2025-11-18T10:41:33.240Z",
+  "slug": "ui"
+}

@@ -1,0 +1,113 @@
+{
+  "_id": "5b44a9a3baeeab004ca09ca1",
+  "kind": "Misc",
+  "components": [
+    {
+      "majorVersion": 0,
+      "original": "524b85837fc0f6d519000020"
+    },
+    {
+      "config": {
+        "team": "humans"
+      },
+      "majorVersion": 0,
+      "original": "524b7b747fc0f6d519000010"
+    },
+    {
+      "config": {
+        "mass": 2000,
+        "isBullet": false,
+        "collisionType": "static",
+        "collisionCategory": "none"
+      },
+      "majorVersion": 0,
+      "original": "524b7b857fc0f6d519000012"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b3e3fff92f1f4f800000d"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "config": {
+        "maxAcceleration": 0
+      },
+      "majorVersion": 0,
+      "original": "524b7b8c7fc0f6d519000013"
+    },
+    {
+      "config": {
+        "rotation": 0,
+        "shape": "ellipsoid",
+        "depth": 1,
+        "height": 3,
+        "width": 3,
+        "pos": {
+          "z": 0.5,
+          "y": 0,
+          "x": 0
+        }
+      },
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b7b7c7fc0f6d519000011"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b457bff92f1f4f8000031"
+    },
+    {
+      "config": {
+        "chainReacts": true,
+        "dud": false,
+        "friendlyFire": true,
+        "blastRadius": 10
+      },
+      "majorVersion": 0,
+      "original": "538679d17d99a73905616ecd"
+    },
+    {
+      "config": {
+        "attackDamage": 150
+      },
+      "majorVersion": 0,
+      "original": "524b7ba57fc0f6d519000016"
+    },
+    {
+      "config": {
+        "apiProperties": [
+          "id",
+          "pos",
+          "team",
+          "type",
+          "triggered"
+        ],
+        "apiMethods": [
+          "findNearest",
+          "distanceTo"
+        ]
+      },
+      "majorVersion": 0,
+      "original": "52e816058c875f0000000001"
+    },
+    {
+      "config": {
+        "lifespan": 9999
+      },
+      "majorVersion": 0,
+      "original": "524cbca43ea855e0ab000090"
+    },
+    {
+      "majorVersion": 0,
+      "original": "52a399b98537a70000000003"
+    }
+  ],
+  "name": "Fire Trap",
+  "original": "5449536afb56d566e86972ba"
+}

@@ -1082,6 +1082,8 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:hide-problem-alert', {}
 
   saveSpade: =>
+    # Local teaching code stays in our local session API, not official code logs.
+    return if /^local-python-\d{2}$/.test(@options.level.get('slug') or '')
     return if @destroyed or not @spade
     @spade.createUIEvent "saving-spade"
     spadeEvents = @spade.compile()

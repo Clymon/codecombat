@@ -1,0 +1,1289 @@
+{
+  "version": {
+    "major": 0,
+    "minor": 136,
+    "isLatestMajor": true,
+    "isLatestMinor": true
+  },
+  "_id": "6ac069bc77db40d42a6638ba",
+  "description": "This Thang can move simply in the four cardinal directions.",
+  "system": "movement",
+  "name": "MovesSimply",
+  "slug": "movessimply",
+  "permissions": [
+    {
+      "target": "512ef4805a67a8c507000001",
+      "access": "owner"
+    },
+    {
+      "target": "public",
+      "access": "read"
+    }
+  ],
+  "original": "524b7b427fc0f6d51900000b",
+  "parent": "65ccff003ca6ed67e1bdfaef",
+  "creator": "57f214404c62444200782d22",
+  "commitMessage": "Added snapping to prevent gliding",
+  "index": true,
+  "__v": 0,
+  "watchers": [
+    "512ef4805a67a8c507000001"
+  ],
+  "js": "var ArgumentError, MovesSimply, Vector, _ref,\n  __hasProp = {}.hasOwnProperty,\n  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };\n\nArgumentError = require('lib/world/errors').ArgumentError;\n\nVector = require('lib/world/vector');\n\nMovesSimply = (function(_super) {\n  __extends(MovesSimply, _super);\n\n  function MovesSimply() {\n    _ref = MovesSimply.__super__.constructor.apply(this, arguments);\n    return _ref;\n  }\n\n  MovesSimply.className = 'MovesSimply';\n\n  MovesSimply.prototype.attach = function(thang) {\n    var movementSystem;\n    MovesSimply.__super__.attach.call(this, thang);\n    if (movementSystem = thang.world.getSystem('Movement')) {\n      thang.simpleMoveDistance = movementSystem.simpleMoveDistance;\n      thang.snapPoints = movementSystem.simpleMoveSnapPoints;\n      thang.snapThreshold = movementSystem.simpleMoveSnapThreshold;\n    }\n    return thang.contextMovesSimply = typeof this.getCodeContext === \"function\" ? this.getCodeContext() : void 0;\n  };\n\n  MovesSimply.prototype.stopSimpleMoveOnSnapArrival = function() {\n    var dx, dy, point, _i, _len, _ref1, _ref2;\n    if (!this.stopOnSnapArrival) {\n      return;\n    }\n    if (!((this.targetPos != null) && ((_ref1 = this.snapPoints) != null ? _ref1.length : void 0))) {\n      return;\n    }\n    _ref2 = this.snapPoints;\n    for (_i = 0, _len = _ref2.length; _i < _len; _i++) {\n      point = _ref2[_i];\n      dx = point.x - this.targetPos.x;\n      dy = point.y - this.targetPos.y;\n      if (dx * dx + dy * dy < 0.000001) {\n        this.setPosXYZ(this.targetPos.x, this.targetPos.y);\n        this.velocity = new Vector();\n        this.keepTrackedProperty('velocity');\n        return;\n      }\n    }\n  };\n\n  MovesSimply.prototype.moveSimply = function(xDist, yDist, dirName, numberOfMoves) {\n    var intermediateMove, intermediateTarget, nearest, targetPos, _i, _ref1, _ref2;\n    if (numberOfMoves == null) {\n      numberOfMoves = null;\n    }\n    this.movingSince = this.world.age;\n    targetPos = new Vector(this.pos.x + xDist, this.pos.y + yDist);\n    if (((_ref1 = this.snapPoints) != null ? _ref1.length : void 0) && ((xDist && Math.abs(xDist) % this.simpleMoveDistance < 0.1) || (yDist && Math.abs(yDist) % this.simpleMoveDistance < 0.1))) {\n      nearest = _.min(this.snapPoints, function(p) {\n        return targetPos.distanceSquared(p);\n      });\n      if (targetPos.distanceSquared(nearest) < Math.pow(this.snapThreshold || 2.5, 2)) {\n        targetPos = new Vector(nearest.x, nearest.y);\n      }\n    } else if (this.simpleMoveDistance === 8) {\n      if ((targetPos.x + 2) % 8 < 2) {\n        targetPos.x -= (targetPos.x + 2) % 8;\n      } else if ((targetPos.x + 2) % 8 > 6) {\n        targetPos.x += 8 - (targetPos.x + 2) % 8;\n      }\n      if ((targetPos.y + 2) % 8 < 2) {\n        targetPos.y -= (targetPos.y + 2) % 8;\n      } else if ((targetPos.y + 2) % 8 > 2) {\n        targetPos.y += 8 - (targetPos.y + 2) % 8;\n      }\n    }\n    if (numberOfMoves >= 2) {\n      for (intermediateMove = _i = 1, _ref2 = Math.min(10, numberOfMoves); 1 <= _ref2 ? _i < _ref2 : _i > _ref2; intermediateMove = 1 <= _ref2 ? ++_i : --_i) {\n        intermediateTarget = this.pos.copy().add(targetPos.copy().subtract(this.pos).divide(numberOfMoves).multiply(intermediateMove));\n        this.setTargetPos(intermediateTarget);\n      }\n    }\n    this.setTargetPos(targetPos);\n    if (typeof this.announceAction === \"function\") {\n      this.announceAction(dirName);\n    }\n    this.setAction(\"move\");\n    this.intent = 'moveSimply';\n    this.recentDistances = [];\n    return typeof this.block === \"function\" ? this.block() : void 0;\n  };\n\n  MovesSimply.prototype.update = function() {\n    var dist, frustratedMessage, i, idleTime, oldestDist, recentDist, _i, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7;\n    if (this.intent !== 'moveSimply') {\n      return;\n    }\n    frustratedMessage = ((_ref1 = this.contextMovesSimply) != null ? _ref1.cant : void 0) || \"I can't get there.\";\n    dist = this.distance((_ref2 = this.targetPos) != null ? _ref2 : this);\n    this.recentDistances.push(dist);\n    if (this.recentDistances.length === Math.round(this.world.frameRate)) {\n      oldestDist = this.recentDistances[0];\n      if (Math.abs(oldestDist - dist) > 1) {\n        if (((_ref3 = this.currentlySaying) != null ? _ref3.message : void 0) === frustratedMessage) {\n          this.sayWithoutBlocking(\"\");\n        }\n        for (i = _i = 0, _ref4 = this.recentDistances.length; 0 <= _ref4 ? _i < _ref4 : _i > _ref4; i = 0 <= _ref4 ? ++_i : --_i) {\n          recentDist = this.recentDistances[this.recentDistances.length - i - 1];\n          if (Math.abs(recentDist - dist) > 1) {\n            this.movingSince = this.world.age - this.world.dt * i;\n          }\n        }\n      }\n      this.recentDistances.shift();\n    }\n    if (!this.returningSnap) {\n      if (this.targetPos && this.distance(this.targetPos) < this.moveThreshold) {\n        this.stopSimpleMoveOnSnapArrival();\n        this.setTargetPos(null);\n        this.movingSince = null;\n        this.setAction(\"idle\");\n        this.intent = void 0;\n        return this.unblock();\n      }\n    } else {\n      if (this.targetPos && this.pos.distanceSquared(this.targetPos) < this.moveThreshold) {\n        this.stopSimpleMoveOnSnapArrival();\n        this.setTargetPos(null);\n        this.movingSince = null;\n        this.setAction(\"idle\");\n        this.intent = void 0;\n        this.returningSnap = false;\n        return this.unblock();\n      }\n    }\n    idleTime = this.world.age - this.movingSince;\n    if (idleTime > ((_ref5 = this.moveFrustratedTime) != null ? _ref5 : 3) + ((_ref6 = this.moveWaitTime) != null ? _ref6 : 2)) {\n      this.setTargetPos(null);\n      this.movingSince = null;\n      this.setAction(\"idle\");\n      this.intent = void 0;\n      return this.unblock();\n    } else if (Math.abs(idleTime - ((_ref7 = this.moveWaitTime) != null ? _ref7 : 2)) <= this.world.dt) {\n      return this.sayWithoutBlocking(frustratedMessage);\n    }\n  };\n\n  MovesSimply.prototype.moveRight = function(d, _excess) {\n    var _ref1;\n    if ((d != null) && !this.allowsSimpleMoveArguments) {\n      throw new ArgumentError(\"\", \"moveRight\", \"\", \"\", \"\", 0, \"Don't add \" + d + \".\");\n    }\n    if ((d != null) && typeof d !== 'number') {\n      throw new ArgumentError((_ref1 = this.contextMovesSimply) != null ? _ref1.error1 : void 0, \"moveRight\", \"distance\", \"number\", d);\n    }\n    if (_excess != null) {\n      throw new ArgumentError(\"\", \"moveRight\", \"_excess\", \"\", \"\", 1);\n    }\n    return this.moveSimply((d != null ? d : 1) * this.simpleMoveDistance, 0, 'moveRight', d);\n  };\n\n  MovesSimply.prototype.moveLeft = function(d, _excess) {\n    var _ref1;\n    if ((d != null) && !this.allowsSimpleMoveArguments) {\n      throw new ArgumentError(\"\", \"moveLeft\", \"\", \"\", \"\", 0, \"Don't add \" + d + \".\");\n    }\n    if ((d != null) && typeof d !== 'number') {\n      throw new ArgumentError((_ref1 = this.contextMovesSimply) != null ? _ref1.error1 : void 0, \"moveLeft\", \"distance\", \"number\", d);\n    }\n    if (_excess != null) {\n      throw new ArgumentError(\"\", \"moveLeft\", \"_excess\", \"\", \"\", 1);\n    }\n    return this.moveSimply(-((d != null ? d : 1) * this.simpleMoveDistance), 0, 'moveLeft', d);\n  };\n\n  MovesSimply.prototype.moveUp = function(d, _excess) {\n    var _ref1;\n    if ((d != null) && !this.allowsSimpleMoveArguments) {\n      throw new ArgumentError(\"\", \"moveUp\", \"\", \"\", \"\", 0, \"Don't add \" + d + \".\");\n    }\n    if ((d != null) && typeof d !== 'number') {\n      throw new ArgumentError((_ref1 = this.contextMovesSimply) != null ? _ref1.error1 : void 0, \"moveUp\", \"distance\", \"number\", d);\n    }\n    if (_excess != null) {\n      throw new ArgumentError(\"\", \"moveUp\", \"_excess\", \"\", \"\", 1);\n    }\n    return this.moveSimply(0, (d != null ? d : 1) * this.simpleMoveDistance, 'moveUp', d);\n  };\n\n  MovesSimply.prototype.moveDown = function(d, _excess) {\n    var _ref1;\n    if ((d != null) && !this.allowsSimpleMoveArguments) {\n      throw new ArgumentError(\"\", \"moveDown\", \"\", \"\", \"\", 0, \"Don't add \" + d + \".\");\n    }\n    if ((d != null) && typeof d !== 'number') {\n      throw new ArgumentError((_ref1 = this.contextMovesSimply) != null ? _ref1.error1 : void 0, \"moveDown\", \"distance\", \"number\", d);\n    }\n    if (_excess != null) {\n      throw new ArgumentError(\"\", \"moveDown\", \"_excess\", \"\", \"\", 1);\n    }\n    return this.moveSimply(0, -((d != null ? d : 1) * this.simpleMoveDistance), 'moveDown', d);\n  };\n\n  MovesSimply.prototype.returnToNearestSnapPoint = function() {\n    var nearest, _ref1, _ref2,\n      _this = this;\n    if (!((_ref1 = this.snapPoints) != null ? _ref1.length : void 0)) {\n      return false;\n    }\n    nearest = _.min(this.snapPoints, function(p) {\n      return _this.pos.distanceSquared(p);\n    });\n    if (!((this.moveThreshold < (_ref2 = this.pos.distanceSquared(nearest)) && _ref2 < 2 * Math.pow(this.simpleMoveDistance, 2)))) {\n      return false;\n    }\n    nearest = new Vector(nearest.x, nearest.y);\n    this.setTargetPos(nearest, 'returnToNearestSnapPoint');\n    this.setAction('move');\n    this.intent = 'moveSimply';\n    this.movingSince = this.world.age;\n    this.returningSnap = true;\n    this.recentDistances = [];\n    return typeof this.block === \"function\" ? this.block() : void 0;\n  };\n\n  return MovesSimply;\n\n})(Component);\n",
+  "codeLanguage": "coffeescript",
+  "patches": [],
+  "official": false,
+  "configSchema": {
+    "properties": {
+      "allowsArguments": {
+        "type": "boolean",
+        "description": "Whether the simple move commands allow arguments (like moveRight(24) to go 24 meters) or throws a default no-parameter error."
+      },
+      "allowsSimpleMoveArguments": {
+        "type": "boolean",
+        "description": "Whether the simple move commands allow arguments (like moveRight(24) to go 24 meters) or throws a default no-parameter error."
+      },
+      "simpleMoveDistance": {
+        "type": "number",
+        "description": "Deprecated\u2013Movement System configures instead. Distance to move by default in meters.",
+        "default": 20,
+        "minimum": 0,
+        "exclusiveMinimum": true
+      },
+      "snapPoints": {
+        "type": "array",
+        "description": "Deprecated\u2013Movement System configures instead. Array of {x, y} coordinates to which a simple move will snap if within snapThreshold.",
+        "items": {
+          "type": "object",
+          "description": "An {x, y} coordinate for simple move snapping.",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false,
+          "format": "point2d"
+        }
+      },
+      "snapThreshold": {
+        "default": 2.5,
+        "description": "Deprecated\u2013Movement System configures instead. When snapPoints are set, any simple move which would have ended within snapThreshold of a snap point will go there instead.",
+        "type": "number"
+      }
+    },
+    "default": {
+      "simpleMoveDistance": 12,
+      "snapThreshold": 2.5,
+      "snapPoints": [],
+      "allowsSimpleMoveArguments": false
+    },
+    "additionalProperties": false,
+    "type": "object"
+  },
+  "propertyDocumentation": [
+    {
+      "autoCompletePriority": 15,
+      "i18n": {
+        "vi": {
+          "description": "\u0110i\u1ec1u khi\u1ec3n #{spriteName} \u0111i sang tr\u00e1i m\u1ed9t ch\u00fat.",
+          "name": "[AI_TRANSLATION]di chuy\u1ec3n sang tr\u00e1i"
+        },
+        "he": {
+          "description": "\u05de\u05d6\u05d9\u05d6\u05d4 \u05d0\u05ea \u05d4\u05d2\u05d9\u05d1\u05d5\u05e8-#{spriteName} \u05e7\u05e6\u05ea \u05e9\u05de\u05d0\u05dc\u05d4 (\u05dc\u05db\u05d9\u05d5\u05df \u05de\u05e2\u05e8\u05d1) ",
+          "name": null
+        },
+        "zh-WUU-HANT": {
+          "description": "\u4f7f#{spriteName}\u5411\u5de6\uff08\u897f\uff09\u79fb\u52d5\u4e00\u9ede\u3002",
+          "name": "\u5411\u5de6\u79fb\u52d5"
+        },
+        "fi": {
+          "description": "Liikuttaa hahmoa vasemmalle (l\u00e4nteen).",
+          "name": null
+        },
+        "nl-NL": {
+          "name": "moveLeft",
+          "description": "Verplaatst de #{spriteName} een beetje naar **links**."
+        },
+        "ca": {
+          "description": "Mou un pas el #{spriteName} a l'esquerra (oest).",
+          "name": null
+        },
+        "el": {
+          "description": "\u039a\u03b9\u03bd\u03b5\u03af \u03c4\u03bf\u03bd #{spriteName}, \u03ba\u03ac\u03c0\u03bf\u03b9\u03b1 \u03b2\u03ae\u03bc\u03b1\u03c4\u03b1 \u03b1\u03c1\u03b9\u03c3\u03c4\u03b5\u03c1\u03ac (\u03b4\u03c5\u03c4\u03b9\u03ba\u03ac).",
+          "name": "\u03ba\u03af\u03bd\u03b7\u03c3\u03b7 \u03c0\u03c1\u03bf\u03c2 \u03c4\u03b1 \u03b1\u03c1\u03b9\u03c3\u03c4\u03b5\u03c1\u03ac"
+        },
+        "da": {
+          "description": "Flytter #{spriteName} et stykke til venstre (vest).",
+          "name": null
+        },
+        "sv": {
+          "description": "Flyttar #{spriteName} v\u00e4nster (v\u00e4sterut) en bit.",
+          "name": "flyttaV\u00e4nster"
+        },
+        "pl": {
+          "description": "Przemieszcza #{spriteName} o krok w lewo (na zach\u00f3d).",
+          "name": null
+        },
+        "uk": {
+          "description": "\u0420\u0443\u0445\u0430\u0454 #{spriteName} \u043d\u0430 \u043d\u0435\u0432\u0435\u043b\u0438\u043a\u0443 \u0432\u0456\u0434\u0441\u0442\u0430\u043d\u044c \u043b\u0456\u0432\u043e\u0440\u0443\u0447 (\u043d\u0430 \u0437\u0430\u0445\u0456\u0434).",
+          "name": null
+        },
+        "ja": {
+          "name": "moveLeft",
+          "description": "#{spriteName}\u304c\u5de6\uff08\u897f\uff09\u306b\u3061\u3087\u3063\u3068\u6b69\u304f\u3002"
+        },
+        "it": {
+          "description": "Muovi #{spriteName} un po' a sinistra (verso ovest).",
+          "name": "spostatiASinistra"
+        },
+        "hu": {
+          "description": "Balra (nyugatra) mozgatja a h\u0151s\u00f6det egy l\u00e9p\u00e9snyit.",
+          "name": "[AI_TRANSLATION]moveLeft"
+        },
+        "sk": {
+          "name": "cho\u010fV\u013eavo",
+          "description": "Hrdina so pohne k\u00fasok v\u013eavo (na z\u00e1pad)."
+        },
+        "pt-BR": {
+          "name": "moveEsquerda",
+          "description": "Move o #{spriteName} para esquerda (oeste)."
+        },
+        "pt-PT": {
+          "name": "moverEsquerda",
+          "description": "Move o #{spriteName} para a esquerda (oeste) um pouco."
+        },
+        "zh-HANT": {
+          "name": "\u5411\u5de6\u79fb\u52d5",
+          "description": "\u4f7f#{spriteName}\u5411\u5de6\uff08\u897f\uff09\u79fb\u52d5\u4e00\u9ede\u3002"
+        },
+        "es-ES": {
+          "description": "Mueve a #{spriteName} hacia la izquierda (oeste) un poco.",
+          "name": null
+        },
+        "de-DE": {
+          "description": "Bewegt #{spriteName} ein St\u00fcckchen nach links (West).",
+          "name": "bewegenLinks"
+        },
+        "lt": {
+          "description": "  #{spriteName} eina truput\u012f \u012f kair\u0119 (Vakarus).",
+          "name": null
+        },
+        "nb": {
+          "description": "Flytter #{spriteName} litt mot venstre (vest).",
+          "name": null
+        },
+        "fr": {
+          "name": "d\u00e9placerGauche",
+          "description": "D\u00e9place le #{spriteName} l\u00e9g\u00e8rement vers la gauche (Ouest)."
+        },
+        "gl": {
+          "description": "Move un pouco o #{spriteName} cara a esquerda (oeste).",
+          "name": null
+        },
+        "nn": {
+          "description": "Flyttar #{spriteName} litt mot venstre (vest).",
+          "name": null
+        },
+        "es-419": {
+          "description": "Mueve un paso el #{spriteName} a la izquierda (oeste).",
+          "name": "moverIzquierda"
+        },
+        "zh-HANS": {
+          "description": "\u4f7f#{spriteName}\u5411\u5de6\uff08\u897f\uff09\u79fb\u52a8\u3002",
+          "name": "\u5411\u5de6\u79fb\u52a8"
+        },
+        "ru": {
+          "description": "\u041f\u0435\u0440\u0435\u0434\u0432\u0438\u0433\u0430\u0435\u0442 #{spriteName} \u043d\u0430\u043b\u0435\u0432\u043e (\u0437\u0430\u043f\u0430\u0434).",
+          "name": "moveLeft"
+        },
+        "cs": {
+          "description": "P\u0159esune #{spriteName} m\u00edrn\u011b doleva (z\u00e1padn\u011b).",
+          "name": "[AI_TRANSLATION]moveLeft"
+        },
+        "tr": {
+          "description": "Bu #{spriteName} sola (bat\u0131) biraz hareket eder.",
+          "name": "SolaHareketEt"
+        },
+        "-": {
+          "-": "-"
+        },
+        "bg": {
+          "name": "moveLeft",
+          "description": "\u041f\u0440\u0438\u0434\u0432\u0438\u0436\u0432\u0430 #{spriteName} \u043c\u0430\u043b\u043a\u043e \u043d\u0430\u043b\u044f\u0432\u043e (\u043d\u0430 \u0437\u0430\u043f\u0430\u0434)."
+        },
+        "zh-WUU-HANS": {
+          "name": "\u5411\u5de6\u79fb\u52a8",
+          "description": "\u4f7f#{spriteName}\u5411\u5de6\uff08\u897f\uff09\u79fb\u52a8\u4e00\u70b9\u3002"
+        },
+        "th": {
+          "name": "\u0e44\u0e1b\u0e17\u0e32\u0e07\u0e0b\u0e49\u0e32\u0e22",
+          "description": "\u0e02\u0e22\u0e31\u0e1a #{\u0e0a\u0e37\u0e48\u0e2d\u0e15\u0e31\u0e27\u0e25\u0e30\u0e04\u0e23} \u0e44\u0e1b\u0e17\u0e32\u0e07\u0e0b\u0e49\u0e32\u0e22(\u0e17\u0e34\u0e28\u0e15\u0e30\u0e27\u0e31\u0e19\u0e15\u0e01)\u0e19\u0e34\u0e14\u0e2b\u0e19\u0e48\u0e2d\u0e22"
+        },
+        "ar": {
+          "name": "[AI_TRANSLATION]moveLeft",
+          "description": "[AI_TRANSLATION]\u064a\u062d\u0631\u0643 \u0627\u0644\u0640 #{spriteName} \u0625\u0644\u0649 \u0627\u0644\u064a\u0633\u0627\u0631 (\u063a\u0631\u0628\u0627\u064b) \u0642\u0644\u064a\u0644\u0627\u064b.\n"
+        },
+        "ko": {
+          "name": "[AI_TRANSLATION]moveLeft",
+          "description": "[AI_TRANSLATION]#{spriteName}\uc744 \uc67c\ucabd(\uc11c\ucabd)\uc73c\ub85c \uc870\uae08 \uc774\ub3d9\uc2dc\ucf1c."
+        },
+        "id": {
+          "name": "[AI_TRANSLATION]moveLeft",
+          "description": "[AI_TRANSLATION]Gerakkan #{spriteName} sedikit ke kiri (barat)."
+        },
+        "hi": {
+          "name": "[AI_TRANSLATION]moveLeft",
+          "description": "[AI_TRANSLATION]#{spriteName} \u0915\u094b \u0925\u094b\u0921\u093c\u093e \u092c\u093e\u090f\u0902 (\u092a\u0936\u094d\u091a\u093f\u092e) \u0915\u0940 \u0913\u0930 \u091a\u0932\u093e\u0924\u093e \u0939\u0948\u0964"
+        },
+        "nl": {
+          "name": "[AI_TRANSLATION]moveLeft",
+          "description": "[AI_TRANSLATION]Beweegt de #{spriteName} iets naar links (west)."
+        },
+        "ur": {
+          "name": "[AI_TRANSLATION]\u0628\u0627\u0626\u06cc\u06ba \u0637\u0631\u0641 \u062d\u0631\u06a9\u062a \u06a9\u0631\u06cc\u06ba",
+          "description": "[AI_TRANSLATION]#{spriteName} \u06a9\u0648 \u0628\u0627\u0626\u06cc\u06ba (\u0645\u063a\u0631\u0628 \u06a9\u06cc \u0637\u0631\u0641) \u062a\u06be\u0648\u0691\u0627 \u062d\u0631\u06a9\u062a \u062f\u06cc\u062a\u0627 \u06c1\u06d2\u06d4"
+        }
+      },
+      "snippets": {
+        "lua": {
+          "tab": "moveLeft",
+          "code": "hero:moveLeft()"
+        },
+        "coffeescript": {
+          "tab": "moveLeft",
+          "code": "hero.moveLeft()"
+        },
+        "python": {
+          "tab": "moveLeft",
+          "code": "hero.moveLeft()"
+        },
+        "javascript": {
+          "tab": "moveLeft",
+          "code": "hero.moveLeft()"
+        }
+      },
+      "description": "Moves the #{spriteName} left (west) a bit.",
+      "type": "function",
+      "name": "moveLeft",
+      "args": [
+        {
+          "name": "steps",
+          "type": "number",
+          "example": "2",
+          "description": "How many steps to move (default 1 step, 12 meters).",
+          "default": 1,
+          "i18n": {
+            "zh-HANS": {
+              "description": "[AI_TRANSLATION]\u79fb\u52a8\u51e0\u6b65\uff08\u9ed8\u8ba4\u4e3a1\u6b65\uff0c12\u7c73\uff09\u3002"
+            },
+            "ru": {
+              "description": "[AI_TRANSLATION]\u0421\u043a\u043e\u043b\u044c\u043a\u043e \u0448\u0430\u0433\u043e\u0432 \u043d\u0443\u0436\u043d\u043e \u043f\u0440\u043e\u0439\u0442\u0438 (\u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e 1 \u0448\u0430\u0433, 12 \u043c\u0435\u0442\u0440\u043e\u0432)."
+            },
+            "zh-HANT": {
+              "description": "[AI_TRANSLATION]\u6b65\u6578\u8d70\u5e7e\u6b65\uff08\u9ed8\u8a8d\u70ba1\u6b65\uff0c12\u7c73\uff09\u3002"
+            },
+            "es-ES": {
+              "description": "[AI_TRANSLATION]Cu\u00e1ntos pasos moverse (predeterminado 1 paso, 12 metros)."
+            },
+            "fr": {
+              "description": "[AI_TRANSLATION]Combien de pas se d\u00e9placer (par d\u00e9faut 1 pas, 12 m\u00e8tres)."
+            },
+            "pt-PT": {
+              "description": "[AI_TRANSLATION]Quantos passos mover (padr\u00e3o 1 passo, 12 metros)."
+            },
+            "vi": {
+              "description": "[AI_TRANSLATION]Bao nhi\u00eau b\u01b0\u1edbc \u0111\u1ec3 di chuy\u1ec3n (m\u1eb7c \u0111\u1ecbnh 1 b\u01b0\u1edbc, 12 m\u00e9t)."
+            },
+            "ar": {
+              "description": "[AI_TRANSLATION]\u0643\u0645 \u0639\u062f\u062f \u0627\u0644\u062e\u0637\u0648\u0627\u062a \u0644\u0644\u0627\u0646\u062a\u0642\u0627\u0644 (\u0627\u0644\u0627\u0641\u062a\u0631\u0627\u0636\u064a \u062e\u0637\u0648\u0629 \u0648\u0627\u062d\u062f\u0629\u060c 12 \u0645\u062a\u0631)."
+            },
+            "cs": {
+              "description": "[AI_TRANSLATION]Kolik krok\u016f se m\u00e1 h\u00fdbat (z\u00e1kladn\u00ed 1 krok, 12 metr\u016f)."
+            },
+            "de-DE": {
+              "description": "[AI_TRANSLATION]Wie viele Schritte bewegt werden sollen (Standard 1 Schritt, 12 Meter)."
+            },
+            "ko": {
+              "description": "[AI_TRANSLATION]\uba87 \uac78\uc74c\uc744 \uc6c0\uc9c1\uc77c\uc9c0 (\uae30\ubcf8 1\uac78\uc74c, 12\ubbf8\ud130)."
+            },
+            "hu": {
+              "description": "[AI_TRANSLATION]H\u00e1ny l\u00e9p\u00e9st tegy\u00e9l meg (alap\u00e9rtelmezett 1 l\u00e9p\u00e9s, 12 m\u00e9ter)."
+            },
+            "id": {
+              "description": "[AI_TRANSLATION]Berapa langkah untuk bergerak (default 1 langkah, 12 meter)."
+            },
+            "it": {
+              "description": "[AI_TRANSLATION]Quanti passi spostarsi (di default 1 passo, 12 metri)."
+            },
+            "hi": {
+              "description": "[AI_TRANSLATION]\u0915\u093f\u0924\u0928\u0947 \u0915\u0926\u092e \u091a\u0932\u0928\u093e \u0939\u0948 (\u0921\u093f\u092b\u093c\u0949\u0932\u094d\u091f 1 \u0915\u0926\u092e, 12 \u092e\u0940\u091f\u0930)\u0964"
+            },
+            "nl": {
+              "description": "[AI_TRANSLATION]Hoeveel stappen om te bewegen (standaard 1 stap, 12 meter)."
+            },
+            "th": {
+              "description": "[AI_TRANSLATION]\u0e08\u0e30\u0e22\u0e49\u0e32\u0e22\u0e01\u0e35\u0e48\u0e01\u0e49\u0e32\u0e27 (\u0e04\u0e48\u0e32\u0e40\u0e23\u0e34\u0e48\u0e21\u0e15\u0e49\u0e19 1 \u0e01\u0e49\u0e32\u0e27, 12 \u0e40\u0e21\u0e15\u0e23)"
+            },
+            "ur": {
+              "description": "[AI_TRANSLATION]\u06a9\u062a\u0646\u06d2 \u0642\u062f\u0645 \u0686\u0644\u0646\u06d2 \u06c1\u06cc\u06ba (\u067e\u06c1\u0644\u06d2 \u0633\u06d2 \u0637\u06d2 \u0634\u062f\u06c1 1 \u0642\u062f\u0645\u060c 12 \u0645\u06cc\u0679\u0631)\u06d4"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "shortDescription": "short about move\ntada",
+      "autoCompletePriority": 15,
+      "i18n": {
+        "vi": {
+          "description": "\u0110i\u1ec1u khi\u1ec3n #{spriteName} \u0111i l\u00ean tr\u00ean m\u1ed9t ch\u00fat.",
+          "name": "[AI_TRANSLATION]di chuy\u1ec3n l\u00ean",
+          "shortDescription": "[AI_TRANSLATION]t\u00f3m t\u1eaft v\u1ec1 di chuy\u1ec3n\ntada"
+        },
+        "he": {
+          "description": "\u05de\u05d6\u05d9\u05d6\u05d4 \u05d0\u05ea \u05d4\u05d2\u05d9\u05d1\u05d5\u05e8-#{spriteName} \u05e7\u05e6\u05ea \u05dc\u05de\u05e2\u05dc\u05d4 (\u05dc\u05db\u05d9\u05d5\u05df \u05e6\u05e4\u05d5\u05df) ",
+          "name": null,
+          "shortDescription": null
+        },
+        "zh-WUU-HANT": {
+          "description": "\u4f7f#{spriteName}\u5411\u4e0a\uff08\u5317\uff09\u79fb\u52d5\u4e00\u9ede\u3002",
+          "name": "\u5411\u4e0a\u79fb\u52d5",
+          "shortDescription": null
+        },
+        "fi": {
+          "description": "Liikuttaa hahmoa yl\u00f6s (pohjoiseen).",
+          "name": null,
+          "shortDescription": null
+        },
+        "nl-NL": {
+          "name": "moveUp",
+          "description": "Verplaatst de #{spriteName} een beetje naar **boven**.",
+          "shortDescription": null
+        },
+        "ca": {
+          "description": "Mou un pas el #{spriteName} adalt (nord).",
+          "name": null,
+          "shortDescription": null
+        },
+        "el": {
+          "description": "\u039a\u03b9\u03bd\u03b5\u03af \u03c4\u03bf\u03bd #{spriteName}, \u03ba\u03ac\u03c0\u03bf\u03b9\u03b1 \u03b2\u03ae\u03bc\u03b1\u03c4\u03b1 \u03b5\u03c0\u03ac\u03bd\u03c9 (\u03b2\u03cc\u03c1\u03b5\u03b9\u03b1).",
+          "name": "\u03ba\u03af\u03bd\u03b7\u03c3\u03b7 \u03c0\u03c1\u03bf\u03c2 \u03c4\u03b1 \u03c0\u03ac\u03bd\u03c9",
+          "shortDescription": null
+        },
+        "da": {
+          "description": "Flytter #{spriteName} et stykke op (nord).",
+          "name": null,
+          "shortDescription": null
+        },
+        "sv": {
+          "description": "Flyttar #{spriteName} upp (norrut) en bit.",
+          "name": "flyttaUpp",
+          "shortDescription": null
+        },
+        "pl": {
+          "description": "Przemieszcza #{spriteName} o krok w g\u00f3r\u0119 (na p\u00f3\u0142noc).",
+          "name": null,
+          "shortDescription": null
+        },
+        "uk": {
+          "description": "\u0420\u0443\u0445\u0430\u0454 #{spriteName} \u043d\u0430 \u043d\u0435\u0432\u0435\u043b\u0438\u043a\u0443 \u0432\u0456\u0434\u0441\u0442\u0430\u043d\u044c \u0432\u0433\u043e\u0440\u0443 (\u043d\u0430 \u043f\u0456\u0432\u043d\u0456\u0447).",
+          "name": null,
+          "shortDescription": null
+        },
+        "ja": {
+          "name": "",
+          "description": "#{spriteName}\u304c\u4e0a\uff08\u5317\uff09\u306b\u3061\u3087\u3063\u3068\u6b69\u304f\u3002",
+          "shortDescription": null
+        },
+        "it": {
+          "description": "Muovi #{spriteName} un po' in alto (verso nord).",
+          "name": "spostatiSu",
+          "shortDescription": "breve su sposta\ntada"
+        },
+        "hu": {
+          "description": "Felfel\u00e9 (\u00e9szakra) mozgatja a h\u0151s\u00f6det egy l\u00e9p\u00e9snyit.",
+          "name": "[AI_TRANSLATION]moveUp",
+          "shortDescription": "[AI_TRANSLATION]r\u00f6viden mozg\u00e1sr\u00f3l\ntada"
+        },
+        "sk": {
+          "name": "cho\u010fHore",
+          "description": "Hrdina so pohne k\u00fasok hore (na sever).",
+          "shortDescription": null
+        },
+        "pt-BR": {
+          "name": "moveCima",
+          "description": "Move o #{spriteName} para cima (norte).",
+          "shortDescription": null
+        },
+        "pt-PT": {
+          "name": "moverCima",
+          "description": "Move o #{spriteName} para cima (norte) um pouco.",
+          "shortDescription": "[AI_TRANSLATION]breve sobre mover\ntada"
+        },
+        "zh-HANT": {
+          "name": "\u5411\u4e0a\u79fb\u52d5",
+          "description": "\u4f7f#{spriteName}\u5411\u4e0a\uff08\u5317\uff09\u79fb\u52d5\u4e00\u9ede\u3002",
+          "shortDescription": null
+        },
+        "es-ES": {
+          "description": "Mueve a #{spriteName} hacia arriba (norte) un poco.",
+          "name": null,
+          "shortDescription": null
+        },
+        "de-DE": {
+          "description": "Bewegt #{spriteName} ein St\u00fcckchen nach oben (Nord).",
+          "name": "bewegenHoch",
+          "shortDescription": "[AI_TRANSLATION]Kurz \u00fcber Bewegung\ntada"
+        },
+        "lt": {
+          "description": "   #{spriteName} eina truput\u012f \u012f vir\u0161\u0173 (\u0160iaur\u0119).",
+          "name": null,
+          "shortDescription": null
+        },
+        "nb": {
+          "description": "Flytter #{spriteName} litt oppover (nord).",
+          "name": null,
+          "shortDescription": null
+        },
+        "fr": {
+          "name": "d\u00e9placerHaut",
+          "description": "D\u00e9place le #{spriteName} l\u00e9g\u00e8rement vers le haut (Nord).",
+          "shortDescription": null
+        },
+        "gl": {
+          "description": "Move un pouco o #{spriteName} cara arriba (norte).",
+          "name": null,
+          "shortDescription": null
+        },
+        "nn": {
+          "description": "Flyttar #{spriteName} litt oppover (nord).",
+          "name": null,
+          "shortDescription": null
+        },
+        "es-419": {
+          "description": "Mueve un paso el #{spriteName} arriba (norte).",
+          "name": "moverArriba",
+          "shortDescription": null
+        },
+        "zh-HANS": {
+          "description": "\u4f7f#{spriteName}\u5411\u4e0a\uff08\u5317\uff09\u79fb\u52a8\u3002",
+          "name": "\u5411\u4e0a\u79fb\u52a8",
+          "shortDescription": "[AI_TRANSLATION]\u7b80\u77ed\u7684\u5173\u4e8e\u79fb\u52a8\ntada"
+        },
+        "ru": {
+          "description": "\u041f\u0435\u0440\u0435\u0434\u0432\u0438\u0433\u0430\u0435\u0442 #{spriteName} \u0432\u0432\u0435\u0440\u0445 (\u0441\u0435\u0432\u0435\u0440).",
+          "name": "moveUp",
+          "shortDescription": null
+        },
+        "cs": {
+          "description": "P\u0159esune #{spriteName} m\u00edrn\u011b nahoru (severn\u011b).",
+          "name": "[AI_TRANSLATION]moveUp",
+          "shortDescription": "[AI_TRANSLATION]kr\u00e1tce o pohybu\ntada"
+        },
+        "tr": {
+          "name": "Yukar\u0131HareketEt",
+          "description": "Bu #{spriteName} yukar\u0131 (kuzey) biraz hareket eder.",
+          "shortDescription": null
+        },
+        "-": {
+          "-": "-"
+        },
+        "bg": {
+          "name": "moveUp",
+          "description": "\u041f\u0440\u0438\u0434\u0432\u0438\u0436\u0432\u0430 #{spriteName} \u043c\u0430\u043b\u043a\u043e \u043d\u0430\u0433\u043e\u0440\u0435 (\u043d\u0430 \u0441\u0435\u0432\u0435\u0440).",
+          "shortDescription": null
+        },
+        "zh-WUU-HANS": {
+          "name": "\u5411\u4e0a\u79fb\u52a8",
+          "description": "\u4f7f#{spriteName}\u5411\u4e0a\uff08\u5317\uff09\u79fb\u52a8\u4e00\u70b9\u3002",
+          "shortDescription": null
+        },
+        "th": {
+          "name": "\u0e44\u0e1b\u0e14\u0e49\u0e32\u0e19\u0e1a\u0e19",
+          "description": "\u0e02\u0e22\u0e31\u0e1a #{\u0e0a\u0e37\u0e48\u0e2d\u0e15\u0e31\u0e27\u0e25\u0e30\u0e04\u0e23} \u0e02\u0e36\u0e49\u0e19\u0e02\u0e49\u0e32\u0e07\u0e1a\u0e19(\u0e17\u0e34\u0e28\u0e40\u0e2b\u0e19\u0e37\u0e2d)\u0e19\u0e34\u0e14\u0e2b\u0e19\u0e48\u0e2d\u0e22",
+          "shortDescription": "\u0e2a\u0e31\u0e49\u0e19\u0e46\u0e19\u0e30 \u0e40\u0e23\u0e37\u0e48\u0e2d\u0e07\u0e01\u0e32\u0e23\u0e40\u0e04\u0e25\u0e37\u0e48\u0e2d\u0e19\u0e17\u0e35\u0e48\n\u0e41\u0e17\u0e48\u0e19 \u0e41\u0e17\u0e4a\u0e19\u0e19"
+        },
+        "ar": {
+          "name": "[AI_TRANSLATION]moveUp",
+          "shortDescription": "[AI_TRANSLATION]\u0642\u0635\u064a\u0631 \u0639\u0646 \u0627\u0644\u062d\u0631\u0643\u0629\n\u062a\u0627\u062f\u0627",
+          "description": "[AI_TRANSLATION]\u064a\u062d\u0631\u0643 \u0627\u0644\u0640 #{spriteName} \u0644\u0644\u0623\u0639\u0644\u0649 (\u0634\u0645\u0627\u0644\u0627\u064b) \u0642\u0644\u064a\u0644\u0627\u064b.\n"
+        },
+        "ko": {
+          "name": "[AI_TRANSLATION]\uc62c\ub77c\uac00\uae30",
+          "shortDescription": "[AI_TRANSLATION]\uc57d\uac04 \uc6c0\uc9c1\uc5ec\uc918\n\ud0c0\ub2e4",
+          "description": "[AI_TRANSLATION]#{spriteName}\uc744 \uc704\ucabd(\ubd81\ucabd)\uc73c\ub85c \uc870\uae08 \uc774\ub3d9\uc2dc\ucf1c\ub77c."
+        },
+        "id": {
+          "name": "[AI_TRANSLATION]moveUp",
+          "shortDescription": "[AI_TRANSLATION]pendek tentang move\ntada",
+          "description": "[AI_TRANSLATION]Menggerakkan #{spriteName} sedikit ke atas (utara)."
+        },
+        "hi": {
+          "name": "[AI_TRANSLATION]moveUp (\u090a\u092a\u0930 \u091c\u093e\u0913)",
+          "shortDescription": "[AI_TRANSLATION]\u091b\u094b\u091f\u0947 \u092e\u0942\u0935 \u0915\u0947 \u092c\u093e\u0930\u0947 \u092e\u0947\u0902 \n\u0924\u0926\u093e",
+          "description": "[AI_TRANSLATION]#{spriteName} \u0915\u094b \u0925\u094b\u0921\u093c\u093e \u0909\u092a\u0930 (\u0909\u0924\u094d\u0924\u0930) \u0915\u0940 \u0913\u0930 \u0932\u0947 \u091c\u093e\u090f\u0964"
+        },
+        "nl": {
+          "name": "[AI_TRANSLATION]moveUp",
+          "shortDescription": "[AI_TRANSLATION]kort over move\ntada",
+          "description": "[AI_TRANSLATION]Beweegt de #{spriteName} een beetje omhoog (noord)."
+        },
+        "ur": {
+          "name": "[AI_TRANSLATION]\u0627\u0648\u067e\u0631 \u062c\u0627\u0624",
+          "shortDescription": "[AI_TRANSLATION]\u062a\u06be\u0648\u0691\u0627 \u062d\u0631\u06a9\u062a \u06a9\u0631\u0648\n\u062a\u0627\u062f\u0627",
+          "description": "[AI_TRANSLATION]#{spriteName} \u06a9\u0648 \u062a\u06be\u0648\u0691\u0627 \u0633\u0627 \u0627\u0648\u067e\u0631 (\u0634\u0645\u0627\u0644) \u06a9\u06cc \u0637\u0631\u0641 \u062d\u0631\u06a9\u062a \u062f\u06cc\u06ba\u06d4\n"
+        }
+      },
+      "snippets": {
+        "lua": {
+          "tab": "moveUp",
+          "code": "hero:moveUp()"
+        },
+        "coffeescript": {
+          "tab": "moveUp",
+          "code": "hero.moveUp()"
+        },
+        "python": {
+          "tab": "moveUp",
+          "code": "hero.moveUp()"
+        },
+        "javascript": {
+          "tab": "moveUp",
+          "code": "hero.moveUp()"
+        }
+      },
+      "description": "Moves the #{spriteName} up (north) a bit.",
+      "type": "function",
+      "name": "moveUp",
+      "args": [
+        {
+          "name": "steps",
+          "type": "number",
+          "example": "2",
+          "description": "How many steps to move (default 1 step, 12 meters).",
+          "default": 1,
+          "i18n": {
+            "zh-HANS": {
+              "description": "[AI_TRANSLATION]\u79fb\u52a8\u51e0\u6b65\uff08\u9ed8\u8ba4\u4e3a1\u6b65\uff0c12\u7c73\uff09\u3002"
+            },
+            "ru": {
+              "description": "[AI_TRANSLATION]\u0421\u043a\u043e\u043b\u044c\u043a\u043e \u0448\u0430\u0433\u043e\u0432 \u043d\u0443\u0436\u043d\u043e \u043f\u0440\u043e\u0439\u0442\u0438 (\u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e 1 \u0448\u0430\u0433, 12 \u043c\u0435\u0442\u0440\u043e\u0432)."
+            },
+            "zh-HANT": {
+              "description": "[AI_TRANSLATION]\u6b65\u6578\u8d70\u5e7e\u6b65\uff08\u9ed8\u8a8d\u70ba1\u6b65\uff0c12\u7c73\uff09\u3002"
+            },
+            "es-ES": {
+              "description": "[AI_TRANSLATION]Cu\u00e1ntos pasos moverse (predeterminado 1 paso, 12 metros)."
+            },
+            "fr": {
+              "description": "[AI_TRANSLATION]Combien de pas se d\u00e9placer (par d\u00e9faut 1 pas, 12 m\u00e8tres)."
+            },
+            "pt-PT": {
+              "description": "[AI_TRANSLATION]Quantos passos mover (padr\u00e3o 1 passo, 12 metros)."
+            },
+            "vi": {
+              "description": "[AI_TRANSLATION]Bao nhi\u00eau b\u01b0\u1edbc \u0111\u1ec3 di chuy\u1ec3n (m\u1eb7c \u0111\u1ecbnh 1 b\u01b0\u1edbc, 12 m\u00e9t)."
+            },
+            "ar": {
+              "description": "[AI_TRANSLATION]\u0643\u0645 \u0639\u062f\u062f \u0627\u0644\u062e\u0637\u0648\u0627\u062a \u0644\u0644\u0627\u0646\u062a\u0642\u0627\u0644 (\u0627\u0644\u0627\u0641\u062a\u0631\u0627\u0636\u064a \u062e\u0637\u0648\u0629 \u0648\u0627\u062d\u062f\u0629\u060c 12 \u0645\u062a\u0631)."
+            },
+            "cs": {
+              "description": "[AI_TRANSLATION]Kolik krok\u016f se m\u00e1 h\u00fdbat (z\u00e1kladn\u00ed 1 krok, 12 metr\u016f)."
+            },
+            "de-DE": {
+              "description": "[AI_TRANSLATION]Wie viele Schritte bewegt werden sollen (Standard 1 Schritt, 12 Meter)."
+            },
+            "ko": {
+              "description": "[AI_TRANSLATION]\uba87 \uac78\uc74c\uc744 \uc6c0\uc9c1\uc77c\uc9c0 (\uae30\ubcf8 1\uac78\uc74c, 12\ubbf8\ud130)."
+            },
+            "hu": {
+              "description": "[AI_TRANSLATION]H\u00e1ny l\u00e9p\u00e9st tegy\u00e9l meg (alap\u00e9rtelmezett 1 l\u00e9p\u00e9s, 12 m\u00e9ter)."
+            },
+            "id": {
+              "description": "[AI_TRANSLATION]Berapa langkah untuk bergerak (default 1 langkah, 12 meter)."
+            },
+            "it": {
+              "description": "[AI_TRANSLATION]Quanti passi spostarsi (di default 1 passo, 12 metri)."
+            },
+            "hi": {
+              "description": "[AI_TRANSLATION]\u0915\u093f\u0924\u0928\u0947 \u0915\u0926\u092e \u091a\u0932\u0928\u093e \u0939\u0948 (\u0921\u093f\u092b\u093c\u0949\u0932\u094d\u091f 1 \u0915\u0926\u092e, 12 \u092e\u0940\u091f\u0930)\u0964"
+            },
+            "nl": {
+              "description": "[AI_TRANSLATION]Hoeveel stappen om te bewegen (standaard 1 stap, 12 meter)."
+            },
+            "th": {
+              "description": "[AI_TRANSLATION]\u0e08\u0e30\u0e22\u0e49\u0e32\u0e22\u0e01\u0e35\u0e48\u0e01\u0e49\u0e32\u0e27 (\u0e04\u0e48\u0e32\u0e40\u0e23\u0e34\u0e48\u0e21\u0e15\u0e49\u0e19 1 \u0e01\u0e49\u0e32\u0e27, 12 \u0e40\u0e21\u0e15\u0e23)"
+            },
+            "ur": {
+              "description": "[AI_TRANSLATION]\u06a9\u062a\u0646\u06d2 \u0642\u062f\u0645 \u0686\u0644\u0646\u06d2 \u06c1\u06cc\u06ba (\u067e\u06c1\u0644\u06d2 \u0633\u06d2 \u0637\u06d2 \u0634\u062f\u06c1 1 \u0642\u062f\u0645\u060c 12 \u0645\u06cc\u0679\u0631)\u06d4"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "autoCompletePriority": 15,
+      "i18n": {
+        "vi": {
+          "description": "\u0110i\u1ec1u khi\u1ec3n #{spriteName} \u0111i sang ph\u1ea3i m\u1ed9t ch\u00fat.",
+          "name": "[AI_TRANSLATION]moveRight"
+        },
+        "zh-WUU-HANT": {
+          "description": "\u4f7f#{spriteName}\u5411\u53f3\uff08\u6771\uff09\u79fb\u52d5\u4e00\u9ede\u3002",
+          "name": "\u5411\u53f3\u79fb\u52d5"
+        },
+        "fi": {
+          "description": "Liikuttaa hahmoa oikealle (it\u00e4\u00e4n).",
+          "name": null
+        },
+        "nl-NL": {
+          "name": "moveRight",
+          "description": "Verplaatst de #{spriteName} een beetje naar **rechts**."
+        },
+        "ca": {
+          "description": "Mou un pas el #{spriteName} a la dreta (est). ",
+          "name": null
+        },
+        "el": {
+          "description": "\u039a\u03b9\u03bd\u03b5\u03af \u03c4\u03bf\u03bd #{spriteName}, \u03ba\u03ac\u03c0\u03bf\u03b9\u03b1 \u03b2\u03ae\u03bc\u03b1\u03c4\u03b1 \u03b4\u03b5\u03be\u03b9\u03ac (\u03b1\u03bd\u03b1\u03c4\u03bf\u03bb\u03b9\u03ba\u03ac).",
+          "name": "\u03ba\u03af\u03bd\u03b7\u03c3\u03b7 \u03c0\u03c1\u03bf\u03c2 \u03c4\u03b1 \u03b4\u03b5\u03be\u03b9\u03ac"
+        },
+        "da": {
+          "description": "Flytter #{spriteName} et stykke til h\u00f8jre (\u00f8st).",
+          "name": null
+        },
+        "sv": {
+          "description": "Flyttar #{spriteName} h\u00f6ger (\u00f6sterut) en bit.",
+          "name": "flyttaH\u00f6ger"
+        },
+        "pl": {
+          "description": "Przemieszcza #{spriteName} o krok w prawo (na wsch\u00f3d).",
+          "name": null
+        },
+        "uk": {
+          "description": "\u0420\u0443\u0445\u0430\u0454 #{spriteName} \u043d\u0430 \u043d\u0435\u0432\u0435\u043b\u0438\u043a\u0443 \u0432\u0456\u0434\u0441\u0442\u0430\u043d\u044c \u043f\u0440\u0430\u0432\u043e\u0440\u0443\u0447 (\u043d\u0430 \u0441\u0445\u0456\u0434).",
+          "name": null
+        },
+        "ja": {
+          "name": "moveRight",
+          "description": "#{spriteName}\u304c\u53f3\uff08\u6771\uff09\u306b\u3061\u3087\u3063\u3068\u6b69\u304f\u3002"
+        },
+        "it": {
+          "description": "Muovi #{spriteName} un po' a destra (verso est).",
+          "name": "spostatiADestra"
+        },
+        "hu": {
+          "description": "Jobbra (keletre) mozgatja a h\u0151s\u00f6det egy l\u00e9p\u00e9snyit.",
+          "name": "[AI_TRANSLATION]moveRight"
+        },
+        "sk": {
+          "name": "cho\u010fVpravo",
+          "description": "Hrdina so pohne k\u00fasok vpravo (na v\u00fdchod)."
+        },
+        "pt-BR": {
+          "name": "moveDireita",
+          "description": "Move o #{spriteName} para direita (leste)."
+        },
+        "pt-PT": {
+          "name": "moverDireita",
+          "description": "Move o #{spriteName} para a direita (este) um pouco."
+        },
+        "zh-HANT": {
+          "name": "\u5411\u53f3\u79fb\u52d5",
+          "description": "\u4f7f#{spriteName}\u5411\u53f3\uff08\u6771\uff09\u79fb\u52d5\u4e00\u9ede\u3002"
+        },
+        "es-ES": {
+          "description": "Mueve a #{spriteName} hacia la derecha (este) un poco.",
+          "name": null
+        },
+        "de-DE": {
+          "description": "Bewegt #{spriteName} ein St\u00fcckchen nach rechts (Ost).",
+          "name": "bewegenRechts"
+        },
+        "lt": {
+          "description": "   #{spriteName} eina truput\u012f \u012f de\u0161in\u0119 (Rytus).",
+          "name": null
+        },
+        "nb": {
+          "description": "Flytter #{spriteName} litt mot h\u00f8yre (\u00f8st).",
+          "name": null
+        },
+        "fr": {
+          "name": "d\u00e9placerDroite",
+          "description": "D\u00e9place le #{spriteName} l\u00e9g\u00e8rement vers la droite (Est)."
+        },
+        "gl": {
+          "description": "Move un pouco o #{spriteName} cara a dereita (este).",
+          "name": null
+        },
+        "nn": {
+          "description": "Flyttar #{spriteName} litt mot h\u00f8gre (aust).",
+          "name": null
+        },
+        "es-419": {
+          "description": "Mueve un paso el #{spriteName} a la derecha (este).",
+          "name": "moverDerecha"
+        },
+        "zh-HANS": {
+          "description": "\u4f7f#{spriteName}\u5411\u53f3\uff08\u4e1c\uff09\u79fb\u52a8\u3002",
+          "name": "\u5411\u53f3\u79fb\u52a8"
+        },
+        "ru": {
+          "description": "\u041f\u0435\u0440\u0435\u0434\u0432\u0438\u0433\u0430\u0435\u0442 #{spriteName} \u0432\u043f\u0440\u0430\u0432\u043e (\u0432\u043e\u0441\u0442\u043e\u043a).",
+          "name": "moveRight"
+        },
+        "cs": {
+          "description": "P\u0159esune #{spriteName} m\u00edrn\u011b doprava (v\u00fdchodn\u011b).",
+          "name": "[AI_TRANSLATION]moveRight"
+        },
+        "tr": {
+          "name": "Sa\u011faHareketEt",
+          "description": "Bu #{spriteName} sa\u011fa (do\u011fu) biraz hareket eder."
+        },
+        "-": {
+          "-": "-"
+        },
+        "bg": {
+          "description": "\u041f\u0440\u0438\u0434\u0432\u0438\u0436\u0432\u0430 #{spriteName} \u043c\u0430\u043b\u043a\u043e \u043d\u0430\u0434\u044f\u0441\u043d\u043e (\u043d\u0430 \u0438\u0437\u0442\u043e\u043a).",
+          "name": "moveRight"
+        },
+        "zh-WUU-HANS": {
+          "name": "\u5411\u53f3\u79fb\u52a8",
+          "description": "\u4f7f#{spriteName}\u5411\u53f3\uff08\u4e1c\uff09\u79fb\u52a8\u4e00\u70b9\u3002"
+        },
+        "he": {
+          "description": "\u05de\u05d6\u05d9\u05d6 \u05d0\u05ea \u05d4-#{spriteName} \u05e7\u05e6\u05ea \u05d9\u05de\u05d9\u05e0\u05d4 (\u05de\u05d6\u05e8\u05d7\u05d4).",
+          "name": null
+        },
+        "th": {
+          "name": "\u0e44\u0e1b\u0e17\u0e32\u0e07\u0e02\u0e27\u0e32",
+          "description": "\u0e02\u0e22\u0e31\u0e1a #{\u0e0a\u0e37\u0e48\u0e2d\u0e15\u0e31\u0e27\u0e25\u0e30\u0e04\u0e23} \u0e44\u0e1b\u0e17\u0e32\u0e07\u0e02\u0e27\u0e32(\u0e17\u0e34\u0e28\u0e15\u0e30\u0e27\u0e31\u0e19\u0e2d\u0e2d\u0e01)\u0e19\u0e34\u0e14\u0e2b\u0e19\u0e48\u0e2d\u0e22"
+        },
+        "ar": {
+          "name": "[AI_TRANSLATION]moveRight",
+          "description": "[AI_TRANSLATION]\u064a\u062d\u0631\u0643 \u0627\u0644\u0640 #{spriteName} \u0625\u0644\u0649 \u0627\u0644\u064a\u0645\u064a\u0646 (\u0627\u0644\u0634\u0631\u0642) \u0642\u0644\u064a\u0644\u0627\u064b."
+        },
+        "ko": {
+          "name": "[AI_TRANSLATION]moveRight",
+          "description": "[AI_TRANSLATION]#{spriteName}\ub97c \uc624\ub978\ucabd (\ub3d9\ucabd)\uc73c\ub85c \uc870\uae08 \uc774\ub3d9\ud574."
+        },
+        "id": {
+          "name": "[AI_TRANSLATION]moveRight",
+          "description": "[AI_TRANSLATION]Memindahkan #{spriteName} ke kanan (timur) sedikit."
+        },
+        "hi": {
+          "name": "[AI_TRANSLATION]moveRight",
+          "description": "[AI_TRANSLATION]#{spriteName} \u0915\u094b \u0925\u094b\u0921\u093c\u093e \u0926\u093e\u090f\u0901 (\u092a\u0942\u0930\u094d\u0935) \u0915\u0940 \u0913\u0930 \u091a\u0932\u093e\u0924\u093e \u0939\u0948\u0964"
+        },
+        "nl": {
+          "name": "[AI_TRANSLATION]moveRight",
+          "description": "[AI_TRANSLATION]Verplaatst de #{spriteName} een beetje naar rechts (oosten)."
+        },
+        "ur": {
+          "name": "[AI_TRANSLATION]moveRight",
+          "description": "[AI_TRANSLATION]#{spriteName} \u06a9\u0648 \u062a\u06be\u0648\u0691\u0627 \u0633\u0627 \u062f\u0627\u0626\u06cc\u06ba (\u0645\u0634\u0631\u0642) \u06a9\u06cc \u0637\u0631\u0641 \u0645\u0648\u0648 \u06a9\u0631\u0648\u06d4"
+        }
+      },
+      "snippets": {
+        "lua": {
+          "tab": "moveRight",
+          "code": "hero:moveRight()"
+        },
+        "coffeescript": {
+          "tab": "moveRight",
+          "code": "hero.moveRight()"
+        },
+        "python": {
+          "tab": "moveRight",
+          "code": "hero.moveRight()"
+        },
+        "javascript": {
+          "tab": "moveRight",
+          "code": "hero.moveRight()"
+        }
+      },
+      "description": "Moves the #{spriteName} right (east) a bit.",
+      "type": "function",
+      "name": "moveRight",
+      "args": [
+        {
+          "name": "steps",
+          "type": "number",
+          "example": "2",
+          "description": "How many steps to move (default 1 step, 12 meters).",
+          "default": 1,
+          "i18n": {
+            "zh-HANS": {
+              "description": "[AI_TRANSLATION]\u79fb\u52a8\u51e0\u6b65\uff08\u9ed8\u8ba4\u4e3a1\u6b65\uff0c12\u7c73\uff09\u3002"
+            },
+            "ru": {
+              "description": "[AI_TRANSLATION]\u0421\u043a\u043e\u043b\u044c\u043a\u043e \u0448\u0430\u0433\u043e\u0432 \u043d\u0443\u0436\u043d\u043e \u043f\u0440\u043e\u0439\u0442\u0438 (\u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e 1 \u0448\u0430\u0433, 12 \u043c\u0435\u0442\u0440\u043e\u0432)."
+            },
+            "zh-HANT": {
+              "description": "[AI_TRANSLATION]\u6b65\u6578\u8d70\u5e7e\u6b65\uff08\u9ed8\u8a8d\u70ba1\u6b65\uff0c12\u7c73\uff09\u3002"
+            },
+            "es-ES": {
+              "description": "[AI_TRANSLATION]Cu\u00e1ntos pasos moverse (predeterminado 1 paso, 12 metros)."
+            },
+            "fr": {
+              "description": "[AI_TRANSLATION]Combien de pas se d\u00e9placer (par d\u00e9faut 1 pas, 12 m\u00e8tres)."
+            },
+            "pt-PT": {
+              "description": "[AI_TRANSLATION]Quantos passos mover (padr\u00e3o 1 passo, 12 metros)."
+            },
+            "vi": {
+              "description": "[AI_TRANSLATION]Bao nhi\u00eau b\u01b0\u1edbc \u0111\u1ec3 di chuy\u1ec3n (m\u1eb7c \u0111\u1ecbnh 1 b\u01b0\u1edbc, 12 m\u00e9t)."
+            },
+            "ar": {
+              "description": "[AI_TRANSLATION]\u0643\u0645 \u0639\u062f\u062f \u0627\u0644\u062e\u0637\u0648\u0627\u062a \u0644\u0644\u0627\u0646\u062a\u0642\u0627\u0644 (\u0627\u0644\u0627\u0641\u062a\u0631\u0627\u0636\u064a \u062e\u0637\u0648\u0629 \u0648\u0627\u062d\u062f\u0629\u060c 12 \u0645\u062a\u0631)."
+            },
+            "cs": {
+              "description": "[AI_TRANSLATION]Kolik krok\u016f se m\u00e1 h\u00fdbat (z\u00e1kladn\u00ed 1 krok, 12 metr\u016f)."
+            },
+            "de-DE": {
+              "description": "[AI_TRANSLATION]Wie viele Schritte bewegt werden sollen (Standard 1 Schritt, 12 Meter)."
+            },
+            "ko": {
+              "description": "[AI_TRANSLATION]\uba87 \uac78\uc74c\uc744 \uc6c0\uc9c1\uc77c\uc9c0 (\uae30\ubcf8 1\uac78\uc74c, 12\ubbf8\ud130)."
+            },
+            "hu": {
+              "description": "[AI_TRANSLATION]H\u00e1ny l\u00e9p\u00e9st tegy\u00e9l meg (alap\u00e9rtelmezett 1 l\u00e9p\u00e9s, 12 m\u00e9ter)."
+            },
+            "id": {
+              "description": "[AI_TRANSLATION]Berapa langkah untuk bergerak (default 1 langkah, 12 meter)."
+            },
+            "it": {
+              "description": "[AI_TRANSLATION]Quanti passi spostarsi (di default 1 passo, 12 metri)."
+            },
+            "hi": {
+              "description": "[AI_TRANSLATION]\u0915\u093f\u0924\u0928\u0947 \u0915\u0926\u092e \u091a\u0932\u0928\u093e \u0939\u0948 (\u0921\u093f\u092b\u093c\u0949\u0932\u094d\u091f 1 \u0915\u0926\u092e, 12 \u092e\u0940\u091f\u0930)\u0964"
+            },
+            "nl": {
+              "description": "[AI_TRANSLATION]Hoeveel stappen om te bewegen (standaard 1 stap, 12 meter)."
+            },
+            "th": {
+              "description": "[AI_TRANSLATION]\u0e08\u0e30\u0e22\u0e49\u0e32\u0e22\u0e01\u0e35\u0e48\u0e01\u0e49\u0e32\u0e27 (\u0e04\u0e48\u0e32\u0e40\u0e23\u0e34\u0e48\u0e21\u0e15\u0e49\u0e19 1 \u0e01\u0e49\u0e32\u0e27, 12 \u0e40\u0e21\u0e15\u0e23)"
+            },
+            "ur": {
+              "description": "[AI_TRANSLATION]\u06a9\u062a\u0646\u06d2 \u0642\u062f\u0645 \u0686\u0644\u0646\u06d2 \u06c1\u06cc\u06ba (\u067e\u06c1\u0644\u06d2 \u0633\u06d2 \u0637\u06d2 \u0634\u062f\u06c1 1 \u0642\u062f\u0645\u060c 12 \u0645\u06cc\u0679\u0631)\u06d4"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "autoCompletePriority": 15,
+      "i18n": {
+        "vi": {
+          "description": "\u0110i\u1ec1u khi\u1ec3n #{spriteName} \u0111i xu\u1ed1ng d\u01b0\u1edbi m\u1ed9t ch\u00fat.",
+          "name": "[AI_TRANSLATION]moveDown"
+        },
+        "zh-WUU-HANT": {
+          "description": "\u4f7f#{spriteName}\u5411\u4e0b\uff08\u5357\uff09\u79fb\u52d5\u4e00\u9ede\u3002",
+          "name": "\u5411\u4e0b\u79fb\u52d5"
+        },
+        "fi": {
+          "description": "Liikuttaa hahmoa alas (etel\u00e4\u00e4n).",
+          "name": null
+        },
+        "nl-NL": {
+          "name": "moveDown",
+          "description": "Verplaatst de #{spriteName} een beetje naar **beneden**."
+        },
+        "ca": {
+          "description": "Mou un pas el #{spriteName} abaix (sur).",
+          "name": null
+        },
+        "el": {
+          "description": "\u039a\u03b9\u03bd\u03b5\u03af \u03c4\u03bf\u03bd #{spriteName}, \u03ba\u03ac\u03c0\u03bf\u03b9\u03b1 \u03b2\u03ae\u03bc\u03b1\u03c4\u03b1 \u03ba\u03ac\u03c4\u03c9 (\u03bd\u03cc\u03c4\u03b9\u03b1).",
+          "name": "\u03ba\u03af\u03bd\u03b7\u03c3\u03b7 \u03c0\u03c1\u03bf\u03c2 \u03c4\u03b1 \u03ba\u03ac\u03c4\u03c9"
+        },
+        "da": {
+          "description": "Flytter #{spriteName} et stykke ned (syd).",
+          "name": null
+        },
+        "sv": {
+          "description": "Flyttar #{spriteName} ner (s\u00f6derut) en bit.",
+          "name": "flyttaNer"
+        },
+        "pl": {
+          "description": "Przemieszcza #{spriteName} o krok w d\u00f3\u0142 (na po\u0142udnie).",
+          "name": null
+        },
+        "uk": {
+          "description": "\u0420\u0443\u0445\u0430\u0454 #{spriteName} \u043d\u0430 \u043d\u0435\u0432\u0435\u043b\u0438\u043a\u0443 \u0432\u0456\u0434\u0441\u0442\u0430\u043d\u044c \u0434\u043e\u043d\u0438\u0437\u0443 (\u043d\u0430 \u043f\u0456\u0432\u0434\u0435\u043d\u044c).",
+          "name": null
+        },
+        "ja": {
+          "name": "moveDown",
+          "description": "#{spriteName}\u304c\u4e0b\uff08\u5357\uff09\u306b\u3061\u3087\u3063\u3068\u6b69\u304f\u3002"
+        },
+        "it": {
+          "description": "Muovi #{spriteName} un po' in basso (verso sud).",
+          "name": "spostatiGi\u00f9"
+        },
+        "hu": {
+          "description": "Lefel\u00e9 (d\u00e9lre) mozgatja a h\u0151s\u00f6det egy l\u00e9p\u00e9snyit.",
+          "name": "[AI_TRANSLATION]moveDown"
+        },
+        "sk": {
+          "name": "cho\u010fDolu",
+          "description": "Hrdina so pohne k\u00fasok dolu (na juh)."
+        },
+        "pt-BR": {
+          "name": "moveBaixo",
+          "description": "Move o #{spriteName} para baixo (sul)."
+        },
+        "pt-PT": {
+          "name": "[AI_TRANSLATION]moveDown",
+          "description": "Move o #{spriteName} para baixo (sul) um pouco."
+        },
+        "zh-HANT": {
+          "name": "\u5411\u4e0b\u79fb\u52d5",
+          "description": "\u4f7f#{spriteName}\u5411\u4e0b\uff08\u5357\uff09\u79fb\u52d5\u4e00\u9ede\u3002"
+        },
+        "es-ES": {
+          "description": "Mueve a #{spriteName} hacia abajo (sur) un poco.",
+          "name": null
+        },
+        "de-DE": {
+          "description": "Bewegt #{spriteName} ein St\u00fcckchen nach unten (S\u00fcd).",
+          "name": "bewegenUnten"
+        },
+        "lt": {
+          "description": "   #{spriteName} eina truput\u012f \u017eemyn (\u012f Pietus).",
+          "name": null
+        },
+        "nb": {
+          "description": "Flytter #{spriteName} litt nedover (s\u00f8r).",
+          "name": null
+        },
+        "fr": {
+          "name": "d\u00e9placerBas",
+          "description": "D\u00e9place le #{spriteName} l\u00e9g\u00e8rement vers le bas (Sud)."
+        },
+        "gl": {
+          "description": "Move un pouco o #{spriteName} cara abaixo (sur).",
+          "name": null
+        },
+        "nn": {
+          "description": "Flyttar #{spriteName} litt nedover (s\u00f8r).",
+          "name": null
+        },
+        "es-419": {
+          "description": "Mueve un paso el #{spriteName} abajo (sur).",
+          "name": "moverAbajo"
+        },
+        "zh-HANS": {
+          "description": "\u4f7f#{spriteName}\u5411\u4e0b\uff08\u5357\uff09\u79fb\u52a8\u3002",
+          "name": "\u5411\u4e0b\u79fb\u52a8"
+        },
+        "ru": {
+          "description": "\u041f\u0435\u0440\u0435\u0434\u0432\u0438\u0433\u0430\u0435\u0442 #{spriteName} \u0432\u043d\u0438\u0437 (\u044e\u0433).",
+          "name": "[AI_TRANSLATION]\u0434\u0432\u0438\u0433\u0430\u0439\u0441\u044f \u0432\u043d\u0438\u0437"
+        },
+        "cs": {
+          "description": "P\u0159esune #{spriteName} m\u00edrn\u011b dolu (ji\u017en\u011b).",
+          "name": "[AI_TRANSLATION]moveDown"
+        },
+        "tr": {
+          "name": "A\u015fa\u011f\u0131HareketEt",
+          "description": "Bu #{spriteName} a\u015fa\u011f\u0131 (g\u00fcney) biraz hareket eder."
+        },
+        "-": {
+          "-": "-"
+        },
+        "bg": {
+          "description": "\u041f\u0440\u0438\u0434\u0432\u0438\u0436\u0432\u0430 #{spriteName} \u043c\u0430\u043b\u043a\u043e \u043d\u0430\u0434\u043e\u043b\u0443 (\u043d\u0430 \u044e\u0433).",
+          "name": "moveDown"
+        },
+        "zh-WUU-HANS": {
+          "name": "\u5411\u4e0b\u79fb\u52a8",
+          "description": "\u4f7f#{spriteName}\u5411\u4e0b\uff08\u5357\uff09\u79fb\u52a8\u4e00\u70b9\u3002"
+        },
+        "he": {
+          "description": "\u05de\u05d6\u05d9\u05d6 \u05d0\u05ea \u05d4-#{spriteName} \u05e7\u05e6\u05ea \u05dc\u05de\u05d8\u05d4 (\u05d3\u05e8\u05d5\u05de\u05d4).",
+          "name": null
+        },
+        "th": {
+          "name": "\u0e44\u0e1b\u0e14\u0e49\u0e32\u0e19\u0e25\u0e48\u0e32\u0e07",
+          "description": "\u0e02\u0e22\u0e31\u0e1a #{\u0e0a\u0e37\u0e48\u0e2d\u0e15\u0e31\u0e27\u0e25\u0e30\u0e04\u0e23} \u0e44\u0e1b\u0e14\u0e49\u0e32\u0e19\u0e25\u0e48\u0e32\u0e07(\u0e17\u0e34\u0e28\u0e43\u0e15\u0e49)\u0e19\u0e34\u0e14\u0e2b\u0e19\u0e48\u0e2d\u0e22"
+        },
+        "ar": {
+          "description": "[AI_TRANSLATION]\u064a\u062d\u0631\u0643 #{spriteName} \u0644\u0644\u0623\u0633\u0641\u0644 (\u0627\u0644\u062c\u0646\u0648\u0628) \u0642\u0644\u064a\u0644\u0627\u064b.",
+          "name": "[AI_TRANSLATION]moveDown"
+        },
+        "ko": {
+          "description": "[AI_TRANSLATION]#{spriteName}\ub97c \uc544\ub798\ub85c(\ub0a8\ucabd\uc73c\ub85c) \uc870\uae08 \uc774\ub3d9\uc2dc\ucf1c.",
+          "name": "[AI_TRANSLATION]moveDown"
+        },
+        "id": {
+          "description": "[AI_TRANSLATION]Memindahkan #{spriteName} sedikit ke bawah (selatan).",
+          "name": "[AI_TRANSLATION]moveDown"
+        },
+        "hi": {
+          "description": "[AI_TRANSLATION]#{spriteName} \u0915\u094b \u0925\u094b\u0921\u093c\u093e \u0928\u0940\u091a\u0947 (\u0926\u0915\u094d\u0937\u093f\u0923) \u0915\u0940 \u0913\u0930 \u0932\u0947 \u091c\u093e\u0924\u093e \u0939\u0948\u0964",
+          "name": "[AI_TRANSLATION]moveDown"
+        },
+        "nl": {
+          "description": "[AI_TRANSLATION]Verplaats #{spriteName} een beetje omlaag (zuid).",
+          "name": "[AI_TRANSLATION]moveDown"
+        },
+        "ur": {
+          "description": "[AI_TRANSLATION]#{spriteName} \u06a9\u0648 \u0646\u06cc\u0686\u06d2 (\u062c\u0646\u0648\u0628) \u062a\u06be\u0648\u0691\u0627 \u0633\u0627 \u062d\u0631\u06a9\u062a \u062f\u06cc\u062a\u0627 \u06c1\u06d2\u06d4",
+          "name": "[AI_TRANSLATION]moveDown"
+        }
+      },
+      "snippets": {
+        "lua": {
+          "tab": "moveDown",
+          "code": "hero:moveDown()"
+        },
+        "coffeescript": {
+          "tab": "moveDown",
+          "code": "hero.moveDown()"
+        },
+        "python": {
+          "tab": "moveDown",
+          "code": "hero.moveDown()"
+        },
+        "javascript": {
+          "tab": "moveDown",
+          "code": "hero.moveDown()"
+        }
+      },
+      "description": "Moves the #{spriteName} down (south) a bit.",
+      "type": "function",
+      "name": "moveDown",
+      "args": [
+        {
+          "name": "steps",
+          "type": "number",
+          "example": "2",
+          "description": "How many steps to move (default 1 step, 12 meters).",
+          "default": 1,
+          "i18n": {
+            "zh-HANS": {
+              "description": "[AI_TRANSLATION]\u79fb\u52a8\u51e0\u6b65\uff08\u9ed8\u8ba4\u4e3a1\u6b65\uff0c12\u7c73\uff09\u3002"
+            },
+            "ru": {
+              "description": "[AI_TRANSLATION]\u0421\u043a\u043e\u043b\u044c\u043a\u043e \u0448\u0430\u0433\u043e\u0432 \u043d\u0443\u0436\u043d\u043e \u043f\u0440\u043e\u0439\u0442\u0438 (\u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e 1 \u0448\u0430\u0433, 12 \u043c\u0435\u0442\u0440\u043e\u0432)."
+            },
+            "zh-HANT": {
+              "description": "[AI_TRANSLATION]\u6b65\u6578\u8d70\u5e7e\u6b65\uff08\u9ed8\u8a8d\u70ba1\u6b65\uff0c12\u7c73\uff09\u3002"
+            },
+            "es-ES": {
+              "description": "[AI_TRANSLATION]Cu\u00e1ntos pasos moverse (predeterminado 1 paso, 12 metros)."
+            },
+            "fr": {
+              "description": "[AI_TRANSLATION]Combien de pas se d\u00e9placer (par d\u00e9faut 1 pas, 12 m\u00e8tres)."
+            },
+            "pt-PT": {
+              "description": "[AI_TRANSLATION]Quantos passos mover (padr\u00e3o 1 passo, 12 metros)."
+            },
+            "vi": {
+              "description": "[AI_TRANSLATION]Bao nhi\u00eau b\u01b0\u1edbc \u0111\u1ec3 di chuy\u1ec3n (m\u1eb7c \u0111\u1ecbnh 1 b\u01b0\u1edbc, 12 m\u00e9t)."
+            },
+            "ar": {
+              "description": "[AI_TRANSLATION]\u0643\u0645 \u0639\u062f\u062f \u0627\u0644\u062e\u0637\u0648\u0627\u062a \u0644\u0644\u0627\u0646\u062a\u0642\u0627\u0644 (\u0627\u0644\u0627\u0641\u062a\u0631\u0627\u0636\u064a \u062e\u0637\u0648\u0629 \u0648\u0627\u062d\u062f\u0629\u060c 12 \u0645\u062a\u0631)."
+            },
+            "cs": {
+              "description": "[AI_TRANSLATION]Kolik krok\u016f se m\u00e1 h\u00fdbat (z\u00e1kladn\u00ed 1 krok, 12 metr\u016f)."
+            },
+            "de-DE": {
+              "description": "[AI_TRANSLATION]Wie viele Schritte bewegt werden sollen (Standard 1 Schritt, 12 Meter)."
+            },
+            "ko": {
+              "description": "[AI_TRANSLATION]\uba87 \uac78\uc74c\uc744 \uc6c0\uc9c1\uc77c\uc9c0 (\uae30\ubcf8 1\uac78\uc74c, 12\ubbf8\ud130)."
+            },
+            "hu": {
+              "description": "[AI_TRANSLATION]H\u00e1ny l\u00e9p\u00e9st tegy\u00e9l meg (alap\u00e9rtelmezett 1 l\u00e9p\u00e9s, 12 m\u00e9ter)."
+            },
+            "id": {
+              "description": "[AI_TRANSLATION]Berapa langkah untuk bergerak (default 1 langkah, 12 meter)."
+            },
+            "it": {
+              "description": "[AI_TRANSLATION]Quanti passi spostarsi (di default 1 passo, 12 metri)."
+            },
+            "hi": {
+              "description": "[AI_TRANSLATION]\u0915\u093f\u0924\u0928\u0947 \u0915\u0926\u092e \u091a\u0932\u0928\u093e \u0939\u0948 (\u0921\u093f\u092b\u093c\u0949\u0932\u094d\u091f 1 \u0915\u0926\u092e, 12 \u092e\u0940\u091f\u0930)\u0964"
+            },
+            "nl": {
+              "description": "[AI_TRANSLATION]Hoeveel stappen om te bewegen (standaard 1 stap, 12 meter)."
+            },
+            "th": {
+              "description": "[AI_TRANSLATION]\u0e08\u0e30\u0e22\u0e49\u0e32\u0e22\u0e01\u0e35\u0e48\u0e01\u0e49\u0e32\u0e27 (\u0e04\u0e48\u0e32\u0e40\u0e23\u0e34\u0e48\u0e21\u0e15\u0e49\u0e19 1 \u0e01\u0e49\u0e32\u0e27, 12 \u0e40\u0e21\u0e15\u0e23)"
+            },
+            "ur": {
+              "description": "[AI_TRANSLATION]\u06a9\u062a\u0646\u06d2 \u0642\u062f\u0645 \u0686\u0644\u0646\u06d2 \u06c1\u06cc\u06ba (\u067e\u06c1\u0644\u06d2 \u0633\u06d2 \u0637\u06d2 \u0634\u062f\u06c1 1 \u0642\u062f\u0645\u060c 12 \u0645\u06cc\u0679\u0631)\u06d4"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "majorVersion": 0,
+      "original": "524b7b8c7fc0f6d519000013"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b85837fc0f6d519000020"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b7b7c7fc0f6d519000011"
+    }
+  ],
+  "code": "{ArgumentError} = require 'lib/world/errors'\r\nVector = require 'lib/world/vector'\r\n\r\nclass MovesSimply extends Component\r\n  @className: 'MovesSimply'\r\n  \r\n  attach: (thang) ->\r\n    super thang\r\n    if movementSystem = thang.world.getSystem('Movement')\r\n      # TODO: the Thang in Surface copy won't have the right stats here\r\n      thang.simpleMoveDistance = movementSystem.simpleMoveDistance\r\n      thang.snapPoints = movementSystem.simpleMoveSnapPoints\r\n      thang.snapThreshold = movementSystem.simpleMoveSnapThreshold\r\n    thang.contextMovesSimply = @getCodeContext?()\r\n    \r\n  stopSimpleMoveOnSnapArrival: ->\r\n    return unless @stopOnSnapArrival\r\n    return unless @targetPos? and @snapPoints?.length\r\n\r\n    for point in @snapPoints\r\n      dx = point.x - @targetPos.x\r\n      dy = point.y - @targetPos.y\r\n\r\n      if dx * dx + dy * dy < 0.000001\r\n        # Place the mouse exactly at its destination.\r\n        @setPosXYZ(@targetPos.x, @targetPos.y)\r\n\r\n        # Remove the momentum that would otherwise cause drifting.\r\n        @velocity = new Vector()\r\n        @keepTrackedProperty('velocity')\r\n        return\r\n\r\n  moveSimply: (xDist, yDist, dirName, numberOfMoves=null) ->\r\n    @movingSince = @world.age\r\n    targetPos = new Vector @pos.x + xDist, @pos.y + yDist\r\n    if @snapPoints?.length and ((xDist and Math.abs(xDist) % @simpleMoveDistance < 0.1) or (yDist and Math.abs(yDist) % @simpleMoveDistance < 0.1))\r\n      nearest = _.min @snapPoints, (p) -> targetPos.distanceSquared p\r\n      if targetPos.distanceSquared(nearest) < Math.pow(@snapThreshold or 2.5, 2)\r\n        #console.log \"Snapping from\", targetPos, \"to\", nearest\r\n        targetPos = new Vector nearest.x, nearest.y\r\n    else if @simpleMoveDistance is 8\r\n      # CodeCombat Junior; we don't define snap points, instead always snapping to nearest 8 (with offset of 2)\r\n      if (targetPos.x + 2) % 8 < 2\r\n        targetPos.x -= (targetPos.x + 2) % 8\r\n      else if (targetPos.x + 2) % 8 > 6\r\n        targetPos.x += 8 - (targetPos.x + 2) % 8\r\n      if (targetPos.y + 2) % 8 < 2\r\n        targetPos.y -= (targetPos.y + 2) % 8\r\n      else if (targetPos.y + 2) % 8 > 2\r\n        targetPos.y += 8 - (targetPos.y + 2) % 8\r\n    if numberOfMoves >= 2\r\n      # We could refactor this to snap each intermediate target dot to a snap point instead of just snapping the last one and evenly subdividing the intermediates.\r\n      for intermediateMove in [1 ... Math.min(10, numberOfMoves)]\r\n        intermediateTarget = @pos.copy().add(targetPos.copy().subtract(@pos).divide(numberOfMoves).multiply(intermediateMove))\r\n        @setTargetPos intermediateTarget\r\n    @setTargetPos targetPos\r\n    @announceAction? dirName\r\n    @setAction \"move\"\r\n    @intent = 'moveSimply'\r\n    @recentDistances = []\r\n    return @block?()\r\n  \r\n  update: ->\r\n    return unless @intent is 'moveSimply'\r\n    # TODO: Refactor to use manageFrustration from moves component\r\n    frustratedMessage = @contextMovesSimply?.cant or \"I can't get there.\"\r\n    dist = @distance(@targetPos ? @)\r\n    @recentDistances.push dist\r\n    if @recentDistances.length is Math.round @world.frameRate\r\n      oldestDist = @recentDistances[0]\r\n      if Math.abs(oldestDist - dist) > 1\r\n        if @currentlySaying?.message is frustratedMessage\r\n          @sayWithoutBlocking \"\"\r\n        # Set @movingSince to the latest time that was 1m further away\r\n        for i in [0...@recentDistances.length]\r\n          recentDist = @recentDistances[@recentDistances.length - i - 1]\r\n          if Math.abs(recentDist - dist) > 1\r\n            @movingSince = @world.age - @world.dt * i\r\n      @recentDistances.shift()  # Maintain one second window\r\n    \r\n    unless @returningSnap\r\n      if @targetPos and @distance(@targetPos) < @moveThreshold\r\n        @stopSimpleMoveOnSnapArrival()\r\n        @setTargetPos null\r\n        @movingSince = null\r\n        @setAction \"idle\"\r\n        @intent = undefined\r\n        return @unblock()\r\n    else\r\n      if @targetPos and @pos.distanceSquared(@targetPos) < @moveThreshold\r\n        @stopSimpleMoveOnSnapArrival()\r\n        @setTargetPos null\r\n        @movingSince = null\r\n        @setAction \"idle\"\r\n        @intent = undefined\r\n        @returningSnap = false\r\n        return @unblock()\r\n\r\n    idleTime = @world.age - @movingSince\r\n    if idleTime > (@moveFrustratedTime ? 3) + (@moveWaitTime ? 2)\r\n      @setTargetPos null\r\n      @movingSince = null\r\n      @setAction \"idle\"\r\n      @intent = undefined\r\n      return @unblock()\r\n    else if Math.abs(idleTime - (@moveWaitTime ? 2)) <= @world.dt\r\n      @sayWithoutBlocking frustratedMessage\r\n\r\n  moveRight: (d, _excess) ->\r\n    if d? and not @allowsSimpleMoveArguments\r\n      throw new ArgumentError \"\", \"moveRight\", \"\", \"\", \"\", 0, \"Don't add #{d}.\"\r\n    if d? and typeof d isnt 'number'\r\n      throw new ArgumentError @contextMovesSimply?.error1, \"moveRight\", \"distance\", \"number\", d\r\n    if _excess?\r\n      throw new ArgumentError \"\", \"moveRight\", \"_excess\", \"\", \"\", 1\r\n    @moveSimply (d ? 1) * @simpleMoveDistance, 0, 'moveRight', d\r\n\r\n  moveLeft: (d, _excess) ->\r\n    if d? and not @allowsSimpleMoveArguments\r\n      throw new ArgumentError \"\", \"moveLeft\", \"\", \"\", \"\", 0, \"Don't add #{d}.\"\r\n    if d? and typeof d isnt 'number'\r\n      throw new ArgumentError @contextMovesSimply?.error1, \"moveLeft\", \"distance\", \"number\", d\r\n    if _excess?\r\n      throw new ArgumentError \"\", \"moveLeft\", \"_excess\", \"\", \"\", 1\r\n    @moveSimply -((d ? 1) * @simpleMoveDistance), 0, 'moveLeft', d\r\n\r\n  moveUp: (d, _excess) ->\r\n    if d? and not @allowsSimpleMoveArguments\r\n      throw new ArgumentError \"\", \"moveUp\", \"\", \"\", \"\", 0, \"Don't add #{d}.\"\r\n    if d? and typeof d isnt 'number'\r\n      throw new ArgumentError @contextMovesSimply?.error1, \"moveUp\", \"distance\", \"number\", d\r\n    if _excess?\r\n      throw new ArgumentError \"\", \"moveUp\", \"_excess\", \"\", \"\", 1\r\n    @moveSimply 0, (d ? 1) * @simpleMoveDistance, 'moveUp', d\r\n\r\n  moveDown: (d, _excess) ->\r\n    if d? and not @allowsSimpleMoveArguments\r\n      throw new ArgumentError \"\", \"moveDown\", \"\", \"\", \"\", 0, \"Don't add #{d}.\"\r\n    if d? and typeof d isnt 'number'\r\n      throw new ArgumentError @contextMovesSimply?.error1, \"moveDown\", \"distance\", \"number\", d\r\n    if _excess?\r\n      throw new ArgumentError \"\", \"moveDown\", \"_excess\", \"\", \"\", 1\r\n    @moveSimply 0, -((d ? 1) * @simpleMoveDistance), 'moveDown', d\r\n\r\n  returnToNearestSnapPoint: ->\r\n    # Set ourselves to move to the nearest snap point, and return true if we are close but not there, and false if we are there or really far away.\r\n    return false unless @snapPoints?.length\r\n    nearest = _.min @snapPoints, (p) => @pos.distanceSquared p\r\n    return false unless @moveThreshold < @pos.distanceSquared(nearest) < 2 * Math.pow(@simpleMoveDistance, 2)\r\n    nearest = new Vector nearest.x, nearest.y\r\n    @setTargetPos nearest, 'returnToNearestSnapPoint'\r\n    @setAction 'move'\r\n    @intent = 'moveSimply'\r\n    @movingSince = @world.age\r\n    @returningSnap = true\r\n    #@multiFrameMove = true\r\n    @recentDistances = []\r\n    return @block?()\r\n",
+  "searchStrings": "moves simply m mo mov move moves movess movessi movessim movessimp",
+  "i18nCoverage": [
+    "vi",
+    "it",
+    "hu",
+    "pt-PT",
+    "de-DE",
+    "zh-HANS",
+    "cs",
+    "th",
+    "ar",
+    "ko",
+    "id",
+    "hi",
+    "nl",
+    "ur"
+  ],
+  "context": {
+    "cant": "I can't get there.",
+    "error1": "Type the number of moves to make (default 1 move, which is #{@simpleMoveDistance}m)."
+  },
+  "i18n": {
+    "de-DE": {
+      "context": {
+        "cant": "Da kann ich nicht hin.",
+        "error1": "[AI_TRANSLATION]Gib die Anzahl der Z\u00fcge ein (Standard 1 Zug, was #{@simpleMoveDistance}m entspricht)."
+      }
+    },
+    "tr": {
+      "context": {
+        "cant": "Oraya gidemiyorum.",
+        "error1": null
+      }
+    },
+    "cs": {
+      "context": {
+        "cant": "[AI_TRANSLATION]Nemohu se tam dostat.",
+        "error1": "Napi\u0161te po\u010det krok\u016f, kter\u00e9 ud\u011blat (v\u00fdchoz\u00ed hodnota je 1 krok, co\u017e je  #{@simpleMoveDistance}m)."
+      }
+    },
+    "zh-HANT": {
+      "context": {
+        "cant": "\u6211\u4e0d\u80fd\u5230\u9054\u90a3\u88e1\u3002",
+        "error1": "\u8f38\u5165\u8981\u9032\u884c\u7684\u79fb\u52d5\u6b21\u6578\uff08\u9ed8\u8a8d\u70ba1\u500b\u79fb\u52d5\uff0c\u5373\uff03{@ simpleMoveDistance} m\uff09\u3002"
+      }
+    },
+    "-": {
+      "-": "-"
+    },
+    "ja": {
+      "context": {
+        "cant": "\u305d\u3053\u306b\u306f\u79fb\u52d5\u3067\u304d\u306a\u3044",
+        "error1": null
+      }
+    },
+    "it": {
+      "context": {
+        "cant": "Non riesco ad arrivarci.",
+        "error1": "Digitare il numero di mosse da effettuare (opzione predefinita 1 mossa, che \u00e8 #{@simpleMoveDistance}m)."
+      }
+    },
+    "th": {
+      "context": {
+        "cant": "\u0e09\u0e31\u0e19\u0e44\u0e1b\u0e15\u0e23\u0e07\u0e19\u0e31\u0e49\u0e19\u0e44\u0e21\u0e48\u0e44\u0e14\u0e49",
+        "error1": "\u0e1e\u0e34\u0e21\u0e1e\u0e4c\u0e15\u0e31\u0e27\u0e40\u0e25\u0e02\u0e02\u0e2d\u0e07\u0e08\u0e33\u0e19\u0e27\u0e19\u0e01\u0e32\u0e23\u0e40\u0e04\u0e25\u0e37\u0e48\u0e2d\u0e19\u0e17\u0e35\u0e48 \u0e17\u0e35\u0e48\u0e15\u0e49\u0e2d\u0e07\u0e01\u0e32\u0e23 (\u0e04\u0e48\u0e32\u0e40\u0e23\u0e34\u0e48\u0e21\u0e15\u0e49\u0e19\u0e04\u0e37\u0e2d 1 \u0e04\u0e23\u0e31\u0e49\u0e07 \u0e0b\u0e36\u0e48\u0e07\u0e21\u0e32\u0e08\u0e32\u0e01 #{@simpleMoveDistance}\u0e40\u0e21\u0e15\u0e23)"
+      }
+    },
+    "ru": {
+      "context": {
+        "error1": "[AI_TRANSLATION]\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0448\u0430\u0433\u043e\u0432, \u043a\u043e\u0442\u043e\u0440\u043e\u0435 \u043d\u0443\u0436\u043d\u043e \u0441\u0434\u0435\u043b\u0430\u0442\u044c (\u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e 1 \u0448\u0430\u0433, \u0447\u0442\u043e \u0441\u043e\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442 #{@simpleMoveDistance}\u043c).",
+        "cant": null
+      }
+    },
+    "es-ES": {
+      "context": {
+        "cant": "[AI_TRANSLATION]No puedo llegar all\u00ed.",
+        "error1": "[AI_TRANSLATION]Escribe el n\u00famero de movimientos a realizar (por defecto 1 movimiento, que es #{@simpleMoveDistance}m)."
+      }
+    },
+    "pt-PT": {
+      "context": {
+        "cant": "[AI_TRANSLATION]N\u00e3o consigo chegar l\u00e1.",
+        "error1": "[AI_TRANSLATION]Escreve o n\u00famero de movimentos a fazer (1 movimento por defeito, que s\u00e3o #{@simpleMoveDistance}m)."
+      }
+    },
+    "zh-HANS": {
+      "context": {
+        "error1": "[AI_TRANSLATION]\u8f93\u5165\u79fb\u52a8\u6b21\u6570\uff08\u9ed8\u8ba41\u6b21\u79fb\u52a8\uff0c\u5373 #{@simpleMoveDistance}\u7c73\uff09\u3002",
+        "cant": null
+      }
+    },
+    "fr": {
+      "context": {
+        "error1": "[AI_TRANSLATION]Tape le nombre de d\u00e9placements \u00e0 effectuer (par d\u00e9faut 1 d\u00e9placement, soit #{@simpleMoveDistance}m).",
+        "cant": null
+      }
+    },
+    "vi": {
+      "context": {
+        "cant": "[AI_TRANSLATION]T\u00f4i kh\u00f4ng th\u1ec3 \u0111\u1ebfn \u0111\u00f3.",
+        "error1": "[AI_TRANSLATION]Nh\u1eadp s\u1ed1 l\u1ea7n di chuy\u1ec3n (m\u1eb7c \u0111\u1ecbnh 1 l\u1ea7n, kho\u1ea3ng c\u00e1ch l\u00e0 #{@simpleMoveDistance}m)."
+      }
+    },
+    "ar": {
+      "context": {
+        "cant": "[AI_TRANSLATION]\u0644\u0627 \u0623\u0633\u062a\u0637\u064a\u0639 \u0627\u0644\u0648\u0635\u0648\u0644 \u0625\u0644\u0649 \u0647\u0646\u0627\u0643.",
+        "error1": "[AI_TRANSLATION]\u0627\u0643\u062a\u0628 \u0639\u062f\u062f \u0627\u0644\u062a\u062d\u0631\u0643\u0627\u062a \u0627\u0644\u062a\u064a \u062a\u0631\u064a\u062f \u0627\u0644\u0642\u064a\u0627\u0645 \u0628\u0647\u0627 (\u0627\u0644\u0627\u0641\u062a\u0631\u0627\u0636\u064a \u062d\u0631\u0643\u0629 \u0648\u0627\u062d\u062f\u0629\u060c \u0648\u0647\u064a #{@simpleMoveDistance}\u0645)."
+      }
+    },
+    "hu": {
+      "context": {
+        "cant": "[AI_TRANSLATION]Nem tudok oda\u00e9rni.",
+        "error1": "[AI_TRANSLATION]\u00cdrd be a l\u00e9p\u00e9sek sz\u00e1m\u00e1t, amit meg akarsz tenni (alap\u00e9rtelmezett 1 l\u00e9p\u00e9s, ami #{@simpleMoveDistance}m)."
+      }
+    },
+    "id": {
+      "context": {
+        "cant": "[AI_TRANSLATION]Aku tidak bisa ke sana.",
+        "error1": "[AI_TRANSLATION]Ketik jumlah gerakan yang akan dilakukan (default 1 gerakan, yaitu #{@simpleMoveDistance}m)."
+      }
+    },
+    "hi": {
+      "context": {
+        "cant": "[AI_TRANSLATION]\u092e\u0948\u0902 \u0935\u0939\u093e\u0901 \u0928\u0939\u0940\u0902 \u091c\u093e \u0938\u0915\u0924\u093e\u0964",
+        "error1": "[AI_TRANSLATION]\u0915\u093f\u0924\u0928\u0947 \u092e\u0942\u0935\u094d\u0938 \u0915\u0930\u0928\u0947 \u0939\u0948\u0902 \u0909\u0938\u0915\u093e \u0938\u0902\u0916\u094d\u092f\u093e \u091f\u093e\u0907\u092a \u0915\u0930\u0947\u0902 (\u0921\u093f\u092b\u093c\u0949\u0932\u094d\u091f 1 \u092e\u0942\u0935 \u0939\u0948, \u091c\u094b #{@simpleMoveDistance} \u092e\u0940\u091f\u0930 \u0939\u0948)\u0964"
+      }
+    },
+    "nl": {
+      "context": {
+        "cant": "[AI_TRANSLATION]Ik kan daar niet komen.",
+        "error1": "[AI_TRANSLATION]Typ het aantal zetten om te maken (standaard 1 zetten, wat #{@simpleMoveDistance}m is)."
+      }
+    },
+    "ur": {
+      "context": {
+        "cant": "[AI_TRANSLATION]\u0645\u06cc\u06ba \u0648\u06c1\u0627\u06ba \u0646\u06c1\u06cc\u06ba \u062c\u0627 \u0633\u06a9\u062a\u0627\u06d4",
+        "error1": "[AI_TRANSLATION]\u0686\u0644\u0646\u06d2 \u06a9\u06d2 \u0644\u0626\u06d2 \u0645\u0648\u0648\u0632 \u06a9\u06cc \u062a\u0639\u062f\u0627\u062f \u0679\u0627\u0626\u067e \u06a9\u0631\u06cc\u06ba (\u067e\u06c1\u0644\u06d2 \u0633\u06d2 \u0637\u06d2 \u0634\u062f\u06c1 1 \u0645\u0648\u0648 \u06c1\u06d2\u060c \u062c\u0648 #{@simpleMoveDistance} \u0645\u06cc\u0679\u0631 \u06c1\u06d2)\u06d4"
+      }
+    },
+    "ko": {
+      "context": {
+        "error1": "[AI_TRANSLATION]\uc774\ub3d9\ud560 \ud69f\uc218\ub97c \uc785\ub825\ud574 (\uae30\ubcf8\uac12\uc740 1 \uc774\ub3d9, #{@simpleMoveDistance}m).\n"
+      }
+    }
+  },
+  "created": "2026-10-03T02:34:36.768Z"
+}

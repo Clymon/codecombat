@@ -1,0 +1,162 @@
+{
+  "version": {
+    "major": 0,
+    "minor": 106,
+    "isLatestMajor": true,
+    "isLatestMinor": true
+  },
+  "_id": "65c27ec984d8786d457a562a",
+  "description": "This Thang plans all its actions in advance and then executes its plan.",
+  "system": "programming",
+  "name": "Plans",
+  "slug": "plans",
+  "permissions": [
+    {
+      "target": "512ef4805a67a8c507000001",
+      "access": "owner"
+    },
+    {
+      "target": "public",
+      "access": "read"
+    }
+  ],
+  "original": "524b7b517fc0f6d51900000d",
+  "parent": "6304c324d24a1c00232b6bc6",
+  "creator": "512ef4805a67a8c507000001",
+  "commitMessage": "Add Junior plannable methods",
+  "index": true,
+  "__v": 0,
+  "js": "var Plans, _ref,\n  __hasProp = {}.hasOwnProperty,\n  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },\n  __slice = [].slice;\n\nPlans = (function(_super) {\n  __extends(Plans, _super);\n\n  function Plans() {\n    _ref = Plans.__super__.constructor.apply(this, arguments);\n    return _ref;\n  }\n\n  Plans.prototype.plannifiedMethodsActive = false;\n\n  Plans.className = 'Plans';\n\n  Plans.prototype.attach = function(thang) {\n    var plannableMethod, _i, _len, _ref1, _results;\n    this.planIterations = 0;\n    this.planWorldEndsAfter = this.worldEndsAfter;\n    delete this.worldEndsAfter;\n    Plans.__super__.attach.call(this, thang);\n    if (this.ignorePlannableMethods) {\n      return;\n    }\n    _ref1 = ['pickUpItem', 'dropItem', 'push', 'move', 'moveXY', 'follow', 'moveRight', 'moveLeft', 'moveUp', 'moveDown', 'attack', 'attackPos', 'attackXY', 'attackNearestEnemy', 'attackNearbyEnemy', 'say', 'bustDownDoor', 'wait', 'swapItems', 'isBigger', 'isSmaller', 'buildXY', 'pickUpFlag', 'cleave', 'throw', 'cast', 'heal', 'hide', 'manaBlast', 'warcry', 'resetCooldown', 'envenom', 'backstab', 'bash', 'powerUp', 'scattershot', 'jump', 'jumpTo', 'electrocute', 'summon', 'dash', 'throwPos', 'shield', 'hurl', 'stomp', 'devour', 'slam', 'brew', 'hit', 'zap', 'spin', 'look'];\n    _results = [];\n    for (_i = 0, _len = _ref1.length; _i < _len; _i++) {\n      plannableMethod = _ref1[_i];\n      if (thang[plannableMethod] != null) {\n        _results.push(thang.plannifyMethod(plannableMethod));\n      } else {\n        _results.push(void 0);\n      }\n    }\n    return _results;\n  };\n\n  Plans.prototype.plannifyMethod = function(methodName) {\n    var originalMethod,\n      _this = this;\n    if (methodName === 'say' && !this.actions.say) {\n      this.addActions({\n        name: 'say',\n        cooldown: 1\n      });\n    }\n    originalMethod = this[methodName];\n    return this[methodName] = function() {\n      var FutureValue, action, aether, args, error;\n      args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];\n      aether = _this.getAetherForMethod('plan');\n      try {\n        action = originalMethod.apply(_this, args);\n      } catch (_error) {\n        error = _error;\n        _this.handleProgrammingError(error, 'plan');\n        _this.replaceMethodCode('plan', null);\n      }\n      if (!_this.plannifiedMethodsActive) {\n        return action;\n      }\n      if (action !== \"done\") {\n        _this.currentPlan = {\n          methodName: methodName,\n          methodArgs: args\n        };\n        if (_this.future != null) {\n          return _this.future;\n        }\n        FutureValue = esper.FutureValue;\n        _this.future = new FutureValue();\n        _this.future.oldStyle = true;\n        return _this.future;\n      }\n      return action;\n    };\n  };\n\n  Plans.prototype.plan = function() {};\n\n  Plans.prototype.chooseAction = function() {\n    var action, aether, done, error, value, _ref1, _ref2, _ref3;\n    if (this.plansDisabled) {\n      return;\n    }\n    if ((this.plansAreFinished || !((_ref1 = this.programmableMethods) != null ? _ref1.plan : void 0)) && !this.eventThreadAether) {\n      return this.setAction(\"idle\");\n    }\n    aether = this.getAetherForMethod('plan');\n    if (!this.planGenerator) {\n      if (!(this.planGenerator = this.plan())) {\n        return this.finishPlans();\n      }\n      if (typeof aether.sandboxGenerator === \"function\") {\n        aether.sandboxGenerator(this.planGenerator);\n      }\n    }\n    if (this.currentPlan) {\n      if (this.future && !this.future.oldStyle) {\n        return null;\n      } else if (this.currentPlanMethodResolved) {\n        this.currentPlanMethodResolved = false;\n        return this.endCurrentPlan(aether);\n      } else {\n        this.plannifiedMethodsActive = true;\n        action = this.currentPlan.methodName ? this[this.currentPlan.methodName].apply(this, this.currentPlan.methodArgs) : \"done\";\n        this.plannifiedMethodsActive = false;\n        if (action === \"done\") {\n          if (this.future != null) {\n            this.future.resolve(esper.Value.fromNative('done'));\n            this.future = void 0;\n          }\n          return this.endCurrentPlan(aether);\n        }\n      }\n    } else {\n      this._aetherUserInfo.time = aether._userInfo.time = this.world.age;\n      ++this._aetherAPIOwnMethodsAllowed;\n      try {\n        this.plannifiedMethodsActive = true;\n        _ref2 = this.planGenerator.next(), value = _ref2.value, done = _ref2.done;\n        this.plannifiedMethodsActive = false;\n      } catch (_error) {\n        error = _error;\n        this.handleProgrammingError(error, \"plan\");\n        _ref3 = [null, true], value = _ref3[0], done = _ref3[1];\n      }\n      --this._aetherAPIOwnMethodsAllowed;\n      if (done) {\n        this.setAction('idle');\n        this.intent = void 0;\n        if (this.planLoops) {\n          this.planGenerator = null;\n          return this.planIterations++;\n        } else {\n          return this.finishPlans();\n        }\n      }\n    }\n  };\n\n  Plans.prototype.endCurrentPlan = function(aether) {\n    if (aether == null) {\n      aether = this.getAetherForMethod('plan');\n    }\n    this.currentPlan = null;\n    return this.chooseAction();\n  };\n\n  Plans.prototype.finishPlans = function() {\n    var _ref1;\n    this.publishNote('thang-finished-plans', {});\n    if (typeof this.isGrounded === \"function\" ? this.isGrounded() : void 0) {\n      if ((_ref1 = this.velocity) != null) {\n        _ref1.multiply(0);\n      }\n    }\n    if (this.planWorldEndsAfter) {\n      this.world.endWorld(false, this.planWorldEndsAfter, true);\n    }\n    return this.plansAreFinished = true;\n  };\n\n  return Plans;\n\n})(Component);\n",
+  "patches": [],
+  "watchers": [
+    "512ef4805a67a8c507000001"
+  ],
+  "codeLanguage": "coffeescript",
+  "official": false,
+  "configSchema": {
+    "properties": {
+      "planLoops": {
+        "type": "boolean",
+        "description": "Whether the plan() method loops and is called again and again after it finishes each time."
+      },
+      "worldEndsAfter": {
+        "description": "When not null (or zero), ends the world this many seconds after this Thang finishes its plans.",
+        "default": 5,
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "format": "seconds",
+            "default": 5,
+            "maximum": 3000,
+            "exclusiveMinimum": false,
+            "minimum": 0,
+            "type": "number"
+          }
+        ]
+      },
+      "ignorePlannableMethods": {
+        "type": "boolean",
+        "default": false,
+        "description": "If we need to ignore default plannedMethods"
+      }
+    },
+    "default": {
+      "worldEndsAfter": 0,
+      "planLoops": false
+    },
+    "id": "__base__",
+    "additionalProperties": false,
+    "type": "object"
+  },
+  "propertyDocumentation": [
+    {
+      "example": {
+        "python": "self.moveRight()\nself.moveRight()\nself.attackNearbyEnemy()",
+        "javascript": "this.moveRight();\nthis.moveRight();\nthis.attackNearbyEnemy();"
+      },
+      "description": "The `plan` method is where you write a sequence of methods to command the #{spriteName}.\n\nType your methods into the code editor below. Hover over your available methods at the bottom to see what they do.",
+      "type": "function",
+      "name": "plan",
+      "i18n": {
+        "zh-HANS": {
+          "description": "[AI_TRANSLATION]`plan` \u65b9\u6cd5\u662f\u4f60\u7f16\u5199\u4e00\u7cfb\u5217\u65b9\u6cd5\u6765\u6307\u6325 #{spriteName} \u7684\u5730\u65b9\u3002\n\n\u5728\u4e0b\u9762\u7684\u4ee3\u7801\u7f16\u8f91\u5668\u4e2d\u8f93\u5165\u4f60\u7684\u65b9\u6cd5\u3002\u5c06\u9f20\u6807\u60ac\u505c\u5728\u4e0b\u9762\u7684\u53ef\u7528\u65b9\u6cd5\u4e0a\u53ef\u4ee5\u67e5\u770b\u5b83\u4eec\u7684\u4f5c\u7528\u3002",
+          "name": "[AI_TRANSLATION]\u8ba1\u5212  "
+        },
+        "ru": {
+          "description": "[AI_TRANSLATION]\u041c\u0435\u0442\u043e\u0434 `plan` \u2014 \u044d\u0442\u043e \u043c\u0435\u0441\u0442\u043e, \u0433\u0434\u0435 \u0432\u044b \u043f\u0438\u0448\u0435\u0442\u0435 \u043f\u043e\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u043c\u0435\u0442\u043e\u0434\u043e\u0432 \u0434\u043b\u044f \u043a\u043e\u043c\u0430\u043d\u0434\u043e\u0432\u0430\u043d\u0438\u044f #{spriteName}.\n\n\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0441\u0432\u043e\u0438 \u043c\u0435\u0442\u043e\u0434\u044b \u0432 \u0440\u0435\u0434\u0430\u043a\u0442\u043e\u0440\u0435 \u043a\u043e\u0434\u0430 \u043d\u0438\u0436\u0435. \u041d\u0430\u0432\u0435\u0434\u0438\u0442\u0435 \u0443\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c \u043d\u0430 \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u044b\u0435 \u043c\u0435\u0442\u043e\u0434\u044b \u0432\u043d\u0438\u0437\u0443, \u0447\u0442\u043e\u0431\u044b \u0443\u0432\u0438\u0434\u0435\u0442\u044c, \u0447\u0442\u043e \u043e\u043d\u0438 \u0434\u0435\u043b\u0430\u044e\u0442.",
+          "name": "[AI_TRANSLATION]\u043f\u043b\u0430\u043d"
+        },
+        "zh-HANT": {
+          "description": "[AI_TRANSLATION]`plan` \u65b9\u6cd5\u662f\u4f60\u7de8\u5beb\u4e00\u7cfb\u5217\u6307\u4ee4\u4f86\u6307\u63ee #{spriteName} \u7684\u5730\u65b9\u3002\n\n\u5728\u4e0b\u9762\u7684\u4ee3\u78bc\u7de8\u8f2f\u5668\u4e2d\u8f38\u5165\u4f60\u7684\u65b9\u6cd5\u3002\u5c07\u6ed1\u9f20\u61f8\u505c\u65bc\u5e95\u90e8\u53ef\u7528\u7684\u65b9\u6cd5\u4e0a\u4ee5\u89c0\u770b\u5b83\u5011\u7684\u4f5c\u7528\u3002",
+          "name": "[AI_TRANSLATION]\u8a08\u5283"
+        },
+        "pt-PT": {
+          "name": "[AI_TRANSLATION]plano",
+          "description": "[AI_TRANSLATION]O m\u00e9todo `plan` \u00e9 onde escreves uma sequ\u00eancia de m\u00e9todos para comandar o #{spriteName}.\n\nEscreve os teus m\u00e9todos no editor de c\u00f3digo abaixo. Passa o cursor sobre os m\u00e9todos dispon\u00edveis na parte inferior para ver o que fazem."
+        },
+        "es-ES": {
+          "description": "[AI_TRANSLATION]El m\u00e9todo `plan` es donde escribes una secuencia de m\u00e9todos para comandar a #{spriteName}. \n \n Escribe tus m\u00e9todos en el editor de c\u00f3digo abajo. Pasa el cursor sobre tus m\u00e9todos disponibles en la parte inferior para ver qu\u00e9 hacen.\n",
+          "name": null
+        },
+        "fr": {
+          "description": "[AI_TRANSLATION]La m\u00e9thode `plan` est l\u00e0 o\u00f9 vous \u00e9crivez une s\u00e9quence de m\u00e9thodes pour commander le #{spriteName}.\n\nTapez vos m\u00e9thodes dans l'\u00e9diteur de code ci-dessous. Survolez vos m\u00e9thodes disponibles en bas pour voir ce qu'elles font.",
+          "name": null
+        },
+        "vi": {
+          "name": "[AI_TRANSLATION]k\u1ebf ho\u1ea1ch"
+        },
+        "ar": {
+          "name": "[AI_TRANSLATION]\u062e\u0637\u0637",
+          "description": "[AI_TRANSLATION]`plan` \u0647\u0630\u0647 \u0627\u0644\u0637\u0631\u064a\u0642\u0629 \u0647\u064a \u062d\u064a\u062b \u062a\u0643\u062a\u0628 \u062a\u0633\u0644\u0633\u0644 \u0627\u0644\u0637\u0631\u0642 \u0644\u0644\u062a\u062d\u0643\u0645 \u0641\u064a #{spriteName}. \n \n \u0627\u0643\u062a\u0628 \u0637\u0631\u0642\u0643 \u0641\u064a \u0645\u062d\u0631\u0631 \u0627\u0644\u0643\u0648\u062f \u0623\u062f\u0646\u0627\u0647. \u0645\u0631\u0631 \u0641\u0648\u0642 \u0627\u0644\u0637\u0631\u0642 \u0627\u0644\u0645\u062a\u0627\u062d\u0629 \u0641\u064a \u0627\u0644\u0623\u0633\u0641\u0644 \u0644\u062a\u0631\u0649 \u0645\u0627\u0630\u0627 \u062a\u0641\u0639\u0644."
+        },
+        "cs": {
+          "name": "[AI_TRANSLATION]pl\u00e1n",
+          "description": "[AI_TRANSLATION]Metoda `plan` je m\u00edsto, kde p\u00ed\u0161e\u0161 sekvenci metod pro ovl\u00e1d\u00e1n\u00ed #{spriteName}.\n\nNapi\u0161 sv\u00e9 metody do editoru k\u00f3du n\u00ed\u017ee. Najdi si sv\u00e9 dostupn\u00e9 metody dole a pod\u00edvej se, co d\u011blaj\u00ed."
+        },
+        "de-DE": {
+          "name": "[AI_TRANSLATION]Plan",
+          "description": "[AI_TRANSLATION]Die `plan`-Methode ist, wo du eine Sequenz von Methoden schreibst, um den #{spriteName} zu befehlen.\n\nGib deine Methoden in den Code-Editor unten ein. Schwebe \u00fcber deine verf\u00fcgbaren Methoden am unteren Rand, um zu sehen, was sie tun."
+        },
+        "ko": {
+          "name": "[AI_TRANSLATION]\uacc4\ud68d",
+          "description": "[AI_TRANSLATION]`plan` \uba54\uc11c\ub4dc\ub294 #{spriteName}\uc5d0\uac8c \uba85\ub839\ud558\ub294 \uba54\uc11c\ub4dc\ub4e4\uc744 \uc21c\uc11c\ub300\ub85c \uc791\uc131\ud558\ub294 \uacf3\uc774\uc57c.\n\n\uc544\ub798 \ucf54\ub4dc \ud3b8\uc9d1\uae30\uc5d0 \uba54\uc11c\ub4dc\ub97c \uc785\ub825\ud574 \uc918. \uc0ac\uc6a9 \uac00\ub2a5\ud55c \uba54\uc11c\ub4dc\uc5d0 \ub9c8\uc6b0\uc2a4\ub97c \uc62c\ub9ac\uba74 \uadf8\ub4e4\uc774 \ubb34\uc5c7\uc744 \ud558\ub294\uc9c0 \ubcfc \uc218 \uc788\uc5b4."
+        },
+        "hu": {
+          "name": "[AI_TRANSLATION]terv",
+          "description": "[AI_TRANSLATION]A `plan` met\u00f3dus az a hely, ahol \u00edrhatod a met\u00f3dusok sorozat\u00e1t a #{spriteName} ir\u00e1ny\u00edt\u00e1s\u00e1hoz.\n\n\u00cdrd be a met\u00f3dusaidat az al\u00e1bbi k\u00f3dszerkeszt\u0151be. Lebegj az el\u00e9rhet\u0151 met\u00f3dusaid f\u00f6l\u00f6tt az alj\u00e1n, hogy l\u00e1sd, mit csin\u00e1lnak."
+        },
+        "it": {
+          "name": "[AI_TRANSLATION]piano",
+          "description": "[AI_TRANSLATION]Il metodo `plan` \u00e8 dove scrivi una sequenza di metodi per comandare il #{spriteName}.\n\nScrivi i tuoi metodi nell'editor di codice qui sotto. Passa il mouse sopra i metodi disponibili in fondo per vedere cosa fanno."
+        },
+        "nl": {
+          "name": "[AI_TRANSLATION]plan",
+          "description": "[AI_TRANSLATION]De `plan` methode is waar je een reeks methodes schrijft om de #{spriteName} te commanderen.\n\nTyp je methodes in de code-editor hieronder. Zweef over je beschikbare methodes onderaan om te zien wat ze doen."
+        },
+        "th": {
+          "name": "[AI_TRANSLATION]\u0e27\u0e32\u0e07\u0e41\u0e1c\u0e19"
+        },
+        "id": {
+          "description": "[AI_TRANSLATION]Metode `plan` adalah tempat kamu menulis sederetan metode untuk mengendalikan #{spriteName}.\n\nKetikkan metode kamu di editor kode di bawah ini. Arahkan kursor ke metode yang tersedia di bawah untuk melihat apa yang mereka lakukan."
+        },
+        "hi": {
+          "description": "[AI_TRANSLATION]`plan` \u092e\u0947\u0925\u0921 \u0935\u0939 \u091c\u0917\u0939 \u0939\u0948 \u091c\u0939\u093e\u0901 \u0906\u092a #{spriteName} \u0915\u094b \u0915\u092e\u093e\u0902\u0921 \u0926\u0947\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u092e\u0947\u0925\u0921\u094d\u0938 \u0915\u0940 \u0936\u094d\u0930\u0943\u0902\u0916\u0932\u093e \u0932\u093f\u0916\u0924\u0947 \u0939\u0948\u0902\u0964\n\n\u0905\u092a\u0928\u0947 \u092e\u0947\u0925\u0921\u094d\u0938 \u0915\u094b \u0928\u0940\u091a\u0947 \u0926\u093f\u090f \u0917\u090f \u0915\u094b\u0921 \u0938\u0902\u092a\u093e\u0926\u0915 \u092e\u0947\u0902 \u091f\u093e\u0907\u092a \u0915\u0930\u0947\u0902\u0964 \u0926\u0947\u0916\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0915\u093f \u0906\u092a\u0915\u0947 \u0909\u092a\u0932\u092c\u094d\u0927 \u092e\u0947\u0925\u0921\u094d\u0938 \u0915\u094d\u092f\u093e \u0915\u0930\u0924\u0947 \u0939\u0948\u0902, \u0928\u0940\u091a\u0947 \u0939\u094b\u0935\u0930 \u0915\u0930\u0947\u0902\u0964"
+        },
+        "ur": {
+          "description": "[AI_TRANSLATION]`plan` \u65b9\u6cd5 \u0648\u06c1 \u06c1\u06d2 \u062c\u06c1\u0627\u06ba \u0622\u067e methods \u06a9\u06cc \u0627\u06cc\u06a9 \u0633\u0644\u0633\u0644\u06d2 \u06a9\u0648 \u0644\u06a9\u06be\u062a\u06d2 \u06c1\u0648 \u062a\u0627\u06a9\u06c1 #{spriteName} \u06a9\u0648 \u06c1\u062f\u0627\u06cc\u062a \u062f\u06cc \u062c\u0627 \u0633\u06a9\u06d2\u06d4\n\n\u0627\u067e\u0646\u06d2 methods \u06a9\u0648 \u0646\u06cc\u0686\u06d2 code editor \u0645\u06cc\u06ba \u0644\u06a9\u06be\u06cc\u06ba\u06d4 \u0646\u06cc\u0686\u06d2 \u062f\u0633\u062a\u06cc\u0627\u0628 methods \u067e\u0631 hover \u06a9\u0631\u06cc\u06ba \u062a\u0627\u06a9\u06c1 \u0622\u067e \u062c\u0627\u0646 \u0633\u06a9\u06cc\u06ba \u0648\u06c1 \u06a9\u06cc\u0627 \u06a9\u0631\u062a\u06d2 \u06c1\u06cc\u06ba\u06d4"
+        }
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "majorVersion": 0,
+      "original": "524b85837fc0f6d519000020"
+    }
+  ],
+  "code": "# Attach this after other components are attached\nclass Plans extends Component\n  plannifiedMethodsActive: false  # We will only do special yielding for plannified methods that are called as part of a chooseAction\n  @className: 'Plans'\n  attach: (thang) ->\n    @planIterations = 0\n    @planWorldEndsAfter = @worldEndsAfter\n    delete @worldEndsAfter\n    super thang\n    # TODO: unjank the copy of this in Item when upgrading Plans; until then, add things both places.\n    return if @ignorePlannableMethods\n    for plannableMethod in ['pickUpItem', 'dropItem', 'push', 'move', 'moveXY', 'follow', 'moveRight', 'moveLeft', 'moveUp', 'moveDown', 'attack', 'attackPos', 'attackXY', 'attackNearestEnemy', 'attackNearbyEnemy', 'say', 'bustDownDoor', 'wait', 'swapItems', 'isBigger', 'isSmaller', 'buildXY', 'pickUpFlag', 'cleave', 'throw', 'cast', 'heal', 'hide', 'manaBlast', 'warcry', 'resetCooldown', 'envenom', 'backstab', 'bash', 'powerUp', 'scattershot', 'jump', 'jumpTo', 'electrocute', 'summon', 'dash', 'throwPos', 'shield', 'hurl', 'stomp', 'devour', 'slam', 'brew', 'hit', 'zap', 'spin', 'look']\n      if thang[plannableMethod]?\n        thang.plannifyMethod plannableMethod\n  \n  plannifyMethod: (methodName) ->\n    # plannableMethods should return either an action or 'done'\n    if methodName is 'say' and not @actions.say\n      # if it wasn't blocking, we need to make it block at least a moment or it won't work\n      @addActions name: 'say', cooldown: 1\n      \n    originalMethod = @[methodName]\n    @[methodName] = (args...) =>\n      aether = @getAetherForMethod 'plan'\n      try\n        action = originalMethod.apply @, args\n      catch error\n        @handleProgrammingError error, 'plan'\n        @replaceMethodCode 'plan', null  # no-op when this method is called\n      #console.log @id, 'returning', action, 'at time', @world.age, 'because we are not in plan()' unless @plannifiedMethodsActive\n      return action unless @plannifiedMethodsActive  # Don't yield if, for example, we are calling this method from engine code and not player code\n      \n      if action isnt \"done\"\n        @currentPlan = methodName: methodName, methodArgs: args\n        return @future if @future?\n        FutureValue = esper.FutureValue  # IE14 had troubles calling (esper.FutureValue())\n        @future = new FutureValue()\n        @future.oldStyle = true\n        return @future\n      return action\n\n  plan: ->\n\n  chooseAction: ->\n    return if @plansDisabled\n    return @setAction \"idle\" if (@plansAreFinished or not @programmableMethods?.plan) and not @eventThreadAether\n    aether = @getAetherForMethod 'plan'\n    unless @planGenerator\n      return @finishPlans() unless @planGenerator = @plan()\n      aether.sandboxGenerator? @planGenerator\n    if @currentPlan\n      # Simple loops yield automatically without returning a continuation method\n      if @future and not @future.oldStyle\n        # We just wait for it to resolve and don't do anything here.\n        #console.log 'Awaiting the new-style future to resolve, not pumping our plannified method ' + @currentPlan.methodName\n        null\n      else if @currentPlanMethodResolved\n        @currentPlanMethodResolved = false\n        @endCurrentPlan aether\n      else\n        # We pump our old-style repeatable plannified method to see if it's done\n        @plannifiedMethodsActive = true\n        action = if @currentPlan.methodName then @[@currentPlan.methodName](@currentPlan.methodArgs...) else \"done\"\n        @plannifiedMethodsActive = false\n        if action is \"done\"\n          if @future?\n            @future.resolve(esper.Value.fromNative('done'))\n            @future = undefined\n          @endCurrentPlan aether\n    else\n      @_aetherUserInfo.time = aether._userInfo.time = @world.age\n      ++@_aetherAPIOwnMethodsAllowed\n      try\n        @plannifiedMethodsActive = true\n        {value, done} = @planGenerator.next()\n        @plannifiedMethodsActive = false\n      catch error\n        @handleProgrammingError error, \"plan\"\n        [value, done] = [null, true]\n      --@_aetherAPIOwnMethodsAllowed\n      if done\n        @setAction 'idle'\n        @intent = undefined\n        if @planLoops\n          @planGenerator = null\n          @planIterations++\n        else\n          @finishPlans()\n        \n  endCurrentPlan: (aether) ->\n    aether ?= @getAetherForMethod 'plan'\n    @currentPlan = null\n    @chooseAction()\n\n  finishPlans: ->\n    @publishNote 'thang-finished-plans', {}\n    @velocity?.multiply(0) if @isGrounded?()  # Stop!\n    @world.endWorld false, @planWorldEndsAfter, true if @planWorldEndsAfter\n    @plansAreFinished = true\n",
+  "searchStrings": "plans p pl pla",
+  "created": "2024-02-06T18:47:37.721Z"
+}

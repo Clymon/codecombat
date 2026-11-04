@@ -808,6 +808,7 @@ module.exports = Lank = class Lank extends CocoClass
   updateLabels: ->
     return unless @thang
     blurb = if @thang.health? and @thang.health <= 0 then null else @thang.sayMessage  # Dead men tell no tales, however non-alive can
+    blurb = null if @thang.teachingSpeechLog?  # Our local levels render a four-message stack instead.
     blurb = null if blurb in ['For Thoktar!', 'Bones!', 'Behead!', 'Destroy!', 'Die, humans!']  # Let's just hear, not see, these ones.
     if /Hero Placeholder/.test(@thang.id)
       labelStyle = Label.STYLE_DIALOGUE

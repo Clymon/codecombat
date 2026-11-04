@@ -1,0 +1,80 @@
+{
+  "version": {
+    "major": 0,
+    "minor": 44,
+    "isLatestMajor": true,
+    "isLatestMinor": true
+  },
+  "_id": "693c1603f71e87104392a29e",
+  "description": "This System makes Thangs exist and change existence and limits the Level's lifespan.",
+  "name": "Existence",
+  "slug": "existence",
+  "permissions": [
+    {
+      "target": "512ef4805a67a8c507000001",
+      "access": "owner"
+    },
+    {
+      "target": "public",
+      "access": "read"
+    }
+  ],
+  "original": "5280f83b8ae1581b66000001",
+  "parent": "624c15efc597ae0024e46fd1",
+  "creator": "52dcc798acbf5e120a00291d",
+  "commitMessage": "",
+  "index": true,
+  "__v": 0,
+  "js": "var Existence,\n  __hasProp = {}.hasOwnProperty,\n  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };\n\nExistence = (function(_super) {\n  __extends(Existence, _super);\n\n  function Existence(world, config) {\n    var seed, _base, _ref, _ref1, _ref2, _ref3;\n    Existence.__super__.constructor.call(this, world, config);\n    this.extant = this.addRegistry(function(thang) {\n      return thang.exists;\n    });\n    this.world.lifespan = this.lifespan;\n    this.world.frameRate = this.frameRate;\n    this.world.dt = 1 / this.world.frameRate;\n    this.world.totalFrames = this.world.maxTotalFrames = this.lifespan * this.world.frameRate;\n    this.world.age = 0;\n    if (((_ref = this.world.levelSessionIDs) != null ? _ref.length : void 0) > 1 && this.world.levelSessionIDs[0] > this.world.levelSessionIDs[1]) {\n      this.world.mirrorPlayers = true;\n      console.log(\"Mirrorin players\", this.world.levelSessionIDs);\n    }\n    seed = (function() {\n      var _ref1;\n      switch (this.randomSeed) {\n        case 'zero':\n          return 0;\n        case 'playerCode':\n          return this.hashString(this.flattenUserCodeMap());\n        case 'playerSession':\n          return this.hashString(this.flattenSessionIDs());\n        case 'submissionCount':\n          return this.hashString(this.flattenSessionIDs()) + ((_ref1 = this.world.submissionCount) != null ? _ref1 : 0);\n        case 'random':\n          return Math.round(Math.random() * 4294967296);\n      }\n    }).call(this);\n    if (this.world.fixedSeed) {\n      seed = this.world.fixedSeed;\n      console.log(\"Using fixed seed\", seed);\n    } else if ((_ref1 = this.randomSeed) === \"playerSession\" || _ref1 === \"submissionCount\") {\n      if (((_ref2 = this.world.levelSessionIDs) != null ? _ref2.length : void 0) === _.filter((_ref3 = this.world.levelSessionIDs) != null ? _ref3 : []).length) {\n        console.log(\"Generated random seed\", seed, \"of type\", this.randomSeed, \"from sessionIDs\", this.world.levelSessionIDs, \"submissionCount\", this.world.submissionCount);\n      }\n    } else {\n      console.log(\"Generated random seed\", seed, \"of type\", this.randomSeed);\n    }\n    this.world.randomSeed = seed;\n    if (typeof (_base = this.world.rand).setSeed === \"function\") {\n      _base.setSeed(seed);\n    }\n  }\n\n  Existence.prototype.start = function(thangs) {\n    var extIds, hero2Index, heroIndex, temp, thang, _i, _len, _ref,\n      _this = this;\n    _ref = thangs.slice();\n    for (_i = 0, _len = _ref.length; _i < _len; _i++) {\n      thang = _ref[_i];\n      if (typeof thang.initialize === \"function\") {\n        thang.initialize();\n      }\n    }\n    if (this.world.mirrorPlayers) {\n      extIds = this.extant.map(function(t) {\n        return t.id;\n      });\n      heroIndex = extIds.indexOf('Hero Placeholder');\n      hero2Index = extIds.indexOf('Hero Placeholder 1');\n      if (heroIndex && hero2Index && heroIndex !== -1 && hero2Index !== -1) {\n        temp = this.extant[heroIndex];\n        this.extant[heroIndex] = this.extant[hero2Index];\n        return this.extant[hero2Index] = temp;\n      }\n    }\n  };\n\n  Existence.prototype.startTrackingDelayedThangs = function() {\n    var thang, _i, _len, _ref, _results;\n    if (this.delayed) {\n      return;\n    }\n    this.delayed = this.addRegistry(function(thang) {\n      return thang.appeared === false;\n    });\n    _ref = this.world.thangs;\n    _results = [];\n    for (_i = 0, _len = _ref.length; _i < _len; _i++) {\n      thang = _ref[_i];\n      if (thang.appeared === false) {\n        _results.push(thang.updateRegistration());\n      }\n    }\n    return _results;\n  };\n\n  Existence.prototype.update = function() {\n    var hash, thang, _i, _j, _len, _len1, _ref, _ref1;\n    if (this.delayed) {\n      _ref = this.delayed.slice();\n      for (_i = 0, _len = _ref.length; _i < _len; _i++) {\n        thang = _ref[_i];\n        thang.possiblyRevive();\n      }\n    }\n    _ref1 = this.extant.slice();\n    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {\n      thang = _ref1[_j];\n      if (typeof thang.update === \"function\") {\n        thang.update();\n      }\n    }\n    return hash = 0;\n  };\n\n  Existence.prototype.flattenSessionIDs = function() {\n    var ids, _ref;\n    ids = (_ref = this.world.levelSessionIDs) != null ? _ref : ['no sessions'];\n    ids.sort();\n    return ids.join('');\n  };\n\n  Existence.prototype.flattenUserCodeMap = function() {\n    var code, method, methodName, methods, thangID, _ref;\n    code = [];\n    _ref = this.world.userCodeMap;\n    for (thangID in _ref) {\n      methods = _ref[thangID];\n      for (methodName in methods) {\n        method = methods[methodName];\n        if (method.raw) {\n          code.push(method.raw);\n        }\n      }\n    }\n    code.sort();\n    return code.join('');\n  };\n\n  Existence.prototype.hashString = function(str) {\n    var i;\n    return ((function() {\n      var _i, _ref, _results;\n      _results = [];\n      for (i = _i = 0, _ref = str.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {\n        _results.push(str.charCodeAt(i));\n      }\n      return _results;\n    })()).reduce((function(hash, char) {\n      return ((hash << 5) + hash) + char;\n    }), 5381);\n  };\n\n  Existence.prototype.buildTypePower = {\n    \"ogre-munchkin-m\": 1.0,\n    \"ogre-munchkin-f\": 1.0,\n    \"munchkin\": 1.0,\n    \"ogre-thrower\": 3.7,\n    \"thrower\": 3.7,\n    \"archer-m\": 20.5,\n    \"archer-f\": 20.5,\n    \"archer\": 20.5,\n    \"soldier-m\": 30.3,\n    \"soldier-f\": 30.3,\n    \"soldier\": 30.3,\n    \"ogre-scout-m\": 32.1,\n    \"ogre-scout-f\": 32.1,\n    \"scout\": 32.1,\n    \"decoy\": 45.5,\n    \"ogre-m\": 49.8,\n    \"ogre\": 49.8,\n    \"ogre-shaman\": 58.0,\n    \"shaman\": 58.0,\n    \"peasant-m\": 75.0,\n    \"peasant-f\": 75.0,\n    \"peasant\": 75.0,\n    \"ogre-peon-m\": 75.0,\n    \"ogre-peon-f\": 75.0,\n    \"peon\": 75.0,\n    \"skeleton\": 153.4,\n    \"ogre-f\": 204.6,\n    \"ogre-fangrider\": 226.8,\n    \"fangrider\": 226.8,\n    \"griffin-rider\": 237.1,\n    \"artillery\": 386.2,\n    \"paladin\": 546.8,\n    \"ogre-witch\": 646.7,\n    \"witch\": 646.7,\n    \"ogre-headhunter\": 820.9,\n    \"headhunter\": 820.9,\n    \"arrow-tower\": 860.9,\n    \"ogre-brawler\": 878.6,\n    \"brawler\": 878.6,\n    \"catapult\": 977.9,\n    \"burl\": 982.3,\n    \"robobomb\": 1219.8,\n    \"ogre-warlock\": 1283.2,\n    \"warlock\": 1283.2,\n    \"sand-yak\": 1729.0,\n    \"ogre-warlock\": 2566.5,\n    \"warlock\": 2566.5,\n    \"yeti\": 3578.8,\n    \"ogre-chieftain\": 4518.1,\n    \"chieftain\": 4518.1,\n    \"ice-yak\": 7423.1,\n    \"robot-walker\": 9001,\n    \"robot\": 9001,\n    \"thoktar\": 9440.8\n  };\n\n  return Existence;\n\n})(System);\n",
+  "watchers": [
+    "512ef4805a67a8c507000001"
+  ],
+  "codeLanguage": "coffeescript",
+  "official": false,
+  "configSchema": {
+    "properties": {
+      "lifespan": {
+        "type": "integer",
+        "minimum": 0,
+        "exclusiveMinimum": true,
+        "description": "How many seconds until the World ends? (It can end earlier if victory or defeat conditions are met.)",
+        "default": 60,
+        "format": "seconds"
+      },
+      "frameRate": {
+        "type": "integer",
+        "description": "World will simulate at this many frames per second.",
+        "default": 30,
+        "minimum": 1
+      },
+      "randomSeed": {
+        "type": "string",
+        "default": "zero",
+        "enum": [
+          "zero",
+          "playerCode",
+          "playerSession",
+          "submissionCount",
+          "random"
+        ],
+        "description": "Describe which method to use to seed the random number generator. \"zero\": same for all players. \"playerCode\": varies with all code changes. \"playerSession\": varies for each player or pairing. \"submissionCount\": as \"playerSession\" but also changes the seed with each real-time submission/attempt. \"random\": uses Math.random on each run."
+      }
+    },
+    "default": {
+      "lifespan": 60,
+      "frameRate": 30,
+      "randomSeed": "submissionCount"
+    },
+    "additionalProperties": false,
+    "type": "object"
+  },
+  "dependencies": [
+    {
+      "majorVersion": 0,
+      "original": "528112c00268d018e3000008"
+    }
+  ],
+  "code": "# Should be added after Events but before everything else so that thangs all update() after previous currentEvents were recorded but before the other systems happen\nclass Existence extends System\n  constructor: (world, config) ->\n    super world, config\n    @extant = @addRegistry (thang) -> thang.exists\n    @world.lifespan = @lifespan\n    @world.frameRate = @frameRate\n    @world.dt = 1 / @world.frameRate\n    # @world.totalFrames will be overwritten when world ends, whereas @world.maxTotalFrames doesn't change.\n    @world.totalFrames = @world.maxTotalFrames = @lifespan * @world.frameRate\n    @world.age = 0\n    if @world.levelSessionIDs?.length > 1 and @world.levelSessionIDs[0] > @world.levelSessionIDs[1]\n      @world.mirrorPlayers = true\n      console.log(\"Mirrorin players\", @world.levelSessionIDs)\n    seed = switch @randomSeed\n      when 'zero' then 0\n      when 'playerCode' then @hashString @flattenUserCodeMap()\n      when 'playerSession' then @hashString @flattenSessionIDs()\n      when 'submissionCount' then @hashString(@flattenSessionIDs()) + (@world.submissionCount ? 0)\n      when 'random' then Math.round(Math.random() * 4294967296) # 2**32-1\n    if @world.fixedSeed\n      seed = @world.fixedSeed\n      console.log \"Using fixed seed\", seed\n    else if @randomSeed in [\"playerSession\", \"submissionCount\"]\n      console.log \"Generated random seed\", seed, \"of type\", @randomSeed, \"from sessionIDs\", @world.levelSessionIDs, \"submissionCount\", @world.submissionCount if @world.levelSessionIDs?.length is _.filter(@world.levelSessionIDs ? []).length\n    else\n      console.log \"Generated random seed\", seed, \"of type\", @randomSeed\n    @world.randomSeed = seed\n    @world.rand.setSeed? seed\n\n  start: (thangs) ->\n    thang.initialize?() for thang in thangs.slice()  # Might not be defined, but if it is, let's call it once.\n    if @world.mirrorPlayers\n      extIds = @extant.map((t) => t.id)\n      heroIndex = extIds.indexOf('Hero Placeholder')\n      hero2Index = extIds.indexOf('Hero Placeholder 1')\n      if heroIndex and hero2Index and heroIndex != -1 and hero2Index != -1\n        temp = @extant[heroIndex]\n        @extant[heroIndex] = @extant[hero2Index]\n        @extant[hero2Index] = temp\n    \n  startTrackingDelayedThangs: ->\n    # Only do this if we actually are using DelaysExistence, which we don't often use.\n    return if @delayed\n    @delayed = @addRegistry (thang) -> thang.appeared is false\n    thang.updateRegistration() for thang in @world.thangs when thang.appeared is false\n\n  update: ->\n    thang.possiblyRevive() for thang in @delayed.slice() if @delayed  # @delayed might be modified during iteration\n    thang.update?() for thang in @extant.slice()  # @extant might be modified during iteration\n    return hash = 0\n    \n  flattenSessionIDs: ->\n    ids = @world.levelSessionIDs ? ['no sessions']\n    ids.sort()\n    ids.join ''\n\n  flattenUserCodeMap: ->\n    code = []\n    for thangID, methods of @world.userCodeMap\n      for methodName, method of methods\n        code.push method.raw if method.raw\n        # This will not work for multiplayer when we send out only transpiled code; match outcomes will change.\n    code.sort()\n    code.join ''\n\n  # djb2 algorithm\n  hashString: (str) ->\n    (str.charCodeAt i for i in [0...str.length]).reduce(((hash, char) -> ((hash << 5) + hash) + char), 5381)  # hash * 33 + c\n    \n  buildTypePower:\n    \"ogre-munchkin-m\": 1.0\n    \"ogre-munchkin-f\": 1.0\n    \"munchkin\": 1.0\n    \n    \"ogre-thrower\": 3.7\n    \"thrower\": 3.7\n    \n    \"archer-m\": 20.5\n    \"archer-f\": 20.5\n    \"archer\": 20.5\n    \n    \"soldier-m\": 30.3\n    \"soldier-f\": 30.3\n    \"soldier\": 30.3\n    \n    \"ogre-scout-m\": 32.1\n    \"ogre-scout-f\": 32.1\n    \"scout\": 32.1\n    \n    \"decoy\": 45.5\n    \n    \"ogre-m\": 49.8\n    \"ogre\": 49.8\n    \n    \"ogre-shaman\": 58.0\n    \"shaman\": 58.0\n    \n    \"peasant-m\": 75.0\n    \"peasant-f\": 75.0\n    \"peasant\": 75.0\n    \n    \"ogre-peon-m\": 75.0\n    \"ogre-peon-f\": 75.0\n    \"peon\": 75.0\n    \n    \"skeleton\": 153.4\n    \n    \"ogre-f\": 204.6\n    \n    \"ogre-fangrider\": 226.8\n    \"fangrider\": 226.8\n    \n    \"griffin-rider\": 237.1\n    \n    \"artillery\": 386.2\n    \n    \"paladin\": 546.8\n    \n    \"ogre-witch\": 646.7\n    \"witch\": 646.7\n    \n    \"ogre-headhunter\": 820.9\n    \"headhunter\": 820.9\n    \n    \"arrow-tower\": 860.9\n    \n    \"ogre-brawler\": 878.6\n    \"brawler\": 878.6\n    \n    \"catapult\": 977.9\n    \n    \"burl\": 982.3\n    \n    \"robobomb\": 1219.8\n    \n    \"ogre-warlock\": 1283.2\n    \"warlock\": 1283.2\n    \n    \"sand-yak\": 1729.0\n    \n    \"ogre-warlock\": 2566.5\n    \"warlock\": 2566.5\n    \n    \"yeti\": 3578.8\n    \n    \"ogre-chieftain\": 4518.1\n    \"chieftain\": 4518.1\n    \n    \"ice-yak\": 7423.1\n    \n    \"robot-walker\": 9001\n    \"robot\": 9001\n    \n    \"thoktar\": 9440.8\n",
+  "patches": [],
+  "created": "2025-12-12T13:17:55.690Z"
+}

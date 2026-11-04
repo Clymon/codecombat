@@ -1,0 +1,102 @@
+{
+  "_id": "54ff5508a23351bb037da638",
+  "name": "Spike Walls",
+  "original": "5422f63718adb78d98d265f7",
+  "components": [
+    {
+      "config": {
+        "stateless": false
+      },
+      "majorVersion": 0,
+      "original": "524b4150ff92f1f4f8000024"
+    },
+    {
+      "config": {
+        "pos": {
+          "z": 6,
+          "y": 0,
+          "x": 0
+        },
+        "shape": "box",
+        "depth": 12,
+        "height": 4,
+        "width": 4,
+        "rotation": 0
+      },
+      "majorVersion": 0,
+      "original": "524b75ad7fc0f6d519000001"
+    },
+    {
+      "config": {
+        "collisionCategory": "none",
+        "fixedRotation": true,
+        "collisionType": "static"
+      },
+      "majorVersion": 0,
+      "original": "524b7b857fc0f6d519000012"
+    },
+    {
+      "config": {
+        "cooldown": 0.5,
+        "attackZAngle": 0.3,
+        "attackMass": 400,
+        "attackRange": 3,
+        "attackDamage": 10
+      },
+      "majorVersion": 0,
+      "original": "524b7ba57fc0f6d519000016"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b7b7c7fc0f6d519000011"
+    },
+    {
+      "config": {
+        "visualRange": 3
+      },
+      "majorVersion": 0,
+      "original": "524b457bff92f1f4f8000031"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b85837fc0f6d519000020"
+    },
+    {
+      "majorVersion": 0,
+      "original": "524b517fff92f1f4f8000046"
+    },
+    {
+      "config": {
+        "team": "neutral"
+      },
+      "majorVersion": 0,
+      "original": "524b7b747fc0f6d519000010"
+    },
+    {
+      "config": {
+        "layerPriority": -5
+      },
+      "majorVersion": 0,
+      "original": "53f3c73b9ca49ad96d60afcd"
+    },
+    {
+      "config": {
+        "apiProperties": [
+          "id",
+          "pos",
+          "team",
+          "type"
+        ],
+        "apiMethods": [
+          "findNearest",
+          "distanceTo"
+        ],
+        "isHazard": true,
+        "type": "spike-trap"
+      },
+      "majorVersion": 0,
+      "original": "52e816058c875f0000000001"
+    }
+  ],
+  "kind": "Doodad"
+}

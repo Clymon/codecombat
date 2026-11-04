@@ -13,6 +13,7 @@ PlaybackOverScreen = require './PlaybackOverScreen'
 DebugDisplay = require './DebugDisplay'
 CoordinateDisplay = require './CoordinateDisplay'
 CoordinateGrid = require './CoordinateGrid'
+TeachingMapOverlay = require './TeachingMapOverlay'
 LankBoss = require './LankBoss'
 PointChooser = require './PointChooser'
 RegionChooser = require './RegionChooser'
@@ -152,6 +153,8 @@ module.exports = Surface = class Surface extends CocoClass
       @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer, playerNames: @options.playerNames
       @normalStage.addChildAt @playbackOverScreen.dimLayer, 0  # Put this below the other layers, actually, so we can more easily read text on the screen.
     @initCoordinates()
+    if /^local-python-\d{2}$/.test(@options.level?.get('slug') or '') and @options.level.get('teachingMap')
+      @teachingMapOverlay = new TeachingMapOverlay(@, @options.level.get('teachingMap'))
     @webGLStage.enableMouseOver(10)
     @webGLStage.addEventListener 'stagemousemove', @onMouseMove
     @webGLStage.addEventListener 'stagemousedown', @onMouseDown
@@ -301,6 +304,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   drawCurrentFrame: (e) ->
     ++@totalFramesDrawn
+    @teachingMapOverlay?.update()
     @normalStage.update e
     @webGLStage.update e
 
