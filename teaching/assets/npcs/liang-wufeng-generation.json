@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-05",
+  "tool": "builtin image_gen",
+  "character": "梁武峰",
+  "identity": "用户明确：梁文锋的武将版／玩梗分身。虚构游戏角色，非另一位真人。",
+  "reference": "/Users/menglingkang/Documents/10-教学工厂/02-python基础教程/assets/codecombat/NPC形象图/01-梁文锋_新手村导师_v1.png",
+  "prompt": "Use case: identity-preserve / stylized-concept.\nAsset type: single full-body chibi game NPC character on true transparent background.\nPrimary request: turn the attached Liang Wenfeng village mentor into his fictional warrior-general meme alter ego, \"Liang Wufeng\". Preserve exactly the same recognizable face, short black fringe hairstyle, rectangular dark-rimmed glasses, friendly eyes and rounded chibi proportions from the reference. He is the SAME person's humorous martial version, not a different real person.\nReplace his modern jacket and trousers with tasteful compact blue-grey Chinese fantasy lamellar armor, restrained warm brass trim, a short navy cloak and sturdy boots. Keep his hair and glasses visible; use a simple blue cloth headband rather than a face-concealing helmet. Give him a small confident grin and an upright grounded general's stance. One hand holds a vertical long-handled guandao with a clean modest silver crescent blade; the other rests at his waist. The blade is a stylized game prop, no blood or battle scene. Outfit shapes should read clearly at small game portrait size, with a little visual joke in the contrast between the scholarly glasses and general's armor.\nStyle: match the attached illustration's crisp outlines and softly shaded flat-color Q-version finish. About three heads tall. Full body, both feet and entire weapon visible, centered with generous padding on all sides. Only ONE character.\nBackground: alpha transparency everywhere outside the character and weapon. No scenery, no floor, no cast shadow, no grey haze, no halo, no gradient, no glow, no smoke. Opaque character pixels with clean antialiased edges. No words, logos, text or watermark. Keep the original face and glasses; change only costume, prop and pose.",
+  "generatedFile": "/Users/menglingkang/.codex/generated_images/01a1483b-a6a3-7211-b97f-4618e476061f/exec-cff9e58d-7fab-4773-b438-9e454c448a70.png",
+  "output": "02-梁武峰_武将分身_v1.png",
+  "review": "已核对同款眼镜、黑发、蓝灰铠甲、披风与关刀，全身完整。虽请求透明底，但图像仍有灰色光晕；仅作为静态形象草案，不作透明地图动作。",
+  "appearance": "后续章节候选；active:false；前四小节新手村不登场。"
+}

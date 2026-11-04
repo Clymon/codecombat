@@ -6,7 +6,7 @@ const heroes = [
 ].map(([id, name]) => ({ id, name, unlocked: id === chapter.hero, image: `/teaching/assets/characters/${id}.png` }))
 const npcs = [
   { id: 'liang-wenfeng', name: '梁文锋', role: '新手村导师', active: true, image: '/teaching/assets/characters/liang-wenfeng.png' },
-  { id: 'liang-wufeng', name: '梁武峰', active: false, status: '身份设定待确认' },
+  { id: 'liang-wufeng', name: '梁武峰', active: false, variantOf: 'liang-wenfeng', role: '虚构武将版／玩梗分身', image: '/teaching/assets/npcs/liang-wufeng.png', artStatus: 'portrait-draft' },
   { id: 'jensen-huang', image: '/teaching/assets/npcs/jensen-huang.png', artStatus: 'portrait-draft', name: '黄仁勋', active: false, role: '后续工坊人物' },
   { id: 'lisa-su', image: '/teaching/assets/npcs/lisa-su.png', artStatus: 'portrait-draft', name: '苏妈（苏姿丰）', active: false, role: '后续工坊人物' },
   { id: 'elon-musk', image: '/teaching/assets/npcs/elon-musk.png', artStatus: 'portrait-draft', name: '马斯克', active: false, role: '后续探索人物' },
