@@ -3189,6 +3189,15 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "learningContract": {
+          "loops": [
+            "while"
+          ],
+          "inside": {
+            "moveRight": "while"
+          },
+          "allowZero": true
+        },
         "walls": [
           {
             "x": 2,
@@ -4084,6 +4093,15 @@
       1,
       0
     ],
+    "learningContract": {
+      "loops": [
+        "while"
+      ],
+      "inside": {
+        "moveRight": "while"
+      },
+      "allowZero": true
+    },
     "title": "还剩3格",
     "sensor": {
       "length": 3

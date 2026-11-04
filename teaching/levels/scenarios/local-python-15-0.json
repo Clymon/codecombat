@@ -4909,6 +4909,16 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "learningContract": {
+          "loops": [
+            "for"
+          ],
+          "inside": {
+            "moveRight": "for",
+            "press": "for"
+          },
+          "maxStatements": 3
+        },
         "walls": [
           {
             "x": 2,
@@ -6281,6 +6291,16 @@
       1,
       0
     ],
+    "learningContract": {
+      "loops": [
+        "for"
+      ],
+      "inside": {
+        "moveRight": "for",
+        "press": "for"
+      },
+      "maxStatements": 3
+    },
     "scenarioIndex": 0,
     "scenarioTitles": [
       "主场景"

@@ -40,7 +40,7 @@ module.exports = function setupLocalLevels (app) {
   const levels = () => fs.readdirSync(levelsDir).filter(f => /^local-python-\d{2}\.json$/.test(f)).map(f => readLevel(f.slice(0, -5))).sort((a, b) => (a.teachingMap.lessonOrder || ({ 1: 3, 2: 4, 3: 5 }[a.teachingMap.index])) - (b.teachingMap.lessonOrder || ({ 1: 3, 2: 4, 3: 5 }[b.teachingMap.index])))
   const htmlHeaders = { 'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'", 'X-Frame-Options': 'DENY', 'Referrer-Policy': 'no-referrer' }
   const render = (res, student, error = '', status = 200) => {
-    return res.status(status).set(htmlHeaders).type('html').send(accountPage({ student, levels: levels(), progress: student ? accounts.readProgress(student.studentId) : {}, releases: classroom.releases(), error, formToken: accounts.formToken(res.req, res) }))
+    return res.status(status).set(htmlHeaders).type('html').send(accountPage({ student, levels: levels(), progress: student ? accounts.readProgress(student.studentId) : {}, releases: classroom.releases(), visibility: classroom.visibility(), showTeacher: classroom.isTeacherLocal(res.req), error, formToken: accounts.formToken(res.req, res) }))
   }
   const teacherOnly = (req, res) => {
     if (classroom.isTeacherLocal(req)) return true
@@ -51,7 +51,23 @@ module.exports = function setupLocalLevels (app) {
     if (!teacherOnly(req, res)) return
     const students = accounts.registeredStudents()
     const progressById = Object.fromEntries(students.map(student => [student.studentId, accounts.readProgress(student.studentId)]))
-    res.set(htmlHeaders).type('html').send(teacherPage.teacherPage({ levels: levels(), students, releases: classroom.releases(), progressById, formToken: accounts.formToken(req, res) }))
+    const count = Number(req.query.count); const actions = { hide: '隐藏', show: '显示', open: '开放', close: '关闭' }
+    const notice = typeof req.query.updated === 'string' && Object.hasOwn(actions, req.query.updated) && Number.isInteger(count) && count > 0 && count <= levels().length ? `已批量${actions[req.query.updated]} ${count} 关。` : ''
+    res.set({ ...htmlHeaders, 'Content-Security-Policy': htmlHeaders['Content-Security-Policy'] + "; script-src 'self'" }).type('html').send(teacherPage.teacherPage({ levels: levels(), students, releases: classroom.releases(), visibility: classroom.visibility(), progressById, notice, formToken: accounts.formToken(req, res) }))
+  })
+  app.get('/teaching/teacher/controls.js', (req, res) => {
+    if (!teacherOnly(req, res)) return
+    res.set('Cache-Control', 'no-cache').type('application/javascript').send(fs.readFileSync(path.join(__dirname, 'teacher-controls.js'), 'utf8'))
+  })
+  app.post('/teaching/teacher/bulk', formParser, (req, res) => {
+    if (!teacherOnly(req, res)) return
+    if (!accounts.validForm(req)) return res.sendStatus(403)
+    const values = typeof req.body?.slugs === 'string' ? [req.body.slugs] : req.body?.slugs
+    const operation = req.body?.operation
+    if (!Array.isArray(values) || !values.length || values.length > levels().length || !values.every(slug => typeof slug === 'string' && readLevel(slug)) || !['hide', 'show', 'open', 'close'].includes(operation)) return res.status(400).type('text').send('请先勾选有效关卡，再选择批量操作。')
+    const slugs = [...new Set(values)]
+    classroom.updateMany(slugs, operation)
+    res.redirect(303, `/teaching/teacher?updated=${operation}&count=${slugs.length}#bulk-controls`)
   })
   app.get('/teaching/teacher/student/:studentId', (req, res) => {
     if (!teacherOnly(req, res)) return
@@ -65,7 +81,15 @@ module.exports = function setupLocalLevels (app) {
     const slug = req.body?.slug
     if (!readLevel(slug) || !['true', 'false'].includes(req.body?.open)) return res.sendStatus(400)
     classroom.setUnlocked(slug, req.body.open === 'true')
-    res.redirect(303, '/teaching/teacher')
+    res.redirect(303, `/teaching/teacher#release-${slug}`)
+  })
+  app.post('/teaching/teacher/visibility', formParser, (req, res) => {
+    if (!teacherOnly(req, res)) return
+    if (!accounts.validForm(req)) return res.sendStatus(403)
+    const slug = req.body?.slug
+    if (!readLevel(slug) || !['true', 'false'].includes(req.body?.visible)) return res.sendStatus(400)
+    classroom.setVisible(slug, req.body.visible === 'true')
+    res.redirect(303, `/teaching/teacher#release-${slug}`)
   })
   // Read-only preview, then a CSRF-protected transition. Never bypass teacher releases.
   const continuation = (req, res) => {
@@ -77,7 +101,7 @@ module.exports = function setupLocalLevels (app) {
     const progress = accounts.readProgress(student.studentId); const session = progress[slug]
     const sessionId = req.method === 'GET' ? req.query.sessionId : req.body?.sessionId
     if (!session || session._id !== sessionId) { res.status(409).json({ message: '这个页面的场景已改变，请刷新后继续。' }); return null }
-    const next = require('./continuation').nextTask(levels(), slug, session, classroom.releases())
+    const next = require('./continuation').nextTask(levels().filter(level => classroom.isVisible(level.slug)), slug, session, classroom.releases())
     return { student, progress, next }
   }
   app.get('/teaching/continue/:slug', (req, res) => {
@@ -160,8 +184,8 @@ module.exports = function setupLocalLevels (app) {
   })
   app.get('/db/level.system/facadecccc00000000000001/version/0', (req, res) => {
     if (!requireStudent(req, res)) return
-    const code = fs.readFileSync(path.join(__dirname, 'rules-system.js'), 'utf8')
-    res.json({ _id: 'facadecccc00000000000001', original: 'facadecccc00000000000001', name: 'TeachingRules', codeLanguage: 'javascript', code, js: code, version: { major: 0, minor: 0 }, dependencies: [], configSchema: { type: 'object', properties: { walls: { type: 'array', default: [] }, bounds: { type: 'object' }, guard: { type: ['object', 'null'] }, checkpoints: { type: 'array' }, exit: { type: 'array' }, hazards: { type: 'array' }, gates: { type: 'array' }, noGems: { type: 'boolean' }, requireFinished: { type: 'boolean' }, exitStyle: { type: 'string' }, exitDirection: { type: 'array' }, exitDuration: { type: 'number' }, sensor: { type: 'object' }, switches: { type: 'array' }, singleStep: { type: 'boolean' }, maxActions: { type: 'number' }, expectedSpeech: { type: ['array', 'null'] } } } })
+    const code = fs.readFileSync(path.join(__dirname, 'learning-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingLearning =') + '\n' + fs.readFileSync(path.join(__dirname, 'adventure-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingAdventure =') + '\n' + fs.readFileSync(path.join(__dirname, 'rules-system.js'), 'utf8')
+    res.json({ _id: 'facadecccc00000000000001', original: 'facadecccc00000000000001', name: 'TeachingRules', codeLanguage: 'javascript', code, js: code, version: { major: 0, minor: 0 }, dependencies: [], configSchema: { type: 'object', properties: { learningContract: { type: ['object', 'null'] }, adventureConfig: { type: ['object', 'null'] }, walls: { type: 'array', default: [] }, bounds: { type: 'object' }, guard: { type: ['object', 'null'] }, checkpoints: { type: 'array' }, exit: { type: 'array' }, hazards: { type: 'array' }, gates: { type: 'array' }, noGems: { type: 'boolean' }, requireFinished: { type: 'boolean' }, exitStyle: { type: 'string' }, exitDirection: { type: 'array' }, exitDuration: { type: 'number' }, sensor: { type: 'object' }, switches: { type: 'array' }, singleStep: { type: 'boolean' }, maxActions: { type: 'number' }, expectedSpeech: { type: ['array', 'null'] } } } })
   })
   app.get('/db/level/:slug/session', (req, res, next) => {
     const level = readLevel(req.params.slug)

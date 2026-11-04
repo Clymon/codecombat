@@ -48,7 +48,7 @@ module.exports = class DocFormatter
     if @options.isSnippet
       @doc.type = 'snippet'
       @doc.owner = 'snippets'
-      @doc.shortName = @doc.shorterName = @doc.title = @doc.name
+      @doc.shortName = @doc.shorterName = @doc.title = @doc.displayName ? @doc.name
     else if @doc.owner in ['HTML', 'CSS', 'WebJavaScript', 'jQuery']
       @doc.shortName = @doc.shorterName = @doc.title = @doc.name
     else
@@ -249,6 +249,7 @@ module.exports = class DocFormatter
     v
 
   inferCooldowns: ->
+    return null if @doc.teachingCommand  # Equipment stats do not describe our custom actions.
     return null unless @doc.type is 'function' and @doc.owner is 'this'
     owner = @options.thang
     cooldowns = null

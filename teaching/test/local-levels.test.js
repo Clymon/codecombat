@@ -128,7 +128,7 @@ test('student-number first login, repeat login, isolated progress and upstream p
     assert.equal((await fetch(`${base}/db/level.system/facadecccc00000000000001/version/0`)).status, 401)
     assert.equal(classroom.isTeacherLocal({ socket: { remoteAddress: '192.168.1.2' }, get: () => `127.0.0.1:${server.address().port}` }), false)
     assert.equal(classroom.isTeacherLocal({ socket: { remoteAddress: '127.0.0.1' }, get: () => `student.example:${server.address().port}` }), false)
-    assert.equal(Object.keys(classroom.releases()).length, 21)
+    assert.equal(Object.keys(classroom.releases()).length, require('../map-designs').length)
     assert.equal(classroom.releases()['local-python-04'], true)
     assert.equal(classroom.releases()['local-python-21'], false)
     assert.equal((await form('/teaching/login', 'abc')).status, 400)
@@ -302,4 +302,10 @@ test('exit seals reflect unmet goals and opening time changes only when actually
   assert.equal(w.hero.teachingExitReady, true); assert.equal(w.hero.teachingExitOpenedAt, 2); assert.equal(w.hero.teachingFailure, '')
   w.age = 3; r.update(); assert.equal(w.hero.teachingExitOpenedAt, 2)
   w.hero.pos.x = 36; w.hero.plansAreFinished = true; r.update(); assert.equal(w.goals['reach-exit'], 'success')
+})
+
+test('Python boolean speech uses True and False in the new victory-condition tutorial', () => {
+  const w = world(12, 12); w.hero.world = w; w.hero.say = function (v) { this.sayMessage = String(v); return 'done' }
+  const rules = new Rules(w, {}); rules.start(); w.hero.say(false); w.age = 1; w.hero.say(true)
+  assert.deepEqual(JSON.parse(w.hero.teachingSpeechLog).map(e => e.text), ['False', 'True'])
 })

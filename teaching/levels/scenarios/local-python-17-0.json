@@ -3188,6 +3188,14 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "learningContract": {
+          "loops": [
+            "while"
+          ],
+          "inside": {
+            "moveRight": "while"
+          }
+        },
         "walls": [
           {
             "x": 2,
@@ -4077,6 +4085,14 @@
       1,
       0
     ],
+    "learningContract": {
+      "loops": [
+        "while"
+      ],
+      "inside": {
+        "moveRight": "while"
+      }
+    },
     "scenarioIndex": 0,
     "scenarioTitles": [
       "主场景"

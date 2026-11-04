@@ -4163,6 +4163,7 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "learningContract": null,
         "walls": [
           {
             "x": 2,
@@ -5362,6 +5363,7 @@
       1,
       0
     ],
+    "learningContract": null,
     "scenarioIndex": 0,
     "scenarioTitles": [
       "主场景"

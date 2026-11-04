@@ -3,7 +3,9 @@
 const createjs = require('lib/createjs-parts')
 const { visibleSpeech, MAX_VISIBLE } = require('teaching/speech-stack')
 const { drawDungeonDevices } = require('teaching/dungeon-devices')
+const { drawAdventure } = require('teaching/adventure-view')
 const { exitPose } = require('teaching/exit-effects')
+const { attachGuide } = require('teaching/tutorial-guide')
 module.exports = class TeachingMapOverlay {
   constructor (surface, design) {
     this.surface = surface
@@ -14,7 +16,7 @@ module.exports = class TeachingMapOverlay {
     if (!document.getElementById('teaching-layout-style')) {
       const style = document.createElement('style')
       style.id = 'teaching-layout-style'
-      style.textContent = '#level-view.local-teaching-level{overflow:clip!important} #teaching-task{position:absolute;left:12px;top:160px;z-index:8;max-width:310px;background:#182730ed;color:#f8edda;border:1px solid #ad9870;border-radius:8px;padding:10px 14px;font-size:15px;line-height:1.65} #teaching-task summary{cursor:pointer;font-weight:bold} #teaching-task p{margin:8px 0} #teaching-task details{border-top:1px solid #65737b;padding-top:6px} #teaching-task a{color:#a4e8d4}'
+      style.textContent = '#level-view.local-teaching-level{overflow:clip!important} #level-view.local-teaching-level #goals-view{top:52px!important;left:8px!important;transform:none!important;max-width:300px;font-size:14px} #teaching-task[open]{max-height:calc(100vh - 280px);overflow-y:auto} #teaching-task pre{font-size:13px;line-height:1.5;background:#101d25;color:#fff1c7;padding:8px;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #596668} #teaching-task h4{color:#ffe2a3} #teaching-task .guide-observe{color:#b9dacd;font-size:13px} #teaching-task .teaching-code-rule{color:#ffe2a3;font-weight:bold} #teaching-task{position:absolute;left:12px;top:218px;z-index:8;max-width:310px;background:#182730ed;color:#f8edda;border:1px solid #ad9870;border-radius:8px;padding:10px 14px;font-size:15px;line-height:1.65} #teaching-task summary{cursor:pointer;font-weight:bold} #teaching-task p{margin:8px 0} #teaching-task details{border-top:1px solid #65737b;padding-top:6px} #teaching-task a{color:#a4e8d4}'
       document.head.appendChild(style)
     }
     root?.querySelector('#teaching-task')?.remove()
@@ -22,7 +24,7 @@ module.exports = class TeachingMapOverlay {
     task.id = 'teaching-task'
     const title = document.createElement('summary'); title.textContent = '任务日志 · 提示'
     task.appendChild(title)
-    const scene = document.createElement('p'); scene.textContent = `第 ${design.section || 1} 小节 · ${design.knowledge || '顺序与移动'} · ${design.scenarioTitles?.[design.scenarioIndex || 0] || '主场景'}`; task.appendChild(scene)
+    const scene = document.createElement('p'); scene.textContent = `${design.prototype ? '互动样关' : `第 ${design.section || 1} 小节`} · ${design.knowledge || '顺序与移动'} · ${design.scenarioTitles?.[design.scenarioIndex || 0] || '主场景'}`; task.appendChild(scene)
     const quest = document.createElement('p'); quest.textContent = design.quest || design.description; task.appendChild(quest)
     const instructions = document.createElement('details'); const heading = document.createElement('summary'); const description = document.createElement('p')
     heading.textContent = '编程要求与验收'; description.textContent = design.description; instructions.append(heading, description); task.appendChild(instructions)
@@ -31,6 +33,7 @@ module.exports = class TeachingMapOverlay {
       summary.textContent = `提示 ${index + 1}`; text.textContent = hint; detail.append(summary, text); task.appendChild(detail)
     }
     const back = document.createElement('a'); back.href = `/teaching#${design.slug || ''}`; back.textContent = '选择其他关卡或场景'; task.appendChild(back)
+    this.updateGuide = attachGuide(task, design)
     root?.appendChild(task)
 
     this.container = new createjs.Container()
@@ -78,6 +81,10 @@ module.exports = class TeachingMapOverlay {
       this.container.addChild(holder)
       return { holder, box, line }
     })
+    this.adventureLabels = Array.from({ length: 24 }, () => {
+      const text = new createjs.Text('', 'bold 14px Arial', '#fff0cf')
+      text.textAlign = 'center'; text.visible = false; this.container.addChild(text); return text
+    })
     surface.webGLStage.setClearColor('#181613')
     surface.normalStage.addChild(this.container)
   }
@@ -87,24 +94,28 @@ module.exports = class TeachingMapOverlay {
     this.surface.zoomToHero = false
     if (this.lastWorld !== world) {
       this.lastWorld = world
-      let width = this.design.size[0] + 12
+      let width = (this.design.size[0] + 12) * (this.design.tutorial ? 1.32 : 1)
       let height = this.design.size[1] + 12
       const aspect = camera.canvasWidth * camera.y2x / camera.canvasHeight
       if (width / height > aspect) height = width / aspect
       else width = height * aspect
-      const cx = this.design.size[0] / 2; const cy = this.design.size[1] / 2
+      const cx = this.design.size[0] / 2 - (this.design.tutorial ? width * 0.12 : 0); const cy = this.design.size[1] / 2
       camera.setBounds([{ x: cx - width / 2, y: cy - height / 2 }, { x: cx + width / 2, y: cy + height / 2 }])
       camera.zoomTo(camera.worldToSurface({ x: cx, y: cy }), camera.canvasWidth / (width * 10), 0)
     }
     const g = this.ink.graphics.clear()
     const hero = world.getThangByID('Hero Placeholder')
+    this.updateGuide?.(hero)
     this.message.text = hero?.teachingFailure || ''
     this.message.x = camera.canvasWidth / 2
     const normalCanvas = this.surface.normalCanvas?.[0]
     const canvasTop = normalCanvas?.getBoundingClientRect().top || 0
-    this.message.lineWidth = Math.min(1000, camera.canvasWidth - 70)
+    const taskPanel = document.getElementById('teaching-task')
+    const messageLeft = taskPanel?.open ? Math.max(0, taskPanel.getBoundingClientRect().right - (normalCanvas?.getBoundingClientRect().left || 0)) + 18 : 0
+    this.message.x = messageLeft + (camera.canvasWidth - messageLeft) / 2
+    this.message.lineWidth = Math.max(180, Math.min(1000, camera.canvasWidth - messageLeft - 70))
     this.message.lineHeight = 22
-    this.message.y = Math.min(camera.canvasHeight, window.innerHeight - canvasTop) - 100
+    this.message.y = Math.min(camera.canvasHeight, window.innerHeight - canvasTop) - 56
     this.updateSpeech(hero, world.age, camera)
     this.updateGateReplies(world, camera)
     for (const label of this.labels) {
@@ -114,7 +125,10 @@ module.exports = class TeachingMapOverlay {
         .drawRect(p.x - w / 2, p.y - 12, w, 24).endFill().endStroke()
     }
     this.updateDeparture(hero, world, camera)
-    drawDungeonDevices(this.floorInk.graphics.clear(), this.design, hero, world, camera, g)
+    const floorGraphics = this.floorInk.graphics.clear()
+    if (this.design.adventure?.mode !== 'defend') drawDungeonDevices(floorGraphics, this.design, hero, world, camera, g)
+    const labels = drawAdventure(g, floorGraphics, this.design, hero, world, camera, this.surface)
+    this.adventureLabels.forEach((text, i) => { text.visible = !!labels[i]; if (labels[i]) Object.assign(text, labels[i]) })
     const stage = this.surface.webGLStage; const obstacles = this.surface.lankBoss.layerAdapters.Obstacle.container
     if (this.floorInk.parent !== stage) stage.addChildAt(this.floorInk, stage.getChildIndex(obstacles))
     this.floorInk.scaleX = camera.canvasScaleFactorX

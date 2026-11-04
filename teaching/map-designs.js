@@ -129,3 +129,7 @@ module.exports.push(...require('./advanced-maps'))
 
 // Presentation and quest wording share the same source for classroom handouts.
 require('./dungeon-presentation')(module.exports)
+module.exports.push(...require('./adventure-maps'))
+module.exports.push(...require('./tutorial-maps'))
+const learningContracts = require('./learning-contracts.json')
+for (const design of module.exports) design.learningContract = learningContracts[design.index] || null

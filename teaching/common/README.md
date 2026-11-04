@@ -12,3 +12,5 @@
 `tools/build-levels.js`使用通用角色资源的默认组件信息，独立生成本项目原创地图、题面、目标与摆放位置。采样的组件JSON用于实现时核对接口；不是离线资源包。
 
 2026-11-04新增：`soldier-m.json` 引用官方通用 Soldier M（`529e680ac423d4e83b000001`），用于门岗卫兵；与玩家Knight模型区分。仅保存original/name/components/kind，外观资源沿用上游授权和代理加载。
+
+2026-11-04新增：`archer-f.json`，官方通用Archer F（`529ab1a24b67a988ad000002`），用于原创救援样关的友方弓手；来源为上述公开ThangType接口，沿用CC BY 4.0署名。

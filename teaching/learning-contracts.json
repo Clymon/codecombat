@@ -1,0 +1,153 @@
+{
+  "13": {
+    "loops": [
+      "for"
+    ],
+    "inside": {
+      "moveRight": "for"
+    },
+    "maxStatements": 2
+  },
+  "14": {
+    "loops": [
+      "for"
+    ],
+    "inside": {
+      "moveRight": "for",
+      "press": "for"
+    },
+    "maxStatements": 3
+  },
+  "15": {
+    "loops": [
+      "for"
+    ],
+    "inside": {
+      "moveRight": "for",
+      "press": "for"
+    },
+    "maxStatements": 3
+  },
+  "16": {
+    "loops": [
+      "for"
+    ],
+    "inside": {
+      "moveRight": "for"
+    },
+    "maxStatements": 3
+  },
+  "17": {
+    "loops": [
+      "while"
+    ],
+    "inside": {
+      "moveRight": "while"
+    }
+  },
+  "18": {
+    "loops": [
+      "while"
+    ],
+    "inside": {
+      "moveRight": "while"
+    },
+    "allowZero": true
+  },
+  "19": {
+    "loops": [
+      "while"
+    ],
+    "inside": {
+      "moveRight": "while"
+    },
+    "allowZero": true,
+    "maxStatements": 2
+  },
+  "20": {
+    "loops": [
+      "while"
+    ],
+    "inside": {
+      "moveRight": "while",
+      "wait": "while"
+    }
+  },
+  "21": {
+    "loops": [
+      "for",
+      "while"
+    ],
+    "inside": {
+      "moveUp": "while"
+    }
+  },
+  "24": {
+    "loops": [
+      "for"
+    ],
+    "inside": {
+      "moveUp": "for",
+      "moveDown": "for",
+      "say": "for"
+    },
+    "maxStatements": 6
+  },
+  "25": {
+    "loops": [
+      "while"
+    ],
+    "inside": {
+      "findNearestEnemy": "while",
+      "attack": "while,if",
+      "wait": "while"
+    }
+  },
+  "29": {
+    "loops": [
+      "for"
+    ],
+    "inside": {
+      "moveUp": "for",
+      "moveDown": "for",
+      "say": "for"
+    },
+    "maxStatements": 6
+  },
+  "30": {
+    "calls": [
+      "findNearestEnemy",
+      "attack"
+    ],
+    "attackVariable": true
+  },
+  "31": {
+    "calls": [
+      "findNearestEnemy"
+    ],
+    "inside": {
+      "attack": "if"
+    },
+    "attackVariable": true
+  },
+  "32": {
+    "calls": [
+      "isVictory",
+      "wait",
+      "findNearestEnemy",
+      "attack"
+    ],
+    "attackVariable": true
+  },
+  "33": {
+    "loops": [
+      "while"
+    ],
+    "inside": {
+      "findNearestEnemy": "while",
+      "attack": "while,if",
+      "wait": "while"
+    },
+    "attackVariable": true
+  }
+}

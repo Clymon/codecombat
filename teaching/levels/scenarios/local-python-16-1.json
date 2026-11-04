@@ -3777,6 +3777,15 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "learningContract": {
+          "loops": [
+            "for"
+          ],
+          "inside": {
+            "moveRight": "for"
+          },
+          "maxStatements": 3
+        },
         "walls": [
           {
             "x": 2,
@@ -4803,6 +4812,15 @@
       1,
       0
     ],
+    "learningContract": {
+      "loops": [
+        "for"
+      ],
+      "inside": {
+        "moveRight": "for"
+      },
+      "maxStatements": 3
+    },
     "title": "走廊 4 格",
     "sensor": {
       "length": 4

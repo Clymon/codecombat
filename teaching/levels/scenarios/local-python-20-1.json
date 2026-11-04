@@ -3552,6 +3552,15 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "learningContract": {
+          "loops": [
+            "while"
+          ],
+          "inside": {
+            "moveRight": "while",
+            "wait": "while"
+          }
+        },
         "walls": [
           {
             "x": 2,
@@ -4516,6 +4525,15 @@
       1,
       0
     ],
+    "learningContract": {
+      "loops": [
+        "while"
+      ],
+      "inside": {
+        "moveRight": "while",
+        "wait": "while"
+      }
+    },
     "title": "巡逻场景2",
     "guard": {
       "id": "Patrol",

@@ -6979,6 +6979,15 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "learningContract": {
+          "loops": [
+            "for",
+            "while"
+          ],
+          "inside": {
+            "moveUp": "while"
+          }
+        },
         "walls": [
           {
             "x": 2,
@@ -8852,6 +8861,15 @@
       1,
       0
     ],
+    "learningContract": {
+      "loops": [
+        "for",
+        "while"
+      ],
+      "inside": {
+        "moveUp": "while"
+      }
+    },
     "title": "上行 2 格",
     "checkpointLabels": [
       "在这里报口令",

@@ -151,6 +151,12 @@ module.exports = class SpellPaletteView extends CocoView
         allDocs['__' + doc.name].push doc
         if doc.type is 'snippet' then doc.owner = 'snippets'
 
+    # Local maps implement their own commands; official equipment docs can differ.
+    @teachingDocs = require('teaching/command-docs').commandDocs(@options.level.get('slug'), @options.level.get('teachingMap'), @options.language)
+    for doc in @teachingDocs
+      allDocs['__' + doc.name] = [doc]
+      delete excludedDocs['__' + doc.name]
+
     if @options.programmable
       propStorage =
         'this': 'programmableProperties'
@@ -238,6 +244,13 @@ module.exports = class SpellPaletteView extends CocoView
         continue if me.isStudent() and me.showHeroAndInventoryModalsToStudents() and (prop in warriorHeroProps)
         propsByItem['Hero'] ?= []
         propsByItem['Hero'].push owner: owner, prop: prop, item: itemThangTypes[@thang.spriteName]
+        ++propCount
+
+    # print is Python syntax, not a hero method. Keep it in the same help palette.
+    if @options.programmable
+      for doc in @teachingDocs when doc.type is 'snippet'
+        propsByItem['Hero'] ?= []
+        propsByItem['Hero'].push owner: 'snippets', prop: doc.name, item: itemThangTypes[@thang.spriteName]
         ++propCount
 
     Backbone.Mediator.publish 'tome:update-snippets', propGroups: propsByItem, allDocs: allDocs, language: @options.language

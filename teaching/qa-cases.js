@@ -2,6 +2,10 @@
 const designs = require('./map-designs')
 const samples = { 1: 'hero.moveUp()\nhero.moveRight(2)\nhero.moveDown()', 2: 'hero.moveRight(4)', 3: 'hero.moveUp(2)\nhero.moveRight(3)\nhero.moveDown(2)\nhero.moveRight()' }
 const bad = {
+  22: [[0, 'hero.moveRight(4)', '未引诱追兵，直接到出口'], [0, 'hero.moveUp(2)\nhero.moveRight(2)', '英雄自己踩中尖刺']],
+  23: [[0, 'hero.moveRight()\nhero.moveUp(3)', '硬闯未破牢门'], [0, 'hero.attack("不存在的门")', '对象名字错误']],
+  24: [[0, 'print("点火")\nhero.moveRight(7)', '在远处喊口令'], [0, 'hero.moveRight()\nhero.moveUp(2)\nprint("出发")', '台前口令错误']],
+  25: [[0, 'hero.attack(hero.findNearestEnemy())', '尚无敌人，缺少if判断'], [1, 'hero.wait()\nenemy = hero.findNearestEnemy()\nwhile True:\n    hero.attack(enemy)', '循环外只找一次，目标倒下仍反复攻击']],
   1: [[0, 'hero.moveRight()', '近路尖刺'], [0, 'hero.moveUp()', '只踩石板，未取宝到出口']],
   2: [[0, 'hero.moveRight(3)', '停在第三格'], [0, 'hero.moveRight(5)', '超过出口']],
   3: [[0, 'hero.moveRight(3)', '走巡逻通道'], [0, 'hero.moveUp(2)\nhero.moveRight(3)', '漏宝石和出口']],
@@ -24,4 +28,4 @@ const bad = {
   20: [[1, 'while not hero.atBeacon():\n    hero.moveRight()', '没有等巡逻'], [1, 'safe = hero.nextTileSafe()\nwhile not hero.atBeacon():\n    if safe:\n        hero.moveRight()\n    else:\n        hero.wait()', '不重新检测路况']],
   21: [[0, 'print("自己人")\nhero.moveRight(3)', '起点说口令'], [1, 'hero.moveRight()\nprint("自己人")\nfor step in range(2):\n    hero.moveRight()\nremaining = 2\nwhile remaining > 0:\n    hero.moveUp()\n    remaining -= 1', '把未知上行距离写死为2']],
 }
-module.exports = designs.map(d => ({ index: d.index, section: d.section, slug: `local-python-${String(d.index).padStart(2, '0')}`, references: (d.scenarios || [{}]).map((s, scene) => ({ scene, title: s.title || '主场景', code: s.solution || d.solution || samples[d.index] })), mistakes: bad[d.index].map(([scene, code, reason]) => ({ scene, code, reason })) }))
+module.exports = designs.map(d => ({ index: d.index, section: d.section, slug: `local-python-${String(d.index).padStart(2, '0')}`, references: (d.scenarios || [{}]).map((s, scene) => ({ scene, title: s.title || '主场景', code: s.solution || d.solution || samples[d.index] })), mistakes: (bad[d.index] || []).map(([scene, code, reason]) => ({ scene, code, reason })) }))

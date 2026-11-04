@@ -5631,6 +5631,7 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "learningContract": null,
         "walls": [
           {
             "x": 2,
@@ -7112,6 +7113,7 @@
       1,
       0
     ],
+    "learningContract": null,
     "title": "左路开放",
     "sensor": {
       "open": {

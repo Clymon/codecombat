@@ -1,0 +1,92 @@
+仅供教师备课。26—33关默认隐藏，按三组批量开放。
+
+26 攻击教学：击破第一扇牢门
+主场景
+hero.attack("牢门")
+hero.attack("牢门")
+hero.moveRight(2)
+
+
+27 救援挑战：让弓箭手加入
+主场景
+hero.moveRight()
+hero.moveUp()
+hero.attack("牢门")
+hero.attack("牢门")
+hero.moveDown()
+hero.moveRight(2)
+hero.attack("重甲守卫")
+hero.attack("重甲守卫")
+hero.attack("重甲守卫")
+hero.attack("重甲守卫")
+hero.moveRight(3)
+
+
+28 信号教学：走近后再点火
+主场景
+hero.moveRight()
+hero.moveUp(2)
+print("点火")
+hero.moveDown(2)
+hero.moveRight(2)
+
+
+29 for挑战：点亮三座信号台
+主场景
+hero.moveRight()
+for i in range(3):
+    hero.moveUp(2)
+    print("点火")
+    hero.moveDown(2)
+    hero.moveRight(2)
+
+
+30 观察教学：找到敌人再攻击
+主场景
+hero.moveRight()
+enemy = hero.findNearestEnemy()
+hero.attack(enemy)
+hero.moveRight(2)
+
+
+31 判断教学：没有敌人就不攻击
+通道里有斥候
+hero.moveRight()
+enemy = hero.findNearestEnemy()
+if enemy:
+    hero.attack(enemy)
+hero.moveRight(2)
+
+空通道，没有敌人
+hero.moveRight()
+enemy = hero.findNearestEnemy()
+if enemy:
+    hero.attack(enemy)
+hero.moveRight(2)
+
+
+32 守营准备：等待与胜利条件
+主场景
+print(hero.isVictory())
+hero.wait()
+enemy = hero.findNearestEnemy()
+if enemy:
+    hero.attack(enemy)
+
+
+33 while挑战：守住分批增援
+三名敌人，分批到来
+while not hero.isVictory():
+    enemy = hero.findNearestEnemy()
+    if enemy:
+        hero.attack(enemy)
+    else:
+        hero.wait()
+
+四名敌人，间隔变短
+while not hero.isVictory():
+    enemy = hero.findNearestEnemy()
+    if enemy:
+        hero.attack(enemy)
+    else:
+        hero.wait()

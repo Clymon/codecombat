@@ -2865,6 +2865,15 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "learningContract": {
+          "loops": [
+            "while"
+          ],
+          "inside": {
+            "moveRight": "while"
+          },
+          "allowZero": true
+        },
         "walls": [
           {
             "x": 2,
@@ -3684,6 +3693,15 @@
       1,
       0
     ],
+    "learningContract": {
+      "loops": [
+        "while"
+      ],
+      "inside": {
+        "moveRight": "while"
+      },
+      "allowZero": true
+    },
     "title": "已到达：0格",
     "sensor": {
       "length": 0

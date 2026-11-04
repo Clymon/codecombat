@@ -25,7 +25,7 @@ function make (design) {
   const hero = entity('knight', 'Hero Placeholder', ...design.start, [
     engineComponent(ids.simple, { allowsArguments: true, allowsSimpleMoveArguments: true }),
     engineComponent(ids.programmable, { programmableProperties: ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'say', ...(design.apis || [])], programmableMethods: { plan: { name: 'plan', source: '// Write movement commands here.\n', languages: { python: design.starter || '# 观察地图，在下面写移动命令。\n' }, permissions: { read: [], readwrite: ['humans'] } } } }),
-    engineComponent(ids.plans, { worldEndsAfter: (durations[design.exitStyle] || 0) + 1.7 }),
+    engineComponent(ids.plans, { worldEndsAfter: design.prototype ? 42 : (durations[design.exitStyle] || 0) + 1.7 }),
     engineComponent('524b7bab7fc0f6d519000017', { maxHealth: 100 }),
     engineComponent('524b7b8c7fc0f6d519000013', { maxSpeed: 12 }),
   ])
@@ -70,15 +70,27 @@ function make (design) {
     sentry.components.find(c => c.original === ids.physical).config.rotation = Math.atan2(gate.approach[1] - gate.at[1], gate.approach[0] - gate.at[0])
     thangs.push(sentry)
   }
+  for (const actor of design.adventure?.actors || []) {
+    const type = { enemy: 'ogre-m', ally: 'archer-f', door: 'dungeon-door', signal: 'torch' }[actor.kind]
+    thangs.push(entity(type, actor.id, ...actor.at, [
+      engineComponent(ids.exists, { stateless: false }),
+      ...(actor.kind !== 'signal' ? [engineComponent('524b7bab7fc0f6d519000017', { maxHealth: actor.health, health: actor.health })] : []),
+      ...(['enemy', 'ally'].includes(actor.kind) ? [engineComponent('524b7b8c7fc0f6d519000013', { maxSpeed: 0 }), engineComponent('524b7ba57fc0f6d519000016', { attackDamage: 0, attackRange: 0 })] : []),
+      ...(['ally', 'signal'].includes(actor.kind) ? [engineComponent('52a399b98537a70000000003', { scaleFactorX: actor.kind === 'ally' ? 1.6 : 2.8, scaleFactorY: actor.kind === 'ally' ? 1.6 : 2.8, quickScale: true })] : []),
+      engineComponent('524b7b857fc0f6d519000012', { collisionCategory: 'none', collisionType: 'static' }),
+    ]))
+  }
+  if (design.adventure?.camp) thangs.push(entity('torch', '营火', ...design.adventure.camp.at, [engineComponent('52a399b98537a70000000003', { scaleFactorX: 3, scaleFactorY: 3, quickScale: true })]))
   thangs.push(hero)
   positions.forEach(([x, y], n) => thangs.push(entity('gem', `Parcel ${n + 1}`, x, y)))
   const systems = systemIDs.map(original => engineComponent(original))
   systems.find(s => s.original === '5280f83b8ae1581b66000001').config = { lifespan: 40, frameRate: 20, randomSeed: 'zero' }
   systems.find(s => s.original === '528113240268d018e300000c').config = { simpleMoveDistance: 12, ...(index >= 7 ? { simpleMoveSnapPoints: Array.from({ length: Math.floor(width / 12) + 1 }, (_, x) => Array.from({ length: Math.floor(height / 12) + 1 }, (_, y) => ({ x: x * 12, y: y * 12 }))).flat(), simpleMoveSnapThreshold: 2.5 } : {}) }
   systems.find(s => s.original === '528114e60268d018e300001a').config = { showCoordinates: false, showGrid: false, preventZoomToHero: true, showPaths: 'never', showTargetMark: false }
-  systems.push(engineComponent('facadecccc00000000000001', { walls, bounds: { x1: 0, y1: 0, x2: width, y2: height }, guard: design.guard || null, checkpoints: design.checkpoints, exit: design.exit, hazards: design.hazards, gates: design.gates || [], noGems: positions.length === 0, requireFinished: true, exitStyle: design.exitStyle, exitDirection: design.exitDirection, exitDuration: durations[design.exitStyle] || 0, sensor: design.sensor || {}, switches: design.switches || [], singleStep: !!design.singleStep, maxActions: design.maxActions || 30, expectedSpeech: design.expectedSpeech || null }))
+  systems.push(engineComponent('facadecccc00000000000001', { learningContract: design.learningContract || null, ...(design.adventure ? { adventureConfig: { ...design.adventure, guided: !!design.tutorial } } : {}), walls, bounds: { x1: 0, y1: 0, x2: width, y2: height }, guard: design.guard || null, checkpoints: design.checkpoints, exit: design.exit, hazards: design.hazards, gates: design.gates || [], noGems: positions.length === 0, requireFinished: true, exitStyle: design.exitStyle, exitDirection: design.exitDirection, exitDuration: durations[design.exitStyle] || 0, sensor: design.sensor || {}, switches: design.switches || [], singleStep: !!design.singleStep, maxActions: design.maxActions || 30, expectedSpeech: design.expectedSpeech || null }))
   const { solution, scenarios, ...publicDesign } = design
   const level = { _id: id, original: id, slug, name, description, loadingTip: design.tip, type: 'hero', product: 'codecombat', version: { major: 0, minor: 0, isLatestMajor: true, isLatestMinor: true }, permissions: [{ target: 'public', access: 'read' }], thangs, systems, goals: [{ id: 'stay-safe', saveThangs: ['Hero Placeholder'], name: design.safetyGoalLabel || (design.guard ? '避开巡逻警戒圈' : design.gates?.length ? '不闯关闭的门岗' : design.hazards?.length ? '避开尖刺和石墙' : '不撞石墙'), worldEndsAfter: 1 }, { id: 'collect-parcels', name: `收集全部${positions.length}颗宝石`, collectThangs: { who: ['humans'], targets: positions.map((_, n) => `Parcel ${n + 1}`) }, worldEndsAfter: 1 }], documentation: { generalArticles: [], specificArticles: [{ name: '本关任务', body: description }] }, scripts: [{ id: 'Local Camera', channel: 'god:new-world-created', noteChain: [{ name: 'View', script: { duration: 0.01 }, playback: { playing: true } }] }], teachingMap: publicDesign, victory: {}, campaign: 'local-teaching', concepts: ['basic_syntax'], i18n: {}, releasePhase: 'internalRelease', aiChatKind: 'none' }
+  level.goals.push(...(design.goals || []).map(g => ({ ...g, worldEndsAfter: 1 })))
   if (!positions.length) level.goals = level.goals.filter(g => g.id !== 'collect-parcels')
   if (design.switches?.length) level.goals.push({ id: 'press-switches', name: '按顺序点亮指定开关', worldEndsAfter: 1 })
   if (design.expectedSpeech) level.goals.push({ id: 'show-values', name: '显示每轮减少后的值', worldEndsAfter: 1 })

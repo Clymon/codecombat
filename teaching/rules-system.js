@@ -1,10 +1,21 @@
-/* global System */
+/* global System, TeachingAdventure, TeachingLearning */
 // Original local map rules. Rendered walls and these bounds share one source.
 class TeachingRules extends System {
   start () {
     const hero = this.world.getThangByID('Hero Placeholder')
     this.installSpeech(hero)
     this.installSensors(hero)
+    if (hero && this.learningContract && !this.learning) this.learning = new TeachingLearning(this, hero, this.learningContract)
+    if (hero && this.adventureConfig) this.adventure = new TeachingAdventure(this, hero)
+    // Native idle/move completion may call unblock while our custom attack/wait
+    // is still running. Keep its Future alive until the custom action finishes.
+    if (hero?.unblock) {
+      const nativeUnblock = hero.unblock; const rules = this
+      hero.unblock = function (...args) {
+        if ((this.currentPlan?.methodName === 'attack' && rules.adventure?.swing) || (this.currentPlan?.methodName === 'wait' && this.teachingWaitUntil != null)) return
+        return nativeUnblock.apply(this, args)
+      }
+    }
   }
 
   fail (hero, message) {
@@ -155,6 +166,7 @@ class TeachingRules extends System {
     const rules = this
     const originalSay = hero.say
     hero.say = function (...args) {
+      if (typeof args[0] === 'boolean') args[0] = args[0] ? 'True' : 'False'
       const newMessage = !this.currentPlan && args[0] != null
       const result = originalSay.apply(this, args)
       if (newMessage) {
@@ -169,6 +181,7 @@ class TeachingRules extends System {
   }
 
   receiveSpeech (event, hero) {
+    this.adventure?.hear(event)
     this.spoken = (this.spoken || []).concat(event.text)
     const gates = this.gates || []
     const nearby = gates.find(g => Math.hypot(event.x - g.approach[0], event.y - g.approach[1]) < 2)
@@ -253,6 +266,7 @@ class TeachingRules extends System {
     if (!hero || !this.world.goalManager) return 0
     this.installSpeech(hero)
     this.installSensors(hero)
+    if (hero && this.learningContract && !this.learning) this.learning = new TeachingLearning(this, hero, this.learningContract)
     if (!this.initialized) {
       this.initialized = true
       this.checkpointCount = 0
@@ -263,10 +277,12 @@ class TeachingRules extends System {
       hero.teachingExitReady = false
       hero.teachingExitOpenedAt = -1
       hero.teachingExitStartedAt = -1
-      hero.teachingFailure = ''
+      hero.teachingFailure = hero.teachingFailure || ''
       for (const key of ['teachingCheckpointCount', 'teachingExitReady', 'teachingFailure', 'teachingExitOpenedAt', 'teachingExitStartedAt']) hero.keepTrackedProperty?.(key)
     }
     if (hero.teachingExitStartedAt >= 0) return this.updateDeparture(hero)
+    this.adventure?.update()
+    if (this.adventure && (this.failed || this.adventureConfig.mode === 'defend')) return hero.pos.x + hero.pos.y
     this.updateGates(hero)
     if (hero.teachingPendingPost && Math.hypot(hero.pos.x - hero.teachingPendingPost.approach[0], hero.pos.y - hero.teachingPendingPost.approach[1]) < 1.8) {
       const post = hero.teachingPendingPost
@@ -300,7 +316,7 @@ class TeachingRules extends System {
       const touchesWall = (this.walls || []).some(w => Math.abs(hero.pos.x - w.x) < w.halfWidth + 0.9 && Math.abs(hero.pos.y - w.y) < w.halfHeight + 0.9)
       const spotted = guard && Math.hypot(hero.pos.x - guard.pos.x, hero.pos.y - guard.pos.y) < patrol.radius
       const spikes = (this.hazards || []).some(([x, y]) => Math.hypot(hero.pos.x - x, hero.pos.y - y) < 3)
-      if (outside || touchesWall || spotted || spikes || this.blockedFor > 0.5) {
+      if (!this.adventure && (outside || touchesWall || spotted || spikes || this.blockedFor > 0.5)) {
         if (spikes) hero.health = 0
         hero.teachingFailure = spikes ? '碰到尖刺了：换一条路线，再运行。' : spotted ? '进入守卫红圈了：从安全走廊绕行。' : (this.singleStep ? '已经走到墙边：检查循环次数或 while 中减少变量的那一行。' : '前面是石墙：修改移动方向，再运行。')
         this.failed = true
@@ -316,14 +332,15 @@ class TeachingRules extends System {
           hero.teachingCheckpointCount = this.checkpointCount
         }
         const extraReady = (!(this.switches || []).length || this.world.goalManager.getGoalState('press-switches') === 'success') && (!this.expectedSpeech || JSON.stringify(this.spoken || []) === JSON.stringify(this.expectedSpeech))
-        const ready = extraReady && this.checkpointCount === checkpoints.length && (this.noGems || this.world.goalManager.getGoalState('collect-parcels') === 'success') && (this.gates || []).every(g => g.locked || this.world.goalManager.getGoalState(`gate-${g.id}`) === 'success')
+        const ready = (!this.adventure || this.adventure.ready()) && extraReady && this.checkpointCount === checkpoints.length && (this.noGems || this.world.goalManager.getGoalState('collect-parcels') === 'success') && (this.gates || []).every(g => g.locked || this.world.goalManager.getGoalState(`gate-${g.id}`) === 'success')
         if (ready && !hero.teachingExitReady) hero.teachingExitOpenedAt = this.world.age
         if (!ready) hero.teachingExitOpenedAt = -1
         hero.teachingExitReady = ready
         const atExit = this.exit && Math.hypot(hero.pos.x - this.exit[0], hero.pos.y - this.exit[1]) < 2 && remaining < 1
-        if (atExit && !ready && !hero.teachingFailure) hero.teachingFailure = '出口的封印还没有解除。看看有没有没亮的石板或遗落的宝石。'
+        if (atExit && !ready && !hero.teachingFailure) hero.teachingFailure = this.adventure ? '出口的封印还没有解除。查看左上角尚未完成的目标。' : '出口的封印还没有解除。看看有没有没亮的石板或遗落的宝石。'
         if (ready && hero.teachingFailure?.startsWith('出口的封印')) hero.teachingFailure = ''
         if (ready && atExit && (!this.requireFinished || hero.plansAreFinished)) {
+          if (this.learning && !this.learning.accept()) return
           if (this.exitDuration > 0) {
             // Let the grille finish opening, then play the departure before awarding success.
             hero.teachingExitStartedAt = Math.max(this.world.age, hero.teachingExitOpenedAt + 0.7)

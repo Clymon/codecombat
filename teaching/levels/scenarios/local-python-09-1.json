@@ -2573,6 +2573,7 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "learningContract": null,
         "walls": [
           {
             "x": 2,
@@ -3314,6 +3315,7 @@
       1,
       0
     ],
+    "learningContract": null,
     "title": "门岗关闭",
     "goalLabel": "门岗关闭，在起点安全等待",
     "gates": [

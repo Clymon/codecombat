@@ -5669,6 +5669,7 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "learningContract": null,
         "walls": [
           {
             "x": 2,
@@ -7181,6 +7182,7 @@
       1,
       0
     ],
+    "learningContract": null,
     "title": "徽章能量 90",
     "sensor": {
       "signal": 90
