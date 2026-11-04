@@ -559,6 +559,8 @@ module.exports = Lank = class Lank extends CocoClass
     value = Math.abs(rotation)
     direction = null
     direction = 'side' if value <= 45 or value >= 135
+    direction = 'right' if value <= 45 and relatedActions.right
+    direction = 'left' if value >= 135 and relatedActions.left
     direction = 'fore' if 135 > rotation > 45
     direction = 'back' if -135 < rotation < -45
     relatedActions[direction]

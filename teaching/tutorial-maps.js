@@ -1,12 +1,13 @@
-// New teaching chains remain hidden until explicitly opened by the teacher.
+// New skills are taught in their existing lesson section; publication remains teacher-controlled.
 const originals = require('./adventure-maps')
 const copy = n => JSON.parse(JSON.stringify(originals.find(d => d.index === n)))
-const base = (index, section, name, extra) => ({ index, section, name, lessonOrder: index, revision: 1, prototype: true, checkpoints: [], gems: [], hazards: [], gates: [], torches: [], labels: [], exitStyle: 'stairs', exitDirection: [1, 0], maxActions: 90, tip: '展开“教学引导”，按步骤写代码并运行。也可以收起引导自己尝试。', ...extra })
+const base = (index, section, name, extra) => ({ index, section, name, lessonOrder: index, revision: 1, prototype: false, hiddenByDefault: true, checkpoints: [], gems: [], hazards: [], gates: [], torches: [], labels: [], exitStyle: 'stairs', exitDirection: [1, 0], maxActions: 90, tip: '展开“教学引导”，按步骤写代码并运行。也可以收起引导自己尝试。', ...extra })
 const corridor = { size: [72, 40], start: [12, 12], exit: [48, 12], corridors: [[8, 12, 64, 12]], torches: [[8, 24], [58, 24]] }
 const target = { id: '落单斥候', kind: 'enemy', at: [30, 12], health: 20, speed: 0, damage: 1, aggro: 0 }
 module.exports = [
-  base(26, 6, '攻击教学：击破第一扇牢门', {
+  base(26, 1, '攻击教学：击破第一扇牢门', {
     ...corridor,
+    lessonOrder: 6.1,
     apis: ['attack'],
     knowledge: 'attack · 名字字符串 · 生命值',
     quest: '牢门挡住了通道。把门击破，再走到右侧楼梯。',
@@ -17,7 +18,7 @@ module.exports = [
     tutorial: {
       title: '第一次使用 attack',
       steps: [
-        { text: '输入下面这行并运行。英雄会走近牢门，挥剑一次。', code: 'hero.attack("牢门")', observe: '门的血条从40降到20。第一步只观察，还不会通关。', evidence: { kind: 'damaged', id: '牢门' } },
+        { text: '输入下面这行并运行。英雄会走近牢门，攻击一次。', code: 'hero.attack("牢门")', observe: '门的血条从40降到20。第一步只观察，还不会通关。', evidence: { kind: 'damaged', id: '牢门' } },
         { text: '在下一行再写一次相同攻击，重新运行。每次运行都会恢复地图。', observe: '两次攻击后牢门破碎，通道打开。', evidence: { kind: 'dead', id: '牢门' } },
         { text: '在两次攻击后写 hero.moveRight(2)，运行完整程序，从右侧楼梯离开。', observe: '过关后点击提交，进入救援挑战。', evidence: { kind: 'exit' } },
       ],
@@ -25,8 +26,9 @@ module.exports = [
     hints: ['目标名字用英文引号包住，写成 "牢门"。', '每次运行都从起点重来，请保留已经写好的两次攻击。'],
     solution: 'hero.attack("牢门")\nhero.attack("牢门")\nhero.moveRight(2)\n',
   }),
-  { ...copy(23), index: 27, lessonOrder: 27, section: 6, name: '救援挑战：让弓箭手加入', apis: ['attack'], starter: '# 用刚学的攻击命令破门，救出弓箭手，再击败守卫。\n', tutorial: null },
-  base(28, 7, '信号教学：走近后再点火', {
+  { ...copy(23), index: 27, lessonOrder: 6.2, section: 1, prototype: false, hiddenByDefault: true, optional: true, name: '救援挑战：让弓箭手加入', apis: ['attack'], starter: '# 用刚学的攻击命令破门，救出弓箭手，再击败守卫。\n', tutorial: null },
+  base(28, 3, '信号教学：走近后再点火', {
+    lessonOrder: 13.1,
     size: [72, 60],
     start: [12, 12],
     exit: [48, 12],
@@ -48,28 +50,30 @@ module.exports = [
     hints: ['相同发言在起点不会生效；先改变位置，再观察火焰。'],
     solution: 'hero.moveRight()\nhero.moveUp(2)\nprint("点火")\nhero.moveDown(2)\nhero.moveRight(2)\n',
   }),
-  { ...copy(24), index: 29, lessonOrder: 29, section: 7, name: 'for挑战：点亮三座信号台', tutorial: null },
-  base(30, 8, '观察教学：找到敌人再攻击', {
+  { ...copy(24), index: 29, lessonOrder: 13.2, section: 3, prototype: false, hiddenByDefault: true, name: 'for挑战：点亮三座信号台', tutorial: null },
+  base(30, 2, '观察教学：找到敌人再攻击', {
     ...corridor,
+    lessonOrder: 8.1,
     apis: ['findNearestEnemy', 'attack'],
     knowledge: '返回值 · 变量 · attack(enemy)',
     quest: '通道里有一名落单斥候。这次用查找命令取得目标，不把敌人的名字写死。',
-    description: '先右走1格。用 enemy = hero.findNearestEnemy() 保存查找结果，再用 hero.attack(enemy) 攻击。斥候20点生命，一次攻击即可击败。最后右走2格到楼梯。本关保证有敌人，下一关会出现空通道。',
+    description: '先右走1格。用 enemy = hero.findNearestEnemy() 保存查找结果，再用 hero.attack(enemy) 攻击。斥候20点生命，一次攻击即可击败。最后右走2格到楼梯。本关保证有敌人。学会if后，再处理没有敌人的空通道。',
     starter: 'hero.moveRight()\n# 查找敌人，把结果保存在 enemy 中，再攻击。\n',
     adventure: { mode: 'rescue', actors: [target] },
     goals: [{ id: 'defeat-guard', name: '击败落单斥候' }],
     tutorial: {
       title: 'enemy 保存的是找到的敌人',
       steps: [
-        { text: '在已有移动语句后输入下面两行并运行。enemy不加引号。', code: 'enemy = hero.findNearestEnemy()\nhero.attack(enemy)', observe: '查找本身不攻击；下一行才让英雄向找到的敌人挥剑。', evidence: { kind: 'dead', id: '落单斥候' } },
-        { text: '最后加 hero.moveRight(2)，重新运行，从楼梯离开。', observe: '没有敌人时查找结果是None；下一关练习先判断再攻击。', evidence: { kind: 'exit' } },
+        { text: '在已有移动语句后输入下面两行并运行。enemy不加引号。', code: 'enemy = hero.findNearestEnemy()\nhero.attack(enemy)', observe: '查找本身不攻击；下一行才让英雄攻击找到的敌人。', evidence: { kind: 'dead', id: '落单斥候' } },
+        { text: '最后加 hero.moveRight(2)，重新运行，从楼梯离开。', observe: '没有敌人时查找结果是None。接下来学习if，再判断是否需要攻击。', evidence: { kind: 'exit' } },
       ],
     },
     hints: ['"enemy" 是文字，enemy 才是变量里保存的目标。'],
     solution: 'hero.moveRight()\nenemy = hero.findNearestEnemy()\nhero.attack(enemy)\nhero.moveRight(2)\n',
   }),
-  base(31, 8, '判断教学：没有敌人就不攻击', {
+  base(31, 2, '判断教学：没有敌人就不攻击', {
     ...corridor,
+    lessonOrder: 9.1,
     apis: ['findNearestEnemy', 'attack'],
     knowledge: 'if enemy · None · 两种场景',
     quest: '通道有时有斥候，有时是空的。同一份程序都要安全通过。',
@@ -87,11 +91,13 @@ module.exports = [
     },
     hints: ['最后的移动放在if外面，否则没有敌人时英雄不会离开。'],
   }),
-  base(32, 8, '守营准备：等待与胜利条件', {
+  base(32, 4, '守营准备：等待与胜利条件', {
     ...copy(25),
     index: 32,
-    lessonOrder: 32,
-    section: 8,
+    lessonOrder: 19.1,
+    section: 4,
+    prototype: false,
+    hiddenByDefault: true,
     name: '守营准备：等待与胜利条件',
     scenarios: undefined,
     knowledge: 'wait · isVictory · 延迟增援',
@@ -109,5 +115,5 @@ module.exports = [
     hints: ['isVictory判断整场战斗是否已经结束，不是在问眼前有没有敌人。', '等待后重新查找目标。把攻击放在if里；这一关先不用循环。'],
     solution: 'print(hero.isVictory())\nhero.wait()\nenemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)\n',
   }),
-  { ...copy(25), index: 33, lessonOrder: 33, section: 8, name: 'while挑战：守住分批增援', tutorial: null },
+  { ...copy(25), index: 33, lessonOrder: 19.2, section: 4, prototype: false, hiddenByDefault: true, optional: true, name: 'while挑战：守住分批增援', tutorial: null },
 ]

@@ -3,7 +3,7 @@
   "original": "facade000000000000000030",
   "slug": "local-python-30",
   "name": "观察教学：找到敌人再攻击",
-  "description": "先右走1格。用 enemy = hero.findNearestEnemy() 保存查找结果，再用 hero.attack(enemy) 攻击。斥候20点生命，一次攻击即可击败。最后右走2格到楼梯。本关保证有敌人，下一关会出现空通道。",
+  "description": "先右走1格。用 enemy = hero.findNearestEnemy() 保存查找结果，再用 hero.attack(enemy) 攻击。斥候20点生命，一次攻击即可击败。最后右走2格到楼梯。本关保证有敌人。学会if后，再处理没有敌人的空通道。",
   "loadingTip": "展开“教学引导”，按步骤写代码并运行。也可以收起引导自己尝试。",
   "type": "hero",
   "product": "codecombat",
@@ -4830,7 +4830,7 @@
     "specificArticles": [
       {
         "name": "本关任务",
-        "body": "先右走1格。用 enemy = hero.findNearestEnemy() 保存查找结果，再用 hero.attack(enemy) 攻击。斥候20点生命，一次攻击即可击败。最后右走2格到楼梯。本关保证有敌人，下一关会出现空通道。"
+        "body": "先右走1格。用 enemy = hero.findNearestEnemy() 保存查找结果，再用 hero.attack(enemy) 攻击。斥候20点生命，一次攻击即可击败。最后右走2格到楼梯。本关保证有敌人。学会if后，再处理没有敌人的空通道。"
       }
     ]
   },
@@ -4853,11 +4853,12 @@
   ],
   "teachingMap": {
     "index": 30,
-    "section": 8,
+    "section": 2,
     "name": "观察教学：找到敌人再攻击",
-    "lessonOrder": 30,
+    "lessonOrder": 8.1,
     "revision": 1,
-    "prototype": true,
+    "prototype": false,
+    "hiddenByDefault": true,
     "checkpoints": [],
     "gems": [],
     "hazards": [],
@@ -4906,7 +4907,7 @@
     ],
     "knowledge": "返回值 · 变量 · attack(enemy)",
     "quest": "通道里有一名落单斥候。这次用查找命令取得目标，不把敌人的名字写死。",
-    "description": "先右走1格。用 enemy = hero.findNearestEnemy() 保存查找结果，再用 hero.attack(enemy) 攻击。斥候20点生命，一次攻击即可击败。最后右走2格到楼梯。本关保证有敌人，下一关会出现空通道。",
+    "description": "先右走1格。用 enemy = hero.findNearestEnemy() 保存查找结果，再用 hero.attack(enemy) 攻击。斥候20点生命，一次攻击即可击败。最后右走2格到楼梯。本关保证有敌人。学会if后，再处理没有敌人的空通道。",
     "starter": "hero.moveRight()\n# 查找敌人，把结果保存在 enemy 中，再攻击。\n",
     "adventure": {
       "mode": "rescue",
@@ -4937,7 +4938,7 @@
         {
           "text": "在已有移动语句后输入下面两行并运行。enemy不加引号。",
           "code": "enemy = hero.findNearestEnemy()\nhero.attack(enemy)",
-          "observe": "查找本身不攻击；下一行才让英雄向找到的敌人挥剑。",
+          "observe": "查找本身不攻击；下一行才让英雄攻击找到的敌人。",
           "evidence": {
             "kind": "dead",
             "id": "落单斥候"
@@ -4945,7 +4946,7 @@
         },
         {
           "text": "最后加 hero.moveRight(2)，重新运行，从楼梯离开。",
-          "observe": "没有敌人时查找结果是None；下一关练习先判断再攻击。",
+          "observe": "没有敌人时查找结果是None。接下来学习if，再判断是否需要攻击。",
           "evidence": {
             "kind": "exit"
           }

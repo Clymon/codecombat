@@ -45,7 +45,7 @@ test('tutorials check observed replay state and all new chains default hidden', 
   const { observed } = require('../tutorial-guide')
   assert.equal(observed({ kind: 'dead', id: '牢门' }, { teachingAdventure: JSON.stringify({ actors: [{ id: '牢门', alive: true }] }) }), false)
   assert.equal(observed({ kind: 'dead', id: '牢门' }, { teachingAdventure: JSON.stringify({ actors: [{ id: '牢门', alive: false }] }) }), true)
-  const designs = require('../tutorial-maps'); assert.equal(designs.length, 8); assert.ok(designs.every(d => d.prototype)); assert.deepEqual([...new Set(designs.map(d => d.section))], [6, 7, 8])
+  const designs = require('../tutorial-maps'); assert.equal(designs.length, 8); assert.ok(designs.every(d => !d.prototype && d.hiddenByDefault)); assert.deepEqual([...new Set(designs.map(d => d.section))].sort(), [1, 2, 3, 4])
   assert.ok(designs.filter(d => d.tutorial).every(d => d.tutorial.steps.every(s => s.text && s.observe && s.evidence)))
 })
 

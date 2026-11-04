@@ -6,17 +6,20 @@ const { drawDungeonDevices } = require('teaching/dungeon-devices')
 const { drawAdventure } = require('teaching/adventure-view')
 const { exitPose } = require('teaching/exit-effects')
 const { attachGuide } = require('teaching/tutorial-guide')
+const { applyHeroFrame } = require('teaching/hero-animation')
+const WhaleCompanion = require('./WhaleCompanion')
 module.exports = class TeachingMapOverlay {
   constructor (surface, design) {
     this.surface = surface
     surface.zoomToHero = false
     this.design = design
+    this.companion = design.world?.chapterId === 'starter-village' ? new WhaleCompanion(surface, design) : null
     const root = document.getElementById('level-view')
     root?.classList.add('local-teaching-level')
     if (!document.getElementById('teaching-layout-style')) {
       const style = document.createElement('style')
       style.id = 'teaching-layout-style'
-      style.textContent = '#level-view.local-teaching-level{overflow:clip!important} #level-view.local-teaching-level #goals-view{top:52px!important;left:8px!important;transform:none!important;max-width:300px;font-size:14px} #teaching-task[open]{max-height:calc(100vh - 280px);overflow-y:auto} #teaching-task pre{font-size:13px;line-height:1.5;background:#101d25;color:#fff1c7;padding:8px;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #596668} #teaching-task h4{color:#ffe2a3} #teaching-task .guide-observe{color:#b9dacd;font-size:13px} #teaching-task .teaching-code-rule{color:#ffe2a3;font-weight:bold} #teaching-task{position:absolute;left:12px;top:218px;z-index:8;max-width:310px;background:#182730ed;color:#f8edda;border:1px solid #ad9870;border-radius:8px;padding:10px 14px;font-size:15px;line-height:1.65} #teaching-task summary{cursor:pointer;font-weight:bold} #teaching-task p{margin:8px 0} #teaching-task details{border-top:1px solid #65737b;padding-top:6px} #teaching-task a{color:#a4e8d4}'
+      style.textContent = '.teaching-mentor{display:flex;gap:10px;align-items:center;border-bottom:1px solid #65737b;padding:8px 0}.teaching-mentor img{width:64px;height:80px;object-fit:contain}.teaching-mentor strong{font-size:13px;color:#e8cd96}.teaching-mentor p{font-size:14px} #level-view.local-teaching-level{overflow:clip!important} #level-view.local-teaching-level #goals-view{top:52px!important;left:8px!important;transform:none!important;max-width:300px;font-size:14px} #teaching-task[open]{max-height:calc(100vh - 280px);overflow-y:auto} #teaching-task pre{font-size:13px;line-height:1.5;background:#101d25;color:#fff1c7;padding:8px;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #596668} #teaching-task h4{color:#ffe2a3} #teaching-task .guide-observe{color:#b9dacd;font-size:13px} #teaching-task .teaching-code-rule{color:#ffe2a3;font-weight:bold} #teaching-task{position:absolute;left:12px;top:218px;z-index:8;max-width:310px;background:#182730ed;color:#f8edda;border:1px solid #ad9870;border-radius:8px;padding:10px 14px;font-size:15px;line-height:1.65} #teaching-task summary{cursor:pointer;font-weight:bold} #teaching-task p{margin:8px 0} #teaching-task details{border-top:1px solid #65737b;padding-top:6px} #teaching-task a{color:#a4e8d4}'
       document.head.appendChild(style)
     }
     root?.querySelector('#teaching-task')?.remove()
@@ -24,7 +27,7 @@ module.exports = class TeachingMapOverlay {
     task.id = 'teaching-task'
     const title = document.createElement('summary'); title.textContent = '任务日志 · 提示'
     task.appendChild(title)
-    const scene = document.createElement('p'); scene.textContent = `${design.prototype ? '互动样关' : `第 ${design.section || 1} 小节`} · ${design.knowledge || '顺序与移动'} · ${design.scenarioTitles?.[design.scenarioIndex || 0] || '主场景'}`; task.appendChild(scene)
+    const scene = document.createElement('p'); scene.textContent = `${design.prototype ? '互动样关' : `${design.world?.chapterName || '新手村'} · ${design.world?.area || `第 ${design.section || 1} 小节`}`} · ${design.knowledge || '顺序与移动'} · ${design.scenarioTitles?.[design.scenarioIndex || 0] || '主场景'}`; task.appendChild(scene)
     const quest = document.createElement('p'); quest.textContent = design.quest || design.description; task.appendChild(quest)
     const instructions = document.createElement('details'); const heading = document.createElement('summary'); const description = document.createElement('p')
     heading.textContent = '编程要求与验收'; description.textContent = design.description; instructions.append(heading, description); task.appendChild(instructions)
@@ -124,7 +127,9 @@ module.exports = class TeachingMapOverlay {
       label.box.graphics.clear().setStrokeStyle(2).beginStroke('#756953').beginFill('#39382f')
         .drawRect(p.x - w / 2, p.y - 12, w, 24).endFill().endStroke()
     }
+    if (this.design.world?.heroId === 'deepseek') applyHeroFrame(this.surface.lankBoss.lanks['Hero Placeholder'], hero, world.age)
     this.updateDeparture(hero, world, camera)
+    this.companion?.update(hero, world, camera)
     const floorGraphics = this.floorInk.graphics.clear()
     if (this.design.adventure?.mode !== 'defend') drawDungeonDevices(floorGraphics, this.design, hero, world, camera, g)
     const labels = drawAdventure(g, floorGraphics, this.design, hero, world, camera, this.surface)
@@ -183,7 +188,7 @@ module.exports = class TeachingMapOverlay {
       if (!message || !guard?.pos) continue
       const p = camera.worldToCanvas(guard.pos)
       const width = 238; const height = 58; const left = Math.max(8, Math.min(p.x + 18, camera.canvasWidth - width - 12)); const top = Math.max(12, p.y - 132)
-      const lines = message.split('\n').flatMap(part => Array.from(part).reduce((rows, char, i) => { if (i % 13 === 0)rows.push(''); rows[rows.length - 1] += char; return rows }, []))
+      const lines = message.split('\n').flatMap(part => Array.from(part).reduce((rows, char, i) => { if (!rows.length || (rows[rows.length - 1].length >= 13 && !/[，。！？、；：）]/.test(char))) rows.push(''); rows[rows.length - 1] += char; return rows }, []))
       reply.text.text = lines.join('\n'); reply.text.x = left + width / 2; reply.text.y = top + (height - (lines.length - 1) * 22) / 2
       const color = open || state === 'opening' ? '#a2edbb' : state === 'waiting' ? '#efd296' : '#ffae9d'
       reply.box.graphics.clear().setStrokeStyle(2).beginStroke(color).beginFill('rgba(25,40,48,0.96)')

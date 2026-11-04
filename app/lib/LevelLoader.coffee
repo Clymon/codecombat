@@ -10,6 +10,7 @@ ThangType = require 'models/ThangType'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
 ThangNamesCollection = require 'collections/ThangNamesCollection'
 LZString = require 'lz-string'
+{isLocalType} = require 'teaching/local-type-ids'
 
 CocoClass = require 'core/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
@@ -461,7 +462,11 @@ module.exports = class LevelLoader extends CocoClass
 
     flagThang = thangType: '53fa25f25bc220000052c2be', id: 'Placeholder Flag', components: []
     for thang in (@level.get('thangs') or []).concat [flagThang]
-      thangIDs.push thang.thangType
+      if isLocalType(thang.thangType)
+        # Local raster types are not in the upstream batch name catalog.
+        @loadThangTypeData(thang.thangType)
+      else
+        thangIDs.push thang.thangType
       @loadThangsRequiredByLevelThang(thang)
       for comp in thang.components or []
         componentVersions.push _.pick(comp, ['original', 'majorVersion'])

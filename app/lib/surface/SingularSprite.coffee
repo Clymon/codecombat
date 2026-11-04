@@ -74,7 +74,7 @@ module.exports = class SingularSprite extends createjs.Sprite
     @scaleY *= -1 if action.flipY
     @baseScaleX = @scaleX
     @baseScaleY = @scaleY
-    if @camera and @thangType.get('name') in floors
+    if @camera and (@thangType.get('name') in floors or @thangType.get('teachingFloor') is true)
       @baseScaleY *= @camera.y2x
     else if @camera and @thangType.get('name') in cliffs
       if actionName is 'idle_side'

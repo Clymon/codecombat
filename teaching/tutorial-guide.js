@@ -12,6 +12,13 @@ function observed (e, hero) {
   return false
 }
 function attachGuide (task, design) {
+  if (design.mentor) {
+    const mentor = document.createElement('aside'); mentor.className = 'teaching-mentor'
+    const image = document.createElement('img'); image.src = design.mentor.image; image.alt = '梁文锋 Q 版导师'
+    const text = document.createElement('div'); const name = document.createElement('strong'); const line = document.createElement('p')
+    name.textContent = `${design.mentor.name} · ${design.mentor.role}`; line.textContent = design.mentor.line
+    text.append(name, line); mentor.append(image, text); task.insertBefore(mentor, task.children[1])
+  }
   const contract = design.learningContract
   if (contract) {
     const p = document.createElement('p'); p.className = 'teaching-code-rule'
@@ -32,7 +39,8 @@ function attachGuide (task, design) {
     const observation = document.createElement('p'); observation.className = 'guide-observe'; observation.textContent = step.observe; item.append(observation); block.append(item)
     return { status, evidence: step.evidence, i }
   })
-  task.insertBefore(block, task.children[1])
+  const mentor = task.querySelector('.teaching-mentor')
+  task.insertBefore(block, mentor ? mentor.nextSibling : task.children[1])
   return hero => { for (const c of checks) { const done = observed(c.evidence, hero); c.status.textContent = done ? '✓ 已观察到 · ' : `${c.i + 1}. `; c.status.style.color = done ? '#a4e8b8' : '#ffe2a3' } }
 }
 module.exports = { attachGuide, observed }

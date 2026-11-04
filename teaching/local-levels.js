@@ -4,9 +4,14 @@ const path = require('path')
 const crypto = require('crypto')
 const express = require('express')
 const accounts = require('./student-accounts')
+const { decorateLevel } = require('./story-cast')
+const { DEEPSEEK_TYPE, deepseekType, applyHero } = require('./hero-types')
+const { FLOOR_PREFIX } = require('./local-type-ids')
+const { floorType, applyVillageScene } = require('./village-scenes')
 const accountPage = require('./account-page')
 const classroom = require('./classroom-state')
 const teacherPage = require('./teacher-page')
+const { compareLevels } = require('./curriculum')
 const levelsDir = path.join(__dirname, 'levels')
 const slugPattern = /^local-python-\d{2}$/
 const sessionPattern = /^facebe[0-9a-f]{18}$/
@@ -14,7 +19,7 @@ function readLevel (slug, scene = 0) {
   if (!slugPattern.test(slug)) return null
   if (!Number.isInteger(scene) || scene < 0 || scene > 20) return null
   const file = scene ? path.join(levelsDir, 'scenarios', `${slug}-${scene}.json`) : path.join(levelsDir, `${slug}.json`)
-  return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null
+  return fs.existsSync(file) ? applyVillageScene(applyHero(decorateLevel(JSON.parse(fs.readFileSync(file, 'utf8'))))) : null
 }
 function newSession (level, scene = 0) {
   return { _id: `facebe${crypto.randomBytes(9).toString('hex')}`, creator: 'local-teaching-preview', team: 'humans', codeLanguage: 'python', level: { original: level.original, majorVersion: 0 }, state: { complete: false, scripts: {} }, code: {}, permissions: [{ target: 'public', access: 'write' }], teachingScene: scene, mapRevision: level.teachingMap.revision, createdAt: new Date().toISOString() }
@@ -36,8 +41,16 @@ function requireUnlocked (res, slug) {
   return false
 }
 module.exports = function setupLocalLevels (app) {
+  app.get('/file/teaching/deepseek-icon.png', (req, res) => res.sendFile(path.join(__dirname, 'assets/characters/deepseek.png')))
+  app.use('/teaching/assets', express.static(path.join(__dirname, 'assets'), { dotfiles: 'deny', maxAge: 0, index: false }))
+  for (const suffix of ['', '/version', '/version/0']) app.get(`/db/thang.type/${DEEPSEEK_TYPE}${suffix}`, (req, res) => res.set('Cache-Control', 'no-cache').json(deepseekType()))
+  app.get(new RegExp(`^/db/thang\\.type/(${FLOOR_PREFIX}[0-9a-f]{10})(?:/version(?:/0)?)?$`), (req, res) => {
+    const type = floorType(req.params[0])
+    if (!type) return res.sendStatus(404)
+    res.set('Cache-Control', 'no-cache').json(type)
+  })
   const formParser = express.urlencoded({ extended: false, limit: '2kb' })
-  const levels = () => fs.readdirSync(levelsDir).filter(f => /^local-python-\d{2}\.json$/.test(f)).map(f => readLevel(f.slice(0, -5))).sort((a, b) => (a.teachingMap.lessonOrder || ({ 1: 3, 2: 4, 3: 5 }[a.teachingMap.index])) - (b.teachingMap.lessonOrder || ({ 1: 3, 2: 4, 3: 5 }[b.teachingMap.index])))
+  const levels = () => fs.readdirSync(levelsDir).filter(f => /^local-python-\d{2}\.json$/.test(f)).map(f => readLevel(f.slice(0, -5))).sort(compareLevels)
   const htmlHeaders = { 'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'", 'X-Frame-Options': 'DENY', 'Referrer-Policy': 'no-referrer' }
   const render = (res, student, error = '', status = 200) => {
     return res.status(status).set(htmlHeaders).type('html').send(accountPage({ student, levels: levels(), progress: student ? accounts.readProgress(student.studentId) : {}, releases: classroom.releases(), visibility: classroom.visibility(), showTeacher: classroom.isTeacherLocal(res.req), error, formToken: accounts.formToken(res.req, res) }))

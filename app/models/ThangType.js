@@ -214,7 +214,7 @@ module.exports = (ThangType = (function () {
           this.trigger('raster-raw-images-load-errored', this, path)
           settle()
         }
-        img.src = `/file/${path}`
+        img.src = path.startsWith('/teaching/assets/') ? path : `/file/${path}`
       }
     }
 

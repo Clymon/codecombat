@@ -3,7 +3,7 @@ const designs = require('../map-designs'); const { record } = require('../scenar
 const Rules = vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../rules-system.js'), 'utf8'), { System: class {constructor (world, config) { this.world = world; Object.assign(this, config) }} })
 const setup = (config = {}) => { const hero = { pos: { x: 12, y: 12 }, plansAreFinished: false, setAction () {}, say (n) { this.sayMessage = String(n); return 'done' }, moveRight () { return 'done' } }; const goals = {}; const world = { hero, age: 0, dt: 0.05, getThangByID: id => id === 'Hero Placeholder' ? hero : null, goalManager: { getGoalState: id => goals[id], setGoalState: (id, state) => { goals[id] = state } } }; hero.world = world; const rules = new Rules(world, config); rules.start(); return { hero, world, goals, rules } }
 test('all four sections have levels; public scene files omit every solution and retain stable IDs', () => {
-  assert.deepEqual([...new Set(designs.map(d => d.section))], [1, 2, 3, 4, 5, 6, 7, 8])
+  assert.deepEqual([...new Set(designs.map(d => d.section))], [1, 2, 3, 4, 5])
   for (const d of designs) {
     for (let i = 0; i < (d.scenarios?.length || 1); i++) {
       const file = path.join(__dirname, '../levels/scenarios', `local-python-${String(d.index).padStart(2, '0')}-${i}.json`)

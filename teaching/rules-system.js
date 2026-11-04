@@ -261,7 +261,34 @@ class TeachingRules extends System {
     return hero.pos.x + hero.pos.y
   }
 
+  recordHeroVisual (hero) {
+    if (!hero) return
+    if (!hero.teachingVisualInstalled) {
+      hero.teachingVisualInstalled = true
+      hero.addTrackedProperties?.(['teachingVisual', 'string'])
+      hero.keepTrackedProperty?.('teachingVisual')
+    }
+    const now = this.world.age
+    const previous = this.heroVisual || {}
+    const moving = previous.pos && Math.hypot(hero.pos.x - previous.pos.x, hero.pos.y - previous.pos.y) > 0.001
+    const departing = hero.teachingExitStartedAt >= 0 && now >= hero.teachingExitStartedAt
+    const action = hero.health <= 0 ? 'die' : this.adventure?.swing?.started != null ? 'attack' : moving || (departing && hero.action === 'move') ? 'move' : 'idle'
+    const swingAt = action === 'attack' ? this.adventure.swing.started : null
+    const state = {
+      action,
+      since: action === 'attack' ? swingAt : action === previous.action ? previous.since : now,
+      hurtAt: previous.health != null && hero.health < previous.health ? now : previous.hurtAt,
+      diedAt: hero.health <= 0 ? (previous.diedAt ?? now) : null,
+    }
+    this.heroVisual = { ...state, health: hero.health, pos: { x: hero.pos.x, y: hero.pos.y } }
+    hero.teachingVisual = JSON.stringify(state)
+  }
+
   update () {
+    try { return this.updateRules() } finally { this.recordHeroVisual(this.world.getThangByID('Hero Placeholder')) }
+  }
+
+  updateRules () {
     const hero = this.world.getThangByID('Hero Placeholder')
     if (!hero || !this.world.goalManager) return 0
     this.installSpeech(hero)

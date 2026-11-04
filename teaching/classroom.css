@@ -802,3 +802,10 @@ footer a {
     margin-top: 5px;
   }
 }
+
+/* Starter village: one available hero, quiet previews for later characters. */
+.village-party{display:flex;align-items:center;gap:22px;margin:24px 0;padding:22px;border:1px solid #80735a;border-radius:12px;background:#202720;color:#f5e7ca}
+.village-party .active-hero{width:128px;height:145px;object-fit:contain}.village-party h2{margin:6px 0;font-size:24px}.village-party p{line-height:1.6;margin:6px 0}.village-party>div{flex:1}
+.village-mentor{display:flex;gap:12px;align-items:center;max-width:330px;padding-left:18px;border-left:1px solid #72694f}.village-mentor img{width:88px;height:112px;object-fit:contain}.village-mentor p{font-size:14px;color:#d2ccb8}
+.future-heroes{margin-top:12px}.future-heroes summary{cursor:pointer;color:#e2c78f}.future-heroes ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,minmax(80px,1fr));gap:10px}.future-heroes li{display:flex;align-items:center;flex-direction:column;background:#171e1b;padding:8px;border:1px solid #645d49;border-radius:8px}.future-heroes img{width:68px;height:72px;object-fit:contain;filter:grayscale(.7);opacity:.6}.future-heroes strong{font-size:12px;color:#cbb994}.future-heroes span{font-size:13px}
+@media(max-width:800px){.village-party{flex-wrap:wrap}.village-mentor{border-left:0;border-top:1px solid #72694f;padding:14px 0 0;max-width:none;width:100%}}

@@ -25,7 +25,7 @@ function make (design) {
   const hero = entity('knight', 'Hero Placeholder', ...design.start, [
     engineComponent(ids.simple, { allowsArguments: true, allowsSimpleMoveArguments: true }),
     engineComponent(ids.programmable, { programmableProperties: ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'say', ...(design.apis || [])], programmableMethods: { plan: { name: 'plan', source: '// Write movement commands here.\n', languages: { python: design.starter || '# 观察地图，在下面写移动命令。\n' }, permissions: { read: [], readwrite: ['humans'] } } } }),
-    engineComponent(ids.plans, { worldEndsAfter: design.prototype ? 42 : (durations[design.exitStyle] || 0) + 1.7 }),
+    engineComponent(ids.plans, { worldEndsAfter: design.adventure ? 42 : (durations[design.exitStyle] || 0) + 1.7 }),
     engineComponent('524b7bab7fc0f6d519000017', { maxHealth: 100 }),
     engineComponent('524b7b8c7fc0f6d519000013', { maxSpeed: 12 }),
   ])

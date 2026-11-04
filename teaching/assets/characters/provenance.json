@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-05",
+  "tool": "image_gen",
+  "sources": {
+    "deepseek.png": "assets/codecombat/DeepSeek素材/03-钢盆头盔与饭勺.png",
+    "liang-wenfeng.png": "assets/codecombat/NPC形象图/01-梁文锋_新手村导师_v1.png",
+    "deepseek-back.png": "assets/codecombat/运行素材/DeepSeek动作/背向站立_v1.png",
+    "deepseek-walk.png": "assets/codecombat/运行素材/DeepSeek动作/右向行走四帧_v1.png",
+    "gpt.png": "assets/codecombat/英雄形象图/02-GPT娘.png",
+    "claude.png": "assets/codecombat/英雄形象图/03-Claude娘.png",
+    "glm.png": "assets/codecombat/英雄形象图/04-GLM娘.png",
+    "kimi.png": "assets/codecombat/英雄形象图/05-Kimi娘.png",
+    "seed.png": "assets/codecombat/英雄形象图/06-豆包Seed娘.png",
+    "grok.png": "assets/codecombat/英雄形象图/07-Grok娘.png",
+    "qwen.png": "assets/codecombat/英雄形象图/08-Qwen娘.png",
+    "gemini.png": "assets/codecombat/英雄形象图/10-Gemini娘.png",
+    "doubao.png": "assets/codecombat/英雄形象图/11-豆包娘_红围脖_空手_v2.png",
+    "deepseek-actions-v1.png": "assets/codecombat/运行素材/DeepSeek动作/运行图集/deepseek-actions-v1.png"
+  },
+  "note": "项目生成衍生图；原始参考不随游戏发布。角色来源见SOURCE.md。",
+  "animationBuild": "课程工具 tools/courseware/build_deepseek_atlas.py；源图与提示词在同目录上一级；40 个动作帧，透明底裁切与基线校准。"
+}

@@ -4828,11 +4828,12 @@
   ],
   "teachingMap": {
     "index": 26,
-    "section": 6,
+    "section": 1,
     "name": "攻击教学：击破第一扇牢门",
-    "lessonOrder": 26,
+    "lessonOrder": 6.1,
     "revision": 1,
-    "prototype": true,
+    "prototype": false,
+    "hiddenByDefault": true,
     "checkpoints": [],
     "gems": [],
     "hazards": [],
@@ -4906,7 +4907,7 @@
       "title": "第一次使用 attack",
       "steps": [
         {
-          "text": "输入下面这行并运行。英雄会走近牢门，挥剑一次。",
+          "text": "输入下面这行并运行。英雄会走近牢门，攻击一次。",
           "code": "hero.attack(\"牢门\")",
           "observe": "门的血条从40降到20。第一步只观察，还不会通关。",
           "evidence": {

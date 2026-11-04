@@ -10166,10 +10166,10 @@
   "teachingMap": {
     "index": 33,
     "name": "while挑战：守住分批增援",
-    "section": 8,
-    "lessonOrder": 33,
+    "section": 4,
+    "lessonOrder": 19.2,
     "revision": 1,
-    "prototype": true,
+    "prototype": false,
     "checkpoints": [],
     "gems": [],
     "hazards": [],
@@ -10305,6 +10305,8 @@
       "if enemy: 的分支里攻击；else: 的分支里等待。没有目标时不能调用attack。",
       "while not hero.isVictory(): 会持续到全部增援被击败。也接受由关卡目标结束的while True守卫程序。"
     ],
+    "hiddenByDefault": true,
+    "optional": true,
     "tutorial": null,
     "learningContract": {
       "loops": [

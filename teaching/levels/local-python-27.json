@@ -13057,10 +13057,10 @@
   "teachingMap": {
     "index": 27,
     "name": "救援挑战：让弓箭手加入",
-    "section": 6,
-    "lessonOrder": 27,
+    "section": 1,
+    "lessonOrder": 6.2,
     "revision": 1,
-    "prototype": true,
+    "prototype": false,
     "checkpoints": [],
     "gems": [],
     "hazards": [],
@@ -13174,6 +13174,8 @@
       "弓手会自动帮忙，不需要给她写程序。看血条变化再决定攻击次数。",
       "重甲守卫会反击。独自硬拼很危险；先让弓手加入。"
     ],
+    "hiddenByDefault": true,
+    "optional": true,
     "tutorial": null,
     "learningContract": null,
     "scenarioIndex": 0,

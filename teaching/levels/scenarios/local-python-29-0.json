@@ -9971,10 +9971,10 @@
   "teachingMap": {
     "index": 29,
     "name": "for挑战：点亮三座信号台",
-    "section": 7,
-    "lessonOrder": 29,
+    "section": 3,
+    "lessonOrder": 13.2,
     "revision": 1,
-    "prototype": true,
+    "prototype": false,
     "checkpoints": [],
     "gems": [],
     "hazards": [],
@@ -10091,6 +10091,7 @@
       "每座台之间相隔两格。移动和发言都要放在循环里面。",
       "range(3) 重复三次。最后一轮回到主廊后，继续向右即可到楼梯。"
     ],
+    "hiddenByDefault": true,
     "tutorial": null,
     "learningContract": {
       "loops": [
