@@ -41,7 +41,7 @@ module.exports = class TeachingMapOverlay {
     this.updateGuide = attachGuide(task, design)
     root?.appendChild(task)
     this.task = task
-    if (root && design.world?.chapterId === 'starter-village') this.dialogue = new VillageDialogue(root, design, surface, { autoIntro: false })
+    if (root && design.world?.heroId === 'deepseek') this.dialogue = new VillageDialogue(root, design, surface, { autoIntro: false, story: true })
 
     if (root) this.onboarding = new DeepSeekGuide(root, design, surface, task, this.dialogue)
 

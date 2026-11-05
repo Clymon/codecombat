@@ -274,11 +274,19 @@ class TeachingRules extends System {
     const departing = hero.teachingExitStartedAt >= 0 && now >= hero.teachingExitStartedAt
     const action = hero.health <= 0 ? 'die' : this.adventure?.swing?.started != null ? 'attack' : moving || (departing && hero.action === 'move') ? 'move' : 'idle'
     const swingAt = action === 'attack' ? this.adventure.swing.started : null
+    // Native locomotion can stop at contact before the failure rule fires.
+    // This records contact for dialogue only; it never changes collision or damage.
+    const wallContact = (this.walls || []).some(w => Math.abs(hero.pos.x - w.x) <= w.halfWidth + 1.2 && Math.abs(hero.pos.y - w.y) <= w.halfHeight + 1.2)
     const state = {
       action,
       since: action === 'attack' ? swingAt : action === previous.action ? previous.since : now,
       hurtAt: previous.health != null && hero.health < previous.health ? now : previous.hurtAt,
       diedAt: hero.health <= 0 ? (previous.diedAt ?? now) : null,
+      wallAt: previous.wallAt ?? (wallContact ? now : null),
+      issue: hero.teachingFailure || '',
+      issueAt: hero.teachingFailure ? (hero.teachingFailure === previous.issue ? previous.issueAt : now) : null,
+      // Record the actual successful frame, not the final world's precomputed result.
+      completedAt: previous.completedAt ?? (this.world.goalManager?.getGoalState?.('stay-safe') === 'success' && this.world.goalManager?.getGoalState?.('reach-exit') === 'success' ? now : null),
     }
     this.heroVisual = { ...state, health: hero.health, pos: { x: hero.pos.x, y: hero.pos.y } }
     hero.teachingVisual = JSON.stringify(state)

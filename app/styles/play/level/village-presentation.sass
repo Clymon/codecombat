@@ -337,3 +337,11 @@
 body.deepseek-guiding .spell-palette-popover
   visibility: hidden
   pointer-events: none
+
+#level-view.local-teaching-level .village-dialogue
+  &[data-kind='entry'] .vn-box
+    border-color: #8dc3c0
+  &[data-kind='complete'] .vn-box
+    border-color: #e6c775
+  &[data-kind='wall'] .vn-box, &[data-kind='door'] .vn-box, &[data-kind='spikes'] .vn-box, &[data-kind='down'] .vn-box
+    border-color: #cb9c87

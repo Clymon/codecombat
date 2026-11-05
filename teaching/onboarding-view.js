@@ -11,6 +11,8 @@ module.exports = class DeepSeekGuide {
     this.toggle = document.createElement('button'); this.toggle.className = 'ds-guide-toggle'; this.toggle.type = 'button'; this.toggle.textContent = 'DeepSeek 带路'; this.toggle.hidden = true
     this.toggle.setAttribute('aria-expanded', 'false')
     root.append(this.shell, this.toggle)
+    this.onDialogueVisibility = visible => { this.toggle.hidden = !this.ready || this.active || visible }
+    if (dialogue) dialogue.onVisibilityChange = this.onDialogueVisibility
     this.card = this.shell.querySelector('.ds-guide-card'); this.spot = this.shell.querySelector('.ds-guide-spot')
     this.pointer = this.shell.querySelector('.ds-guide-pointer')
     this.card.querySelector('img').src = portraits.hero.image
@@ -145,6 +147,7 @@ module.exports = class DeepSeekGuide {
   }
 
   destroy () {
+    if (this.dialogue?.onVisibilityChange === this.onDialogueVisibility) delete this.dialogue.onVisibilityChange
     document.body.classList.remove('deepseek-guiding')
     clearInterval(this.timer)
     this.active = false
