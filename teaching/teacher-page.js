@@ -1,3 +1,4 @@
+const { prerequisitesFor, visibleLevel } = require('./level-access')
 const { CLASS_NAME } = require('./student-accounts')
 const { defaultVisible, compareLevels, sectionLabel } = require('./curriculum')
 const escape = value => String(value).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch])
@@ -18,6 +19,7 @@ function timeText (value) {
 }
 function teacherPage ({ levels, students, releases, visibility = {}, progressById, formToken, notice = '' }) {
   levels = [...levels].sort(compareLevels)
+  const prerequisites = prerequisitesFor(levels.filter(l => visibleLevel(l, visibility)))
   const sections = [...new Set(levels.map(level => level.teachingMap.section || 1))]
   const bulk = `<form id="bulk-controls" class="bulk-controls" method="post" action="/teaching/teacher/bulk">
     ${notice ? `<p class="notice" role="status">${escape(notice)}</p>` : ''}
@@ -25,14 +27,14 @@ function teacherPage ({ levels, students, releases, visibility = {}, progressByI
     <div class="selection-heading"><strong><span id="selected-count" aria-live="polite">0</span> 关已选</strong><button class="secondary" type="button" data-select-all>全选 ${levels.length} 关</button><button class="secondary" type="button" data-clear-selection>清空选择</button></div>
     <fieldset class="group-picks"><legend>按组选择</legend>${sections.map(section => `<label><input type="checkbox" data-select-section="${section}">${escape(sectionLabel(section))}</label>`).join('')}</fieldset>
     <div class="bulk-actions"><button name="operation" value="hide" class="close" type="submit">批量隐藏</button><button name="operation" value="show" class="secondary" type="submit">批量显示</button><button name="operation" value="open" type="submit">批量开放</button><button name="operation" value="close" class="secondary" type="submit">批量关闭</button></div>
-    <p class="note">显示只恢复卡片；开放会同时显示并允许进入。隐藏会同时关闭，所有操作都保留学习记录。</p>
+    <p class="note">显示只恢复卡片；开放会同时显示；学生完成前置关卡后才能进入。隐藏会同时关闭，所有操作都保留学习记录。</p>
   </form>`
   const card = level => {
     const visible = visibility[level.slug] !== false && (visibility[level.slug] === true || defaultVisible(level.teachingMap))
     const open = visible && releases[level.slug] === true
-    const state = !visible ? '已隐藏 · 学生看不到' : open ? '已显示 · 可以进入' : '已显示 · 未开放'
+    const state = !visible ? '已隐藏 · 学生看不到' : open ? '已开放 · 按个人进度解锁' : '已显示 · 未开放'
     const fields = `<input type="hidden" name="formToken" value="${escape(formToken)}"><input type="hidden" name="slug" value="${escape(level.slug)}">`
-    return `<article class="release-card" id="release-${escape(level.slug)}"><label class="select-level"><input type="checkbox" name="slugs" value="${escape(level.slug)}" form="bulk-controls" data-section="${level.teachingMap.section || 1}" aria-label="选择 ${escape(level.name)}">选择此关</label><p>${escape(sectionLabel(level.teachingMap.section || 1))}${level.teachingMap.tutorial ? ' · 教学引导' : ''} · ${escape(level.teachingMap.knowledge || '顺序与移动')}</p><h3>${escape(level.name)}</h3><div class="state ${open ? 'open' : 'locked'}">${state}</div><div class="release-actions">
+    return `<article class="release-card" id="release-${escape(level.slug)}"><label class="select-level"><input type="checkbox" name="slugs" value="${escape(level.slug)}" form="bulk-controls" data-section="${level.teachingMap.section || 1}" aria-label="选择 ${escape(level.name)}">选择此关</label><p>${escape(sectionLabel(level.teachingMap.section || 1))}${level.teachingMap.tutorial ? ' · 教学引导' : ''} · ${escape(level.teachingMap.knowledge || '顺序与移动')}</p><h3>${escape(level.name)}</h3><p class="note">前置：${(prerequisites[level.slug] || []).map(slug => escape(levels.find(l => l.slug === slug).name)).join('、') || (visible ? '无，可作为起点' : '显示后按教学顺序确定')}</p><div class="state ${open ? 'open' : 'locked'}">${state}</div><div class="release-actions">
       ${visible ? `<form method="post" action="/teaching/teacher/release">${fields}<input type="hidden" name="open" value="${open ? 'false' : 'true'}"><button class="${open ? 'close' : ''}" type="submit">${open ? '关闭此关' : '开放此关'}</button></form>` : ''}
       <form method="post" action="/teaching/teacher/visibility">${fields}<input type="hidden" name="visible" value="${visible ? 'false' : 'true'}"><button class="${visible ? 'secondary' : ''}" type="submit">${visible ? '隐藏此关' : '显示到学生页'}</button></form>
     </div>${!visible ? '<p class="note">显示后仍为未开放；需要时再点“开放此关”。</p>' : ''}</article>`
@@ -44,7 +46,7 @@ function teacherPage ({ levels, students, releases, visibility = {}, progressByI
     const cells = levels.map(level => { const [label, className] = levelStatus(progress[level.slug]); return `<td><span class="badge ${className}">${label}</span></td>` }).join('')
     return `<tr><td><a href="/teaching/teacher/student/${escape(student.studentId)}">${escape(student.studentId)}</a></td>${cells}<td>${escape(timeText(stamps.at(-1)))}</td></tr>`
   }).join('')
-  const body = `<header class="top"><div><div class="eyebrow">${CLASS_NAME} · 本机教师端</div><h1>关卡发布与学生进度</h1><p class="intro">隐藏：学生页不出现；显示但未开放：只能看到卡片；开放：可以进入。设置对全班生效，隐藏或关闭都保留已保存代码和学习进度。</p></div><a class="back" href="/teaching">学生入口 →</a></header>
+  const body = `<header class="top"><div><div class="eyebrow">${CLASS_NAME} · 本机教师端</div><h1>关卡发布与学生进度</h1><p class="intro">隐藏：学生页不出现；显示但未开放：只能看到卡片；开放：完成前置关卡后可以进入。主路依次解锁，选做支路不阻塞主路；隐藏的关卡从前置路线中跳过，关闭的关卡仍保留前置要求。设置对全班生效，隐藏或关闭都保留已保存代码和学习进度。</p></div><a class="back" href="/teaching">学生入口 →</a></header>
   <section class="panel"><h2>显示与开放</h2>${bulk}<p class="note">新手村包含第1—4小节，当前主角为DeepSeek；教学引导按学习顺序融入各小节。新增关卡仍保留当前隐藏或开放设置。备选样关默认隐藏。${levels.some(l => l.teachingMap.prototype) ? `<a href="#release-${escape(levels.find(l => l.teachingMap.prototype).slug)}">跳到互动样关 ↓</a>` : ''}</p>${cards}<p><a class="back" href="#bulk-controls">↑ 返回批量操作</a></p><p class="note">新安装默认只开放第一关。此教师页仅允许在运行服务的电脑上打开。</p></section>
   <section class="panel"><h2>学生进度</h2><p class="count">已创建账号：${students.length} 人</p>${students.length ? `<div class="table-wrap"><table><thead><tr><th>学号</th>${levels.map(level => `<th>${escape(level.name)}</th>`).join('')}<th>最后保存</th></tr></thead><tbody>${rows}</tbody></table></div>` : '<div class="empty">还没有学生创建账号。学生在入口首次输入学号后，这里会出现记录。</div>'}<p class="note">点击学号可查看各关完成状态和已保存代码。免密学号不能核验真实身份，数据仅供课堂过程观察。</p></section>`
   return shell('关卡发布与学生进度', body + '<script src="/teaching/teacher/controls.js" defer></script>')

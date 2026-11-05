@@ -50,10 +50,12 @@ test('continue respects teaching order, saved scene checks, release locks, CSRF 
     assert.equal((await next('local-python-04', s, 'bad')).status, 403)
     assert.match((await (await next('local-python-04', s)).json()).url, /local-python-05/)
     for (const slug of ['local-python-07', 'local-python-09', 'local-python-10', 'local-python-21'])classroom.setUnlocked(slug, true)
+    require('./progress-fixture.cjs')('99995555', 'local-python-07')
     const seven = await enter('local-python-07'); await win(seven, 'steps = 2\nhero.moveRight(steps)')
     assert.equal((await peek('local-python-07', seven)).kind, 'scene')
     await win(seven, 'hero.moveRight(2)')
     assert.equal((await peek('local-python-07', seven)).kind, 'retry', 'a previously passed variable scene does not bypass current-source validation')
+    require('./progress-fixture.cjs')('99995555', 'local-python-09')
     s = await enter('local-python-09'); await win(s, 'hero.moveRight()')
     assert.equal((await peek('local-python-09', s)).kind, 'retry', 'reject wrong target construct even after game success')
     const code = 'if hero.pathOpen("right"):\n    hero.moveRight()'
@@ -65,6 +67,7 @@ test('continue respects teaching order, saved scene checks, release locks, CSRF 
     await win(second, code); assert.equal((await peek('local-python-09', second)).slug, 'local-python-10')
     classroom.setUnlocked('local-python-10', false)
     assert.equal((await next('local-python-09', second)).status, 409, 'release rechecked after preview')
+    require('./progress-fixture.cjs')('99995555', 'local-python-21')
     let last = await enter('local-python-21'); const final = 'hero.moveRight()\nprint("自己人")\nfor i in range(2):\n    hero.moveRight()\nwhile not hero.atBeacon():\n    hero.moveUp()'
     await win(last, final); await next('local-python-21', last); last = await enter('local-python-21'); await win(last, final)
     assert.equal((await peek('local-python-21', last)).kind, 'finished')

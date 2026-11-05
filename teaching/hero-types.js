@@ -1,3 +1,4 @@
+const { HERO_SCALE } = require('./grid-space')
 const knight = require('./common/knight.json')
 const atlas = require('./assets/characters/deepseek-actions-v1.json')
 const { DEEPSEEK_TYPE } = require('./local-type-ids')
@@ -12,7 +13,7 @@ function deepseekType () {
     name: 'DeepSeek Whale Girl',
     slug: 'teaching-deepseek',
     version: { major: 0, minor: 0 },
-    scale: 0.2,
+    scale: HERO_SCALE,
     rasterIcon: 'teaching/deepseek-portrait-v2.png',
     shortName: 'DeepSeek',
     rotationType: 'fixed',

@@ -1,0 +1,8 @@
+{
+  "asset": "starter-village-map-v1.jpg",
+  "created": "2026-11-05",
+  "source": "OpenAI imagegen generated artwork",
+  "description": "Original novice village: gate courtyard, garden, workshop and beacon camp connected by bridges. No lettering or baked-in UI. Paths and interactive markers are rendered separately.",
+  "processing": "1536×1024 generated PNG converted to JPEG quality 82 using sips.",
+  "review": "Visually inspected in the running map; local asset with no remote dependency."
+}

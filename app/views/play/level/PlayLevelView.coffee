@@ -877,10 +877,10 @@ module.exports = class PlayLevelView extends RootView
         when @level?.isType('game-dev') and @$el.hasClass('real-time') then Math.min(windowWidth * 0.8, desiredCanvasWidth)
         when @level?.isType('web-dev') then windowWidth - minCodeWidth
         else desiredCanvasWidth
-    # Reserve space for the teaching portrait, health HUD and short dialogue.
+    # Teaching HUD and dialogue overlay the map; only playback needs a bottom row.
     if @level?.get('teachingMap') and tomeLocation is 'right'
       canvasWidth = Math.min(canvasWidth, windowWidth * 0.67)
-      canvasHeight = Math.max(220, Math.min(canvasWidth / canvasAspectRatio, windowHeight - 340))
+      canvasHeight = Math.max(220, windowHeight - controlBarHeight - 45)
 
     emptyHeightBelowCanvas = switch
       when tomeLocation is 'bottom' then 0
@@ -926,7 +926,7 @@ module.exports = class PlayLevelView extends RootView
     playbackLocation = if emptyHeightBelowCanvas > 15 then 'below' else 'bottom'
     playbackHeight = 60  # Technically it's 60, it has funky margins and padding though for some overlap
     playbackTopMargin = Math.min(emptyHeightBelowCanvas - 58, -5)
-    hudLocation = if emptyHeightBelowCanvas > 60 then 'below' else 'none'
+    hudLocation = if @level?.get('teachingMap') then 'overlay' else if emptyHeightBelowCanvas > 60 then 'below' else 'none'
     footerTop = switch
       when tomeLocation is 'bottom' then controlBarHeight + canvasHeight
       when controlBarLocation is 'right' then canvasHeight + playbackHeight + playbackTopMargin
@@ -962,6 +962,9 @@ module.exports = class PlayLevelView extends RootView
     @$el.find('#playback-view').css width: canvasWidth, marginTop: playbackTopMargin
     @$el.find('#thang-hud').css width: canvasWidth
     @$el.find('#thang-hud .center').css maxWidth: canvasWidth
+    if @level?.get('teachingMap')
+      canvasTop = if controlBarLocation in ['left', 'top'] then controlBarHeight else 0
+      @$el.find('#thang-hud').css width: 228, left: emptyWidthLeftOfCanvas + canvasWidth - 240, top: canvasTop + 14
     @$el.find('#gold-view').css right: windowWidth - canvasWidth + 12, top: 12
     @$el.find('#code-area').css width: tomeWidth, height: tomeHeight, top: tomeTop
     @$el.find('#solution-area').css right: tomeWidth, width: tomeWidth, height: tomeHeight, top: tomeTop, bottom: 'unset', left: 'unset'

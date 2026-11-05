@@ -14,11 +14,12 @@ module.exports = class VillageDialogue {
     this.seenKey = `village-dialogue-v1:${design.slug || design.index}`
     this.shell = document.createElement('section'); this.shell.className = 'village-dialogue'; this.shell.hidden = true
     this.shell.setAttribute('aria-label', '人物对话')
-    this.shell.innerHTML = '<img class="vn-portrait" alt=""><div class="vn-box"><div class="vn-heading"><strong class="vn-name"></strong><span class="vn-role"></span><button class="vn-close" type="button">收起</button></div><p class="vn-line"></p><div class="vn-footer"><span class="vn-count"></span><button class="vn-next" type="button">继续</button></div></div>'
+    this.shell.innerHTML = '<img class="vn-portrait vn-hero" alt="DeepSeek立绘"><img class="vn-portrait vn-partner" alt="" hidden><div class="vn-box"><div class="vn-heading"><strong class="vn-name"></strong><span class="vn-role"></span><button class="vn-close" type="button">收起</button></div><p class="vn-line"></p><div class="vn-footer"><span class="vn-count"></span><button class="vn-next" type="button">继续</button></div></div>'
     this.toggle = document.createElement('button'); this.toggle.className = 'vn-toggle'; this.toggle.type = 'button'; this.toggle.textContent = '人物对话'
     this.toggle.setAttribute('aria-expanded', 'false')
     root.append(this.shell, this.toggle)
-    this.image = this.shell.querySelector('.vn-portrait'); this.line = this.shell.querySelector('.vn-line')
+    this.heroImage = this.shell.querySelector('.vn-hero'); this.heroImage.src = portraits.hero.image
+    this.partnerImage = this.shell.querySelector('.vn-partner'); this.line = this.shell.querySelector('.vn-line')
     this.next = this.shell.querySelector('.vn-next'); this.closeButton = this.shell.querySelector('.vn-close')
     this.next.onclick = () => this.advance()
     this.line.onclick = () => this.reveal()
@@ -93,14 +94,16 @@ module.exports = class VillageDialogue {
   layout () {
     const canvas = this.surface.normalCanvas?.[0]?.getBoundingClientRect()
     if (!canvas) return
-    const hud = document.getElementById('thang-hud')?.getBoundingClientRect()
-    const top = Math.min((hud?.bottom || canvas.bottom) + 10, window.innerHeight - 156)
-    this.shell.style.left = `${Math.max(8, canvas.left + 12)}px`
-    this.shell.style.top = `${top}px`
-    this.shell.style.width = `${Math.max(280, canvas.width - 24)}px`
-    this.shell.style.height = `${Math.max(140, Math.min(252, window.innerHeight - top - 12))}px`
-    this.toggle.style.left = `${Math.max(8, canvas.left + 16)}px`
-    this.toggle.style.top = `${top + 8}px`
+    const playback = document.getElementById('playback-view')?.getBoundingClientRect()
+    const bottom = playback?.height ? Math.min(canvas.bottom, playback.top) : canvas.bottom
+    const height = Math.min(210, (bottom - (canvas.top || 0)) * 0.48)
+    this.shell.style.left = `${canvas.left}px`
+    this.shell.style.top = `${bottom - height}px`
+    this.shell.style.width = `${canvas.width}px`
+    this.shell.style.height = `${height}px`
+    this.shell.style.setProperty('--vn-portrait-width', `${Math.max(82, Math.min(166, canvas.width * 0.18))}px`)
+    this.toggle.style.left = `${Math.max(canvas.left + 8, canvas.left + canvas.width - 220)}px`
+    this.toggle.style.top = `${(canvas.top || 0) + 88}px`
   }
 
   open (lines, mode) {
@@ -114,7 +117,20 @@ module.exports = class VillageDialogue {
   showLine () {
     clearInterval(this.timer); clearTimeout(this.dismissTimer)
     const entry = this.lines[this.index]; const actor = portraits[entry.speaker]
-    this.image.src = actor.image; this.image.alt = `${actor.name}立绘`
+    const partner = entry.speaker !== 'hero' ? entry.speaker : entry.partner
+    const other = portraits[partner]
+    this.partnerImage.hidden = !other
+    this.shell.dataset.paired = String(!!other)
+    this.shell.dataset.side = entry.speaker === 'hero' ? 'left' : 'right'
+    this.heroImage.classList.toggle('is-speaking', entry.speaker === 'hero')
+    this.partnerImage.classList.toggle('is-speaking', entry.speaker !== 'hero')
+    if (other) {
+      this.partnerImage.src = other.image; this.partnerImage.alt = `${other.name}立绘`
+      this.partnerImage.dataset.character = partner
+    } else {
+      this.partnerImage.removeAttribute('src'); this.partnerImage.alt = ''
+      delete this.partnerImage.dataset.character
+    }
     this.shell.dataset.speaker = entry.speaker
     this.shell.dataset.kind = entry.source === 'story' ? entry.kind : ''
     this.shell.querySelector('.vn-name').textContent = actor.name

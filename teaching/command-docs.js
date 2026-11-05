@@ -20,12 +20,12 @@ function commandDocs (slug, design, language) {
   const docs = {}
   for (const [name, direction] of Object.entries(moves)) {
     docs[name] = method(name,
-      `让英雄向画面${direction}方移动。括号留空走 **1 格**；填整数表示走几格。走完才执行下一行。\n\n${design.singleStep ? '**本关每次只能走 1 格**，请用循环完成重复移动。' : '例如填 `2` 就连续走 2 格。'}移动不会自动绕开墙、尖刺或守卫，硬闯可能受伤。`,
+      `让英雄向画面${direction}方移动。括号留空走 **1 格**；填整数表示走几格。每格以地面的粗砖缝为界，英雄从一格中心走到下一格中心，走完才执行下一行。\n\n${design.singleStep ? '**本关每次只能走 1 格**，请用循环完成重复移动。' : '例如填 `2` 就连续走 2 格。'}移动不会自动绕开墙、尖刺或守卫，硬闯可能受伤。`,
       design.singleStep ? `hero.${name}()` : `hero.${name}()  # 走1格\nhero.${name}(2)  # 走2格`,
       [arg('steps', 'number', design.singleStep ? '步数：本关省略或填整数1。' : '步数：填正整数，也可以填保存了正整数的变量；省略时为1。', '1', true)])
   }
   docs.say = method('say',
-    '让英雄把内容说出来，显示在头顶气泡中。**文字加引号，变量不加引号**。说完才继续执行下一行。\n\n门岗口令或机关用语需要走到附近再说；在远处说话不会开门或启动机关。',
+    '让英雄把内容说出来，显示在头顶气泡中。**文字加引号，变量不加引号**。说完才继续执行下一行。\n\n报门岗口令时，先站到守卫正前方紧邻的一格；不能隔墙交谈。点亮信号台要走到台前。站得远时说话不会开门或启动机关。',
     'hero.say("你好")\nnumber = 3\nhero.say(number)',
     [arg('message', 'string / number', '要说的文字或数字；变量会读出它当前保存的值。', '"你好"')])
   docs.pathOpen = method('pathOpen',
@@ -70,7 +70,7 @@ function commandDocs (slug, design, language) {
     owner: 'snippets',
     hideGrantedBy: true,
     teachingCommand: true,
-    description: '在本训练营中，`print(...)` 会让英雄**用头顶气泡说出内容**，与 `hero.say(...)` 一样。文字加引号，变量不加引号；不用写 `hero.print(...)`。\n\n门岗或机关也要求在附近发言。普通Python中的print通常输出到控制台；这里是游戏的专门适配。',
+    description: '在本训练营中，`print(...)` 会让英雄**用头顶气泡说出内容**，与 `hero.say(...)` 一样。文字加引号，变量不加引号；不用写 `hero.print(...)`。\n\n报门岗口令要站到守卫正前方紧邻的一格；点亮信号台要走到台前。普通Python中的print通常输出到控制台；这里是游戏的专门适配。',
     example: { python: 'print("你好")\nnumber = 3\nprint(number)' },
     // Ace placeholders must remain literal text until inserted into the editor.
     // eslint-disable-next-line no-template-curly-in-string

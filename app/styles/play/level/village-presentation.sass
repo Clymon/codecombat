@@ -122,28 +122,54 @@
     display: none
   .village-dialogue
     pointer-events: none
+    background: linear-gradient(0deg, #09121bef, #09121bba 65%, transparent)
   .vn-portrait
     position: absolute
     left: 0
     bottom: 0
-    height: calc(100% + 35px)
-    width: 175px
-    object-fit: cover
-    object-position: center top
-    filter: drop-shadow(0 3px 8px #0008)
+    height: 100%
+    width: var(--vn-portrait-width, 150px)
+    object-fit: contain
+    object-position: bottom
+    filter: brightness(.58) saturate(.65) drop-shadow(0 3px 8px #0008)
+    transform: translateY(6px)
+    transition: filter .2s ease, transform .2s ease
+    &.is-speaking
+      filter: brightness(1.08) drop-shadow(0 3px 10px #000a)
+      transform: translateY(0)
+    &[hidden]
+      display: none
+  .vn-partner
+    left: auto
+    right: 0
+    &[data-character='guard']
+      transform: translateY(6px) scaleX(-1)
+      &.is-speaking
+        transform: translateY(0) scaleX(-1)
+  .village-dialogue[data-paired='true'] .vn-box
+    right: calc(var(--vn-portrait-width, 150px) - 8px)
+  .village-dialogue[data-side='right']
+    .vn-heading
+      flex-direction: row-reverse
+    .vn-close
+      margin-left: 0
+      margin-right: auto
+    .vn-line
+      text-align: right
   .vn-box
     position: absolute
-    left: 136px
+    left: calc(var(--vn-portrait-width, 150px) - 8px)
     right: 0
     bottom: 0
     min-height: 142px
     max-height: 100%
     overflow-y: auto
     padding: 15px 18px 12px
-    background: linear-gradient(140deg, #172e3af5, #101b28f5)
-    border: 1px solid #c4ad7a
-    border-radius: 8px
-    box-shadow: 0 6px 28px #0008, inset 0 0 0 3px #ffffff04
+    background: transparent
+    border: 0
+    border-radius: 0
+    box-shadow: none
+    text-shadow: 0 2px 4px #000, 0 0 12px #000
     color: #f7f0df
     pointer-events: auto
   .vn-heading
@@ -190,20 +216,14 @@
   .vn-next
     border-color: #b99e68
   @media (max-width: 1100px)
-    .vn-portrait
-      width: 160px
     .vn-box
-      left: 128px
       padding: 12px 14px
     .vn-line
       font-size: 15px
     .vn-role
       display: none
   @media (max-height: 650px)
-    .vn-portrait
-      width: 100px
     .vn-box
-      left: 85px
       min-height: 125px
     .vn-line
       margin: 6px 0
@@ -211,6 +231,8 @@
 
 @media (prefers-reduced-motion: reduce)
   #level-loading-view.teaching-loading .village-loading-art, #level-loading-view.teaching-loading #loading-details.coco-view
+    transition: none
+  #level-view.local-teaching-level .vn-portrait
     transition: none
 
 // Non-modal guide: the spotlight never intercepts typing, running or submitting.
@@ -342,10 +364,51 @@ body.deepseek-guiding .spell-palette-popover
   visibility: hidden
   pointer-events: none
 
-#level-view.local-teaching-level .village-dialogue
-  &[data-kind='entry'] .vn-box
-    border-color: #8dc3c0
-  &[data-kind='complete'] .vn-box
-    border-color: #e6c775
-  &[data-kind='wall'] .vn-box, &[data-kind='door'] .vn-box, &[data-kind='spikes'] .vn-box, &[data-kind='down'] .vn-box
-    border-color: #cb9c87
+// A compact hero HUD floats over the map without taking any layout height.
+#level-view.local-teaching-level
+  #level-footer-background, #level-footer-shadow
+    display: none
+  #thang-hud
+    position: fixed
+    height: 64px
+    z-index: 8
+    pointer-events: none
+    .wood-background, .hinge, .thang-name, .prop:not([name="health"])
+      display: none
+    .avatar-wrapper-container
+      left: 0
+      top: 0
+      width: 64px
+      height: 64px
+      .thang-canvas-wrapper
+        width: 64px
+        height: 64px
+    .center, .center:hover
+      left: 72px
+      top: 16px
+      width: 156px
+      height: 32px
+      padding: 0
+      background: none
+      transition: none
+      .thang-props
+        margin: 0
+        .prop[name="health"]
+          left: 0
+          right: auto
+          top: 0
+          white-space: nowrap
+          font: 700 15px/24px system-ui, sans-serif
+          text-shadow: 0 1px 4px #000
+          .prop-label
+            display: none
+          .prop-value.bar-prop
+            width: 110px
+            margin: 3px 6px 0 0
+            height: 18px
+            padding: 3px
+            border: 1px solid #ddc99b
+            background: #101b22
+            .bar
+              height: 10px
+              background: linear-gradient(#eb6572, #b91e36)

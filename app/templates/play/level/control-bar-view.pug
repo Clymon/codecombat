@@ -11,7 +11,7 @@ if includeHomeLink
 
 if includeHomeLink
   .levels-link-area
-    a.levels-link(href=/^local-python-\d{2}$/.test(view.level.get('slug') || '') ? "/teaching" : (homeLink || "/"), dir="ltr")
+    a.levels-link(href=/^local-python-\d{2}$/.test(view.level.get('slug') || '') ? "/teaching?level=" + view.level.get('slug') : (homeLink || "/"), dir="ltr")
       .glyphicon.glyphicon-play
       span(data-i18n=me.isSessionless() ? "nav.courses" : (ladderGame ? "general.ladder" : "nav.map")).home-text
 

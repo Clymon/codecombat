@@ -5,7 +5,7 @@ test('classroom theme keeps locked tasks inaccessible and all scene forms usable
   const html = page({ student: { studentId: '00001234' }, levels, releases: { 'local-python-04': true }, formToken: 'test', progress: { 'local-python-04': { teachingComplete: true } } })
   assert.match(html, /00001234/); assert.match(html, /再次挑战/); assert.match(html, /等待老师开放/)
   assert.doesNotMatch(html, /href="\/play\/level\/local-python-09/)
-  const open = page({ student: { studentId: '<script>x</script>' }, levels, releases: { 'local-python-09': true }, formToken: 'test', progress: { 'local-python-09': { scenePasses: { 0: {} } } } })
+  const open = page({ student: { studentId: '<script>x</script>' }, levels, releases: { 'local-python-09': true }, formToken: 'test', progress: { 'local-python-04': { teachingComplete: true }, 'local-python-09': { scenePasses: { 0: {} } } } })
   assert.match(open, /&lt;script&gt;x&lt;\/script&gt;/); assert.doesNotMatch(open, /<script>/)
   assert.match(open, /name="scene" value="0"/); assert.match(open, /name="scene" value="1"/); assert.match(open, /✓ 门岗放行/)
   assert.match(open, /1 \/ 2/)

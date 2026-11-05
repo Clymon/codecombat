@@ -11,6 +11,7 @@ const { FLOOR_PREFIX } = require('./local-type-ids')
 const { floorType, applyVillageScene } = require('./village-scenes')
 const accountPage = require('./account-page')
 const classroom = require('./classroom-state')
+const { catalog, accessFor } = require('./level-access')
 const teacherPage = require('./teacher-page')
 const { compareLevels } = require('./curriculum')
 const levelsDir = path.join(__dirname, 'levels')
@@ -37,8 +38,10 @@ function requireStudent (req, res) {
   return student
 }
 function requireUnlocked (res, slug) {
-  if (classroom.isUnlocked(slug)) return true
-  res.status(403).set('Cache-Control', 'no-store').json({ message: '此关尚未开放，请等待老师发布。' })
+  const student = accounts.currentStudent(res.req)
+  const access = accessFor(catalog, { progress: student ? accounts.readProgress(student.studentId) : {}, releases: classroom.releases(), visibility: classroom.visibility() })[slug]
+  if (access?.open) return true
+  res.status(403).set('Cache-Control', 'no-store').json({ message: access?.message || '此关不可进入，请返回地图。', reason: access?.reason, prerequisites: access?.missing, mapUrl: `/teaching?level=${slug}` })
   return false
 }
 module.exports = function setupLocalLevels (app) {
@@ -52,7 +55,7 @@ module.exports = function setupLocalLevels (app) {
   })
   const formParser = express.urlencoded({ extended: false, limit: '2kb' })
   const levels = () => fs.readdirSync(levelsDir).filter(f => /^local-python-\d{2}\.json$/.test(f)).map(f => readLevel(f.slice(0, -5))).sort(compareLevels)
-  const htmlHeaders = { 'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'", 'X-Frame-Options': 'DENY', 'Referrer-Policy': 'no-referrer' }
+  const htmlHeaders = { 'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'", 'X-Frame-Options': 'DENY', 'Referrer-Policy': 'no-referrer' }
   const render = (res, student, error = '', status = 200) => {
     return res.status(status).set(htmlHeaders).type('html').send(accountPage({ student, levels: levels(), progress: student ? accounts.readProgress(student.studentId) : {}, releases: classroom.releases(), visibility: classroom.visibility(), showTeacher: classroom.isTeacherLocal(res.req), error, formToken: accounts.formToken(res.req, res) }))
   }
@@ -67,7 +70,7 @@ module.exports = function setupLocalLevels (app) {
     const progressById = Object.fromEntries(students.map(student => [student.studentId, accounts.readProgress(student.studentId)]))
     const count = Number(req.query.count); const actions = { hide: '隐藏', show: '显示', open: '开放', close: '关闭' }
     const notice = typeof req.query.updated === 'string' && Object.hasOwn(actions, req.query.updated) && Number.isInteger(count) && count > 0 && count <= levels().length ? `已批量${actions[req.query.updated]} ${count} 关。` : ''
-    res.set({ ...htmlHeaders, 'Content-Security-Policy': htmlHeaders['Content-Security-Policy'] + "; script-src 'self'" }).type('html').send(teacherPage.teacherPage({ levels: levels(), students, releases: classroom.releases(), visibility: classroom.visibility(), progressById, notice, formToken: accounts.formToken(req, res) }))
+    res.set(htmlHeaders).type('html').send(teacherPage.teacherPage({ levels: levels(), students, releases: classroom.releases(), visibility: classroom.visibility(), progressById, notice, formToken: accounts.formToken(req, res) }))
   })
   app.get('/teaching/teacher/controls.js', (req, res) => {
     if (!teacherOnly(req, res)) return
@@ -115,7 +118,11 @@ module.exports = function setupLocalLevels (app) {
     const progress = accounts.readProgress(student.studentId); const session = progress[slug]
     const sessionId = req.method === 'GET' ? req.query.sessionId : req.body?.sessionId
     if (!session || session._id !== sessionId) { res.status(409).json({ message: '这个页面的场景已改变，请刷新后继续。' }); return null }
-    const next = require('./continuation').nextTask(levels().filter(level => classroom.isVisible(level.slug)), slug, session, classroom.releases())
+    let next = require('./continuation').nextTask(levels().filter(level => classroom.isVisible(level.slug)), slug, session, classroom.releases())
+    if (next.kind === 'level') {
+      const access = accessFor(catalog, { progress, releases: classroom.releases(), visibility: classroom.visibility() })[next.slug]
+      if (!access.open) next = { kind: 'waiting', label: '检查解锁条件', message: access.message }
+    }
     return { student, progress, next }
   }
   app.get('/teaching/continue/:slug', (req, res) => {
@@ -164,6 +171,9 @@ module.exports = function setupLocalLevels (app) {
     }
     res.redirect(303, `/play/level/${slug}?codeLanguage=python`)
   }))
+  app.get('/teaching/world-map.js', (req, res) => {
+    res.set('Cache-Control', 'no-cache').type('js').send(fs.readFileSync(path.join(__dirname, 'world-map-client.js'), 'utf8'))
+  })
   app.get('/teaching/classroom.css', (req, res) => {
     res.set('Cache-Control', 'no-cache').type('css').send(fs.readFileSync(path.join(__dirname, 'classroom.css'), 'utf8'))
   })

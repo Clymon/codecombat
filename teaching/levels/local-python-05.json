@@ -2997,6 +2997,15 @@
           }
         },
         {
+          "original": "52a399b98537a70000000003",
+          "majorVersion": 0,
+          "config": {
+            "scaleFactorX": 1.8,
+            "scaleFactorY": 1.8,
+            "quickScale": true
+          }
+        },
+        {
           "original": "524b7ba57fc0f6d519000016",
           "majorVersion": 0,
           "config": {

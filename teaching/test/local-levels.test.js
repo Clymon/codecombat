@@ -163,6 +163,9 @@ test('student-number first login, repeat login, isolated progress and upstream p
     assert.equal((await release('local-python-99', true)).status, 400)
     assert.equal((await release('local-python-02', true)).status, 303)
     assert.equal(classroom.isUnlocked('local-python-02'), true)
+    assert.equal((await fetch(`${base}/db/level/local-python-02`, { headers: { cookie } })).status, 403, 'teacher release does not bypass prerequisites')
+    require('./progress-fixture.cjs')('20250001', 'local-python-02')
+    require('./progress-fixture.cjs')('20250002', 'local-python-01')
     assert.equal((await fetch(`${base}/db/level/local-python-02`, { headers: { cookie } })).status, 200)
     const first = await fetch(`${base}/db/level/local-python-01/session`, { headers: { cookie } })
     const a = await first.json()
@@ -182,6 +185,7 @@ test('student-number first login, repeat login, isolated progress and upstream p
     assert.equal((await fetch(`${base}/teaching/teacher/student/20259999`)).status, 404)
     assert.deepEqual((await (await fetch(`${base}/db/level/local-python-01/session`, { headers: { cookie: secondCookie } })).json()).code, {})
     assert.equal((await release('local-python-09', true)).status, 303)
+    require('./progress-fixture.cjs')('20250001', 'local-python-09')
     const nine = await (await fetch(`${base}/db/level/local-python-09/session`, { headers: { cookie } })).json()
     const sceneCode = { 'hero-placeholder': { plan: 'if hero.pathOpen("right"):\n    hero.moveRight()\n' } }
     await fetch(`${base}/db/level.session/${nine._id}`, { method: 'PUT', headers: { cookie, 'content-type': 'application/json' }, body: JSON.stringify({ code: sceneCode, state: { complete: true, teachingVictoryCode: sceneCode['hero-placeholder'].plan } }) })

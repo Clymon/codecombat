@@ -9865,8 +9865,8 @@
           "original": "52a399b98537a70000000003",
           "majorVersion": 0,
           "config": {
-            "scaleFactorX": 1.6,
-            "scaleFactorY": 1.6,
+            "scaleFactorX": 2,
+            "scaleFactorY": 2,
             "quickScale": true
           }
         },
@@ -9928,6 +9928,15 @@
           "config": {
             "attackDamage": 0,
             "attackRange": 0
+          }
+        },
+        {
+          "original": "52a399b98537a70000000003",
+          "majorVersion": 0,
+          "config": {
+            "scaleFactorX": 1.5,
+            "scaleFactorY": 1.5,
+            "quickScale": true
           }
         },
         {

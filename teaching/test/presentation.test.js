@@ -87,3 +87,75 @@ test('UI tour suppresses duplicate intro and runtime popups, then restores real 
     dom.window.close()
   }
 })
+
+test('teaching HUD keeps the hero selected when a guard or empty map is clicked', () => {
+  const sandbox = { module: { exports: {} }, require: () => function () {} }
+  vm.runInNewContext(require('coffee-script').compile(fs.readFileSync(path.join(__dirname, '../../app/views/play/level/LevelHUDView.coffee'), 'utf8')), sandbox)
+  const view = Object.create(sandbox.module.exports.prototype)
+  view.options = { level: { get: () => true } }
+  const hero = { id: 'Hero Placeholder' }; view.thang = hero
+  view.setThang({ id: 'Post Guard' }, {})
+  assert.equal(view.thang, hero)
+  view.setThang(null, null)
+  assert.equal(view.thang, hero)
+})
+
+test('dialogue stays inside the map above playback after a viewport resize', () => {
+  const { dom, mediator } = environment(); const saved = {}
+  for (const [key, value] of Object.entries({ window: dom.window, document: dom.window.document, sessionStorage: dom.window.sessionStorage, Backbone: { Mediator: mediator } })) { saved[key] = global[key]; global[key] = value }
+  let view
+  try {
+    const playback = document.createElement('div'); playback.id = 'playback-view'; document.body.append(playback)
+    let bounds = { left: 0, top: 50, width: 960, height: 805, bottom: 855 }
+    playback.getBoundingClientRect = () => ({ top: bounds.bottom - 45, height: 60 })
+    view = new (require('../dialogue-view'))(document.getElementById('level-view'), { index: 5, gates: [], world: {} }, { normalCanvas: [{ getBoundingClientRect: () => bounds }] }, { autoIntro: false })
+    for (const next of [bounds, { left: 0, top: 50, width: 768, height: 490, bottom: 540 }]) {
+      bounds = next; window.dispatchEvent(new window.Event('resize'))
+      const top = parseFloat(view.shell.style.top); const height = parseFloat(view.shell.style.height)
+      assert.ok(top >= bounds.top)
+      assert.ok(top + height <= bounds.bottom - 45)
+      assert.equal(parseFloat(view.shell.style.width), bounds.width)
+    }
+  } finally {
+    view?.destroy()
+    for (const key of Object.keys(saved)) { if (saved[key] === undefined) delete global[key]; else global[key] = saved[key] }
+    dom.window.close()
+  }
+})
+
+test('conversation keeps hero left and listener right, highlights each turn, and clears the partner for monologue', () => {
+  const { dom, mediator } = environment(); const saved = {}
+  for (const [key, value] of Object.entries({ window: dom.window, document: dom.window.document, sessionStorage: dom.window.sessionStorage, Backbone: { Mediator: mediator } })) { saved[key] = global[key]; global[key] = value }
+  let view
+  try {
+    view = new (require('../dialogue-view'))(document.getElementById('level-view'), { index: 5, gates: [], world: {} }, { normalCanvas: [{ getBoundingClientRect: () => ({ left: 0, top: 50, width: 700, height: 500, bottom: 550 }) }] }, { autoIntro: false })
+    view.open([{ speaker: 'hero', partner: 'guard', text: '你好' }, { speaker: 'guard', text: '请报口令' }, { speaker: 'hero', text: '我先看看地图。', source: 'story' }], 'history')
+    const heroSource = view.heroImage.src
+    assert.equal(view.shell.dataset.side, 'left'); assert.equal(view.shell.dataset.paired, 'true')
+    assert.equal(view.heroImage.classList.contains('is-speaking'), true)
+    assert.equal(view.partnerImage.classList.contains('is-speaking'), false)
+    assert.equal(view.partnerImage.dataset.character, 'guard')
+    view.advance()
+    assert.equal(view.shell.dataset.side, 'right'); assert.equal(view.heroImage.src, heroSource)
+    assert.equal(view.heroImage.classList.contains('is-speaking'), false)
+    assert.equal(view.partnerImage.classList.contains('is-speaking'), true)
+    view.advance()
+    assert.equal(view.partnerImage.hidden, true); assert.equal(view.partnerImage.hasAttribute('src'), false)
+    assert.equal(view.shell.dataset.paired, 'false'); assert.equal(view.shell.dataset.side, 'left')
+    view.open([{ speaker: 'mentor', text: '先试着运行。' }], 'history')
+    assert.equal(view.partnerImage.dataset.character, 'mentor'); assert.equal(view.heroImage.src, heroSource)
+  } finally {
+    view?.destroy()
+    for (const key of Object.keys(saved)) { if (saved[key] === undefined) delete global[key]; else global[key] = saved[key] }
+    dom.window.close()
+  }
+})
+
+test('a guard is the listener only for speech recorded at a post, not distant code output or a future reply', () => {
+  const design = { gates: [{ approach: [24, 12] }] }
+  const hero = { teachingSpeechLog: JSON.stringify([{ x: 12, y: 12, time: 1, text: '你好' }, { x: 24, y: 12, time: 3, text: '自己人' }]) }
+  const guard = { id: 'Guard', teachingGateMessage: '通过', teachingGateMessageAt: 3 }
+  assert.equal(replayLines(design, hero, [guard], 1)[0].partner, undefined)
+  const reached = replayLines(design, hero, [guard], 3)
+  assert.equal(reached[1].partner, 'guard'); assert.equal(reached[2].speaker, 'guard')
+})

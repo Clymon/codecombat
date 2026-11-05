@@ -7463,6 +7463,15 @@
           }
         },
         {
+          "original": "52a399b98537a70000000003",
+          "majorVersion": 0,
+          "config": {
+            "scaleFactorX": 1.5,
+            "scaleFactorY": 1.5,
+            "quickScale": true
+          }
+        },
+        {
           "original": "524b7b857fc0f6d519000012",
           "majorVersion": 0,
           "config": {
@@ -7523,6 +7532,15 @@
           }
         },
         {
+          "original": "52a399b98537a70000000003",
+          "majorVersion": 0,
+          "config": {
+            "scaleFactorX": 1.5,
+            "scaleFactorY": 1.5,
+            "quickScale": true
+          }
+        },
+        {
           "original": "524b7b857fc0f6d519000012",
           "majorVersion": 0,
           "config": {
@@ -7580,6 +7598,15 @@
           "config": {
             "attackDamage": 0,
             "attackRange": 0
+          }
+        },
+        {
+          "original": "52a399b98537a70000000003",
+          "majorVersion": 0,
+          "config": {
+            "scaleFactorX": 1.5,
+            "scaleFactorY": 1.5,
+            "quickScale": true
           }
         },
         {

@@ -1,5 +1,6 @@
 // Read-only map annotations for our original local teaching levels.
 // All positions use the native CodeCombat camera and replay world state.
+const { cellsFor, drawGrid, HERO_SCALE } = require('teaching/grid-space')
 const createjs = require('lib/createjs-parts')
 const { visibleSpeech, MAX_VISIBLE } = require('teaching/speech-stack')
 const { drawDungeonDevices } = require('teaching/dungeon-devices')
@@ -7,7 +8,6 @@ const { drawAdventure } = require('teaching/adventure-view')
 const { exitPose } = require('teaching/exit-effects')
 const { attachGuide } = require('teaching/tutorial-guide')
 const { applyHeroFrame } = require('teaching/hero-animation')
-const WhaleCompanion = require('./WhaleCompanion')
 const VillageDialogue = require('teaching/dialogue-view')
 const DeepSeekGuide = require('teaching/onboarding-view')
 module.exports = class TeachingMapOverlay {
@@ -15,7 +15,7 @@ module.exports = class TeachingMapOverlay {
     this.surface = surface
     surface.zoomToHero = false
     this.design = design
-    this.companion = design.world?.chapterId === 'starter-village' ? new WhaleCompanion(surface, design) : null
+    this.cells = cellsFor(design)
     const root = document.getElementById('level-view')
     root?.classList.add('local-teaching-level')
     if (!document.getElementById('teaching-layout-style')) {
@@ -37,7 +37,7 @@ module.exports = class TeachingMapOverlay {
       const detail = document.createElement('details'); const summary = document.createElement('summary'); const text = document.createElement('p')
       summary.textContent = `提示 ${index + 1}`; text.textContent = hint; detail.append(summary, text); task.appendChild(detail)
     }
-    const back = document.createElement('a'); back.href = `/teaching#${design.slug || ''}`; back.textContent = '选择其他关卡或场景'; task.appendChild(back)
+    const back = document.createElement('a'); back.href = `/teaching?level=${design.slug || ''}`; back.textContent = '选择其他关卡或场景'; task.appendChild(back)
     this.updateGuide = attachGuide(task, design)
     root?.appendChild(task)
     this.task = task
@@ -101,8 +101,10 @@ module.exports = class TeachingMapOverlay {
   update () {
     const { camera, world } = this.surface
     this.surface.zoomToHero = false
-    if (this.lastWorld !== world) {
+    if (this.lastWorld !== world || this.lastCanvasWidth !== camera.canvasWidth || this.lastCanvasHeight !== camera.canvasHeight) {
       this.lastWorld = world
+      this.lastCanvasWidth = camera.canvasWidth
+      this.lastCanvasHeight = camera.canvasHeight
       let width = (this.design.size[0] + 12) * (this.design.tutorial ? 1.32 : 1)
       let height = this.design.size[1] + 12
       const aspect = camera.canvasWidth * camera.y2x / camera.canvasHeight
@@ -136,8 +138,10 @@ module.exports = class TeachingMapOverlay {
     }
     if (this.design.world?.heroId === 'deepseek') applyHeroFrame(this.surface.lankBoss.lanks['Hero Placeholder'], hero, world.age)
     this.updateDeparture(hero, world, camera)
-    this.companion?.update(hero, world, camera)
     const floorGraphics = this.floorInk.graphics.clear()
+    drawGrid(floorGraphics, this.cells, hero, camera)
+    // The current cell replaces the large native circular selection marker.
+    this.surface.lankBoss.selectionMark?.toggle(false)
     if (this.design.adventure?.mode !== 'defend') drawDungeonDevices(floorGraphics, this.design, hero, world, camera, g)
     const labels = drawAdventure(g, floorGraphics, this.design, hero, world, camera, this.surface)
     this.adventureLabels.forEach((text, i) => { text.visible = !!labels[i]; if (labels[i]) Object.assign(text, labels[i]) })
@@ -200,7 +204,7 @@ module.exports = class TeachingMapOverlay {
       reply.text.visible = reply.box.visible = !!message
       if (!message || !guard?.pos) continue
       const p = camera.worldToCanvas(guard.pos)
-      const width = 238; const height = 58; const left = Math.max(8, Math.min(p.x + 18, camera.canvasWidth - width - 12)); const top = Math.max(12, p.y - 132)
+      const width = 238; const height = 58; const left = Math.max(8, Math.min(p.x + 18, camera.canvasWidth - width - 12)); const top = Math.max(12, p.y - Math.max(132, 105 * camera.zoom + 68))
       const lines = message.split('\n').flatMap(part => Array.from(part).reduce((rows, char, i) => { if (!rows.length || (rows[rows.length - 1].length >= 13 && !/[，。！？、；：）]/.test(char))) rows.push(''); rows[rows.length - 1] += char; return rows }, []))
       reply.text.text = lines.join('\n'); reply.text.x = left + width / 2; reply.text.y = top + (height - (lines.length - 1) * 22) / 2
       const color = open || state === 'opening' ? '#a2edbb' : state === 'waiting' ? '#efd296' : '#ffae9d'
@@ -239,7 +243,7 @@ module.exports = class TeachingMapOverlay {
     })
     const bubbleHeight = 47
     // The complete stack stays above the hero's head, including each short tip.
-    const bottom = Math.min(p.y - 80, visibleBottom - 12)
+    const bottom = Math.min(p.y - Math.max(80, 280 * HERO_SCALE * camera.zoom + 16), visibleBottom - 12)
     const left = p.x + 20
     messages.forEach((item, index) => {
       const speech = this.speech[index]

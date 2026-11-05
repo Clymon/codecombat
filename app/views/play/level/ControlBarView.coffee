@@ -183,6 +183,11 @@ module.exports = class ControlBarView extends CocoView
       @setupManager.open()
 
   onClickHome: (e) ->
+    if /^local-python-\d{2}$/.test(@level.get('slug') or '')
+      e.preventDefault()
+      e.stopImmediatePropagation()
+      window.location.assign "/teaching?level=#{encodeURIComponent(@level.get('slug'))}"
+      return
     if @level.isType('course')
       category = if me.isTeacher() then 'Teachers' else 'Students'
       window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug

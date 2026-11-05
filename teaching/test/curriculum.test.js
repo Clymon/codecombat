@@ -3,11 +3,11 @@ const fs = require('fs'); const os = require('os'); const path = require('path')
 const designs = require('../map-designs'); const { compareLevels } = require('../curriculum'); const setup = require('../local-levels'); const classroom = require('../classroom-state'); const { nextTask } = require('../continuation')
 const levels = designs.map(d => setup.readLevel(`local-python-${String(d.index).padStart(2, '0')}`)).sort(compareLevels)
 const slug = index => `local-python-${String(index).padStart(2, '0')}`
-test('lesson ordering joins each tutorial to its skill and continues into the existing practice', () => {
+test('lesson ordering embeds tutorials while the main route skips optional challenges', () => {
   const formal = levels.filter(l => !l.teachingMap.prototype)
   assert.deepEqual(formal.map(l => l.teachingMap.index), [4, 5, 1, 2, 3, 6, 26, 27, 7, 8, 30, 9, 31, 10, 11, 12, 13, 28, 29, 14, 15, 16, 17, 18, 19, 32, 33, 20, 21])
   const releases = Object.fromEntries(levels.map(l => [l.slug, true]))
-  for (const [from, to] of [[6, 26], [26, 27], [27, 7], [8, 30], [30, 9], [9, 31], [31, 10], [13, 28], [28, 29], [29, 14], [19, 32], [32, 33], [33, 20]]) {
+  for (const [from, to] of [[6, 26], [26, 7], [27, 7], [8, 30], [30, 9], [9, 31], [31, 10], [13, 28], [28, 29], [29, 14], [19, 32]]) {
     const level = levels.find(l => l.slug === slug(from))
     const session = { state: { complete: true }, codeHash: 'same-code', scenePasses: Object.fromEntries(level.teachingMap.scenarioTitles.map((_, i) => [i, { hash: 'same-code' }])) }
     assert.equal(nextTask(levels, slug(from), session, releases).slug, slug(to), `${from} → ${to}`)
@@ -39,10 +39,11 @@ test('teacher and student pages use four lesson groups; original hidden choices 
       let previous = -1
       for (const id of ids) { const current = group.indexOf(`id="${slug(id)}"`); assert.ok(current > previous, `section ${section}: ${id}`); previous = current }
     }
+    require('./progress-fixture.cjs')('99994444', slug(26))
     const session = await (await get('/db/level/local-python-26/session')).json()
     const code = designs.find(d => d.index === 26).solution
     const save = await fetch(base + '/db/level.session/' + session._id, { method: 'PUT', headers: { cookie, 'content-type': 'application/json' }, body: JSON.stringify({ code: { 'hero-placeholder': { plan: code } }, state: { complete: true, teachingVictoryCode: code } }) }); assert.equal(save.status, 200)
-    let next = await (await get(`/teaching/continue/local-python-26?sessionId=${session._id}`)).json(); assert.equal(next.slug, slug(27))
+    let next = await (await get(`/teaching/continue/local-python-26?sessionId=${session._id}`)).json(); assert.equal(next.slug, slug(7), 'optional challenge stays on a side branch')
     classroom.setVisible(slug(27), false)
     next = await (await get(`/teaching/continue/local-python-26?sessionId=${session._id}`)).json(); assert.equal(next.slug, slug(7), 'hidden challenge is skipped within the integrated route')
     const preserved = await (await get('/db/level/local-python-26/session')).json(); assert.equal(preserved.code['hero-placeholder'].plan, code); assert.equal(preserved.teachingComplete, true)

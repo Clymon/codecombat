@@ -36,7 +36,7 @@ function drawAdventure (g, ground, design, hero, world, camera, surface) {
       }
       continue
     }
-    const head = { x: p.x, y: p.y - (a.kind === 'door' ? 52 : 65) * z }
+    const head = { x: p.x, y: p.y - (a.kind === 'door' ? 52 : 100) * z }
     health(head, a.hp, a.maxHealth, a.kind === 'ally' ? '#6ee2b0' : a.kind === 'door' ? '#f4bf66' : '#f16f64')
     label(`${a.id}  ${a.hp}`, head, a.kind === 'ally' ? '#9ff0c5' : '#ffe0c3', -23)
     if (a.alerted && state.mode === 'lure') label('!', head, '#ffba52', -46)

@@ -29,7 +29,11 @@ function replayLines (design, hero, guards, now) {
   try { speech = JSON.parse(hero?.teachingSpeechLog || '[]') } catch (_) {}
   if (!Array.isArray(speech)) speech = []
   const lines = speech.filter(e => typeof e.text === 'string' && Number.isFinite(e.time) && e.time <= now)
-    .map((e, index) => ({ speaker: 'hero', text: e.text, time: e.time, key: `hero:${index}:${e.time}` }))
+    .map((e, index) => {
+      // Only show a listener actually beside this recorded utterance, not a future reply.
+      const atPost = (design.gates || []).some(g => g.approach && Math.hypot(e.x - g.approach[0], e.y - g.approach[1]) <= 1)
+      return { speaker: 'hero', ...(atPost ? { partner: 'guard' } : {}), text: e.text, time: e.time, key: `hero:${index}:${e.time}` }
+    })
   for (const guard of guards) {
     if (!guard?.teachingGateMessage || !Number.isFinite(guard.teachingGateMessageAt) || guard.teachingGateMessageAt > now) continue
     lines.push({ speaker: 'guard', text: guard.teachingGateMessage, time: guard.teachingGateMessageAt, key: `guard:${guard.id}:${guard.teachingGateMessageAt}:${guard.teachingGateMessage}` })

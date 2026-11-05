@@ -55,6 +55,7 @@ module.exports = class LevelHUDView extends CocoView
       @setThang null, null
 
   setThang: (thang, thangType) ->
+    return if @options.level.get('teachingMap') and thang?.id isnt 'Hero Placeholder'
     if not thang? and not @thang? then return
     if thang? and @thang? and thang.id is @thang.id then return
     if thang? and @hidesHUD and thang.id isnt 'Hero Placeholder' then return  # Don't let them find the names of their opponents this way

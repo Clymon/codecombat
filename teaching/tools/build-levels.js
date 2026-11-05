@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const dir = path.join(__dirname, '..')
 const { durations } = require('../exit-effects')
+const { CELL_SIZE } = require('../grid-space')
 const common = name => JSON.parse(fs.readFileSync(path.join(dir, 'common', `${name}.json`)))
 const ids = { physical: '524b75ad7fc0f6d519000001', exists: '524b4150ff92f1f4f8000024', programmable: '524b7b5a7fc0f6d51900000e', plans: '524b7b517fc0f6d51900000d', simple: '524b7b427fc0f6d51900000b' }
 const systemIDs = ['528112c00268d018e3000008', '5280f83b8ae1581b66000001', '5281146f0268d018e3000014', '528110f30268d018e3000001', '52810ffa33e01a6e86000012', '528114b20268d018e3000017', '528105f833e01a6e86000007', '528113240268d018e300000c', '528112530268d018e3000007', '52810f4933e01a6e8600000c', '528115040268d018e300001b', '5280dc4d251616c907000001', '528111b30268d018e3000004', '528114e60268d018e300001a', '528114040268d018e3000011', '52ae4f02a4dcd4415200000b', '52e953e81b2028d102000004', '52f1354370fb890000000005']
@@ -65,6 +66,7 @@ function make (design) {
   for (const gate of design.gates || []) {
     const sentry = entity('soldier-m', gate.id, ...gate.at, [
       engineComponent('524b7b8c7fc0f6d519000013', { maxSpeed: 0 }),
+      engineComponent('52a399b98537a70000000003', { scaleFactorX: 1.8, scaleFactorY: 1.8, quickScale: true }),
       engineComponent('524b7ba57fc0f6d519000016', { attackDamage: 0, attackRange: 0 }),
     ])
     sentry.components.find(c => c.original === ids.physical).config.rotation = Math.atan2(gate.approach[1] - gate.at[1], gate.approach[0] - gate.at[0])
@@ -76,7 +78,7 @@ function make (design) {
       engineComponent(ids.exists, { stateless: false }),
       ...(actor.kind !== 'signal' ? [engineComponent('524b7bab7fc0f6d519000017', { maxHealth: actor.health, health: actor.health })] : []),
       ...(['enemy', 'ally'].includes(actor.kind) ? [engineComponent('524b7b8c7fc0f6d519000013', { maxSpeed: 0 }), engineComponent('524b7ba57fc0f6d519000016', { attackDamage: 0, attackRange: 0 })] : []),
-      ...(['ally', 'signal'].includes(actor.kind) ? [engineComponent('52a399b98537a70000000003', { scaleFactorX: actor.kind === 'ally' ? 1.6 : 2.8, scaleFactorY: actor.kind === 'ally' ? 1.6 : 2.8, quickScale: true })] : []),
+      ...(['enemy', 'ally', 'signal'].includes(actor.kind) ? [engineComponent('52a399b98537a70000000003', { scaleFactorX: actor.kind === 'signal' ? 2.8 : actor.kind === 'ally' ? 2 : 1.5, scaleFactorY: actor.kind === 'signal' ? 2.8 : actor.kind === 'ally' ? 2 : 1.5, quickScale: true })] : []),
       engineComponent('524b7b857fc0f6d519000012', { collisionCategory: 'none', collisionType: 'static' }),
     ]))
   }
@@ -85,7 +87,7 @@ function make (design) {
   positions.forEach(([x, y], n) => thangs.push(entity('gem', `Parcel ${n + 1}`, x, y)))
   const systems = systemIDs.map(original => engineComponent(original))
   systems.find(s => s.original === '5280f83b8ae1581b66000001').config = { lifespan: 40, frameRate: 20, randomSeed: 'zero' }
-  systems.find(s => s.original === '528113240268d018e300000c').config = { simpleMoveDistance: 12, ...(index >= 7 ? { simpleMoveSnapPoints: Array.from({ length: Math.floor(width / 12) + 1 }, (_, x) => Array.from({ length: Math.floor(height / 12) + 1 }, (_, y) => ({ x: x * 12, y: y * 12 }))).flat(), simpleMoveSnapThreshold: 2.5 } : {}) }
+  systems.find(s => s.original === '528113240268d018e300000c').config = { simpleMoveDistance: CELL_SIZE, ...(index >= 7 ? { simpleMoveSnapPoints: Array.from({ length: Math.floor(width / 12) + 1 }, (_, x) => Array.from({ length: Math.floor(height / 12) + 1 }, (_, y) => ({ x: x * 12, y: y * 12 }))).flat(), simpleMoveSnapThreshold: 2.5 } : {}) }
   systems.find(s => s.original === '528114e60268d018e300001a').config = { showCoordinates: false, showGrid: false, preventZoomToHero: true, showPaths: 'never', showTargetMark: false }
   systems.push(engineComponent('facadecccc00000000000001', { learningContract: design.learningContract || null, ...(design.adventure ? { adventureConfig: { ...design.adventure, guided: !!design.tutorial } } : {}), walls, bounds: { x1: 0, y1: 0, x2: width, y2: height }, guard: design.guard || null, checkpoints: design.checkpoints, exit: design.exit, hazards: design.hazards, gates: design.gates || [], noGems: positions.length === 0, requireFinished: true, exitStyle: design.exitStyle, exitDirection: design.exitDirection, exitDuration: durations[design.exitStyle] || 0, sensor: design.sensor || {}, switches: design.switches || [], singleStep: !!design.singleStep, maxActions: design.maxActions || 30, expectedSpeech: design.expectedSpeech || null }))
   const { solution, scenarios, ...publicDesign } = design

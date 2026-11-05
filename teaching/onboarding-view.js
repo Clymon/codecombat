@@ -104,9 +104,8 @@ module.exports = class DeepSeekGuide {
 
   layout () {
     const canvas = this.surface.normalCanvas?.[0]?.getBoundingClientRect()
-    const hud = document.getElementById('thang-hud')?.getBoundingClientRect()
-    const top = Math.min((hud?.bottom || canvas?.bottom || 400) + 18, window.innerHeight - 46)
-    this.toggle.style.left = `${Math.max(130, (canvas?.left || 0) + 130)}px`; this.toggle.style.top = `${top}px`
+    const top = (canvas?.top || 0) + 88
+    this.toggle.style.left = `${Math.max(8, (canvas?.left || 0) + (canvas?.width || 700) - 124)}px`; this.toggle.style.top = `${top}px`
     if (!this.active) return
     let rect = this.targetRect()
     this.spot.hidden = !rect

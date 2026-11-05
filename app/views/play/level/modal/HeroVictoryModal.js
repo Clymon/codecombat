@@ -614,7 +614,7 @@ module.exports = (HeroVictoryModal = (function () {
       const next = this.teachingNext
       if (!next || next.kind === 'waiting') return this.prepareTeachingContinuation()
       if (next.kind === 'retry') return this.hide()
-      if (next.kind === 'finished') return window.location.assign('/teaching')
+      if (next.kind === 'finished') return window.location.assign(`/teaching?level=${encodeURIComponent(this.level.get('slug'))}`)
       this.continuingTeaching = true
       this.$('#continue-button').prop('disabled', true).text('正在进入…')
       try {
