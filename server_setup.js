@@ -112,9 +112,11 @@ const setupQuickBailToMainHTML = function (app) {
   app.get('/home', fast('home.html'))
   app.get('/play', fast('overworld.html'))
   const levelPage = fast('main.html')
+  const teachingPage = fast('teaching.html')
   app.get('/play/level/:slug', (req, res, next) => {
     if (/^local-python-\d{2}$/.test(req.params.slug)) {
       if (!teachingAccounts.currentStudent(req) || !teachingClassroom.isUnlocked(req.params.slug)) return res.redirect('/teaching')
+      return teachingPage(req, res, next)
     }
     return levelPage(req, res, next)
   })

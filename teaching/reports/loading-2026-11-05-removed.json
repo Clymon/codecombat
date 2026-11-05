@@ -1,0 +1,66 @@
+{
+  "note": "Baseline requests absent from final cold/warm classroom runs. Byte counts are observed completed page-target transfers; not a whole-page timing comparison.",
+  "bytes": 1412393,
+  "requests": [
+    {
+      "resource": "https://www.googletagmanager.com/gtag/js",
+      "bytes": 183313,
+      "status": 200
+    },
+    {
+      "resource": "https://www.google-analytics.com/analytics.js",
+      "bytes": 21409,
+      "status": 200
+    },
+    {
+      "resource": "https://www.googletagmanager.com/gtm.js",
+      "bytes": 118324,
+      "status": 200
+    },
+    {
+      "resource": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 117253,
+      "status": 200
+    },
+    {
+      "resource": "https://www.google-analytics.com/g/collect",
+      "bytes": 0,
+      "status": 204
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_blockly_block-plus-minus_dist_index_js-node_modules_blockly_continuous-t-1df131.bundle.js",
+      "bytes": 654447,
+      "status": 200
+    },
+    {
+      "resource": "/javascripts/chunks/app_core_blocklyUtils_js-app_lib_code-to-blocks_js.bundle.js",
+      "bytes": 29410,
+      "status": 200
+    },
+    {
+      "resource": "/db/analytics.log.event/-/log_event",
+      "bytes": 378,
+      "status": 201
+    },
+    {
+      "resource": "/db/analytics.log.event/-/log_event",
+      "bytes": 378,
+      "status": 201
+    },
+    {
+      "resource": "https://js.stripe.com/v3",
+      "bytes": 287103,
+      "status": 200
+    },
+    {
+      "resource": "https://js.stripe.com/v3/m-outer-3437aaddcdf6922d623e172c2d6f9278.html",
+      "bytes": 0,
+      "status": 200
+    },
+    {
+      "resource": "/db/analytics.log.event/-/log_event",
+      "bytes": 378,
+      "status": 201
+    }
+  ]
+}

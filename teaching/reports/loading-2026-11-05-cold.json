@@ -1,0 +1,1573 @@
+{
+  "phase": "cold",
+  "readyMs": 9136,
+  "observationMs": 15138,
+  "settleMs": 6000,
+  "bytes": 11639576,
+  "requests": [
+    {
+      "resource": "/favicon.ico",
+      "type": "Other"
+    },
+    {
+      "resource": "/play/level/local-python-04",
+      "type": "Document",
+      "status": 200,
+      "mime": "text/html",
+      "cached": false,
+      "bytes": 1625,
+      "ms": 2
+    },
+    {
+      "resource": "/dev/stylesheets/app.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 66640,
+      "ms": 8
+    },
+    {
+      "resource": "/dev/javascripts/app.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 1710725,
+      "ms": 115
+    },
+    {
+      "resource": "/user-data",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 1068,
+      "ms": 1553
+    },
+    {
+      "resource": "/stylesheets/UsFont-b8709a16f2f24d3eea8d.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 1408,
+      "ms": 2
+    },
+    {
+      "resource": "/javascripts/chunks/UsFont.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 1139,
+      "ms": 42
+    },
+    {
+      "resource": "http://dbbpm1bnahe9k.cloudfront.net/webfont.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 2873,
+      "ms": 505
+    },
+    {
+      "resource": "/auth/whoami",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 980,
+      "ms": 1493
+    },
+    {
+      "resource": "/images/favicon/favicon-coco/favicon.ico",
+      "type": "Other",
+      "status": 200,
+      "mime": "image/x-icon",
+      "cached": false,
+      "bytes": 8147,
+      "ms": 2
+    },
+    {
+      "resource": "/javascripts/chunks/zh-HANS.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 179552,
+      "ms": 11
+    },
+    {
+      "resource": "/db/user/<id>/extra-provisions",
+      "type": "Fetch",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 513,
+      "ms": 615
+    },
+    {
+      "resource": "/db/user/<id>/track/visit-codecombat/1",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 700,
+      "ms": 1401
+    },
+    {
+      "resource": "/fonts/vt323.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 1114,
+      "ms": 5
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_y-ace_src_y-ace_js-node_modules_y-websocket_src_y-websocket_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 122733,
+      "ms": 18
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_diff-match-patch_index_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 19382,
+      "ms": 4
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_ace-diff_src_index_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 11077,
+      "ms": 4
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_lz-string_libs_lz-string_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 3663,
+      "ms": 3
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_acorn-loose_dist_acorn-loose_js-node_modules_escodegen_escodegen_js-node-6bf2d3.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 282950,
+      "ms": 57
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_choices_js_public_assets_scripts_choices_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 43960,
+      "ms": 23
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_jquery-mousewheel_jquery_mousewheel_js-node_modules_lodash-4_debounce_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 7871,
+      "ms": 21
+    },
+    {
+      "resource": "/javascripts/chunks/app_models_LevelSession_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 9189,
+      "ms": 21
+    },
+    {
+      "resource": "/javascripts/chunks/app_models_ThangType_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 269524,
+      "ms": 46
+    },
+    {
+      "resource": "/javascripts/chunks/bower_components_ace-builds_src-min-noconflict_ace_js-app_core_aceUtils_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 246076,
+      "ms": 38
+    },
+    {
+      "resource": "/stylesheets/app_models_Article_js-app_models_ChatMessage_js-app_models_CodeLog_js-app_models_Concept_js-a-d52022-82faffb442b514d23623.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 5611,
+      "ms": 7
+    },
+    {
+      "resource": "/javascripts/chunks/app_models_Article_js-app_models_ChatMessage_js-app_models_CodeLog_js-app_models_Concept_js-a-d52022.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 90847,
+      "ms": 29
+    },
+    {
+      "resource": "/javascripts/chunks/app_lib_game-libraries_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 81399,
+      "ms": 36
+    },
+    {
+      "resource": "/javascripts/chunks/app_lib_surface_Lank_coffee-app_lib_surface_LayerAdapter_coffee-app_lib_surface_Mark_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 42334,
+      "ms": 51
+    },
+    {
+      "resource": "/javascripts/chunks/app_lib_world_thang_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 23417,
+      "ms": 50
+    },
+    {
+      "resource": "/javascripts/chunks/app_lib_God_coffee-app_lib_LevelLoader_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 116049,
+      "ms": 77
+    },
+    {
+      "resource": "/javascripts/chunks/app_collections_Concepts_js-app_lib_surface_Surface_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 64068,
+      "ms": 67
+    },
+    {
+      "resource": "/stylesheets/app_views_core_RootComponent_js-app_views_play_modal_JuniorHeroesModal_js-app_templates_base--d61347-2f984c44e697cbbdc783.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 6386,
+      "ms": 7
+    },
+    {
+      "resource": "/javascripts/chunks/app_views_core_RootComponent_js-app_views_play_modal_JuniorHeroesModal_js-app_templates_base--d61347.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 18108,
+      "ms": 61
+    },
+    {
+      "resource": "/javascripts/chunks/app_collections_LevelSessions_js-app_core_components_PieComponent_vue.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 5299,
+      "ms": 60
+    },
+    {
+      "resource": "/stylesheets/app_collections_Achievements_js-app_views_play_level_modal_CourseVideosModal_js-app_views_pla-2ce4ea-ebd5d664010fea884984.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 9000,
+      "ms": 6
+    },
+    {
+      "resource": "/javascripts/chunks/app_collections_Achievements_js-app_views_play_level_modal_CourseVideosModal_js-app_views_pla-2ce4ea.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 37119,
+      "ms": 75
+    },
+    {
+      "resource": "/stylesheets/app_views_play_CampaignView_js-app_views_play_level_tome_Problem_coffee-e6af84d7c8345358e1b9.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 10769,
+      "ms": 11
+    },
+    {
+      "resource": "/javascripts/chunks/app_views_play_CampaignView_js-app_views_play_level_tome_Problem_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 77099,
+      "ms": 82
+    },
+    {
+      "resource": "/stylesheets/app_views_play_menu_GameMenuModal_js-app_lib_HtmlExtractor_coffee-app_lib_LocalMongo_coffee-a-51fe31-d2ebb667f34e35270263.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 5755,
+      "ms": 10
+    },
+    {
+      "resource": "/javascripts/chunks/app_views_play_menu_GameMenuModal_js-app_lib_HtmlExtractor_coffee-app_lib_LocalMongo_coffee-a-51fe31.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 71239,
+      "ms": 86
+    },
+    {
+      "resource": "/javascripts/chunks/vendor_scripts_async_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 6796,
+      "ms": 80
+    },
+    {
+      "resource": "/javascripts/chunks/app_views_play_common_LadderSubmissionView_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 4946,
+      "ms": 80
+    },
+    {
+      "resource": "/stylesheets/app_views_play_level_LevelChatView_coffee-app_views_play_level_LevelLoadingView_coffee-app_vi-dce299-92160b53fe218d62e189.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 16125,
+      "ms": 12
+    },
+    {
+      "resource": "/javascripts/chunks/app_views_play_level_LevelChatView_coffee-app_views_play_level_LevelLoadingView_coffee-app_vi-dce299.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 99147,
+      "ms": 110
+    },
+    {
+      "resource": "/stylesheets/app_views_play_level_modal_ProgressView_js-app_views_play_level_HintsView_coffee-app_views_pl-4de9c4-d8dcc584c553ef9342db.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 9641,
+      "ms": 16
+    },
+    {
+      "resource": "/javascripts/chunks/app_views_play_level_modal_ProgressView_js-app_views_play_level_HintsView_coffee-app_views_pl-4de9c4.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 52193,
+      "ms": 101
+    },
+    {
+      "resource": "/javascripts/chunks/app_lib_simulator_Simulator_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 7473,
+      "ms": 90
+    },
+    {
+      "resource": "/stylesheets/play-fb96c85afe1c6ed8e7a5.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 24941,
+      "ms": 16
+    },
+    {
+      "resource": "/javascripts/chunks/play.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 112527,
+      "ms": 112
+    },
+    {
+      "resource": "/javascripts/chunks/node_modules_dayjs_locale_zh-cn_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 1433,
+      "ms": 102
+    },
+    {
+      "resource": "/db/level/local-python-04",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 3820,
+      "ms": 34
+    },
+    {
+      "resource": "/play/level/local-python-04",
+      "type": "XHR",
+      "status": 200,
+      "mime": "text/html",
+      "cached": false,
+      "bytes": 302,
+      "ms": 32
+    },
+    {
+      "resource": "/db/mandate",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 627,
+      "ms": 1655
+    },
+    {
+      "resource": "/teaching/assets/scenery/village-loading-camp-v1.jpg",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/jpeg",
+      "cached": false,
+      "bytes": 433091,
+      "ms": 32
+    },
+    {
+      "resource": "/images/level/loading_bar_back.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 639,
+      "ms": 55
+    },
+    {
+      "resource": "/images/level/loading_bar_fill.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 854,
+      "ms": 32
+    },
+    {
+      "resource": "/images/level/loading_bar_rim.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 26071,
+      "ms": 38
+    },
+    {
+      "resource": "/images/level/code_editor_background_border.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 26224,
+      "ms": 33
+    },
+    {
+      "resource": "/images/common/button-background-primary-active-border.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 1044,
+      "ms": 37
+    },
+    {
+      "resource": "/images/level/wood_texture.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 57035,
+      "ms": 38
+    },
+    {
+      "resource": "/images/level/goals_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 5149,
+      "ms": 3834
+    },
+    {
+      "resource": "/images/level/scrubber_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 6222,
+      "ms": 34
+    },
+    {
+      "resource": "/images/level/code_palette_wood_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 45158,
+      "ms": 3838
+    },
+    {
+      "resource": "/fonts/google/plus-jakarta-sans-v8-cyrillic-ext_latin_latin-ext_vietnamese-regular.woff2",
+      "type": "Font",
+      "status": 200,
+      "mime": "font/woff2",
+      "cached": false,
+      "bytes": 22444,
+      "ms": 27
+    },
+    {
+      "resource": "/fonts/google/OpenSans-CondBold-webfont.woff",
+      "type": "Font",
+      "status": 200,
+      "mime": "font/woff",
+      "cached": false,
+      "bytes": 21415,
+      "ms": 28
+    },
+    {
+      "resource": "/db/level/local-python-04/session",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 639,
+      "ms": 32
+    },
+    {
+      "resource": "/db/thang.type/facec0000000000106060e0b/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 863,
+      "ms": 34
+    },
+    {
+      "resource": "/db/thang.type/facec0000000000106000e0d/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 878,
+      "ms": 36
+    },
+    {
+      "resource": "/db/thang.type/facec000000000010006140b/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 1339,
+      "ms": 35
+    },
+    {
+      "resource": "/db/thang.type/facec000000000010000140d/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 871,
+      "ms": 38
+    },
+    {
+      "resource": "/db/thang.type/facec000000000010006060b/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 1343,
+      "ms": 37
+    },
+    {
+      "resource": "/db/thang.type/facec000000000010000060d/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 871,
+      "ms": 41
+    },
+    {
+      "resource": "/db/thang.type/facec0000000000000000001/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 1563,
+      "ms": 43
+    },
+    {
+      "resource": "/db/thang.type/names",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 2883,
+      "ms": 473
+    },
+    {
+      "resource": "/db/level.component/524b4150ff92f1f4f8000024/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 4388,
+      "ms": 473
+    },
+    {
+      "resource": "/db/level.component/524b75ad7fc0f6d519000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 22934,
+      "ms": 506
+    },
+    {
+      "resource": "/db/level.component/524b7b8c7fc0f6d519000013/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 22127,
+      "ms": 646
+    },
+    {
+      "resource": "/db/level.component/524b7ba57fc0f6d519000016/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 34534,
+      "ms": 1242
+    },
+    {
+      "resource": "/db/level.component/524b7b427fc0f6d51900000b/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 12462,
+      "ms": 889
+    },
+    {
+      "resource": "/db/level.component/524b7b5a7fc0f6d51900000e/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 11672,
+      "ms": 925
+    },
+    {
+      "resource": "/db/level.component/524b7b517fc0f6d51900000d/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 7164,
+      "ms": 1080
+    },
+    {
+      "resource": "/db/level.component/524b7bab7fc0f6d519000017/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 9471,
+      "ms": 1308
+    },
+    {
+      "resource": "/db/level.system/528112c00268d018e3000008/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 1515,
+      "ms": 1290
+    },
+    {
+      "resource": "/db/level.system/5280f83b8ae1581b66000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 4516,
+      "ms": 1291
+    },
+    {
+      "resource": "/db/level.system/5281146f0268d018e3000014/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 3232,
+      "ms": 1502
+    },
+    {
+      "resource": "/db/level.system/528110f30268d018e3000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 10009,
+      "ms": 1683
+    },
+    {
+      "resource": "/db/level.system/52810ffa33e01a6e86000012/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 3319,
+      "ms": 1784
+    },
+    {
+      "resource": "/db/level.system/528114b20268d018e3000017/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 1459,
+      "ms": 1676
+    },
+    {
+      "resource": "/db/level.system/528105f833e01a6e86000007/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 6187,
+      "ms": 1743
+    },
+    {
+      "resource": "/db/level.system/528113240268d018e300000c/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 7004,
+      "ms": 1933
+    },
+    {
+      "resource": "/db/level.system/528112530268d018e3000007/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 3146,
+      "ms": 2064
+    },
+    {
+      "resource": "/db/level.system/52810f4933e01a6e8600000c/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 2284,
+      "ms": 2136
+    },
+    {
+      "resource": "/db/level.system/528115040268d018e300001b/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 3088,
+      "ms": 2281
+    },
+    {
+      "resource": "/db/level.system/5280dc4d251616c907000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 2986,
+      "ms": 2284
+    },
+    {
+      "resource": "/db/level.system/528111b30268d018e3000004/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 2493,
+      "ms": 2264
+    },
+    {
+      "resource": "/db/level.system/528114e60268d018e300001a/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 3701,
+      "ms": 2395
+    },
+    {
+      "resource": "/db/level.system/528114040268d018e3000011/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 1279,
+      "ms": 2427
+    },
+    {
+      "resource": "/db/level.system/52ae4f02a4dcd4415200000b/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 1589,
+      "ms": 2511
+    },
+    {
+      "resource": "/db/level.system/52e953e81b2028d102000004/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 1372,
+      "ms": 2649
+    },
+    {
+      "resource": "/db/level.system/52f1354370fb890000000005/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 2333,
+      "ms": 2641
+    },
+    {
+      "resource": "/db/level.system/facadecccc00000000000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 14259,
+      "ms": 2289
+    },
+    {
+      "resource": "/javascripts/esper.modern.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 328958,
+      "ms": 3814
+    },
+    {
+      "resource": "/db/level.component/524b7aff7fc0f6d519000006/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 1673,
+      "ms": 2698
+    },
+    {
+      "resource": "/db/level.component/52a399b98537a70000000003/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 1645,
+      "ms": 2766
+    },
+    {
+      "resource": "/javascripts/workers/worker_world.js",
+      "type": "Script"
+    },
+    {
+      "resource": "/db/level.component/524b85837fc0f6d519000020/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 34804,
+      "ms": 2946
+    },
+    {
+      "resource": "/db/level.component/524b7b747fc0f6d519000010/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 30890,
+      "ms": 3101
+    },
+    {
+      "resource": "/db/level.component/524b7b857fc0f6d519000012/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 4708,
+      "ms": 2998
+    },
+    {
+      "resource": "/db/level.component/52e95818a3ca8546b7000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 7292,
+      "ms": 3111
+    },
+    {
+      "resource": "/db/level.component/524b3e3fff92f1f4f800000d/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 6364,
+      "ms": 3262
+    },
+    {
+      "resource": "/db/level.component/524b7b977fc0f6d519000014/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 3598,
+      "ms": 3284
+    },
+    {
+      "resource": "/db/level.component/524b7b9f7fc0f6d519000015/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 8196,
+      "ms": 3286
+    },
+    {
+      "resource": "/db/level.component/524b7bbe7fc0f6d519000019/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 13473,
+      "ms": 3473
+    },
+    {
+      "resource": "/db/level.component/53e217d253457600003e3ebb/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 2669,
+      "ms": 3514
+    },
+    {
+      "resource": "/db/level.component/524b7b7c7fc0f6d519000011/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 17006,
+      "ms": 3572
+    },
+    {
+      "resource": "/db/level.component/524b7bb67fc0f6d519000018/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 4155,
+      "ms": 4853
+    },
+    {
+      "resource": "/db/level.component/524b457bff92f1f4f8000031/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 34410,
+      "ms": 3819
+    },
+    {
+      "resource": "/db/level.component/52e816058c875f0000000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 5836,
+      "ms": 3763
+    },
+    {
+      "resource": "/db/level.component/52872b0ead92b98561000002/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 8829,
+      "ms": 3895
+    },
+    {
+      "resource": "/javascripts/workers/worker_world.js",
+      "type": "Script"
+    },
+    {
+      "resource": "/db/level.component/524b517fff92f1f4f8000046/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 2913,
+      "ms": 3519
+    },
+    {
+      "resource": "/db/user/<id>/achievements",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 349,
+      "ms": 2534
+    },
+    {
+      "resource": "/javascripts/app/vendor/aether-python.modern.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 111091,
+      "ms": 12
+    },
+    {
+      "resource": "/javascripts/workers/aether_worker.js",
+      "type": "Script"
+    },
+    {
+      "resource": "/javascripts/ace/mode-python.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 2922,
+      "ms": 3
+    },
+    {
+      "resource": "/javascripts/ace/ext-language_tools.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 13313,
+      "ms": 3
+    },
+    {
+      "resource": "/images/level/hud_wood_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 18833,
+      "ms": 4
+    },
+    {
+      "resource": "/images/level/hud_hinge.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 1312,
+      "ms": 2
+    },
+    {
+      "resource": "/images/level/hud_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 5381,
+      "ms": 3
+    },
+    {
+      "resource": "/images/level/dialogue_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 9087,
+      "ms": 3
+    },
+    {
+      "resource": "/fonts/glyphicons-halflings-regular.woff",
+      "type": "Font",
+      "status": 200,
+      "mime": "font/woff",
+      "cached": false,
+      "bytes": 23663,
+      "ms": 2
+    },
+    {
+      "resource": "/db/user-credits/LEVEL_CHAT_BOT",
+      "type": "Fetch",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 473,
+      "ms": 715
+    },
+    {
+      "resource": "/db/user/<id>",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 682,
+      "ms": 710
+    },
+    {
+      "resource": "/images/level/code_editor_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 32668,
+      "ms": 3
+    },
+    {
+      "resource": "/images/ozaria/teachers/dashboard/svg_icons/IconHint.svg",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/svg+xml",
+      "cached": false,
+      "bytes": 924,
+      "ms": 4
+    },
+    {
+      "resource": "/images/ai/SpeechBubbleAIWhite.svg",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/svg+xml",
+      "cached": false,
+      "bytes": 718,
+      "ms": 3
+    },
+    {
+      "resource": "/images/pages/play/duck_ida.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 43524,
+      "ms": 6
+    },
+    {
+      "resource": "/images/level/baby-griffin.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 90872,
+      "ms": 6
+    },
+    {
+      "resource": "/file/interface/playback-pause.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 1635,
+      "ms": 670
+    },
+    {
+      "resource": "/javascripts/ace/snippets/python.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 1852,
+      "ms": 19
+    },
+    {
+      "resource": "/db/level.session/<id>",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 868,
+      "ms": 4
+    },
+    {
+      "resource": "/images/level/control_bar_cap_left.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 10910,
+      "ms": 4
+    },
+    {
+      "resource": "/images/level/control_bar_cap_right.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 8625,
+      "ms": 4
+    },
+    {
+      "resource": "/images/level/control_bar_chain_center.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 11359,
+      "ms": 4
+    },
+    {
+      "resource": "/images/level/control_bar_chain_right.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 16016,
+      "ms": 6
+    },
+    {
+      "resource": "/images/level/control_bar_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 24711,
+      "ms": 5
+    },
+    {
+      "resource": "/images/level/control_bar_level_name_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 6700,
+      "ms": 6
+    },
+    {
+      "resource": "/images/common/button-background-primary-active.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 1150,
+      "ms": 5
+    },
+    {
+      "resource": "/images/level/scrubber_knob.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 2632,
+      "ms": 1
+    },
+    {
+      "resource": "/db/user/<id>",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 699,
+      "ms": 943
+    },
+    {
+      "resource": "/teaching/assets/scenery/whale-companion-v1.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 153964,
+      "ms": 3
+    },
+    {
+      "resource": "/teaching/assets/characters/deepseek.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 1420962,
+      "ms": 4
+    },
+    {
+      "resource": "/db/thang.type/selection",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 2140,
+      "ms": 562
+    },
+    {
+      "resource": "/db/thang.type/6890549b51b1568cb9b1684d",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 40546,
+      "ms": 677
+    },
+    {
+      "resource": "/db/thang.type/66bb4fd0396da846729ebd5f",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 57770,
+      "ms": 1254
+    },
+    {
+      "resource": "/db/thang.type/55c5057e58bf0ab6d169360f",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 12675,
+      "ms": 915
+    },
+    {
+      "resource": "/teaching/assets/characters/deepseek-actions-v1.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 2602993,
+      "ms": 733
+    },
+    {
+      "resource": "/teaching/assets/scenery/village-floors-v1.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 1271622,
+      "ms": 737
+    },
+    {
+      "resource": "/file/interface/level_loaded.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 22671,
+      "ms": 1081
+    },
+    {
+      "resource": "/file/interface/game-menu-open.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 3298,
+      "ms": 498
+    },
+    {
+      "resource": "/images/favicon/favicon-coco/apple-touch-icon.png",
+      "type": "Other",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 14632,
+      "ms": 235
+    },
+    {
+      "resource": "/images/level/code_editor_top_bar_wood_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 13615,
+      "ms": 63
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_1.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 2106,
+      "ms": 437
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_2.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 3360,
+      "ms": 379
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_3.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 2943,
+      "ms": 473
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_4.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 2316,
+      "ms": 437
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_5.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 7958,
+      "ms": 474
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/die.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 4698,
+      "ms": 392
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/select_1.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 9312,
+      "ms": 1025
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/select_2.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 14904,
+      "ms": 1051
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/select_3.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 14702,
+      "ms": 1025
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/correct.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 7331,
+      "ms": 1025
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/spritesheet-2015-12-17t093507-0800.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 32078,
+      "ms": 1053
+    },
+    {
+      "resource": "/db/user/<id>/achievements",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 349,
+      "ms": 1609
+    },
+    {
+      "resource": "/db/concept",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 104753,
+      "ms": 720
+    },
+    {
+      "resource": "/db/level.session/<id>",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 992,
+      "ms": 4
+    }
+  ]
+}

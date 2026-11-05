@@ -36,12 +36,10 @@ export default class Tracker2 extends BaseTracker {
     this.zendeskTracker = new ZendeskTracker(this.store)
     this.superflowTracker = new SuperflowTracker(this.store)
 
-    this.trackers = [
-      this.internalTracker,
-    ]
+    this.trackers = window.localTeaching ? [] : [this.internalTracker]
 
     const isGlobal = !(window.features || {}).china
-    if (isGlobal) {
+    if (isGlobal && !window.localTeaching) {
       // add trackers we don't want china to enable here.
       this.trackers = [
         ...this.trackers,
@@ -56,6 +54,7 @@ export default class Tracker2 extends BaseTracker {
   }
 
   async _initializeTracker () {
+    if (window.localTeaching) { this.onInitializeSuccess(); return }
     try {
       const allTrackers = [
         this.cookieConsentTracker,

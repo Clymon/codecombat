@@ -1,4 +1,4 @@
-import { loadStripe } from '@stripe/stripe-js'
+import { loadStripe } from '@stripe/stripe-js/pure'
 import { getPaymentGroupFromProduct } from '../core/api/payment-group'
 import { createPaymentSession } from '../core/api/payment-session'
 

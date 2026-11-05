@@ -13,8 +13,8 @@ SpellToolbarView = require './SpellToolbarView'
 LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
 aceUtils = require 'core/aceUtils'
-blocklyUtils = require 'core/blocklyUtils'
-{ codeToBlocks, prepareBlockIntelligence } = require 'lib/code-to-blocks'
+loadBlockly = require 'lib/loadBlockly'
+blocklyUtils = codeToBlocks = prepareBlockIntelligence = null
 CodeLog = require 'models/CodeLog'
 Autocomplete = require './editor/autocomplete'
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
@@ -22,8 +22,7 @@ LZString = require 'lz-string'
 utils = require 'core/utils'
 Aether = require 'lib/aether/aether'
 aetherUtils = require 'lib/aether_utils'
-Blockly = require 'blockly'
-blocklyUtils.registerBlocklyTheme()
+Blockly = null
 storage = require 'core/storage'
 AceDiff = require 'ace-diff'
 globalVar = require 'core/globalVar'
@@ -463,6 +462,23 @@ module.exports = class SpellView extends CocoView
       @awaitingBlockly = false
 
   addBlockly: ->
+    @blocklyRequested = true
+    unless Blockly
+      return if @loadingBlockly
+      @loadingBlockly = true
+      loadBlockly().then((bundle) =>
+        return if @destroyed
+        {Blockly, blocklyUtils, codeToBlocks, prepareBlockIntelligence} = bundle
+        @loadingBlockly = false
+        return unless @blocklyRequested
+        @addBlockly()
+      ).catch((error) =>
+        @loadingBlockly = false
+        return if @destroyed
+        @$('.blockly-container').text('积木编辑器加载失败，请刷新重试。')
+        console.error 'Blockly loading failed', error
+      )
+      return
     unless @propertyEntryGroups
       @awaitingBlockly = true
       return
@@ -1888,6 +1904,8 @@ module.exports = class SpellView extends CocoView
 
 
   onToggleBlocks: (e) ->
+    @blocklyRequested = e.blocks
+    @awaitingBlockly = false unless e.blocks
     return if e.blocks and @blocklyActive
     return if not e.blocks and not @blocklyActive
     if e.blocks and @blockly

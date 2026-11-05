@@ -1,0 +1,1533 @@
+{
+  "phase": "warm",
+  "readyMs": 2687,
+  "observationMs": 8689,
+  "settleMs": 6000,
+  "bytes": 632447,
+  "requests": [
+    {
+      "resource": "/play/level/local-python-04",
+      "type": "Document",
+      "status": 200,
+      "mime": "text/html",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/dev/stylesheets/app.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 306,
+      "ms": 3
+    },
+    {
+      "resource": "/dev/javascripts/app.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 307,
+      "ms": 37
+    },
+    {
+      "resource": "/user-data",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 1132,
+      "ms": 673
+    },
+    {
+      "resource": "/stylesheets/UsFont-b8709a16f2f24d3eea8d.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 305,
+      "ms": 1
+    },
+    {
+      "resource": "/javascripts/chunks/UsFont.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 304,
+      "ms": 12
+    },
+    {
+      "resource": "http://dbbpm1bnahe9k.cloudfront.net/webfont.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/javascripts/chunks/zh-HANS.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 7
+    },
+    {
+      "resource": "/db/user/<id>/extra-provisions",
+      "type": "Fetch",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 513,
+      "ms": 617
+    },
+    {
+      "resource": "/fonts/vt323.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 304,
+      "ms": 5
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_y-ace_src_y-ace_js-node_modules_y-websocket_src_y-websocket_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 4
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_diff-match-patch_index_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 5
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_ace-diff_src_index_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 305,
+      "ms": 5
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_lz-string_libs_lz-string_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 305,
+      "ms": 5
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_acorn-loose_dist_acorn-loose_js-node_modules_escodegen_escodegen_js-node-6bf2d3.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 307,
+      "ms": 9
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_choices_js_public_assets_scripts_choices_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 11
+    },
+    {
+      "resource": "/javascripts/chunks/vendors-node_modules_jquery-mousewheel_jquery_mousewheel_js-node_modules_lodash-4_debounce_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 305,
+      "ms": 10
+    },
+    {
+      "resource": "/javascripts/chunks/app_models_LevelSession_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 305,
+      "ms": 10
+    },
+    {
+      "resource": "/javascripts/chunks/app_models_ThangType_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 307,
+      "ms": 13
+    },
+    {
+      "resource": "/javascripts/chunks/bower_components_ace-builds_src-min-noconflict_ace_js-app_core_aceUtils_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 307,
+      "ms": 16
+    },
+    {
+      "resource": "/stylesheets/app_models_Article_js-app_models_ChatMessage_js-app_models_CodeLog_js-app_models_Concept_js-a-d52022-82faffb442b514d23623.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 305,
+      "ms": 3
+    },
+    {
+      "resource": "/javascripts/chunks/app_models_Article_js-app_models_ChatMessage_js-app_models_CodeLog_js-app_models_Concept_js-a-d52022.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 20
+    },
+    {
+      "resource": "/javascripts/chunks/app_lib_game-libraries_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 19
+    },
+    {
+      "resource": "/javascripts/chunks/app_lib_surface_Lank_coffee-app_lib_surface_LayerAdapter_coffee-app_lib_surface_Mark_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 19
+    },
+    {
+      "resource": "/javascripts/chunks/app_lib_world_thang_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 18
+    },
+    {
+      "resource": "/javascripts/chunks/app_lib_God_coffee-app_lib_LevelLoader_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 21
+    },
+    {
+      "resource": "/javascripts/chunks/app_collections_Concepts_js-app_lib_surface_Surface_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 22
+    },
+    {
+      "resource": "/stylesheets/app_views_core_RootComponent_js-app_views_play_modal_JuniorHeroesModal_js-app_templates_base--d61347-2f984c44e697cbbdc783.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 305,
+      "ms": 22
+    },
+    {
+      "resource": "/javascripts/chunks/app_views_core_RootComponent_js-app_views_play_modal_JuniorHeroesModal_js-app_templates_base--d61347.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 23
+    },
+    {
+      "resource": "/javascripts/chunks/app_collections_LevelSessions_js-app_core_components_PieComponent_vue.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 305,
+      "ms": 23
+    },
+    {
+      "resource": "/stylesheets/app_collections_Achievements_js-app_views_play_level_modal_CourseVideosModal_js-app_views_pla-2ce4ea-ebd5d664010fea884984.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 305,
+      "ms": 23
+    },
+    {
+      "resource": "/javascripts/chunks/app_collections_Achievements_js-app_views_play_level_modal_CourseVideosModal_js-app_views_pla-2ce4ea.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 24
+    },
+    {
+      "resource": "/stylesheets/app_views_play_CampaignView_js-app_views_play_level_tome_Problem_coffee-e6af84d7c8345358e1b9.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 306,
+      "ms": 24
+    },
+    {
+      "resource": "/javascripts/chunks/app_views_play_CampaignView_js-app_views_play_level_tome_Problem_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 25
+    },
+    {
+      "resource": "/stylesheets/app_views_play_menu_GameMenuModal_js-app_lib_HtmlExtractor_coffee-app_lib_LocalMongo_coffee-a-51fe31-d2ebb667f34e35270263.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 305,
+      "ms": 24
+    },
+    {
+      "resource": "/javascripts/chunks/app_views_play_menu_GameMenuModal_js-app_lib_HtmlExtractor_coffee-app_lib_LocalMongo_coffee-a-51fe31.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 28
+    },
+    {
+      "resource": "/javascripts/chunks/vendor_scripts_async_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 305,
+      "ms": 28
+    },
+    {
+      "resource": "/javascripts/chunks/app_views_play_common_LadderSubmissionView_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 305,
+      "ms": 28
+    },
+    {
+      "resource": "/stylesheets/app_views_play_level_LevelChatView_coffee-app_views_play_level_LevelLoadingView_coffee-app_vi-dce299-92160b53fe218d62e189.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 306,
+      "ms": 25
+    },
+    {
+      "resource": "/javascripts/chunks/app_views_play_level_LevelChatView_coffee-app_views_play_level_LevelLoadingView_coffee-app_vi-dce299.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 30
+    },
+    {
+      "resource": "/stylesheets/app_views_play_level_modal_ProgressView_js-app_views_play_level_HintsView_coffee-app_views_pl-4de9c4-d8dcc584c553ef9342db.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 305,
+      "ms": 26
+    },
+    {
+      "resource": "/javascripts/chunks/app_views_play_level_modal_ProgressView_js-app_views_play_level_HintsView_coffee-app_views_pl-4de9c4.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 29
+    },
+    {
+      "resource": "/javascripts/chunks/app_lib_simulator_Simulator_coffee.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 305,
+      "ms": 30
+    },
+    {
+      "resource": "/stylesheets/play-fb96c85afe1c6ed8e7a5.css",
+      "type": "Stylesheet",
+      "status": 200,
+      "mime": "text/css",
+      "cached": false,
+      "bytes": 306,
+      "ms": 27
+    },
+    {
+      "resource": "/javascripts/chunks/play.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 31
+    },
+    {
+      "resource": "/javascripts/chunks/node_modules_dayjs_locale_zh-cn_js.bundle.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 304,
+      "ms": 29
+    },
+    {
+      "resource": "/db/level/local-python-04",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 3820,
+      "ms": 4
+    },
+    {
+      "resource": "/file/interface/victory.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 41604,
+      "ms": 610
+    },
+    {
+      "resource": "/play/level/local-python-04",
+      "type": "XHR",
+      "status": 200,
+      "mime": "text/html",
+      "cached": true,
+      "bytes": 0,
+      "ms": 0
+    },
+    {
+      "resource": "/db/mandate",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 270,
+      "ms": 1473
+    },
+    {
+      "resource": "/teaching/assets/scenery/village-loading-bridge-v1.jpg",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/jpeg",
+      "cached": false,
+      "bytes": 475398,
+      "ms": 4
+    },
+    {
+      "resource": "/images/level/loading_bar_back.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 304,
+      "ms": 1
+    },
+    {
+      "resource": "/images/level/loading_bar_fill.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 304,
+      "ms": 2
+    },
+    {
+      "resource": "/images/level/loading_bar_rim.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 2
+    },
+    {
+      "resource": "/images/level/code_editor_background_border.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 3
+    },
+    {
+      "resource": "/images/common/button-background-primary-active-border.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 304,
+      "ms": 3
+    },
+    {
+      "resource": "/images/level/wood_texture.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 3
+    },
+    {
+      "resource": "/images/level/goals_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 4
+    },
+    {
+      "resource": "/images/level/scrubber_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 4
+    },
+    {
+      "resource": "/images/level/code_palette_wood_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 5
+    },
+    {
+      "resource": "/fonts/google/plus-jakarta-sans-v8-cyrillic-ext_latin_latin-ext_vietnamese-regular.woff2",
+      "type": "Font",
+      "status": 200,
+      "mime": "font/woff2",
+      "cached": false,
+      "bytes": 305,
+      "ms": 3
+    },
+    {
+      "resource": "/fonts/google/OpenSans-CondBold-webfont.woff",
+      "type": "Font",
+      "status": 200,
+      "mime": "font/woff",
+      "cached": false,
+      "bytes": 305,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level/local-python-04/session",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 992,
+      "ms": 2
+    },
+    {
+      "resource": "/db/thang.type/facec0000000000106060e0b/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 243,
+      "ms": 2
+    },
+    {
+      "resource": "/db/thang.type/facec0000000000106000e0d/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 243,
+      "ms": 5
+    },
+    {
+      "resource": "/db/thang.type/facec000000000010006140b/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 243,
+      "ms": 5
+    },
+    {
+      "resource": "/db/thang.type/facec000000000010000140d/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 243,
+      "ms": 5
+    },
+    {
+      "resource": "/db/thang.type/facec000000000010006060b/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 243,
+      "ms": 6
+    },
+    {
+      "resource": "/db/thang.type/facec000000000010000060d/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 243,
+      "ms": 6
+    },
+    {
+      "resource": "/db/thang.type/facec0000000000000000001/version",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 244,
+      "ms": 7
+    },
+    {
+      "resource": "/db/thang.type/names",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/db/level.component/524b4150ff92f1f4f8000024/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/db/level.component/524b75ad7fc0f6d519000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/db/level.component/524b7b8c7fc0f6d519000013/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 2
+    },
+    {
+      "resource": "/db/level.component/524b7ba57fc0f6d519000016/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 2
+    },
+    {
+      "resource": "/db/level.component/524b7b427fc0f6d51900000b/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 2
+    },
+    {
+      "resource": "/db/level.component/524b7b5a7fc0f6d51900000e/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 2
+    },
+    {
+      "resource": "/db/level.component/524b7b517fc0f6d51900000d/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 2
+    },
+    {
+      "resource": "/db/level.component/524b7bab7fc0f6d519000017/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 2
+    },
+    {
+      "resource": "/db/level.system/528112c00268d018e3000008/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 2
+    },
+    {
+      "resource": "/db/level.system/5280f83b8ae1581b66000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 2
+    },
+    {
+      "resource": "/db/level.system/5281146f0268d018e3000014/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/528110f30268d018e3000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/52810ffa33e01a6e86000012/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/528114b20268d018e3000017/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/528105f833e01a6e86000007/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/528113240268d018e300000c/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/528112530268d018e3000007/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/52810f4933e01a6e8600000c/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/528115040268d018e300001b/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/5280dc4d251616c907000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/528111b30268d018e3000004/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/528114e60268d018e300001a/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/528114040268d018e3000011/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/52ae4f02a4dcd4415200000b/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/52e953e81b2028d102000004/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/52f1354370fb890000000005/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.system/facadecccc00000000000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 220,
+      "ms": 4
+    },
+    {
+      "resource": "/javascripts/esper.modern.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 307,
+      "ms": 5
+    },
+    {
+      "resource": "/db/level.component/524b7aff7fc0f6d519000006/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/db/level.component/52a399b98537a70000000003/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/db/level.component/524b7b857fc0f6d519000012/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 0
+    },
+    {
+      "resource": "/db/level.component/524b85837fc0f6d519000020/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/db/level.component/524b7b747fc0f6d519000010/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/db/level.component/52e95818a3ca8546b7000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/db/level.component/524b3e3fff92f1f4f800000d/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/db/level.component/524b7b9f7fc0f6d519000015/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/db/level.component/524b7b977fc0f6d519000014/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 2
+    },
+    {
+      "resource": "/db/level.component/53e217d253457600003e3ebb/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 2
+    },
+    {
+      "resource": "/db/level.component/524b7b7c7fc0f6d519000011/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 2
+    },
+    {
+      "resource": "/db/level.component/524b7bb67fc0f6d519000018/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 2
+    },
+    {
+      "resource": "/db/level.component/524b457bff92f1f4f8000031/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 2
+    },
+    {
+      "resource": "/db/level.component/52872b0ead92b98561000002/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.component/52e816058c875f0000000001/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.component/524b517fff92f1f4f8000046/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 3
+    },
+    {
+      "resource": "/db/level.component/524b7bbe7fc0f6d519000019/version/0",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/javascripts/workers/worker_world.js",
+      "type": "Script"
+    },
+    {
+      "resource": "/images/favicon/favicon-coco/favicon.ico",
+      "type": "Other",
+      "status": 200,
+      "mime": "image/x-icon",
+      "cached": false,
+      "bytes": 305,
+      "ms": 4
+    },
+    {
+      "resource": "/javascripts/app/vendor/aether-python.modern.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 306,
+      "ms": 2
+    },
+    {
+      "resource": "/javascripts/workers/aether_worker.js",
+      "type": "Script"
+    },
+    {
+      "resource": "/javascripts/ace/mode-python.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 305,
+      "ms": 2
+    },
+    {
+      "resource": "/javascripts/ace/ext-language_tools.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 305,
+      "ms": 1
+    },
+    {
+      "resource": "/images/level/hud_wood_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 2
+    },
+    {
+      "resource": "/images/level/hud_hinge.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 304,
+      "ms": 2
+    },
+    {
+      "resource": "/images/level/hud_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 1
+    },
+    {
+      "resource": "/images/level/dialogue_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 2
+    },
+    {
+      "resource": "/fonts/glyphicons-halflings-regular.woff",
+      "type": "Font",
+      "status": 200,
+      "mime": "font/woff",
+      "cached": false,
+      "bytes": 305,
+      "ms": 9
+    },
+    {
+      "resource": "/db/user-credits/LEVEL_CHAT_BOT",
+      "type": "Fetch",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 269,
+      "ms": 632
+    },
+    {
+      "resource": "/file/interface/game-menu-open.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": true,
+      "bytes": 0,
+      "ms": 0
+    },
+    {
+      "resource": "/images/level/code_editor_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 2
+    },
+    {
+      "resource": "/images/ozaria/teachers/dashboard/svg_icons/IconHint.svg",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/svg+xml",
+      "cached": false,
+      "bytes": 304,
+      "ms": 2
+    },
+    {
+      "resource": "/images/ai/SpeechBubbleAIWhite.svg",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/svg+xml",
+      "cached": false,
+      "bytes": 304,
+      "ms": 6
+    },
+    {
+      "resource": "/images/pages/play/duck_usara.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 57621,
+      "ms": 11
+    },
+    {
+      "resource": "/images/level/baby-griffin.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 306,
+      "ms": 11
+    },
+    {
+      "resource": "/file/interface/playback-pause.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/javascripts/ace/snippets/python.js",
+      "type": "Script",
+      "status": 200,
+      "mime": "application/javascript",
+      "cached": false,
+      "bytes": 304,
+      "ms": 2
+    },
+    {
+      "resource": "/images/favicon/favicon-coco/apple-touch-icon.png",
+      "type": "Other",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 1
+    },
+    {
+      "resource": "/javascripts/workers/worker_world.js",
+      "type": "Script"
+    },
+    {
+      "resource": "/images/level/scrubber_knob.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 304,
+      "ms": 2
+    },
+    {
+      "resource": "/file/interface/ident_2.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": false,
+      "bytes": 21839,
+      "ms": 586
+    },
+    {
+      "resource": "/images/level/control_bar_cap_left.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 2
+    },
+    {
+      "resource": "/images/level/control_bar_cap_right.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 2
+    },
+    {
+      "resource": "/images/level/control_bar_chain_center.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 2
+    },
+    {
+      "resource": "/images/level/control_bar_chain_right.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 3
+    },
+    {
+      "resource": "/images/level/control_bar_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 3
+    },
+    {
+      "resource": "/images/level/control_bar_level_name_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 3
+    },
+    {
+      "resource": "/images/common/button-background-primary-active.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 304,
+      "ms": 3
+    },
+    {
+      "resource": "/db/user/<id>",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 699,
+      "ms": 717
+    },
+    {
+      "resource": "/teaching/assets/scenery/whale-companion-v1.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 306,
+      "ms": 2
+    },
+    {
+      "resource": "/teaching/assets/characters/deepseek.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 307,
+      "ms": 2
+    },
+    {
+      "resource": "/db/thang.type/selection",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/db/thang.type/6890549b51b1568cb9b1684d",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/db/thang.type/66bb4fd0396da846729ebd5f",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/db/thang.type/55c5057e58bf0ab6d169360f",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/teaching/assets/characters/deepseek-actions-v1.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 307,
+      "ms": 79
+    },
+    {
+      "resource": "/teaching/assets/scenery/village-floors-v1.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 307,
+      "ms": 3
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_1.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_2.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_3.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_4.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_5.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/die.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/select_1.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/select_2.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/select_3.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/correct.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/file/db/thang.type/529e680ac423d4e83b000001/spritesheet-2015-12-17t093507-0800.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": true,
+      "bytes": 0,
+      "ms": 0
+    },
+    {
+      "resource": "/file/interface/level_loaded.mp3",
+      "type": "XHR",
+      "status": 200,
+      "mime": "audio/mp3",
+      "cached": true,
+      "bytes": 0,
+      "ms": 1
+    },
+    {
+      "resource": "/images/level/code_editor_top_bar_wood_background.png",
+      "type": "Image",
+      "status": 200,
+      "mime": "image/png",
+      "cached": false,
+      "bytes": 305,
+      "ms": 2
+    },
+    {
+      "resource": "/db/concept",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 337,
+      "ms": 347
+    },
+    {
+      "resource": "/db/level.session/<id>",
+      "type": "XHR",
+      "status": 200,
+      "mime": "application/json",
+      "cached": false,
+      "bytes": 993,
+      "ms": 3
+    }
+  ]
+}

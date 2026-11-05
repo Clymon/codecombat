@@ -95,6 +95,7 @@ const compile = function(contents, locals, filename, cb) {
 
   try {
     locals = _.merge({_, i18n}, locals, require('./static-mock'));
+    locals.teachingMode = filename === 'teaching.static.pug'
     // NOTE: do NOT add more build env-driven feature flags here if at all possible.
     // NOTE: instead, use showingStaticPagesWhileLoading (in static-mock) to delay/hide UI until features flags loaded
     locals.me.useSocialSignOn = () => !(locals.chinaInfra != null ? locals.chinaInfra : false);
