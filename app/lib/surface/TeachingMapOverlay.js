@@ -9,6 +9,7 @@ const { attachGuide } = require('teaching/tutorial-guide')
 const { applyHeroFrame } = require('teaching/hero-animation')
 const WhaleCompanion = require('./WhaleCompanion')
 const VillageDialogue = require('teaching/dialogue-view')
+const DeepSeekGuide = require('teaching/onboarding-view')
 module.exports = class TeachingMapOverlay {
   constructor (surface, design) {
     this.surface = surface
@@ -40,7 +41,9 @@ module.exports = class TeachingMapOverlay {
     this.updateGuide = attachGuide(task, design)
     root?.appendChild(task)
     this.task = task
-    if (root && design.world?.chapterId === 'starter-village') this.dialogue = new VillageDialogue(root, design, surface)
+    if (root && design.world?.chapterId === 'starter-village') this.dialogue = new VillageDialogue(root, design, surface, { autoIntro: false })
+
+    if (root) this.onboarding = new DeepSeekGuide(root, design, surface, task, this.dialogue)
 
     this.container = new createjs.Container()
     this.container.mouseEnabled = false
@@ -165,6 +168,7 @@ module.exports = class TeachingMapOverlay {
   }
 
   destroy () {
+    this.onboarding?.destroy()
     this.dialogue?.destroy()
     this.task?.remove()
   }

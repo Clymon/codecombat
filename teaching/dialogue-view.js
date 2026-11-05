@@ -1,7 +1,7 @@
 const { portraits, introFor, replayLines } = require('./dialogue-content')
 
 module.exports = class VillageDialogue {
-  constructor (root, design, surface) {
+  constructor (root, design, surface, options = {}) {
     this.root = root; this.design = design; this.surface = surface
     this.intro = introFor(design); this.history = []; this.mode = null; this.index = 0
     this.seenKey = `village-dialogue-v1:${design.slug || design.index}`
@@ -30,7 +30,7 @@ module.exports = class VillageDialogue {
       this.ready = true
       let seen = false
       try { seen = sessionStorage.getItem(this.seenKey) === 'seen' } catch (_) {}
-      if (!seen && this.intro.length) this.open(this.intro, 'intro')
+      if (options.autoIntro !== false && !seen && this.intro.length) this.open(this.intro, 'intro')
       this.layout()
     }
     Backbone.Mediator.subscribe('level:loading-view-unveiled', this.onReady, this)
@@ -39,6 +39,12 @@ module.exports = class VillageDialogue {
     const loader = document.getElementById('level-loading-view')
     if (!loader || (loader.classList.contains('unveiled') && !loader.classList.contains('preview-screen'))) this.onReady()
     this.layout()
+  }
+
+  setGuideActive (active) {
+    this.guideActive = active
+    if (active) this.hide()
+    this.toggle.hidden = active
   }
 
   rememberIntro () {
@@ -100,7 +106,7 @@ module.exports = class VillageDialogue {
   }
 
   hide () {
-    clearInterval(this.timer); this.shell.hidden = true; this.toggle.hidden = false
+    clearInterval(this.timer); this.shell.hidden = true; this.toggle.hidden = !!this.guideActive
     this.toggle.setAttribute('aria-expanded', 'false'); this.mode = null
   }
 
@@ -120,7 +126,7 @@ module.exports = class VillageDialogue {
       if (this.mode && this.mode !== 'intro') this.hide()
       return
     }
-    if (this.ready && !this.muted && now - latest.time < 8) {
+    if (this.ready && !this.guideActive && !this.muted && now - latest.time < 8) {
       this.rememberIntro(); this.open([latest], 'runtime')
     }
   }

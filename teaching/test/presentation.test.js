@@ -65,3 +65,25 @@ test('native HUD displays rasterIcon portraits instead of an empty vector canvas
   assert.equal(view.$el.find('canvas').length, 0)
   dom.window.close()
 })
+
+test('UI tour suppresses duplicate intro and runtime popups, then restores real dialogue', () => {
+  const { dom, events, mediator } = environment()
+  const saved = {}
+  for (const [key, value] of Object.entries({ window: dom.window, document: dom.window.document, sessionStorage: dom.window.sessionStorage, Backbone: { Mediator: mediator } })) { saved[key] = global[key]; global[key] = value }
+  try {
+    const Dialogue = require('../dialogue-view')
+    const view = new Dialogue(document.getElementById('level-view'), { index: 5, gates: [], world: { chapterId: 'starter-village' } }, { normalCanvas: [{ getBoundingClientRect: () => ({ left: 0, width: 700, bottom: 400 }) }] }, { autoIntro: false })
+    events.get('level:loading-view-unveiled')()
+    assert.equal(view.shell.hidden, true)
+    view.setGuideActive(true)
+    view.update({ teachingSpeechLog: JSON.stringify([{ time: 1, text: '你好' }]) }, { age: 1, getThangByID: () => null })
+    assert.equal(view.shell.hidden, true); assert.equal(view.toggle.hidden, true)
+    view.setGuideActive(false)
+    view.update({ teachingSpeechLog: JSON.stringify([{ time: 2, text: '自己人' }]) }, { age: 2, getThangByID: () => null })
+    assert.equal(view.mode, 'runtime'); assert.equal(view.line.textContent, '自己人')
+    view.destroy()
+  } finally {
+    for (const key of Object.keys(saved)) { if (saved[key] === undefined) delete global[key]; else global[key] = saved[key] }
+    dom.window.close()
+  }
+})
