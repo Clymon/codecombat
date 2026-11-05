@@ -57,12 +57,16 @@ const setupExpressMiddleware = function (app) {
 
   app.use(express.static(publicPath, { maxAge: 0 }))
 
-  // setupProxyMiddleware's catch-all handles (and terminates) every request that
-  // isn't already served as a static file above. The real backend — a separate,
-  // more secure server — is responsible for cookies/sessions/auth/etc, so this
-  // repo has no need for its own favicon, cookie/body parsing, or feature-mode
-  // middleware.
+  // Classroom routes and the frozen public resource pack terminate all requests
+  // in standalone mode. Only explicit upstream-development mode installs a proxy.
   require('./teaching/local-levels')(app)
+  require('./teaching/local-platform')(app)
+  const offline = require('./teaching/offline-resources')
+  if (offline.enabled()) {
+    console.info('Using standalone classroom resources (no upstream proxy)')
+    app.use(offline.middleware)
+    return
+  }
   return setupProxyMiddleware(app) // TODO: Flatten setup into one function. This doesn't fit its function name.
 }
 
@@ -88,6 +92,7 @@ const renderMain = wrap(function * (template, req, res) {
 
 const setupQuickBailToMainHTML = function (app) {
   const fast = template => function (req, res, next) {
+    if (require('./teaching/offline-resources').enabled() && template !== 'teaching.html') return res.redirect('/teaching')
     let features
     req.features = (features = {})
 
@@ -108,6 +113,7 @@ const setupQuickBailToMainHTML = function (app) {
     return renderMain(template, req, res)
   }
 
+  app.get(['/', '/play'], (req, res, next) => require('./teaching/offline-resources').enabled() ? res.redirect('/teaching') : next())
   app.get('/', fast('home.html'))
   app.get('/home', fast('home.html'))
   app.get('/play', fast('overworld.html'))
@@ -116,8 +122,10 @@ const setupQuickBailToMainHTML = function (app) {
   app.get('/play/level/:slug', (req, res, next) => {
     if (/^local-python-\d{2}$/.test(req.params.slug)) {
       if (!teachingAccounts.currentStudent(req) || !teachingClassroom.isUnlocked(req.params.slug)) return res.redirect('/teaching')
+      if (require('./teaching/offline-resources').enabled()) res.set('Content-Security-Policy', "default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data: blob:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'")
       return teachingPage(req, res, next)
     }
+    if (require('./teaching/offline-resources').enabled()) return res.status(404).send('本服务只提供本地课堂关卡。')
     return levelPage(req, res, next)
   })
   app.get('/play/local-teaching', (req, res) => res.redirect('/teaching'))

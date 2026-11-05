@@ -1,0 +1,1475 @@
+{
+  "version": 1,
+  "resources": {
+    "/db/level.component/524b4150ff92f1f4f8000024/version/0": {
+      "hash": "51d4d975b8711e67523c3fef10a4a78c2e944b01f37569ff4e5731ae6fbd7221",
+      "bytes": 10547,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b4150ff92f1f4f8000024/version/0"
+    },
+    "/db/thang.type/names?ids%5B%5D=529e680ac423d4e83b000001&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be": {
+      "hash": "a05557c3c96e3306a7659f7c9e67703c6559f43f97dc20d736bcf4aa50f6af83",
+      "bytes": 15024,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/names?ids%5B%5D=529e680ac423d4e83b000001&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be"
+    },
+    "/file/interface/victory.mp3": {
+      "hash": "af39bc90206e68a3c54eeb5939625fe3eb19e943a531aa401ba216d82f00d41e",
+      "bytes": 41168,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/victory.mp3"
+    },
+    "/db/level.component/524b7b8c7fc0f6d519000013/version/0": {
+      "hash": "b65f13f95a5969eeab3781a9b2f7ed0f8a56c33285386dea9e7d290248e02fa0",
+      "bytes": 73568,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7b8c7fc0f6d519000013/version/0"
+    },
+    "/db/level.component/524b75ad7fc0f6d519000001/version/0": {
+      "hash": "f38747ed12a80bde7a22ab0d176b784b02e5d076ee18fde4fd88656b9e1e14ab",
+      "bytes": 78079,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b75ad7fc0f6d519000001/version/0"
+    },
+    "/db/level.component/524b7b427fc0f6d51900000b/version/0": {
+      "hash": "ec07e856ed0a83e3cfdeab6d8f02122cf0f655676a2cfc6a3f818cbaabb2a4b3",
+      "bytes": 52457,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7b427fc0f6d51900000b/version/0"
+    },
+    "/db/level.component/524b7b517fc0f6d51900000d/version/0": {
+      "hash": "b2fd0dc8b6a6be172cc6fec1cec4f2691e480ad1eb07f5976313818a66a4317b",
+      "bytes": 17959,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7b517fc0f6d51900000d/version/0"
+    },
+    "/db/level.component/524b7ba57fc0f6d519000016/version/0": {
+      "hash": "90438214bf8b9a1c77240b580135706f4d83b036a2b0d438c2fffc1a9853111c",
+      "bytes": 112446,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7ba57fc0f6d519000016/version/0"
+    },
+    "/db/level.component/524b7b5a7fc0f6d51900000e/version/0": {
+      "hash": "ee8f19e623cb7038310377d91fbc1b27bf74956a3dbee417ec7ff9c261763b9b",
+      "bytes": 36450,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7b5a7fc0f6d51900000e/version/0"
+    },
+    "/db/level.system/528112c00268d018e3000008/version/0": {
+      "hash": "dde0883a1d86a7013f95eb414da5eadaec8da50810bf6d7da5ffcd4369824dc4",
+      "bytes": 2367,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/528112c00268d018e3000008/version/0"
+    },
+    "/db/level.component/524b7bab7fc0f6d519000017/version/0": {
+      "hash": "eec8d657cb2165274122c52ef042483005c8d8963bada4ff344248bf9f0fcd34",
+      "bytes": 30623,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7bab7fc0f6d519000017/version/0"
+    },
+    "/db/level.system/5280f83b8ae1581b66000001/version/0": {
+      "hash": "daad1d720b7629150615347929903c1b838bbb318f02cf223e73505abff6c381",
+      "bytes": 13790,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/5280f83b8ae1581b66000001/version/0"
+    },
+    "/db/level.system/5281146f0268d018e3000014/version/0": {
+      "hash": "a6e3db5c1ede7245537a7ea64b62a819463efd114a2b1ab6531e74eaded78bcd",
+      "bytes": 8693,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/5281146f0268d018e3000014/version/0"
+    },
+    "/db/level.system/528110f30268d018e3000001/version/0": {
+      "hash": "16838c4db2f36fee41eba305bdc9c198cca6d233749b0975f598705b3ca72c37",
+      "bytes": 36713,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/528110f30268d018e3000001/version/0"
+    },
+    "/db/level.system/52810ffa33e01a6e86000012/version/0": {
+      "hash": "c6ca74c774b4f43b6c0f2f745a9f30c64342a2c3e750de1838b776964e81d6a9",
+      "bytes": 9130,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/52810ffa33e01a6e86000012/version/0"
+    },
+    "/db/level.system/528114b20268d018e3000017/version/0": {
+      "hash": "5816e982ff4c2daa59e1c2085897eededf8645dc74116fcc6d98e6557af26411",
+      "bytes": 2365,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/528114b20268d018e3000017/version/0"
+    },
+    "/db/level.system/528105f833e01a6e86000007/version/0": {
+      "hash": "aa3345f206f673d3931b3d4e7578f5d4abb0ea54bb41a69a6705e54ece720fdf",
+      "bytes": 21905,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/528105f833e01a6e86000007/version/0"
+    },
+    "/db/level.system/528113240268d018e300000c/version/0": {
+      "hash": "cc63ef4ba4c889cf9ef1c328efb590a59e56eab51ed423166937fa4e880ee1bb",
+      "bytes": 26056,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/528113240268d018e300000c/version/0"
+    },
+    "/db/level.system/528112530268d018e3000007/version/0": {
+      "hash": "a7a46f460c04ce0403afd89efcbf5583dcd38b64b91bf877f4f97d60f48fd613",
+      "bytes": 10836,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/528112530268d018e3000007/version/0"
+    },
+    "/db/level.system/52810f4933e01a6e8600000c/version/0": {
+      "hash": "cd560994305b1944b90fcd8ba6e0782ca5477e6a5ad9af5081f6321bfad3f1c5",
+      "bytes": 5316,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/52810f4933e01a6e8600000c/version/0"
+    },
+    "/db/level.system/528115040268d018e300001b/version/0": {
+      "hash": "1da32ae95902e87542f365421a8a31208aabb6d412d4f42eea7412ab27429901",
+      "bytes": 8138,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/528115040268d018e300001b/version/0"
+    },
+    "/db/level.system/5280dc4d251616c907000001/version/0": {
+      "hash": "47fce657f91d99eacca11a75daae33b7b5cf08e0b0d7880fb8c7a4a75e4774db",
+      "bytes": 9668,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/5280dc4d251616c907000001/version/0"
+    },
+    "/db/level.system/528111b30268d018e3000004/version/0": {
+      "hash": "52ebd71156cfefae9619943c2459a87735a848351aeb916352a0b16624888855",
+      "bytes": 6428,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/528111b30268d018e3000004/version/0"
+    },
+    "/db/level.system/528114e60268d018e300001a/version/0": {
+      "hash": "9209fac3b903e07c536ad6bb66247295d6f8cfaa7a48234a7bebccd4638886ac",
+      "bytes": 12024,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/528114e60268d018e300001a/version/0"
+    },
+    "/db/level.system/528114040268d018e3000011/version/0": {
+      "hash": "d61301faf0495a6f0ea8c0875a19969de5016d41c4be3188f747ac678ab35acc",
+      "bytes": 1766,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/528114040268d018e3000011/version/0"
+    },
+    "/db/level.system/52e953e81b2028d102000004/version/0": {
+      "hash": "edd574f0c497c87b9094ae6954d0edeaea7e670c96d40c0579aadea44686cde0",
+      "bytes": 2021,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/52e953e81b2028d102000004/version/0"
+    },
+    "/db/level.system/52ae4f02a4dcd4415200000b/version/0": {
+      "hash": "099a124442c84307581956e7b9620f3ebd8e71fda0bd6699ffdf5893e1ca88b7",
+      "bytes": 2652,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/52ae4f02a4dcd4415200000b/version/0"
+    },
+    "/db/level.system/52f1354370fb890000000005/version/0": {
+      "hash": "64ef78d07ff2daac3752fd059746372292ee58695491214e5ca734af7b90d15d",
+      "bytes": 5112,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.system/52f1354370fb890000000005/version/0"
+    },
+    "/db/level.component/524b7aff7fc0f6d519000006/version/0": {
+      "hash": "b3ddfa35750add385fb58ced286bc2e747ea337cebbeab94290b2cbfd8e54977",
+      "bytes": 2720,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7aff7fc0f6d519000006/version/0"
+    },
+    "/db/level.component/52a399b98537a70000000003/version/0": {
+      "hash": "37e0d5d0b46f7cf93af36bf23ae9b340f0bb877e2e8f252e82f8a2f11ec1531e",
+      "bytes": 3724,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/52a399b98537a70000000003/version/0"
+    },
+    "/db/level.component/524b7b857fc0f6d519000012/version/0": {
+      "hash": "d49661b0a0b27cc6908a5a6c31f0c6ce77a535aad1a88c9032ac7a3bdd5729ce",
+      "bytes": 13775,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7b857fc0f6d519000012/version/0"
+    },
+    "/db/level.component/52e95818a3ca8546b7000001/version/0": {
+      "hash": "4cc44ddad61e1c0c31ec7a236dcbcca73a741f76c6883bf43b061108aea05816",
+      "bytes": 22823,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/52e95818a3ca8546b7000001/version/0"
+    },
+    "/db/level.component/524b3e3fff92f1f4f800000d/version/0": {
+      "hash": "48ace1ffe75df9be13dc4f6ee2341010ac9f5df26f62d39ab7054b0737710fd3",
+      "bytes": 20634,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b3e3fff92f1f4f800000d/version/0"
+    },
+    "/db/level.component/524b7b977fc0f6d519000014/version/0": {
+      "hash": "ec0102b33e9b03f8122b39e8fc13c8a06d102dc77bae9c4165e47d01d248facd",
+      "bytes": 7088,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7b977fc0f6d519000014/version/0"
+    },
+    "/db/level.component/524b85837fc0f6d519000020/version/0": {
+      "hash": "0760d32a41dcdb25dead9fdb340313837e71c9ed7a9f00c1de457622abbe0984",
+      "bytes": 157989,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b85837fc0f6d519000020/version/0"
+    },
+    "/db/level.component/524b7b747fc0f6d519000010/version/0": {
+      "hash": "0729f54a7abfad663d4cfaafb842c455487b650810557af7df84f4eb75d01b89",
+      "bytes": 128305,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7b747fc0f6d519000010/version/0"
+    },
+    "/db/level.component/524b7b9f7fc0f6d519000015/version/0": {
+      "hash": "30be06af1ebd9f00a40e5fc79820b7bf82e06e6b8eb0eefbe9b920574981f702",
+      "bytes": 20575,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7b9f7fc0f6d519000015/version/0"
+    },
+    "/db/level.component/524b7bbe7fc0f6d519000019/version/0": {
+      "hash": "4831b0006032ba7415d4077824430b292ec55ff9d7fd8666921c577d957fe127",
+      "bytes": 38042,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7bbe7fc0f6d519000019/version/0"
+    },
+    "/db/level.component/53e217d253457600003e3ebb/version/0": {
+      "hash": "383141fca4b3a3a23f5f3140cf4ab2b6072b6d96bd4bceb1f566fe622142ef85",
+      "bytes": 8329,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/53e217d253457600003e3ebb/version/0"
+    },
+    "/db/level.component/524b7bb67fc0f6d519000018/version/0": {
+      "hash": "4c7d234c284139e77bf6ac88c7cbdd18830abd4c6abfc424f0473c69af5bae3a",
+      "bytes": 10296,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7bb67fc0f6d519000018/version/0"
+    },
+    "/db/level.component/524b7b7c7fc0f6d519000011/version/0": {
+      "hash": "8a8d6dc94e3a1d09a6c3e04542f1cbe81f5717a0af041ecd02c05f7a7c7517aa",
+      "bytes": 62825,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7b7c7fc0f6d519000011/version/0"
+    },
+    "/db/level.component/524b457bff92f1f4f8000031/version/0": {
+      "hash": "68ca34452f53dd6d2d4accd1dd71e705764eb9e99866917c43b91e939c59a834",
+      "bytes": 117629,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b457bff92f1f4f8000031/version/0"
+    },
+    "/db/level.component/52e816058c875f0000000001/version/0": {
+      "hash": "f1cda599a7090edff8a94be9d9db96ae8afba6de43efdf20aeb5949a17233a60",
+      "bytes": 15151,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/52e816058c875f0000000001/version/0"
+    },
+    "/db/level.component/52872b0ead92b98561000002/version/0": {
+      "hash": "4b1743fb4af53e5e994acae461c8180b7241ce57303dbc584ccd52de6a6401e6",
+      "bytes": 20649,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/52872b0ead92b98561000002/version/0"
+    },
+    "/file/interface/ident_2.mp3": {
+      "hash": "e0cd83655b125838aba669fb28f995f8ff46128ed9b9f2b96edc37786beeb11a",
+      "bytes": 21403,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/ident_2.mp3"
+    },
+    "/db/level.component/524b517fff92f1f4f8000046/version/0": {
+      "hash": "c3f09467c700c541e201101e3a7a3248c9638e7f95230555cca51f6de729315a",
+      "bytes": 7864,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b517fff92f1f4f8000046/version/0"
+    },
+    "/file/interface/game-menu-open.mp3": {
+      "hash": "10e5de92ef82ddc70f9e2027a10049ad61bb7d7879ff61bca6e0eb8a72fe7b5a",
+      "bytes": 2862,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/game-menu-open.mp3"
+    },
+    "/file/interface/playback-pause.mp3": {
+      "hash": "c29baaa15371de1ac417d6f9cc1bfecbac5d241b7a32324f1d6abdcb2a41327e",
+      "bytes": 1200,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/playback-pause.mp3"
+    },
+    "/db/thang.type/selection": {
+      "hash": "25d3a869693ec0ca7fe4e0b23f6491624f5d8af135501f97a5cc29a7db44fada",
+      "bytes": 3802,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/selection"
+    },
+    "/file/interface/menu-button-click.mp3": {
+      "hash": "ea81e425c6df01cff326684fd6ab39483c5a2203fd0af7e0e33f9d97928e4a49",
+      "bytes": 2567,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/menu-button-click.mp3"
+    },
+    "/db/thang.type/55c5057e58bf0ab6d169360f": {
+      "hash": "291dce3f1fa31b536e539dd207e4a7d9101fa6df484ec20a2dd911423d9b3622",
+      "bytes": 38798,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/55c5057e58bf0ab6d169360f"
+    },
+    "/file/interface/playback-play.mp3": {
+      "hash": "c29baaa15371de1ac417d6f9cc1bfecbac5d241b7a32324f1d6abdcb2a41327e",
+      "bytes": 1200,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/playback-play.mp3"
+    },
+    "/file/interface/level_loaded.mp3": {
+      "hash": "e228e33745f83d6fd897bcdde789118b09a37b212b6fda2ffc98cb3457e41ab2",
+      "bytes": 22234,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/level_loaded.mp3"
+    },
+    "/file/interface/goals-collapse.mp3": {
+      "hash": "bc805ecbdec434b4e7d90c33747abce11383c3077e2967e396c147ce8d346145",
+      "bytes": 1302,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/goals-collapse.mp3"
+    },
+    "/file/db/thang.type/546e23d49df4a17d0d449bb5/spritesheet-2015-12-17t125440-0800.png": {
+      "hash": "7c45fe733313a702256780478bb4b01f54be1571ea5bf0aee241000132162308",
+      "bytes": 12056,
+      "type": "image/png",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/546e23d49df4a17d0d449bb5/spritesheet-2015-12-17t125440-0800.png"
+    },
+    "/db/thang.type/6890549b51b1568cb9b1684d": {
+      "hash": "cf13b1ffd0fac052d9e7c790116a0ed9c4d581934fdbe4ef5dc196c3bdd7d54f",
+      "bytes": 115263,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/6890549b51b1568cb9b1684d"
+    },
+    "/file/interface/loading-view-unveil.mp3": {
+      "hash": "4ba9538aad6ce0263d735aa67cdcce2c21d3fecf104afc980241fb3a880304bb",
+      "bytes": 28018,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/loading-view-unveil.mp3"
+    },
+    "/db/thang.type/66bb4fd0396da846729ebd5f": {
+      "hash": "e33712112742dc35f2a0122a30f65aecf13b7a3df639351be52008c62d179eae",
+      "bytes": 193442,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/66bb4fd0396da846729ebd5f"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_1.mp3": {
+      "hash": "629b121222adf9d5871c77d37b6c6b5304a6cbf4e4b9ca0316f3c09caa30c6ef",
+      "bytes": 1671,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_1.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_5.mp3": {
+      "hash": "825d9a83a2e1716df3bccf8b6eccc465004fc060c8d254a0119a9d4be70f8529",
+      "bytes": 7522,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_5.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_3.mp3": {
+      "hash": "add44bff8b20f2e29b9e6db858eff598065d72ed127a1ff65017bff223d9fcd0",
+      "bytes": 2507,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_3.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_4.mp3": {
+      "hash": "f8bc16b25963ad39703bd95dfae9182fb7973780df8c02d50161bfbbf20e8952",
+      "bytes": 1880,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_4.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_2.mp3": {
+      "hash": "66e23ec4c4172b2ca8b8c6859ea3b846ab46a10d083ddc5c090e8b8451563168",
+      "bytes": 2925,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_2.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/die.mp3": {
+      "hash": "3580eece140df5f9c529eb385edf11a6a79c47c6adbcb7d77bdfe854b377df75",
+      "bytes": 4263,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/die.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/select_1.mp3": {
+      "hash": "275d2b137d72253bed5f841a0898fe2c94ccef9e8caec8c029336341f62a40f8",
+      "bytes": 8877,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/select_1.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/select_2.mp3": {
+      "hash": "5cc2d7f5787ae525d37876b5846ebd2c9b362288198868776c170b9ed1553ad3",
+      "bytes": 14467,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/select_2.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/correct.mp3": {
+      "hash": "9e643fd657b7c3de7e67abc7a905019ff1aff8d0adfb87823c9b5b6892726518",
+      "bytes": 6896,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/correct.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/select_3.mp3": {
+      "hash": "db0cea00f975c2a2ce46707b1eef9894d798968b57bd27b51bda3372f27b8068",
+      "bytes": 14266,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/select_3.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/spritesheet-2015-12-17t093507-0800.png": {
+      "hash": "39f1d2b4dbd34c2010af5854b21047661d907eddd4a7cde47ca94f703407a256",
+      "bytes": 47732,
+      "type": "image/png",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/spritesheet-2015-12-17t093507-0800.png"
+    },
+    "/file/interface/goals-expand.mp3": {
+      "hash": "bc805ecbdec434b4e7d90c33747abce11383c3077e2967e396c147ce8d346145",
+      "bytes": 1302,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/goals-expand.mp3"
+    },
+    "/file/interface/game-menu-close.mp3": {
+      "hash": "57a7356018cd31a0cf8df2815acb2e2e6568d7de633e1313fe5b6f48e0a34dcb",
+      "bytes": 4218,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/game-menu-close.mp3"
+    },
+    "/file/interface/cast.mp3": {
+      "hash": "781843e0dba01c0e4cef1c366bcaade12db21057616323fa63ea7067655eb1d9",
+      "bytes": 18321,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/cast.mp3"
+    },
+    "/file/interface/cast-end.mp3": {
+      "hash": "3a69f27b0eae82d375f894c3e1934b55c430ba80cfc72bd245b59af64049d860",
+      "bytes": 19641,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/cast-end.mp3"
+    },
+    "/file/interface/goal-success.mp3": {
+      "hash": "a6aca55e76e4aaf499d376bff0d673c99ff716a5c402b31a9c644387532a3c01",
+      "bytes": 5188,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/goal-success.mp3"
+    },
+    "/file/music/music_real_time_1.mp3": {
+      "hash": "22c5f7f0397007acf3bbc10d5977f08104c658cfe393db3d692fe3a63d285df6",
+      "bytes": 154574,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/music/music_real_time_1.mp3"
+    },
+    "/file/interface/real-time-playback-start.mp3": {
+      "hash": "7540c1bcf80e4a81320b28b4b884b173399f0cbb70883b9ae24239397b07b22f",
+      "bytes": 5955,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/real-time-playback-start.mp3"
+    },
+    "/file/interface/real-time-playback-end.mp3": {
+      "hash": "630f40d13caf70f276fd360c4bd470b790203dfc6b064905022434530c2f3926",
+      "bytes": 3927,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/real-time-playback-end.mp3"
+    },
+    "/db/thang.type/names?ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa3b9eccbd588d4d000003&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be&ids%5B%5D=5422f63718adb78d98d265f7": {
+      "hash": "0b3245351e1b91e33963459fb1fd03b94b5fde8e70cf1f7735a7f4b0221c9f8b",
+      "bytes": 4244,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/names?ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa3b9eccbd588d4d000003&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be&ids%5B%5D=5422f63718adb78d98d265f7"
+    },
+    "/db/level.component/524d94d83ea855e0ab000279/version/0": {
+      "hash": "553f1ea4ed1f80020b9755474286486ab192d70a31c88546dc41f64e9fe770a5",
+      "bytes": 2127,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524d94d83ea855e0ab000279/version/0"
+    },
+    "/file/interface/ident_1.mp3": {
+      "hash": "ec70557895e876f3c512ef9c17ecd7d63531f69ddada2bb56b78e5c0f59f605d",
+      "bytes": 20828,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/ident_1.mp3"
+    },
+    "/db/level.component/53f3c73b9ca49ad96d60afcd/version/0": {
+      "hash": "fed2596fb2bf5d620e8ecd000bfb9beacb59df6261f60ddadba4bcaaec11fd1c",
+      "bytes": 1780,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/53f3c73b9ca49ad96d60afcd/version/0"
+    },
+    "/db/level.component/52f7f45d89fec100006eef81/version/0": {
+      "hash": "261fd5f9f800dd42728e749e0b2f361e30ab32d560f4964f3957680a07fca358",
+      "bytes": 6058,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/52f7f45d89fec100006eef81/version/0"
+    },
+    "/db/thang.type/59f9bbdf7af602004449f702": {
+      "hash": "c6d6ba99e3fb08c0c51d6f6c7474b3b7cdfe1a89c3f7eac579bdca54cbcdfe47",
+      "bytes": 30661,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/59f9bbdf7af602004449f702"
+    },
+    "/db/thang.type/54ff5508a23351bb037da638": {
+      "hash": "80003d21bfff8c3b8ed6dc093fafce8f923d39f1629beebdf392df953dd1e238",
+      "bytes": 15972,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/54ff5508a23351bb037da638"
+    },
+    "/file/db/thang.type/52aa3b9eccbd588d4d000003/spritesheet-2015-12-17t093756-0800.png": {
+      "hash": "17fd24470d2a06cc5ade84e404c02756dfc59052168ff40e6ecc052ecefb225f",
+      "bytes": 3699,
+      "type": "image/png",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/52aa3b9eccbd588d4d000003/spritesheet-2015-12-17t093756-0800.png"
+    },
+    "/file/db/thang.type/52aa3b9eccbd588d4d000003/gem_collect.mp3": {
+      "hash": "2c0485128f87fbec8304fb966b8845cad661da60d123abbef033b7d87c915912",
+      "bytes": 12847,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/52aa3b9eccbd588d4d000003/gem_collect.mp3"
+    },
+    "/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_1.mp3": {
+      "hash": "6713f66cd292233ab6ee6aad7721f5b5cdf12ebb75bb5ad096fae565555936bc",
+      "bytes": 4336,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_1.mp3"
+    },
+    "/file/db/thang.type/52aa3b9eccbd588d4d000003/gem_pickup.mp3": {
+      "hash": "a3e3b3154eacf0d0ae6aaebd4ad7c48e84bc6abe13ae7a58530ad87b0de16409",
+      "bytes": 6750,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/52aa3b9eccbd588d4d000003/gem_pickup.mp3"
+    },
+    "/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_4.mp3": {
+      "hash": "e3c5cb74a33a41b99f181a87283d61efcde359b0c5ce5720f4f0fbd06d8960d2",
+      "bytes": 3373,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_4.mp3"
+    },
+    "/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_5.mp3": {
+      "hash": "702e2c023a76a65524f9139c11f21af43329d8a0a6f4cd49994dd16621b1be5b",
+      "bytes": 5117,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_5.mp3"
+    },
+    "/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_3.mp3": {
+      "hash": "0ae5236edc692e72b4b20c5a1b45e4cac04e27ad9460e7098b6583df11ec56d8",
+      "bytes": 4597,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_3.mp3"
+    },
+    "/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_2.mp3": {
+      "hash": "accf619b0efc20b89d24ac58facd9743816e73b22363e44783dc5538a3ef0dd8",
+      "bytes": 2409,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_2.mp3"
+    },
+    "/db/thang.type/names?ids%5B%5D=529e40856febb9ca7e000004&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa3b9eccbd588d4d000003&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be": {
+      "hash": "2640404cc78bc57669fde9bde85e02f48709f4736659921bc457664a0eeee59a",
+      "bytes": 4694,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/names?ids%5B%5D=529e40856febb9ca7e000004&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa3b9eccbd588d4d000003&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be"
+    },
+    "/db/thang.type/544ae1437dbe4a8027d920ff": {
+      "hash": "0f7644ae539a881e8f51ee092b82ad9c599b5640401f8101e37f1a521077618f",
+      "bytes": 155367,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/544ae1437dbe4a8027d920ff"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_1.mp3": {
+      "hash": "629b121222adf9d5871c77d37b6c6b5304a6cbf4e4b9ca0316f3c09caa30c6ef",
+      "bytes": 1671,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_1.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/select_2.mp3": {
+      "hash": "2d33aa32e2593692e5ae2bef44114d7b5bf8d68d989f5353111d13f98a804988",
+      "bytes": 11051,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/select_2.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_3.mp3": {
+      "hash": "add44bff8b20f2e29b9e6db858eff598065d72ed127a1ff65017bff223d9fcd0",
+      "bytes": 2507,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_3.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_2.mp3": {
+      "hash": "66e23ec4c4172b2ca8b8c6859ea3b846ab46a10d083ddc5c090e8b8451563168",
+      "bytes": 2925,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_2.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/die.mp3": {
+      "hash": "611c4950bc5fa2f8661e4ba2a2b9e6f05a46c25da9a4e188bc49078b3bcb6002",
+      "bytes": 3771,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/die.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_5.mp3": {
+      "hash": "825d9a83a2e1716df3bccf8b6eccc465004fc060c8d254a0119a9d4be70f8529",
+      "bytes": 7522,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_5.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_4.mp3": {
+      "hash": "f8bc16b25963ad39703bd95dfae9182fb7973780df8c02d50161bfbbf20e8952",
+      "bytes": 1880,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_4.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/select_1.mp3": {
+      "hash": "5fa7f465f9e0e11f71cff7825e95db8fdd44ac1fe3a8d0ebdfad3eafb80a948e",
+      "bytes": 9493,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/select_1.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/select_3.mp3": {
+      "hash": "8edde244d43815e5b3f6723689843d7ada85be8d292bf40699794039520989bf",
+      "bytes": 18048,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/select_3.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/ogre_select_3.mp3": {
+      "hash": "add6f802b565d3aa9dc6e9b8c56f358eed7b818fad7cf8ee19325f91dea09767",
+      "bytes": 11075,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/ogre_select_3.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/yuck.mp3": {
+      "hash": "80ae2cf58de97b04401d25a7acd2b2757d2076d5a3529217e1179f1279f97fed",
+      "bytes": 4597,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/yuck.mp3"
+    },
+    "/db/thang.type/names?ids%5B%5D=529e680ac423d4e83b000001&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa3b9eccbd588d4d000003&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be": {
+      "hash": "ca9ec105efb808c987315ef5393bfb84c0c1ff5cfbc209c2c62caccc171c719c",
+      "bytes": 16213,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/names?ids%5B%5D=529e680ac423d4e83b000001&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa3b9eccbd588d4d000003&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be"
+    },
+    "/db/thang.type/names?ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be": {
+      "hash": "871e6a1e771595e1561e07cfdfcbe14ceb70e6b20b5c89b1e7b4bf142b953290",
+      "bytes": 1781,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/names?ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be"
+    },
+    "/db/thang.type/names?ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be&ids%5B%5D=5422f63718adb78d98d265f7": {
+      "hash": "1148ea5185f121fc38f68e9dda86f384bbe651e6e8f8e4428085135314b857f9",
+      "bytes": 3055,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/names?ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be&ids%5B%5D=5422f63718adb78d98d265f7"
+    },
+    "/db/thang.type/names?ids%5B%5D=529e40856febb9ca7e000004&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be": {
+      "hash": "b46d858a6eb1d9abb1b6e6714d3d3d8f6d67e68e26653fff2b99e95aa79c0146",
+      "bytes": 3505,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/names?ids%5B%5D=529e40856febb9ca7e000004&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be"
+    },
+    "/db/thang.type/names?ids%5B%5D=529e40856febb9ca7e000004&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=52af688f6320a8049d000001&ids%5B%5D=53fa25f25bc220000052c2be&ids%5B%5D=5422f63718adb78d98d265f7": {
+      "hash": "b3bb72160b7e40abc5ac1652c6f65666927cb0d8d516f8622fb6331151e9fe1d",
+      "bytes": 5299,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/names?ids%5B%5D=529e40856febb9ca7e000004&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=52af688f6320a8049d000001&ids%5B%5D=53fa25f25bc220000052c2be&ids%5B%5D=5422f63718adb78d98d265f7"
+    },
+    "/db/thang.type/681c7a66f5cd124517acc48b": {
+      "hash": "88b1ac79542f51f193027a5209e31d75d55e22a5993710a5652e6ac14f8eea1f",
+      "bytes": 91002,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/681c7a66f5cd124517acc48b"
+    },
+    "/db/thang.type/names?ids%5B%5D=529ab1a24b67a988ad000002&ids%5B%5D=529e40856febb9ca7e000004&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52a0e5123abf480000000001&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=52af688f6320a8049d000001&ids%5B%5D=53fa25f25bc220000052c2be": {
+      "hash": "78accd8a2cd624292d53e296eb4813f1df8988816eff985ea2f3cedcbcc599e4",
+      "bytes": 14799,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/names?ids%5B%5D=529ab1a24b67a988ad000002&ids%5B%5D=529e40856febb9ca7e000004&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52a0e5123abf480000000001&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=52af688f6320a8049d000001&ids%5B%5D=53fa25f25bc220000052c2be"
+    },
+    "/db/level.component/524b7bc67fc0f6d51900001a/version/0": {
+      "hash": "6eb5daba346bc5845d081134cfb5c3a319d97118b6ed6773f94c8707e438b40b",
+      "bytes": 7202,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524b7bc67fc0f6d51900001a/version/0"
+    },
+    "/db/thang.type/529ce66b0bf0bccdc6000005/version?project=name%2Ccomponents%2Coriginal%2CrasterIcon%2Ckind%2CprerenderedSpriteSheetData": {
+      "hash": "8b191fccf5a38756a9b8a9ca4584962f3067428449bf0f0bccbacbe26f292c71",
+      "bytes": 1855,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/529ce66b0bf0bccdc6000005/version?project=name%2Ccomponents%2Coriginal%2CrasterIcon%2Ckind%2CprerenderedSpriteSheetData"
+    },
+    "/db/level.component/524cbdc03ea855e0ab0000bb/version/0": {
+      "hash": "918e618389e92d9db3a1897b40e553d381403cc107d45fd78ad8a2a29e46fefe",
+      "bytes": 9102,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524cbdc03ea855e0ab0000bb/version/0"
+    },
+    "/db/level.component/524cc2593ea855e0ab000142/version/0": {
+      "hash": "75a0a1d6936d6aff4cfa40fc7bf9d25cc6ad157a8c9d036229ff92f838ee2a94",
+      "bytes": 7891,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524cc2593ea855e0ab000142/version/0"
+    },
+    "/db/level.component/524cbca43ea855e0ab000090/version/0": {
+      "hash": "d2eafbd6d8215928266256c3df329192419386f1e052ffd1e367aadb18310c69",
+      "bytes": 2249,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524cbca43ea855e0ab000090/version/0"
+    },
+    "/db/level.component/524cca0e3ea855e0ab000143/version/0": {
+      "hash": "9ece41a89630fdb2ebdc3087fc1b8dac78fbb4ca7cc2d3b7a6113915ba791005",
+      "bytes": 12978,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/level.component/524cca0e3ea855e0ab000143/version/0"
+    },
+    "/db/thang.type/5572393d9cf50ba409b1c6dd": {
+      "hash": "48410da10c524f8ea350e720a9a49fd24c9534e8259c2be20d0fcaeff922be4e",
+      "bytes": 653606,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/5572393d9cf50ba409b1c6dd"
+    },
+    "/db/thang.type/586192fc6df4782a00f3e725": {
+      "hash": "973e53803b7894514466e53d9b7bfeded0682316bf72f5be29298b8df0c69901",
+      "bytes": 159988,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/586192fc6df4782a00f3e725"
+    },
+    "/file/db/thang.type/52a0e5123abf480000000001/door_break.mp3": {
+      "hash": "12e0e187d68c7d9367599285c5ff27239cb14c4126d6564466160dbd9f1715bc",
+      "bytes": 8475,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/52a0e5123abf480000000001/door_break.mp3"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/die.mp3": {
+      "hash": "13300007718829703398213b7680a1982e0111b67715c63617188567bd8a3d21",
+      "bytes": 2906,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/die.mp3"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/select_1.mp3": {
+      "hash": "01a8996f73c6bedaa3757495c3ac81d8b32104947d2440c525f958e55d3a307c",
+      "bytes": 13236,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/select_1.mp3"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/select_3.mp3": {
+      "hash": "b30066bea4a1fc7caf58d05f4331467019187ff920b6dbd4b06bff0b1c9dfde5",
+      "bytes": 10480,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/select_3.mp3"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/select_2.mp3": {
+      "hash": "e51a57470a861fde2267fd7b03b643afec383c9247078b5a5b2ab548fc8fe14a",
+      "bytes": 14745,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/select_2.mp3"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/spritesheet-2015-12-17t093714-0800.png": {
+      "hash": "26dd53505bea6e88682e94f1b28138ee1a12b69989d2564b32d403770d93a608",
+      "bytes": 61985,
+      "type": "image/png",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/spritesheet-2015-12-17t093714-0800.png"
+    },
+    "/db/thang.type/names?ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=52af688f6320a8049d000001&ids%5B%5D=53fa25f25bc220000052c2be": {
+      "hash": "e997b10d0b712f7db0c3ca88cb1abdb0ea1da407ece6ce3093b91e4ff8abd0aa",
+      "bytes": 2301,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/names?ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=52af688f6320a8049d000001&ids%5B%5D=53fa25f25bc220000052c2be"
+    },
+    "/db/thang.type/names?ids%5B%5D=529e40856febb9ca7e000004&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=52af688f6320a8049d000001&ids%5B%5D=53fa25f25bc220000052c2be": {
+      "hash": "3d05e2809303c6fedf425bc173700269e20f978d7f16edd546900de41a80de86",
+      "bytes": 4025,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/names?ids%5B%5D=529e40856febb9ca7e000004&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=52af688f6320a8049d000001&ids%5B%5D=53fa25f25bc220000052c2be"
+    },
+    "/db/thang.type/names?ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52a0e5123abf480000000001&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be": {
+      "hash": "8aa2979708494575744f704870d32dc19a34666c567c270767d8e26d12c357c4",
+      "bytes": 2896,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/names?ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52a0e5123abf480000000001&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be"
+    },
+    "/db/thang.type/names?ids%5B%5D=529ab1a24b67a988ad000002&ids%5B%5D=529e40856febb9ca7e000004&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52a0e5123abf480000000001&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be": {
+      "hash": "ee41aa446f160de95b65d715ed0f6eb526627b8989de92db324cbc8c659de880",
+      "bytes": 14279,
+      "type": "application/json; charset=utf-8",
+      "source": "https://direct.staging.codecombat.com/db/thang.type/names?ids%5B%5D=529ab1a24b67a988ad000002&ids%5B%5D=529e40856febb9ca7e000004&ids%5B%5D=529e7aecc423d4e83b000004&ids%5B%5D=52a0e5123abf480000000001&ids%5B%5D=52aa608b20fccb0000000005&ids%5B%5D=53fa25f25bc220000052c2be"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/soldier_on_it.mp3": {
+      "hash": "cccebd0cf759c1b2135e5116380ec26c8fe668d51805dbd16185fd5bc0eee179",
+      "bytes": 4388,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/soldier_on_it.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/soldier_aye.mp3": {
+      "hash": "3b88e00e6977c25d390993e27fd93e27db16ffdad801b6df7f64a365f788a3b5",
+      "bytes": 4179,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/soldier_aye.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/soldier_on_it.ogg": {
+      "hash": "f8850f41dcd3e9f357de55b2e6413c0da517123d2b83bc949ba79f79653a8fec",
+      "bytes": 8153,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/soldier_on_it.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/soldier_okay.mp3": {
+      "hash": "ef5de6ba93c5f7df6ddb6687b537f2ce49f01d8a2ac6d89de590f38959cee8fb",
+      "bytes": 4597,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/soldier_okay.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/soldier_aye.ogg": {
+      "hash": "ad5da3ad3d0e3f997a16671b3fbd1a986683fbc16b6527868da17caa71c4cea6",
+      "bytes": 7868,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/soldier_aye.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/soldier_okay.ogg": {
+      "hash": "1bd8879c6c84d3a031bb7c3db0174d3a92f5d1c6713fedfd5fe8916a4f0a2450",
+      "bytes": 7965,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/soldier_okay.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/soldier_yes.mp3": {
+      "hash": "6a8e7efb58d089f9bb9ed4ea7e6a80afd16b60723acef279523dd90e1dd8d336",
+      "bytes": 3552,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/soldier_yes.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/ahh_i_feel_better.mp3": {
+      "hash": "c663297397c889f270347d0cd71c51e44845965c90e426860f811aeeef51d1d8",
+      "bytes": 10866,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/ahh_i_feel_better.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/soldier_yes.ogg": {
+      "hash": "8da0d2e8f97f68bc9b54aaef3b7f2223ca1a3ca5e4d257ca84f764e67e1f7e89",
+      "bytes": 6705,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/soldier_yes.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/i_cant_get_there.mp3": {
+      "hash": "f44b29a33c13fae8fbca17b99d6c821a8d62c0e02f2f360307beea9dff5ab384",
+      "bytes": 8568,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/i_cant_get_there.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/i_cant_get_there.ogg": {
+      "hash": "bb390a557219580dabd78ac77ed10b0ae2f5d65c2ee08a4a1a7179455a43ad7f",
+      "bytes": 13288,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/i_cant_get_there.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/ahh_i_feel_better.ogg": {
+      "hash": "4f62ab516ca2b3328f1e9b51c54bdbc1bb66002923750bdfd364034db3fbf0ac",
+      "bytes": 14721,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/ahh_i_feel_better.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/tharin_hey.mp3": {
+      "hash": "c364cb479f0098b0249c0d748f151a39df25d3e8e14778d4cf220a94f838175a",
+      "bytes": 3343,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/tharin_hey.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/ho_tharin_1.ogg": {
+      "hash": "2d789f47defe5d28953d468dcc4567cde2f534ed35b3f87289769005337bd043",
+      "bytes": 15204,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/ho_tharin_1.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/tharin_hey.ogg": {
+      "hash": "d903f4f49db9969ad8e6d1a803cf8b2416737b88ef66d0ace8680b4d2ae9aecc",
+      "bytes": 6531,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/tharin_hey.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/attack.mp3": {
+      "hash": "cb0f32155e72b9f6666df9a37ffeda3c91effdc212c6fcfa740f6b4e1196d2a1",
+      "bytes": 6016,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/attack.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/ho_tharin_1.mp3": {
+      "hash": "b4c6e24854f2b5da71a8ffd0b6debfc090190efab412af5e2a024f4f3665b474",
+      "bytes": 12329,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/ho_tharin_1.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/attack.ogg": {
+      "hash": "7d78c3d9cb1135891f8d8f88d707a922c6b9d04afb4d65a672365ad326dd1509",
+      "bytes": 14621,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/attack.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/hey_there.ogg": {
+      "hash": "8aef5ba7f772b3a63dd31e3f058c3421a9d0ece7227bcc2402a8b5ad70c275fd",
+      "bytes": 15461,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/hey_there.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/hey_there.mp3": {
+      "hash": "49367776d28e52c3219bb1b4840b8dacc1a8d243f82173e7686abc2cce0ae9f4",
+      "bytes": 4428,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/hey_there.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/simlish_1.ogg": {
+      "hash": "3b59bddd2ee5fa5fcf0cd40b88701787206107166a5ef839a3855f55427c5e9b",
+      "bytes": 14985,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/simlish_1.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/simlish_1.mp3": {
+      "hash": "51c8f9a4a85cae5a7f697256881bcce52de07b423ad5bcda148f584224c7f2d8",
+      "bytes": 7078,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/simlish_1.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/simlish_2.ogg": {
+      "hash": "3a8090c4528f8ea9cf8492ec7003aede18816cabbd7bdfcfa5c3ae153f61289c",
+      "bytes": 18364,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/simlish_2.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/simlish_2.mp3": {
+      "hash": "81bf6fa74b58dfd0e0ff647c635d405b9561da6eaf03f31dab95e60844889e62",
+      "bytes": 9161,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/simlish_2.mp3"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_1.ogg": {
+      "hash": "3b7d4fef085fffdb745df2cc4cc42c7e08f09c6fdb11400e0767d3cf2ccb5c6b",
+      "bytes": 3342,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_1.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_2.ogg": {
+      "hash": "0f369e11bfffec210845f3b580d227142bd38507bd0a9bf1c41bab67c9fedb0b",
+      "bytes": 5897,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_2.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_3.ogg": {
+      "hash": "be51f17064f89e6d65dfea0fa101113471722382b12f300d84955285eb8c444f",
+      "bytes": 5208,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_3.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_4.ogg": {
+      "hash": "b273095e56992bba89bbcd3e605e3389888d7c4489e8c05d5fc4cca63da2c0d0",
+      "bytes": 4750,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_4.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_5.ogg": {
+      "hash": "4a57e48112f8e0b6feca4378513f198ee4ff59a4c58aa00603f51f4dcb6d652d",
+      "bytes": 6104,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/sword_attack_5.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/die.ogg": {
+      "hash": "01630daee82b24870c67f7b0667083f8e709aa45409f8daf3a21fe99864d82fb",
+      "bytes": 10162,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/die.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/select_1.ogg": {
+      "hash": "9329f4eda6ad874f42edfb50137e020c88859dc37a47f1bf664c63e7c0933966",
+      "bytes": 17046,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/select_1.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/select_3.ogg": {
+      "hash": "0efa5607be927e2c81515a5900b9f9781e7387ce32ef5289f4fcc8000b5395b1",
+      "bytes": 24898,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/select_3.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/correct.ogg": {
+      "hash": "f79c506ee92f3564532fb3a90af14b0fa484b5dc41b05ea5cf2cf6b2d33b634c",
+      "bytes": 8677,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/correct.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/select_2.ogg": {
+      "hash": "adcc28454f9536781c6c7caf848ffd237c62f791bd07fff82abcbba58d227647",
+      "bytes": 29406,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/select_2.ogg"
+    },
+    "/file/db/thang.type/52aa3b9eccbd588d4d000003/gem_pickup.ogg": {
+      "hash": "49bd3c8a49131aab8a38c4e4350d35d1059bcb1d86da3eecae93f25b3b5383be",
+      "bytes": 15955,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/52aa3b9eccbd588d4d000003/gem_pickup.ogg"
+    },
+    "/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_1.ogg": {
+      "hash": "af5cc04d5f38703f88917ed6427e762f09f436460b7d7682c58b4a2efa1402cd",
+      "bytes": 10554,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_1.ogg"
+    },
+    "/file/db/thang.type/52aa3b9eccbd588d4d000003/gem_collect.ogg": {
+      "hash": "e71d91d6b6e9be6acdd704a86986cd91b7f90662cf01bd5f94a0d7d772c16af0",
+      "bytes": 18296,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/52aa3b9eccbd588d4d000003/gem_collect.ogg"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/spritesheet-2015-12-17t105321-0800.png": {
+      "hash": "3785f8952c035bf93c17ad816132f65c6407aa08ff58365001db82c4d9f0d8da",
+      "bytes": 47507,
+      "type": "image/png",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/spritesheet-2015-12-17t105321-0800.png"
+    },
+    "/file/db/thang.type/529e680ac423d4e83b000001/spritesheet-2018-03-01t171929-0800.png": {
+      "hash": "46afb0b736ebb055cf3bef4cd070f10b0c140b0f659d68d3462ff4e0235df506",
+      "bytes": 48489,
+      "type": "image/png",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e680ac423d4e83b000001/spritesheet-2018-03-01t171929-0800.png"
+    },
+    "/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_2.ogg": {
+      "hash": "1c950f0376307d9564f417a03af31238d5d3bf09c202548574f9cf25c069de34",
+      "bytes": 7619,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_2.ogg"
+    },
+    "/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_3.ogg": {
+      "hash": "c76cc1eba3b81b73d03d61432df2a5e4cb4923aac32f69e16a22e77765869477",
+      "bytes": 11185,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_3.ogg"
+    },
+    "/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_5.ogg": {
+      "hash": "fd68c3a5a0ac3d478e5566c336873d5e73f77891f82af4302c0f1ae0e72fa81c",
+      "bytes": 11936,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_5.ogg"
+    },
+    "/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_4.ogg": {
+      "hash": "fe611cea0cbb5c3468134e24b30809b28aa7a85ecebd2194d4bf831ad8b90035",
+      "bytes": 9113,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/5422f63718adb78d98d265f7/spike_wall_attack_4.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_2.ogg": {
+      "hash": "0f369e11bfffec210845f3b580d227142bd38507bd0a9bf1c41bab67c9fedb0b",
+      "bytes": 5897,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_2.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_1.ogg": {
+      "hash": "3b7d4fef085fffdb745df2cc4cc42c7e08f09c6fdb11400e0767d3cf2ccb5c6b",
+      "bytes": 3342,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_1.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_3.ogg": {
+      "hash": "be51f17064f89e6d65dfea0fa101113471722382b12f300d84955285eb8c444f",
+      "bytes": 5208,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_3.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_4.ogg": {
+      "hash": "b273095e56992bba89bbcd3e605e3389888d7c4489e8c05d5fc4cca63da2c0d0",
+      "bytes": 4750,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_4.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_5.ogg": {
+      "hash": "4a57e48112f8e0b6feca4378513f198ee4ff59a4c58aa00603f51f4dcb6d652d",
+      "bytes": 6104,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/sword_attack_5.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/die.ogg": {
+      "hash": "4da1c78c34c015e8656ab53391ff55136a914da53df7ec334a3578101c2fb4c2",
+      "bytes": 8064,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/die.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/needs_ketchup.mp3": {
+      "hash": "e1c1eb2e913386158d54df97823dc85b5009d4276125fcb6e3bb018be0679ee3",
+      "bytes": 8359,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/needs_ketchup.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/needs_ketchup.ogg": {
+      "hash": "9f859ec45bad98ad5a08555b13789d6af72da2c85ea47ba1d92c0729749d3da4",
+      "bytes": 11310,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/needs_ketchup.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/simlish_1.ogg": {
+      "hash": "47ee40c2962294a9420c66706494f132231975cc2a528a6c999afaa5928e9c6a",
+      "bytes": 16477,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/simlish_1.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/simlish_2.ogg": {
+      "hash": "5ff830d8bf96f8e4183aec57830191a0db1aa4b370ecb7e43a86d339ff51a4e0",
+      "bytes": 12621,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/simlish_2.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/simlish_2.mp3": {
+      "hash": "9d7d670de043979a87d22b7a2031a394ba1660ff58c34b67f33f32619da6a727",
+      "bytes": 6865,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/simlish_2.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/simlish_1.mp3": {
+      "hash": "66d6e4a39a971f79af737d98600d6d8210e22b430d9d505b6d0dad15ac554ff8",
+      "bytes": 10480,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/simlish_1.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/ogre_what.mp3": {
+      "hash": "36041b348e6735b8d82429b7bfd43eb3e1881557a71374872282578e1b05cf55",
+      "bytes": 4179,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/ogre_what.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/ogre_what.ogg": {
+      "hash": "9df699203aa657264ca92dc7c68605310b6ab276c7e71b38e888dcf4811cda65",
+      "bytes": 7085,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/ogre_what.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/ogre_you_talkin_to_me.mp3": {
+      "hash": "c60429f0219d37be9fbfe0cbeb320ae05351b5bca050041c5132a0b332cad539",
+      "bytes": 8359,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/ogre_you_talkin_to_me.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/ogre_you_talkin_to_me.ogg": {
+      "hash": "889f9265060ce86f0c599238d10b207873e33e85ec7a17147644faa07c894f6e",
+      "bytes": 11678,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/ogre_you_talkin_to_me.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/ogre_huh.mp3": {
+      "hash": "d0d47a62fa7e9e01c40f5552861f0cb476dc1e320957b8b47c5ae18aecaee6a7",
+      "bytes": 4388,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/ogre_huh.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/ogre_coming_down_there_to_kill_you.mp3": {
+      "hash": "ce730b89b4016c3938b84b8f450eae87aa090c78a8f297322cbe088f39a1d533",
+      "bytes": 20271,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/ogre_coming_down_there_to_kill_you.mp3"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/ogre_huh.ogg": {
+      "hash": "33d182cc66d2fa572151f9c0fe2f6620cb7d8dc211243c1f22ded917e883f40d",
+      "bytes": 7298,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/ogre_huh.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/ogre_coming_down_there_to_kill_you.ogg": {
+      "hash": "070fcfc4af199d6c4cdfdd98d89a5e014c07aa5451d1dbc840ad6203b51be866",
+      "bytes": 23878,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/ogre_coming_down_there_to_kill_you.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/select_1.ogg": {
+      "hash": "b0f7180c5157b8c786a39483f1493a790867046d3d9c9ffb30c6de0cb6de0738",
+      "bytes": 15418,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/select_1.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/select_2.ogg": {
+      "hash": "e6fc52757b551e63b485c0155f63c152eeff6d6b7920c9da702f0803c7b075e7",
+      "bytes": 17747,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/select_2.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/yuck.ogg": {
+      "hash": "099ef4476cc7c247062192c1cfb6ca094b6811493808bf32f1539b9db77ed16a",
+      "bytes": 7940,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/yuck.ogg"
+    },
+    "/file/db/thang.type/529ce66b0bf0bccdc6000005/spritesheet-2015-12-17t093834-0800.png": {
+      "hash": "77c86627ab6bb92b47c84e8d2cc60520bd0f6b98086b828b2a21624dc184ec42",
+      "bytes": 1966,
+      "type": "image/png",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ce66b0bf0bccdc6000005/spritesheet-2015-12-17t093834-0800.png"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/ogre_select_3.ogg": {
+      "hash": "5d62ec8689162c7473681d385c6562a172606c17824418d48837db02c1da485d",
+      "bytes": 14654,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/ogre_select_3.ogg"
+    },
+    "/file/db/thang.type/529e40856febb9ca7e000004/select_3.ogg": {
+      "hash": "ce54f788253b229ad31a8ef67f1afbc97f30ff9a58835750b3e133030d57379e",
+      "bytes": 27295,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529e40856febb9ca7e000004/select_3.ogg"
+    },
+    "/file/db/thang.type/52a0e5123abf480000000001/door_break.ogg": {
+      "hash": "822ff3e3b5a28ab6179325b93a9d79aaa3c049c2b73e112f6489af42380817c9",
+      "bytes": 17296,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/52a0e5123abf480000000001/door_break.ogg"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/die.ogg": {
+      "hash": "ce9f020d3e83979237ccaf243f72554ea3acf464d6f36200218e1304ba54d51e",
+      "bytes": 7015,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/die.ogg"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/select_1.ogg": {
+      "hash": "614080c74c39b7a083dd52902300850c6ee91dfa1112f0bb40e7efb57dc83984",
+      "bytes": 20909,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/select_1.ogg"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/select_2.ogg": {
+      "hash": "191d3c724e7055230eb928baa4d0a3b29207e982e067a7d425859702af0c9924",
+      "bytes": 21912,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/select_2.ogg"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/simlish_1.ogg": {
+      "hash": "0c30a2313aac11a842c85995de12fe1b24a923f84d769a615c32605cdbcb39d9",
+      "bytes": 16722,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/simlish_1.ogg"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/select_3.ogg": {
+      "hash": "cba3a9845d4c0fe552ae2a0dffdfd43fe78a19b9a3740654a052ca9162ee1cd2",
+      "bytes": 17451,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/select_3.ogg"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/simlish_1.mp3": {
+      "hash": "7228b5a6eed4bea230acd7bcc7e2379c65ae917af8e9015e291b722a84a73eda",
+      "bytes": 9961,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/simlish_1.mp3"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/simlish_2.ogg": {
+      "hash": "d013a190e9375175875162ee80c3f811db5fb67aa7e7d5f50057ac615016b54b",
+      "bytes": 14438,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/simlish_2.ogg"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/simlish_2.mp3": {
+      "hash": "397ef7133c10b9b6ba3a4dc43754d05aa3b662d96774e41fb4e7d10fe133bd68",
+      "bytes": 8557,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/simlish_2.mp3"
+    },
+    "/file/interface/victory.ogg": {
+      "hash": "ce2fc60bb880984aa8e90280e60685bb6f5d70245c40f53ae5043ddca8a7ab9b",
+      "bytes": 40369,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/victory.ogg"
+    },
+    "/file/interface/level_loaded.ogg": {
+      "hash": "b89e31cc4fee0a3ee37449020137f9d76735ea3bd059d5a6060c76270565aea0",
+      "bytes": 32376,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/level_loaded.ogg"
+    },
+    "/file/interface/game-menu-open.ogg": {
+      "hash": "d44269037e7c75c644b645b6a366fd69650adead41748f94af963a9ef3d0a8a7",
+      "bytes": 8105,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/game-menu-open.ogg"
+    },
+    "/file/db/thang.type/529ab1a24b67a988ad000002/spritesheet-2015-12-17t105305-0800.png": {
+      "hash": "976808641606ca7e56f83c36ab6a7b2836b4e0b85f9eecefbb39f98c7b7dc920",
+      "bytes": 62083,
+      "type": "image/png",
+      "source": "https://direct.staging.codecombat.com/file/db/thang.type/529ab1a24b67a988ad000002/spritesheet-2015-12-17t105305-0800.png"
+    },
+    "/file/interface/game-menu-close.ogg": {
+      "hash": "6708cd74b14b24e3d4278ae0fbe2c7153d1f04e178ba07f1aa146430f98fd15b",
+      "bytes": 11099,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/game-menu-close.ogg"
+    },
+    "/file/interface/menu-button-click.ogg": {
+      "hash": "7044b541f14229862681cb3e7f89e585b3aedb267c9f9d385f372df371cba74d",
+      "bytes": 9397,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/menu-button-click.ogg"
+    },
+    "/file/interface/playback-scrub-start.mp3": {
+      "hash": "0f506ad25db74ca36a303ee402b935d4ab8dcd7d93912c66fca065f5782c7282",
+      "bytes": 2709,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/playback-scrub-start.mp3"
+    },
+    "/file/interface/playback-scrub-start.ogg": {
+      "hash": "131d8e59fb0e71bade9296b42ee9106ad713215a60296717a76d8a8b8f609e55",
+      "bytes": 7574,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/playback-scrub-start.ogg"
+    },
+    "/file/interface/cast.ogg": {
+      "hash": "99b613ed044f5b5d35d27d7d8662bee58c585c0e7108d3340c1b01e7964bd14e",
+      "bytes": 47698,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/cast.ogg"
+    },
+    "/file/interface/error_appear.mp3": {
+      "hash": "6774167a8c643788e18657d3d0f5fa55408755bb91343884a70d52a1c0afd027",
+      "bytes": 3205,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/error_appear.mp3"
+    },
+    "/file/interface/cast-end.ogg": {
+      "hash": "3cbd57294a164768e379f25bee2b1b1df677b3a6762a71d43b751bde3a847673",
+      "bytes": 37119,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/cast-end.ogg"
+    },
+    "/file/interface/spell-palette-entry-pin.mp3": {
+      "hash": "0d102d794a28a17fc493f71a1406292d2d101c34d01988d29c095cc23990a898",
+      "bytes": 3510,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/spell-palette-entry-pin.mp3"
+    },
+    "/file/interface/error_appear.ogg": {
+      "hash": "de3bfefcbe0222ed523337401be36687dd30434b6bcdbe9756470e9dc1dd1d09",
+      "bytes": 7797,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/error_appear.ogg"
+    },
+    "/file/interface/spell-palette-entry-open-0.mp3": {
+      "hash": "4f505dd76347dcb59a8a0df040e00dc259c82ea3909d512865aa46e0e1bfb981",
+      "bytes": 3310,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/spell-palette-entry-open-0.mp3"
+    },
+    "/file/interface/spell-palette-entry-open-1.mp3": {
+      "hash": "3240baf29ccbd3baaf7498c62b1dc25659eb8e55dec4535c142eedaab4a4d8a0",
+      "bytes": 3153,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/spell-palette-entry-open-1.mp3"
+    },
+    "/file/interface/spell-palette-entry-open-0.ogg": {
+      "hash": "cdc85bce864b6e1606a8c99502aa5b47355c736a18ec75575a459f2c2fb297b6",
+      "bytes": 8682,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/spell-palette-entry-open-0.ogg"
+    },
+    "/file/interface/spell-palette-entry-open-1.ogg": {
+      "hash": "ad3111bb105559341f65cd1edd77d02c3d3248f6dc5026d664f5a695ea02da5f",
+      "bytes": 9168,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/spell-palette-entry-open-1.ogg"
+    },
+    "/file/interface/spell-palette-entry-open-2.mp3": {
+      "hash": "2c7078da9ef11a676d41ff8e291250c702a5f0f6262a66f144d65f59194b5891",
+      "bytes": 2502,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/spell-palette-entry-open-2.mp3"
+    },
+    "/file/interface/spell-palette-entry-open-3.mp3": {
+      "hash": "55e76a3e51cbf6ba8e5dfa0195b18184a7c6e5ddd93020ac3df4bbb9e9f852e0",
+      "bytes": 2659,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/spell-palette-entry-open-3.mp3"
+    },
+    "/file/interface/spell-palette-entry-open-3.ogg": {
+      "hash": "e97067b40c867db7feeee8044c39e8a093136a76e16a0c25c8a08547f781cc5b",
+      "bytes": 7664,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/spell-palette-entry-open-3.ogg"
+    },
+    "/file/interface/spell-palette-entry-open-2.ogg": {
+      "hash": "cda31361ec6b16c4aa8cd9763411c58de44fa60af7b5fea901d59e0bd709de67",
+      "bytes": 7370,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/spell-palette-entry-open-2.ogg"
+    },
+    "/file/interface/ident_1.ogg": {
+      "hash": "9eeed01cb9ad16012d70f8f4fc18866153281a4c3fc6069907e005126e73b375",
+      "bytes": 52809,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/ident_1.ogg"
+    },
+    "/file/interface/ident_2.ogg": {
+      "hash": "852126e584dd4572f11384442e4b66f5566915ceb852ed85116398994ad151a1",
+      "bytes": 55755,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/ident_2.ogg"
+    },
+    "/file/interface/playback-scrub-slide-forward-0.mp3": {
+      "hash": "125a0c9461d5e8a1b3378340613d2def51c234bc575e519789af958d80ccc04f",
+      "bytes": 11935,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/playback-scrub-slide-forward-0.mp3"
+    },
+    "/file/interface/playback-scrub-slide-forward-1.mp3": {
+      "hash": "ba64180c45d760ae52d47fb066cf654009f72189a195cb88a268066ba79c3c02",
+      "bytes": 4499,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/playback-scrub-slide-forward-1.mp3"
+    },
+    "/file/interface/playback-scrub-slide-forward-2.mp3": {
+      "hash": "6a2a4707c4c4786a6b741e76b603b747655d2e06e1113e4ee97c2cf756e20cc3",
+      "bytes": 3615,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/playback-scrub-slide-forward-2.mp3"
+    },
+    "/file/music/music_real_time_0.mp3": {
+      "hash": "9dd635860e58ef77fb43811a09c5a95c20398d900b15f4b98959449caed19fb9",
+      "bytes": 191465,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/music/music_real_time_0.mp3"
+    },
+    "/file/music/music-menu.mp3": {
+      "hash": "b87afd8d7921cd38a23594c03fedf8fad5ac6d62153bfd93f1b56bc716f6d877",
+      "bytes": 292838,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/music/music-menu.mp3"
+    },
+    "/file/music/music_real_time_0.ogg": {
+      "hash": "f4e603a07de38a061b54b4474ea7ccfcc0d19bfb4fb53f8a4bb0f42f9859e5bf",
+      "bytes": 238026,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/music/music_real_time_0.ogg"
+    },
+    "/file/music/music-menu.ogg": {
+      "hash": "3359c5422ac13c9eb1e7150712af924872c73843bf707d9aa5d5b8e4d7398811",
+      "bytes": 313356,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/music/music-menu.ogg"
+    },
+    "/file/music/music_real_time_1.ogg": {
+      "hash": "ce7f5862a7eecf944b9da05154d1bb00fa266dafb139f1623d02e0ee359a0abb",
+      "bytes": 187067,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/music/music_real_time_1.ogg"
+    },
+    "/file/music/music_real_time_2.mp3": {
+      "hash": "e346f01a7945bce2ec45cea5cbc748524ee4a40a8f3e39e2f6a53e788fdc1ba3",
+      "bytes": 191283,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/music/music_real_time_2.mp3"
+    },
+    "/file/music/music_real_time_2.ogg": {
+      "hash": "dd6bcd08e725ddd22b64184da3792c46540cea15fc8091ca9357afee4944ecac",
+      "bytes": 246727,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/music/music_real_time_2.ogg"
+    },
+    "/file/interface/full-screen-start.mp3": {
+      "hash": "ffc791479a4c91f251dafb2c66e2261a69987e528a7422ad3306c5127295410b",
+      "bytes": 4281,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/full-screen-start.mp3"
+    },
+    "/file/interface/full-screen-end.mp3": {
+      "hash": "0e1da01d0e459f41e1e366126f80c959919eba04141650b145fe19bac00d7782",
+      "bytes": 4152,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/full-screen-end.mp3"
+    },
+    "/file/interface/coin_1.ogg": {
+      "hash": "bbec62e44720f20512a5f723fdac6931ddfba7badfe9069f9ed4ee262ddaf5ec",
+      "bytes": 6027,
+      "type": "audio/ogg",
+      "source": "https://direct.staging.codecombat.com/file/interface/coin_1.ogg"
+    },
+    "/file/interface/coin_1.mp3": {
+      "hash": "97ae2b769d2457e956f6c5734f41a7625cf214aa4664cb95036a25d11c3e381b",
+      "bytes": 2862,
+      "type": "audio/mp3",
+      "source": "https://direct.staging.codecombat.com/file/interface/coin_1.mp3"
+    }
+  }
+}

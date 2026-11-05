@@ -14,6 +14,12 @@ if (window.features && window.features.chinaUx) {
   import(/* webpackChunkName: "ChinaFont" */ 'app/styles/common/fontChina.sass');
 } else {
   import(/* webpackChunkName: "UsFont" */ 'app/styles/common/fontUS.sass');
+  if (!window.localTeaching) {
+    const fonts = document.createElement('link')
+    fonts.rel = 'stylesheet'
+    fonts.href = 'https://dbbpm1bnahe9k.cloudfront.net/webfont.css'
+    document.head.appendChild(fonts)
+  }
 }
 
 require('app/vendor.js'); // can be loaded separately and cached for a longer time

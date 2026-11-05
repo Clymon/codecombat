@@ -1,0 +1,1684 @@
+{
+  "environment": {
+    "browser": "Chrome",
+    "port": 7781,
+    "serverExternalTCP": "blocked",
+    "browserExternalRequests": "blocked",
+    "browserCache": "disabled",
+    "studentData": "temporary isolated directory"
+  },
+  "scenes": [
+    {
+      "slug": "local-python-01",
+      "scene": 0,
+      "loadMs": 1585,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "collect-parcels": {
+            "status": "success",
+            "keyFrame": 55,
+            "collected": {
+              "Parcel 1": true
+            }
+          },
+          "checkpoint-1": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-02",
+      "scene": 0,
+      "loadMs": 1923,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "collect-parcels": {
+            "status": "success",
+            "keyFrame": 55,
+            "collected": {
+              "Parcel 1": true,
+              "Parcel 2": true,
+              "Parcel 3": true
+            }
+          },
+          "checkpoint-1": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "checkpoint-2": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "checkpoint-3": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-03",
+      "scene": 0,
+      "loadMs": 1168,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "collect-parcels": {
+            "status": "success",
+            "keyFrame": 135,
+            "collected": {
+              "Parcel 1": true,
+              "Parcel 2": true,
+              "Parcel 3": true
+            }
+          },
+          "checkpoint-1": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "checkpoint-2": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-04",
+      "scene": 0,
+      "loadMs": 1164,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-05",
+      "scene": 0,
+      "loadMs": 1109,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "gate-Post Guard": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "checkpoint-1": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-06",
+      "scene": 0,
+      "loadMs": 1768,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "collect-parcels": {
+            "status": "success",
+            "keyFrame": 173,
+            "collected": {
+              "Parcel 1": true,
+              "Parcel 2": true
+            }
+          },
+          "gate-West Post": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "gate-North Post": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "checkpoint-1": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "checkpoint-2": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-07",
+      "scene": 0,
+      "loadMs": 1152,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-07",
+      "scene": 1,
+      "loadMs": 1136,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-08",
+      "scene": 0,
+      "loadMs": 1108,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-08",
+      "scene": 1,
+      "loadMs": 1140,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-09",
+      "scene": 0,
+      "loadMs": 1140,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-09",
+      "scene": 1,
+      "loadMs": 1137,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-10",
+      "scene": 0,
+      "loadMs": 1698,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-10",
+      "scene": 1,
+      "loadMs": 1675,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-11",
+      "scene": 0,
+      "loadMs": 1192,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-11",
+      "scene": 1,
+      "loadMs": 1200,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-11",
+      "scene": 2,
+      "loadMs": 1707,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-12",
+      "scene": 0,
+      "loadMs": 1652,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-12",
+      "scene": 1,
+      "loadMs": 1183,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-12",
+      "scene": 2,
+      "loadMs": 1741,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-12",
+      "scene": 3,
+      "loadMs": 1696,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-13",
+      "scene": 0,
+      "loadMs": 1127,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "checkpoint-1": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "checkpoint-2": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "checkpoint-3": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-14",
+      "scene": 0,
+      "loadMs": 1144,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "press-switches": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-15",
+      "scene": 0,
+      "loadMs": 1190,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "press-switches": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-16",
+      "scene": 0,
+      "loadMs": 1214,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-16",
+      "scene": 1,
+      "loadMs": 1172,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-16",
+      "scene": 2,
+      "loadMs": 1170,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-17",
+      "scene": 0,
+      "loadMs": 1143,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "show-values": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-18",
+      "scene": 0,
+      "loadMs": 1145,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "show-values": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-18",
+      "scene": 1,
+      "loadMs": 1188,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "show-values": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-19",
+      "scene": 0,
+      "loadMs": 1131,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-19",
+      "scene": 1,
+      "loadMs": 1151,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-19",
+      "scene": 2,
+      "loadMs": 1136,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-20",
+      "scene": 0,
+      "loadMs": 1144,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-20",
+      "scene": 1,
+      "loadMs": 1245,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-21",
+      "scene": 0,
+      "loadMs": 1984,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "gate-Final Post": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "checkpoint-1": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "checkpoint-2": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-21",
+      "scene": 1,
+      "loadMs": 1822,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "gate-Final Post": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "checkpoint-1": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "checkpoint-2": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-22",
+      "scene": 0,
+      "loadMs": 1758,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "lure-trap": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-23",
+      "scene": 0,
+      "loadMs": 2267,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "rescue-ally": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "defeat-guard": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-24",
+      "scene": 0,
+      "loadMs": 2022,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "signal-1": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "signal-2": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "signal-3": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-25",
+      "scene": 0,
+      "loadMs": 2107,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "defend-camp": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-25",
+      "scene": 1,
+      "loadMs": 2060,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "defend-camp": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-26",
+      "scene": 0,
+      "loadMs": 1312,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "break-door": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-27",
+      "scene": 0,
+      "loadMs": 2338,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "rescue-ally": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "defeat-guard": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-28",
+      "scene": 0,
+      "loadMs": 1869,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "signal-1": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-29",
+      "scene": 0,
+      "loadMs": 2008,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "signal-1": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "signal-2": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "signal-3": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-30",
+      "scene": 0,
+      "loadMs": 1725,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "defeat-guard": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-31",
+      "scene": 0,
+      "loadMs": 1732,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-31",
+      "scene": 1,
+      "loadMs": 1185,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-32",
+      "scene": 0,
+      "loadMs": 1953,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "defend-camp": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-33",
+      "scene": 0,
+      "loadMs": 2358,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "defend-camp": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-33",
+      "scene": 1,
+      "loadMs": 2064,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "defend-camp": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "outside": []
+    }
+  ],
+  "submissions": [
+    {
+      "slug": "local-python-04",
+      "scene": 0,
+      "loadMs": 1747,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "submitted": true,
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-07",
+      "scene": 0,
+      "loadMs": 1748,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "submitted": true,
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-07",
+      "scene": 1,
+      "loadMs": 1679,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "submitted": true,
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-17",
+      "scene": 0,
+      "loadMs": 2289,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "show-values": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "submitted": true,
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-23",
+      "scene": 0,
+      "loadMs": 2655,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "rescue-ally": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "defeat-guard": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "submitted": true,
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-25",
+      "scene": 0,
+      "loadMs": 1767,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "defend-camp": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "submitted": true,
+      "errors": [],
+      "failed": [],
+      "outside": []
+    },
+    {
+      "slug": "local-python-25",
+      "scene": 1,
+      "loadMs": 1917,
+      "goals": {
+        "status": "success",
+        "goals": {
+          "stay-safe": {
+            "status": "success",
+            "keyFrame": 0,
+            "killed": {
+              "Hero Placeholder": false
+            }
+          },
+          "defend-camp": {
+            "status": "success",
+            "keyFrame": 0
+          },
+          "reach-exit": {
+            "status": "success",
+            "keyFrame": 0
+          }
+        }
+      },
+      "submitted": true,
+      "errors": [],
+      "failed": [],
+      "outside": []
+    }
+  ],
+  "teacher": {
+    "bulkHide": true,
+    "studentHidden": true,
+    "bulkOpen": true,
+    "studentCanEnter": true,
+    "savedCodeVisible": true,
+    "externalRequests": 0
+  },
+  "restart": {
+    "restart": true,
+    "savedFilesUnchanged": 4,
+    "campComplete": true,
+    "codeRetained": true
+  }
+}

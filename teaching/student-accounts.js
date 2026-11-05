@@ -101,8 +101,16 @@ function validForm (req) {
   const cookie = (req.headers.cookie || '').split(';').map(part => part.trim()).find(part => part.startsWith(`${FORM_COOKIE_NAME}=`))?.slice(FORM_COOKIE_NAME.length + 1)
   return tokenPattern.test(cookie || '') && crypto.timingSafeEqual(Buffer.from(token), Buffer.from(cookie))
 }
+function saveClientPreferences (studentId, input) {
+  const student = account(studentId)
+  if (!student) return
+  const preferences = { ...student.clientPreferences }
+  if (typeof input?.volume === 'number' && Number.isFinite(input.volume) && input.volume >= 0 && input.volume <= 1) preferences.volume = input.volume
+  student.clientPreferences = preferences
+  writeJson(accountFile(studentId), student)
+}
 function withoutLocalCookies (header = '') {
   return header.split(';').map(value => value.trim()).filter(value => !/^(localStudentSession|localTeaching|localTeachingForm)=/.test(value)).join('; ')
 }
 
-module.exports = { CLASS_NAME, COOKIE_NAME, normalStudentId, account, ensureStudent, currentStudent, startSession, endSession, readProgress, saveProgress, registeredStudents, formToken, validForm, withoutLocalCookies }
+module.exports = { CLASS_NAME, COOKIE_NAME, normalStudentId, account, ensureStudent, currentStudent, startSession, endSession, readProgress, saveProgress, registeredStudents, formToken, validForm, withoutLocalCookies, saveClientPreferences }

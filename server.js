@@ -23,7 +23,7 @@ module.exports.startServer = function (done) {
 
 const createAndConfigureApp = (module.exports.createAndConfigureApp = function () {
   const app = express()
-  if (config.forceCompression || process.env.COCO_PROXY === 'true') {
+  if (config.forceCompression || process.env.COCO_PROXY === 'true' || require('./teaching/offline-resources').enabled()) {
     const compression = require('compression')
     app.use(compression())
   }

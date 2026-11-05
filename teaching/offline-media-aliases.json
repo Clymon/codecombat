@@ -1,0 +1,19 @@
+{
+  "/file/interface/playback-play.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/playback-pause.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/playback-scrub-end.mp3": "/file/interface/playback-scrub-start.mp3",
+  "/file/interface/playback-scrub-end.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/real-time-playback-start.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/real-time-playback-end.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/loading-view-unveil.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/spell-palette-entry-pin.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/spell-palette-entry-unpin.mp3": "/file/interface/spell-palette-entry-pin.mp3",
+  "/file/interface/spell-palette-entry-unpin.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/playback-scrub-slide-forward-0.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/playback-scrub-slide-forward-1.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/playback-scrub-slide-forward-2.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/goals-collapse.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/full-screen-end.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/goals-expand.ogg": "/file/interface/menu-button-click.ogg",
+  "/file/interface/full-screen-start.ogg": "/file/interface/menu-button-click.ogg"
+}
