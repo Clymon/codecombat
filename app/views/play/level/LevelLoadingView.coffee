@@ -9,6 +9,7 @@ aetherUtils = require 'lib/aether_utils'
 SubscribeModal = require 'views/core/SubscribeModal'
 LevelGoals = require('./LevelGoals').default
 store = require 'core/store'
+{selectLoadingArt, bindArtFallback} = require 'teaching/loading-art'
 
 module.exports = class LevelLoadingView extends CocoView
   id: 'level-loading-view'
@@ -34,7 +35,9 @@ module.exports = class LevelLoadingView extends CocoView
   initialize: (options={}) ->
     @utils = utils
     @isTeachingLevel = /^\/play\/level\/local-python-\d{2}(?:\/|$)/.test(window.location.pathname)
-    @$el.addClass('teaching-loading') if @isTeachingLevel
+    if @isTeachingLevel
+      @$el.addClass('teaching-loading')
+      @teachingLoadingArt = selectLoadingArt()
     @loadingWingClass = _.sample(['alejandro', 'anya', 'chess', 'naria', 'okar'])
     @showOzaria = utils.showOzaria()
     @showCoco = !@showOzaria
@@ -46,6 +49,9 @@ module.exports = class LevelLoadingView extends CocoView
   afterRender: ->
     super()
     return if @showOzaria
+    if @isTeachingLevel
+      @loadingArtCleanup?()
+      @loadingArtCleanup = bindArtFallback(@$('.village-loading-art')[0])
     unless @level?.get('loadingTip')
       @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
       tips = @$el.find('.tip').addClass('to-remove')
@@ -338,6 +344,7 @@ module.exports = class LevelLoadingView extends CocoView
     document.location.reload()
 
   destroy: ->
+    @loadingArtCleanup?()
     $(window).off 'resize', @onWindowResize
     silentStore = { commit: _.noop, dispatch: _.noop }
     @levelGoalsComponent?.$destroy()

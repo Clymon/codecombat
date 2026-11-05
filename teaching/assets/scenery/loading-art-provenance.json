@@ -1,0 +1,42 @@
+{
+  "created": "2026-11-05",
+  "mode": "built-in image_gen",
+  "purpose": "DeepSeek 新手村随机加载背景",
+  "references": [
+    "teaching/assets/scenery/village-loading-v1.png",
+    "teaching/assets/characters/deepseek.png"
+  ],
+  "processing": "Generated originals preserved; game copies encoded as JPEG quality 82 with macOS sips, no artwork modifications.",
+  "images": [
+    {
+      "id": "bridge",
+      "prompt": "Use case: stylized-concept. Asset type: a finished 16:9 landscape loading illustration for an existing beginner-village Python dungeon game. Reference image 1 is the established loading illustration: match its polished colorful chibi anime painting style, environment detail and cinematic lighting. Reference image 2 is the exact heroine identity: DeepSeek whale girl, blue hair, blue eyes, navy-and-white dress with whale apron, blue whale tail, EMPTY stainless-steel washbasin worn as a helmet, wooden rice paddle (never sword). Preserve her design; a different natural full-body pose is welcome. Exactly one small round blue whale companion. Only these two characters, no other people or creatures. Put the heroine and whale in the RIGHT 50 percent of the frame, fully inside the image and clearly readable; leave the LEFT 45 percent a quiet, darker, low-contrast part of the real environment, with no important subject there, for an HTML text card added later. Wide landscape composition, 16:9, high quality, clean outlines and painterly light. No lettering, no logos, no UI, no captions or watermark. Scene: late-afternoon village stone bridge beside a clear stream, old stone gate and friendly timber roofs on the right background, moss and wildflowers, soft warm sunlight. The heroine is on the RIGHT side of the bridge, looking ahead with an eager smile, rice paddle resting on her shoulder; the small whale sits beside her feet. On the LEFT, the shadowed near stone bridge parapet and gentle stream provide quiet dark blue-green negative space. Cozy first-day adventure, not grand royal fantasy. New composition, not a recolor of the reference.",
+      "originalFile": "village-loading-bridge-v1.png",
+      "gameFile": "village-loading-bridge-v1.jpg",
+      "sourceFile": "exec-4e5ec5cf-cd46-4673-b1e2-6088cd48ea91.png",
+      "gameBytes": 475052
+    },
+    {
+      "id": "workshop",
+      "prompt": "Use case: stylized-concept. Asset type: a finished 16:9 landscape loading illustration for an existing beginner-village Python dungeon game. Reference image 1 is the established loading illustration: match its polished colorful chibi anime painting style, environment detail and cinematic lighting. Reference image 2 is the exact heroine identity: DeepSeek whale girl, blue hair, blue eyes, navy-and-white dress with whale apron, blue whale tail, EMPTY stainless-steel washbasin worn as a helmet, wooden rice paddle (never sword). Preserve her design; a different natural full-body pose is welcome. Exactly one small round blue whale companion. Only these two characters, no other people or creatures. Put the heroine and whale in the RIGHT 50 percent of the frame, fully inside the image and clearly readable; leave the LEFT 45 percent a quiet, darker, low-contrast part of the real environment, with no important subject there, for an HTML text card added later. Wide landscape composition, 16:9, high quality, clean outlines and painterly light. No lettering, no logos, no UI, no captions or watermark. Scene: cozy old village puzzle workshop, bronze cogwheels, small unlit rune stones, blue crystal lamps, wooden workbench and stone arches. The heroine is on the RIGHT examining a large simple bronze gear on the bench, holding the rice paddle casually in her other hand; the small whale peeks beside the bench. Curious and playful, not an industrial factory. Right side warmly illuminated by an amber lantern and a cool blue crystal. LEFT is a dim, quiet stone alcove with softly blurred shelves, spacious and uncluttered behind the future text card. New composition, not a recolor of the reference.",
+      "originalFile": "village-loading-workshop-v1.png",
+      "gameFile": "village-loading-workshop-v1.jpg",
+      "sourceFile": "exec-81b6f936-3cd8-4c96-b33e-120f516eaed1.png",
+      "gameBytes": 448496
+    },
+    {
+      "id": "camp",
+      "prompt": "Use case: stylized-concept. Asset type: a finished 16:9 landscape loading illustration for an existing beginner-village Python dungeon game. Reference image 1 is the established loading illustration: match its polished colorful chibi anime painting style, environment detail and cinematic lighting. Reference image 2 is the exact heroine identity: DeepSeek whale girl, blue hair, blue eyes, navy-and-white dress with whale apron, blue whale tail, EMPTY stainless-steel washbasin worn as a helmet, wooden rice paddle (never sword). Preserve her design; a different natural full-body pose is welcome. Exactly one small round blue whale companion. Only these two characters, no other people or creatures. Put the heroine and whale in the RIGHT 50 percent of the frame, fully inside the image and clearly readable; leave the LEFT 45 percent a quiet, darker, low-contrast part of the real environment, with no important subject there, for an HTML text card added later. Wide landscape composition, 16:9, high quality, clean outlines and painterly light. No lettering, no logos, no UI, no captions or watermark. Scene: calm starry night at the edge of the village, a small warm campfire in the lower RIGHT, distant stone watchtower and a few soft lanterns, deep teal forest. The heroine is seated comfortably on a flat stone on the RIGHT beside the fire, helmet still on, rice paddle resting across her knees, pleased after an adventure; the one small whale cuddles near her feet. Keep the heroine's face and full body clearly visible, not in darkness, cozy firelight and blue moon rim light. LEFT is a quiet dark blue moonlit path fading toward a low stone arch, with little contrast, no important foreground objects. No food or dishes, no tents blocking the heroine. New composition, not a recolor of the reference.",
+      "originalFile": "village-loading-camp-v1.png",
+      "gameFile": "village-loading-camp-v1.jpg",
+      "sourceFile": "exec-0b946b27-a8e0-4338-b632-201d26840346.png",
+      "gameBytes": 432745
+    }
+  ],
+  "existingScene": {
+    "id": "gate",
+    "source": "village-loading-v1.png",
+    "gameFile": "village-loading-gate-v2.jpg",
+    "gameBytes": 397171
+  }
+}

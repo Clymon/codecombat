@@ -1,5 +1,5 @@
 if view.isTeachingLevel
-  .village-loading-art(aria-hidden="true")
+  img.village-loading-art(src=view.teachingLoadingArt.src data-scene=view.teachingLoadingArt.id alt="" aria-hidden="true")
 if view.showCoco
   div(class="left-wing " + view.loadingWingClass)
   div(class="right-wing " + view.loadingWingClass)
