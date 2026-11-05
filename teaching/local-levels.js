@@ -41,7 +41,7 @@ function requireUnlocked (res, slug) {
   return false
 }
 module.exports = function setupLocalLevels (app) {
-  app.get('/file/teaching/deepseek-icon.png', (req, res) => res.sendFile(path.join(__dirname, 'assets/characters/deepseek.png')))
+  for (const portrait of ['deepseek-icon.png', 'deepseek-portrait-v2.png']) app.get(`/file/teaching/${portrait}`, (req, res) => res.set('Cache-Control', 'no-cache').sendFile(path.join(__dirname, 'assets/characters/deepseek.png')))
   app.use('/teaching/assets', express.static(path.join(__dirname, 'assets'), { dotfiles: 'deny', maxAge: 0, index: false }))
   for (const suffix of ['', '/version', '/version/0']) app.get(`/db/thang.type/${DEEPSEEK_TYPE}${suffix}`, (req, res) => res.set('Cache-Control', 'no-cache').json(deepseekType()))
   app.get(new RegExp(`^/db/thang\\.type/(${FLOOR_PREFIX}[0-9a-f]{10})(?:/version(?:/0)?)?$`), (req, res) => {

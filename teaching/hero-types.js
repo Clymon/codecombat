@@ -13,7 +13,7 @@ function deepseekType () {
     slug: 'teaching-deepseek',
     version: { major: 0, minor: 0 },
     scale: 0.2,
-    rasterIcon: 'teaching/deepseek-icon.png',
+    rasterIcon: 'teaching/deepseek-portrait-v2.png',
     shortName: 'DeepSeek',
     rotationType: 'fixed',
     positions: { registration: { x: 0, y: 0 }, head: { x: 0, y: -210 }, mouth: { x: 0, y: -160 }, aboveHead: { x: 0, y: -250 } },

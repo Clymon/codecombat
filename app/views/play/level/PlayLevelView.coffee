@@ -877,6 +877,11 @@ module.exports = class PlayLevelView extends RootView
         when @level?.isType('game-dev') and @$el.hasClass('real-time') then Math.min(windowWidth * 0.8, desiredCanvasWidth)
         when @level?.isType('web-dev') then windowWidth - minCodeWidth
         else desiredCanvasWidth
+    # Reserve space for the teaching portrait, health HUD and short dialogue.
+    if @level?.get('teachingMap') and tomeLocation is 'right'
+      canvasWidth = Math.min(canvasWidth, windowWidth * 0.67)
+      canvasHeight = Math.max(220, Math.min(canvasWidth / canvasAspectRatio, windowHeight - 340))
+
     emptyHeightBelowCanvas = switch
       when tomeLocation is 'bottom' then 0
       else windowHeight - canvasHeight - (if controlBarLocation is 'left' then controlBarHeight else 0)

@@ -82,8 +82,10 @@ module.exports = class LevelHUDView extends CocoView
     wrapper.removeClass 'hide'
     wrapper.removeClass (i, css) -> (css.match(/\bteam-\S+/g) or []).join ' '
     wrapper.addClass "team-#{team}"
-    if thangType.get('raster')
-      wrapper.empty().append($('<img draggable="false"/>').addClass('avatar').attr('src', '/file/'+thangType.get('raster')))
+    @stage?.stopTalking()
+    @stage = null
+    if thangType.get('rasterIcon') or thangType.get('raster')
+      wrapper.empty().append($('<img draggable="false"/>').addClass('avatar').attr('src', thangType.getPortraitURL()).attr('alt', thangType.getHeroShortName() or thangType.get('name')))
     else
       return unless stage = thangType.getPortraitStage options, 100
       newCanvas = $(stage.canvas).addClass('thang-canvas avatar')

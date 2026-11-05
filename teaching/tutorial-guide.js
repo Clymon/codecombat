@@ -12,13 +12,6 @@ function observed (e, hero) {
   return false
 }
 function attachGuide (task, design) {
-  if (design.mentor) {
-    const mentor = document.createElement('aside'); mentor.className = 'teaching-mentor'
-    const image = document.createElement('img'); image.src = design.mentor.image; image.alt = '梁文锋 Q 版导师'
-    const text = document.createElement('div'); const name = document.createElement('strong'); const line = document.createElement('p')
-    name.textContent = `${design.mentor.name} · ${design.mentor.role}`; line.textContent = design.mentor.line
-    text.append(name, line); mentor.append(image, text); task.insertBefore(mentor, task.children[1])
-  }
   const contract = design.learningContract
   if (contract) {
     const p = document.createElement('p'); p.className = 'teaching-code-rule'

@@ -8,6 +8,7 @@ const { exitPose } = require('teaching/exit-effects')
 const { attachGuide } = require('teaching/tutorial-guide')
 const { applyHeroFrame } = require('teaching/hero-animation')
 const WhaleCompanion = require('./WhaleCompanion')
+const VillageDialogue = require('teaching/dialogue-view')
 module.exports = class TeachingMapOverlay {
   constructor (surface, design) {
     this.surface = surface
@@ -38,6 +39,8 @@ module.exports = class TeachingMapOverlay {
     const back = document.createElement('a'); back.href = `/teaching#${design.slug || ''}`; back.textContent = '选择其他关卡或场景'; task.appendChild(back)
     this.updateGuide = attachGuide(task, design)
     root?.appendChild(task)
+    this.task = task
+    if (root && design.world?.chapterId === 'starter-village') this.dialogue = new VillageDialogue(root, design, surface)
 
     this.container = new createjs.Container()
     this.container.mouseEnabled = false
@@ -109,6 +112,7 @@ module.exports = class TeachingMapOverlay {
     const g = this.ink.graphics.clear()
     const hero = world.getThangByID('Hero Placeholder')
     this.updateGuide?.(hero)
+    this.dialogue?.update(hero, world)
     this.message.text = hero?.teachingFailure || ''
     this.message.x = camera.canvasWidth / 2
     const normalCanvas = this.surface.normalCanvas?.[0]
@@ -158,6 +162,11 @@ module.exports = class TeachingMapOverlay {
       .drawEllipse(ground.x - rx, ground.y - ry, rx * 2, ry * 2).endFill().endStroke()
     // The patrol is visible through its movement and danger radius, not a drawn solution path.
     g.beginFill('#ff786a').drawCircle(p.x, p.y - 32, 4)
+  }
+
+  destroy () {
+    this.dialogue?.destroy()
+    this.task?.remove()
   }
 
   updateDeparture (hero, world, camera) {

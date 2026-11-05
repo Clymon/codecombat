@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-05",
+  "tool": "builtin image_gen",
+  "loading": {
+    "prompt": "Use case: compositing. Asset type: 16:9 illustrated loading-screen background for the existing beginner-village Python dungeon game. Edit the FIRST reference (dungeon picnic background): remove the yellow creature entirely and remove the duplicate whale at the bottom right. Keep exactly ONE small blue whale companion at the heroine's feet. Preserve the warm lantern, blue stone arch, distant crystals and hand-painted chibi anime game style. Keep the same blue-haired whale heroine on the right, but use the SECOND reference for her established appearance: empty stainless-steel basin helmet, navy-and-white dress with whale apron, blue whale tail, wooden rice paddle. She stands at the lantern-lit village dungeon entrance with an eager friendly expression; she is not eating. Her full body fits naturally in the right half, with the single small blue whale next to her. Remove the picnic dishes. The left 45 percent is a beautifully painted but quiet dark-blue stone corridor, soft contrast, generous usable space for a separately rendered progress panel and text. Wide landscape 16:9. No lettering, no UI, no logos, no additional characters. High quality crisp polished background painting.",
+    "file": "新手村载入背景_v1.png",
+    "source": "exec-a5542762-4189-405d-80be-a6a811b1a804.png",
+    "references": [
+      "assets/codecombat/大模型娘素材筹备/小样/03-载入背景_鲸鱼娘与邪典奶龙聚餐_v2.png",
+      "assets/codecombat/DeepSeek素材/03-钢盆头盔与饭勺.png"
+    ]
+  },
+  "guard": {
+    "prompt": "Use case: stylized-concept. Asset type: full-body portrait of an ordinary gate guard NPC for a chibi anime dungeon game's visual-novel dialogue panel. One friendly but stern fantasy male guard, about three heads tall, slightly stocky, simple dark-red/copper plate armor, a matching helmet with a short bright-red plume, visible face with small moustache, round brown eyes, thick eyebrows. He carries a compact round wooden shield and an upright spear, both fully visible within the image. He stands in a relaxed alert pose, looking slightly toward the viewer's right as if talking to the blue-haired heroine. Polished crisp chibi linework, softly shaded colors, clear silhouette, navy/brown underclothes and modest brass trim. This is a generic village guard, not a named historical or real person. No horns, no monster features, no modern weapons, no lettering, no UI, no scenery, no floor or cast shadow. Keep full body and complete props centered with generous padding. True transparent alpha background, no gradients, no halo, no glow. Intended to sit as a large standing character to the left of a bottom dialogue box.",
+    "file": "门岗守卫立绘_v1.png",
+    "source": "exec-7913ad0f-35ee-4292-98e0-1122ce3fc0b7.png",
+    "review": "红铜盔甲、红缨、长矛与圆盾，普通虚构守卫。原图含柔和背景，作为对话插画呈现，不宣称为透明游戏动作。"
+  }
+}

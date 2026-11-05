@@ -1,0 +1,210 @@
+// Scoped to the original teaching levels. Native official levels keep their UI.
+#level-loading-view.teaching-loading
+  background: #101e2e
+  .left-wing, .right-wing
+    display: none
+  .village-loading-art
+    position: absolute
+    inset: 0
+    background: #101e2e url('/teaching/assets/scenery/village-loading-v1.png') center / cover no-repeat
+    transition: opacity .35s ease
+  &.unveiled
+    background: transparent
+    .village-loading-art
+      opacity: 0
+  #loading-details.coco-view
+    top: 50%
+    left: 5%
+    right: auto
+    width: min(440px, 43%)
+    height: auto
+    min-height: 330px
+    max-height: calc(100vh - 40px)
+    overflow-y: auto
+    margin: 0
+    transform: translateY(-50%)
+    padding: 28px 30px
+    background: linear-gradient(145deg, rgba(14, 30, 45, .95), rgba(23, 44, 61, .9))
+    border: 1px solid #b8a378
+    border-radius: 10px
+    box-shadow: 0 16px 70px #0009, inset 0 0 0 4px #ffffff05
+    color: #f5ecd9
+    font-family: system-ui, sans-serif
+    text-align: left
+    transition: opacity .25s ease
+    .village-loading-chapter
+      color: #c9b58b
+      font-size: 14px
+      letter-spacing: 3px
+    .level-name
+      display: block
+      margin: 14px 0 22px
+      color: #fff6e2
+      font: 700 28px/1.4 system-ui, sans-serif
+      text-wrap: wrap
+    .level-loading-goals
+      font-size: 16px
+      line-height: 1.8
+      .goals-title
+        color: #ccb98f
+        font-size: 19px
+        margin-bottom: 10px
+      li
+        color: #f3ead7 !important
+        font-size: 16px
+        line-height: 1.8
+        margin-left: 0 !important
+      ul
+        padding-left: 0
+    .progress-or-start-container
+      position: relative
+      bottom: auto
+      left: 0 !important
+      width: 100%
+      margin: 24px 0 0
+      .start-level-button
+        width: 100%
+        min-height: 48px
+        border: 1px solid #c3a56b
+        border-radius: 6px
+        background: linear-gradient(#3a665c, #254a44)
+        color: #fff5dc
+        text-shadow: none
+        font: 700 18px system-ui, sans-serif
+      .load-progress
+        position: relative
+        width: 100%
+    #tip-wrapper
+      position: static
+      margin: 20px 0 0
+      width: 100%
+      .tip
+        color: #c5d6dd
+        font: 400 14px/1.6 system-ui, sans-serif
+    .village-load-status
+      margin: 12px 0 0
+      font-size: 13px
+      color: #b6cbd4
+  &.unveiled #loading-details
+    opacity: 0
+    pointer-events: none
+
+#level-view.local-teaching-level
+  img.item-image[src*="deepseek"]
+    filter: none !important
+    -webkit-filter: none !important
+  #thang-hud .thang-canvas-wrapper
+    border: 2px solid #bdad7e
+    border-radius: 50%
+    background: radial-gradient(circle at 45% 35%, #4d7487, #172c40)
+    box-shadow: 0 3px 16px #0008
+    overflow: hidden
+    img.avatar
+      width: 100%
+      height: 100%
+      object-fit: contain
+    img.avatar[src*='deepseek']
+      transform: scale(1.75)
+      transform-origin: 50% 25%
+    .avatar-frame
+      display: none
+  #thang-hud .center
+    text-transform: none
+  .village-dialogue, .vn-toggle
+    position: fixed
+    z-index: 9
+    font-family: system-ui, sans-serif
+  .village-dialogue[hidden], .vn-toggle[hidden]
+    display: none
+  .village-dialogue
+    pointer-events: none
+  .vn-portrait
+    position: absolute
+    left: 0
+    bottom: 0
+    height: calc(100% + 35px)
+    width: 175px
+    object-fit: cover
+    object-position: center top
+    filter: drop-shadow(0 3px 8px #0008)
+  .vn-box
+    position: absolute
+    left: 136px
+    right: 0
+    bottom: 0
+    min-height: 142px
+    max-height: 100%
+    overflow-y: auto
+    padding: 15px 18px 12px
+    background: linear-gradient(140deg, #172e3af5, #101b28f5)
+    border: 1px solid #c4ad7a
+    border-radius: 8px
+    box-shadow: 0 6px 28px #0008, inset 0 0 0 3px #ffffff04
+    color: #f7f0df
+    pointer-events: auto
+  .vn-heading
+    display: flex
+    align-items: center
+    gap: 10px
+    .vn-name
+      font-size: 19px
+      color: #f3d596
+    .vn-role
+      font-size: 12px
+      color: #bdcdd2
+  .vn-line
+    min-height: 3em
+    margin: 12px 0 8px
+    font-size: 17px
+    line-height: 1.65
+    overflow-wrap: anywhere
+    white-space: pre-wrap
+    cursor: pointer
+  .vn-footer
+    display: flex
+    align-items: center
+    justify-content: space-between
+    gap: 8px
+    color: #adbdc5
+    font-size: 12px
+  .vn-close, .vn-next, .vn-toggle
+    border: 1px solid #738e93
+    border-radius: 5px
+    background: #203c49
+    color: #f5ecd9
+    padding: 6px 10px
+    font-size: 13px
+    cursor: pointer
+    &:focus-visible
+      outline: 2px solid #ffe0a0
+      outline-offset: 3px
+  .vn-close
+    margin-left: auto
+    padding: 3px 7px
+    color: #c5d2d4
+    font-size: 12px
+  .vn-next
+    border-color: #b99e68
+  @media (max-width: 1100px)
+    .vn-portrait
+      width: 160px
+    .vn-box
+      left: 128px
+      padding: 12px 14px
+    .vn-line
+      font-size: 15px
+    .vn-role
+      display: none
+  @media (max-height: 650px)
+    .vn-portrait
+      width: 100px
+    .vn-box
+      left: 85px
+      min-height: 125px
+    .vn-line
+      margin: 6px 0
+      font-size: 14px
+
+@media (prefers-reduced-motion: reduce)
+  #level-loading-view.teaching-loading .village-loading-art, #level-loading-view.teaching-loading #loading-details.coco-view
+    transition: none

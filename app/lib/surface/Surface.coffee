@@ -671,6 +671,9 @@ module.exports = Surface = class Surface extends CocoClass
       availableHeight -= $('#control-bar-view').outerHeight() unless @cinematic or parseInt($('#control-bar-view').css('left'), 10) > 0
       newWidth = Math.min(pageWidth, availableHeight * aspectRatio, canvasWrapperWidth)
       newHeight = newWidth / aspectRatio
+      if @options.level?.get('teachingMap')
+        newWidth = canvasWrapperWidth
+        newHeight = $('#canvas-wrapper').height()
     else if @realTime or @cinematic or @options.spectateGame
       availableHeight = window.innerHeight - $('#playback-view').outerHeight()
       if @realTime or @options.spectateGame
@@ -875,6 +878,7 @@ module.exports = Surface = class Surface extends CocoClass
   #- Teardown
 
   destroy: ->
+    @teachingMapOverlay?.destroy()
     @camera?.destroy()
     createjs.Ticker.removeEventListener('tick', @tick)
     createjs.Sound.stop()

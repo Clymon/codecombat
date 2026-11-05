@@ -1,3 +1,5 @@
+if view.isTeachingLevel
+  .village-loading-art(aria-hidden="true")
 if view.showCoco
   div(class="left-wing " + view.loadingWingClass)
   div(class="right-wing " + view.loadingWingClass)
@@ -7,6 +9,8 @@ if view.showCoco
   if view.showOzaria
     .chrome-border.chrome-off-slice
 
+  if view.isTeachingLevel
+    .village-loading-chapter 新手村
   h1.level-name.secret.rtl-allowed
 
   .level-loading-goals.secret.rtl-allowed
@@ -35,6 +39,9 @@ if view.showCoco
           .progress-bar.progress-bar-success(class=`${product}-view`)
         if view.showCoco
           .rim
+
+  if view.isTeachingLevel
+    p.village-load-status(role="status") 正在准备地图与角色…
 
   .could-not-load
     span(data-i18n="loading_error.could_not_load")

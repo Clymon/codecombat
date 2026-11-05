@@ -1,4 +1,5 @@
 require('app/styles/play/level/level-loading-view.sass')
+require('app/styles/play/level/village-presentation.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'app/templates/play/level/level-loading-view'
 ace = require('lib/aceContainer')
@@ -32,6 +33,8 @@ module.exports = class LevelLoadingView extends CocoView
 
   initialize: (options={}) ->
     @utils = utils
+    @isTeachingLevel = /^\/play\/level\/local-python-\d{2}(?:\/|$)/.test(window.location.pathname)
+    @$el.addClass('teaching-loading') if @isTeachingLevel
     @loadingWingClass = _.sample(['alejandro', 'anya', 'chess', 'naria', 'okar'])
     @showOzaria = utils.showOzaria()
     @showCoco = !@showOzaria
@@ -51,6 +54,7 @@ module.exports = class LevelLoadingView extends CocoView
       @$el.find('.to-remove').remove()
     @onLevelLoaded level: @options.level if @options.level?.get('goals')  # If Level was already loaded.
     @configureACEEditors()
+    @$('.level-name').text('正在进入新手村…').show() if @isTeachingLevel and not @level
 
   configureACEEditors: ->
     codeLanguage = @session?.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
@@ -67,6 +71,10 @@ module.exports = class LevelLoadingView extends CocoView
   onLevelLoaded: (e) ->
     return if @level
     @level = e.level
+    if @isTeachingLevel
+      @prepareLevelName()
+      map = @level.get('teachingMap')
+      @$('.village-loading-chapter').text(map?.world?.chapterName or '新手村')
     @$el.toggleClass 'codecombat-junior', @level.get('product', true) is 'codecombat-junior'
     @$el.toggleClass 'codecombat', @level.get('product', true) is 'codecombat'
     if @showCoco and @level.get('product', true) is 'codecombat'
@@ -152,6 +160,7 @@ module.exports = class LevelLoadingView extends CocoView
       autoUnveil = not showIntro
     else
       autoUnveil = @options.autoUnveil or @session?.get('state').complete or @level.get('product', true) is 'codecombat-junior'
+    autoUnveil = false if @isTeachingLevel
     if autoUnveil
       @startUnveiling()
       @unveil true
@@ -159,7 +168,11 @@ module.exports = class LevelLoadingView extends CocoView
       @playSound 'level_loaded', 0.75  # old: loading_ready
       @$el.find('.progress').hide()
       @$el.find('.start-level-button').show()
-      @unveil false
+      if @isTeachingLevel
+        @$('.village-load-status').text('准备好了，进入关卡开始探索。')
+        @$('.start-level-button').text('进入关卡')
+      else
+        @unveil false
 
   startUnveiling: (e) ->
     # todo: this file, coco and ozar do similar things with different steps, should be refactored
@@ -244,6 +257,7 @@ module.exports = class LevelLoadingView extends CocoView
     @unveilPreviewTime = new Date().getTime()
 
   resize: ->
+    return if @isTeachingLevel
     goalsHeight = @$el.find('.level-loading-goals').outerHeight(true) or 0
     introDocHeight = @$el.find('.intro-doc-content').outerHeight(true) or 100
     maxHeight = Math.min $('#level-view').outerHeight(true), goalsHeight + introDocHeight + 100 + 0.11 * $(window).innerHeight() + 40
