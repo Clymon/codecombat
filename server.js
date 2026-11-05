@@ -23,7 +23,7 @@ module.exports.startServer = function (done) {
 
 const createAndConfigureApp = (module.exports.createAndConfigureApp = function () {
   const app = express()
-  if (config.forceCompression) {
+  if (config.forceCompression || process.env.COCO_PROXY === 'true') {
     const compression = require('compression')
     app.use(compression())
   }

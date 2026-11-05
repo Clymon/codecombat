@@ -38,23 +38,23 @@ test('patrol sensor uses the same swept warning circle and eventually allows bot
     assert.ok(safe > 0 && blocked > 0)
   }
 })
-test('scene completion requires all scenarios with same source; edits invalidate previous passes', () => {
+test('scene completion requires all scenarios with same source; edits invalidate previous passes', async () => {
   const level = { teachingMap: { index: 9, scenarioTitles: ['开', '关'] } }
   const session = { code: { 'hero-placeholder': { plan: 'if hero.pathOpen("right"):\n    hero.moveRight()\n' } }, state: { complete: true }, teachingScene: 0 }
-  record(session, level, { state: { complete: true, teachingVictoryCode: session.code['hero-placeholder'].plan } }); assert.equal(session.teachingComplete, false)
-  session.teachingScene = 1; record(session, level, { state: { complete: true, teachingVictoryCode: session.code['hero-placeholder'].plan } }); assert.equal(session.teachingComplete, true)
-  session.code['hero-placeholder'].plan += '\n# 改了代码\n'; record(session, level, {}); assert.equal(session.teachingComplete, false); assert.equal(Object.keys(session.scenePasses).length, 0)
-  session.code['hero-placeholder'].plan = 'hero.moveRight()\n'; record(session, level, { state: { complete: true, teachingVictoryCode: session.code['hero-placeholder'].plan } }); assert.match(session.learningFeedback, /if/); assert.equal(session.state.complete, false)
+  await record(session, level, { state: { complete: true, teachingVictoryCode: session.code['hero-placeholder'].plan } }); assert.equal(session.teachingComplete, false)
+  session.teachingScene = 1; await record(session, level, { state: { complete: true, teachingVictoryCode: session.code['hero-placeholder'].plan } }); assert.equal(session.teachingComplete, true)
+  session.code['hero-placeholder'].plan += '\n# 改了代码\n'; await record(session, level, {}); assert.equal(session.teachingComplete, false); assert.equal(Object.keys(session.scenePasses).length, 0)
+  session.code['hero-placeholder'].plan = 'hero.moveRight()\n'; await record(session, level, { state: { complete: true, teachingVictoryCode: session.code['hero-placeholder'].plan } }); assert.match(session.learningFeedback, /if/); assert.equal(session.state.complete, false)
 })
-test('variable scenes may change values and preserve the exact source for each result', () => {
+test('variable scenes may change values and preserve the exact source for each result', async () => {
   const level = { teachingMap: { index: 7, scenarioTitles: ['2', '4'], allowCodeChanges: true } }
   const s = { code: { 'hero-placeholder': { plan: 'steps = 2\nhero.moveRight(steps)\n' } }, state: {}, teachingScene: 0 }
-  record(s, level, { state: { complete: true, teachingVictoryCode: s.code['hero-placeholder'].plan } }); s.teachingScene = 1; s.code['hero-placeholder'].plan = 'steps = 4\nhero.moveRight(steps)\n'; record(s, level, { state: { complete: true, teachingVictoryCode: s.code['hero-placeholder'].plan } }); assert.equal(s.teachingComplete, true); assert.match(s.scenePasses[0].code, /steps = 2/)
+  await record(s, level, { state: { complete: true, teachingVictoryCode: s.code['hero-placeholder'].plan } }); s.teachingScene = 1; s.code['hero-placeholder'].plan = 'steps = 4\nhero.moveRight(steps)\n'; await record(s, level, { state: { complete: true, teachingVictoryCode: s.code['hero-placeholder'].plan } }); assert.equal(s.teachingComplete, true); assert.match(s.scenePasses[0].code, /steps = 2/)
 })
 
-test('stale victory cannot credit edited code', () => {
+test('stale victory cannot credit edited code', async () => {
   const level = { teachingMap: { index: 13, scenarioTitles: ['主场景'] } }
   const s = { code: { 'hero-placeholder': { plan: 'for i in range(4):\n    hero.moveRight()\n' } }, state: { complete: true } }
-  record(s, level, { state: { complete: true, teachingVictoryCode: 'for i in range(3):\n    hero.moveRight()\n' } })
+  await record(s, level, { state: { complete: true, teachingVictoryCode: 'for i in range(3):\n    hero.moveRight()\n' } })
   assert.equal(s.teachingComplete, false); assert.equal(Object.keys(s.scenePasses).length, 0)
 })

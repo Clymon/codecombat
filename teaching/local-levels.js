@@ -4,6 +4,7 @@ const path = require('path')
 const crypto = require('crypto')
 const express = require('express')
 const accounts = require('./student-accounts')
+const { serializeProgress } = require('./learning-checker')
 const { decorateLevel } = require('./story-cast')
 const { DEEPSEEK_TYPE, deepseekType, applyHero } = require('./hero-types')
 const { FLOOR_PREFIX } = require('./local-type-ids')
@@ -121,7 +122,7 @@ module.exports = function setupLocalLevels (app) {
     const state = continuation(req, res)
     if (state) res.set('Cache-Control', 'no-store').json({ ...state.next, formToken: accounts.formToken(req, res) })
   })
-  app.post('/teaching/continue/:slug', formParser, (req, res) => {
+  app.post('/teaching/continue/:slug', formParser, serializeProgress(async (req, res) => {
     if (!accounts.validForm(req)) return res.sendStatus(403)
     const state = continuation(req, res)
     if (!state) return
@@ -141,8 +142,8 @@ module.exports = function setupLocalLevels (app) {
     }
     accounts.saveProgress(student.studentId, progress)
     res.set('Cache-Control', 'no-store').json({ url: `/play/level/${next.slug}?codeLanguage=python` })
-  })
-  app.post('/teaching/scenario', formParser, (req, res) => {
+  }))
+  app.post('/teaching/scenario', formParser, serializeProgress(async (req, res) => {
     const student = requireStudent(req, res)
     if (!student) return
     if (!accounts.validForm(req)) return res.sendStatus(403)
@@ -162,7 +163,7 @@ module.exports = function setupLocalLevels (app) {
       accounts.saveProgress(student.studentId, progress)
     }
     res.redirect(303, `/play/level/${slug}?codeLanguage=python`)
-  })
+  }))
   app.get('/teaching/classroom.css', (req, res) => {
     res.set('Cache-Control', 'no-cache').type('css').send(fs.readFileSync(path.join(__dirname, 'classroom.css'), 'utf8'))
   })
@@ -200,7 +201,7 @@ module.exports = function setupLocalLevels (app) {
     const code = fs.readFileSync(path.join(__dirname, 'learning-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingLearning =') + '\n' + fs.readFileSync(path.join(__dirname, 'adventure-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingAdventure =') + '\n' + fs.readFileSync(path.join(__dirname, 'rules-system.js'), 'utf8')
     res.json({ _id: 'facadecccc00000000000001', original: 'facadecccc00000000000001', name: 'TeachingRules', codeLanguage: 'javascript', code, js: code, version: { major: 0, minor: 0 }, dependencies: [], configSchema: { type: 'object', properties: { learningContract: { type: ['object', 'null'] }, adventureConfig: { type: ['object', 'null'] }, walls: { type: 'array', default: [] }, bounds: { type: 'object' }, guard: { type: ['object', 'null'] }, checkpoints: { type: 'array' }, exit: { type: 'array' }, hazards: { type: 'array' }, gates: { type: 'array' }, noGems: { type: 'boolean' }, requireFinished: { type: 'boolean' }, exitStyle: { type: 'string' }, exitDirection: { type: 'array' }, exitDuration: { type: 'number' }, sensor: { type: 'object' }, switches: { type: 'array' }, singleStep: { type: 'boolean' }, maxActions: { type: 'number' }, expectedSpeech: { type: ['array', 'null'] } } } })
   })
-  app.get('/db/level/:slug/session', (req, res, next) => {
+  app.get('/db/level/:slug/session', serializeProgress(async (req, res, next) => {
     const level = readLevel(req.params.slug)
     if (!level) return next()
     const student = requireStudent(req, res)
@@ -219,9 +220,9 @@ module.exports = function setupLocalLevels (app) {
       accounts.saveProgress(owner, state)
     }
     sendSession(res, state[level.slug])
-  })
+  }))
   // Never forward local session writes to the official backend; isolate by student account.
-  app.use('/db/level.session/:id', express.json({ limit: '1mb', type: req => sessionPattern.test(req.params.id) && req.is('application/json') }), (req, res, next) => {
+  app.use('/db/level.session/:id', express.json({ limit: '1mb', type: req => sessionPattern.test(req.params.id) && req.is('application/json') }), serializeProgress(async (req, res, next) => {
     if (!sessionPattern.test(req.params.id)) return next()
     const student = requireStudent(req, res)
     if (!student) return
@@ -234,11 +235,11 @@ module.exports = function setupLocalLevels (app) {
       for (const key of ['code', 'state', 'codeLanguage', 'submittedCode', 'submitted', 'playtime', 'levelName', 'levelID', 'changed', 'codeConcepts']) {
         if (req.body && Object.hasOwn(req.body, key)) session[key] = req.body[key]
       }
-      require('./scenario-progress').record(session, readLevel(slug), req.body)
+      await require('./scenario-progress').record(session, readLevel(slug), req.body)
       session.updatedAt = new Date().toISOString()
       accounts.saveProgress(owner, state)
     } else if (req.method !== 'GET') return res.status(405).json({ message: 'Unsupported local session operation.' })
     sendSession(res, session)
-  })
+  }))
 }
 module.exports.readLevel = readLevel

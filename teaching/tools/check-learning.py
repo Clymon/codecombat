@@ -13,7 +13,7 @@ def callname(n):
 def has_motion(block): return any(callname(n).startswith('move') for n in ast.walk(block))
 def require(ok,msg):
     if not ok: print(msg);sys.exit(1)
-contract=json.loads((Path(__file__).resolve().parent.parent/'learning-contracts.json').read_text()).get(str(index), {})
+contract=json.loads((Path(__file__).resolve().parent.parent/'learning-contracts.json').read_text(encoding='utf-8')).get(str(index), {})
 # Count Python statements, not physical lines. Blank lines/comments disappear in AST.
 # else/elif headers count once; multiline expressions remain one statement.
 count=sum(isinstance(n,ast.stmt) for n in nodes)+sum(isinstance(n,(ast.If,ast.For,ast.While)) and bool(n.orelse) and not (len(n.orelse)==1 and isinstance(n.orelse[0],ast.If)) for n in nodes)
