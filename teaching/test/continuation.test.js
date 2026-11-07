@@ -64,6 +64,7 @@ test('continue respects teaching order, saved scene checks, release locks, CSRF 
     assert.match((await (await next('local-python-09', s)).json()).url, /local-python-09/)
     const second = await enter('local-python-09'); assert.notEqual(second._id, s._id); assert.equal(second.teachingScene, 1); assert.equal(second.code['hero-placeholder'].plan, code)
     assert.equal((await next('local-python-09', s)).status, 409)
+    assert.equal((await win(s, 'hero.moveLeft()')).status, 404, 'late completion from the previous scene cannot change the new attempt')
     await win(second, code); assert.equal((await peek('local-python-09', second)).slug, 'local-python-10')
     classroom.setUnlocked('local-python-10', false)
     assert.equal((await next('local-python-09', second)).status, 409, 'release rechecked after preview')

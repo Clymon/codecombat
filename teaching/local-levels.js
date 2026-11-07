@@ -1,10 +1,10 @@
 // Original local teaching overlay. This only handles our namespace, never official levels.
 const fs = require('fs')
 const path = require('path')
-const crypto = require('crypto')
 const express = require('express')
 const accounts = require('./student-accounts')
 const { serializeProgress } = require('./learning-checker')
+const { createLearningProgress, ProgressError } = require('./learning-progress')
 const { decorateLevel } = require('./story-cast')
 const { DEEPSEEK_TYPE, deepseekType, applyHero } = require('./hero-types')
 const { FLOOR_PREFIX } = require('./local-type-ids')
@@ -22,9 +22,6 @@ function readLevel (slug, scene = 0) {
   if (!Number.isInteger(scene) || scene < 0 || scene > 20) return null
   const file = scene ? path.join(levelsDir, 'scenarios', `${slug}-${scene}.json`) : path.join(levelsDir, `${slug}.json`)
   return fs.existsSync(file) ? applyVillageScene(applyHero(decorateLevel(JSON.parse(fs.readFileSync(file, 'utf8'))))) : null
-}
-function newSession (level, scene = 0) {
-  return { _id: `facebe${crypto.randomBytes(9).toString('hex')}`, creator: 'local-teaching-preview', team: 'humans', codeLanguage: 'python', level: { original: level.original, majorVersion: 0 }, state: { complete: false, scripts: {} }, code: {}, permissions: [{ target: 'public', access: 'write' }], teachingScene: scene, mapRevision: level.teachingMap.revision, createdAt: new Date().toISOString() }
 }
 function sendSession (res, session) {
   const result = { ...session }
@@ -55,6 +52,7 @@ module.exports = function setupLocalLevels (app) {
   })
   const formParser = express.urlencoded({ extended: false, limit: '2kb' })
   const levels = () => fs.readdirSync(levelsDir).filter(f => /^local-python-\d{2}\.json$/.test(f)).map(f => readLevel(f.slice(0, -5))).sort(compareLevels)
+  const progressLifecycle = createLearningProgress({ readLevel, levels })
   const htmlHeaders = { 'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'", 'X-Frame-Options': 'DENY', 'Referrer-Policy': 'no-referrer' }
   const render = (res, student, error = '', status = 200) => {
     return res.status(status).set(htmlHeaders).type('html').send(accountPage({ student, levels: levels(), progress: student ? accounts.readProgress(student.studentId) : {}, releases: classroom.releases(), visibility: classroom.visibility(), showTeacher: classroom.isTeacherLocal(res.req), error, formToken: accounts.formToken(res.req, res) }))
@@ -108,68 +106,26 @@ module.exports = function setupLocalLevels (app) {
     classroom.setVisible(slug, req.body.visible === 'true')
     res.redirect(303, `/teaching/teacher#release-${slug}`)
   })
-  // Read-only preview, then a CSRF-protected transition. Never bypass teacher releases.
-  const continuation = (req, res) => {
-    const student = requireStudent(req, res)
-    if (!student) return null
-    const slug = req.params.slug; const level = readLevel(slug)
-    if (!level) { res.sendStatus(404); return null }
-    if (!requireUnlocked(res, slug)) return null
-    const progress = accounts.readProgress(student.studentId); const session = progress[slug]
-    const sessionId = req.method === 'GET' ? req.query.sessionId : req.body?.sessionId
-    if (!session || session._id !== sessionId) { res.status(409).json({ message: '这个页面的场景已改变，请刷新后继续。' }); return null }
-    let next = require('./continuation').nextTask(levels().filter(level => classroom.isVisible(level.slug)), slug, session, classroom.releases())
-    if (next.kind === 'level') {
-      const access = accessFor(catalog, { progress, releases: classroom.releases(), visibility: classroom.visibility() })[next.slug]
-      if (!access.open) next = { kind: 'waiting', label: '检查解锁条件', message: access.message }
-    }
-    return { student, progress, next }
-  }
+  // Preview is read-only; each transition rechecks access and the attempt identity.
   app.get('/teaching/continue/:slug', (req, res) => {
-    const state = continuation(req, res)
-    if (state) res.set('Cache-Control', 'no-store').json({ ...state.next, formToken: accounts.formToken(req, res) })
+    const student = requireStudent(req, res)
+    if (!student) return
+    const next = progressLifecycle.previewContinuation(student.studentId, req.params.slug, req.query.sessionId)
+    res.set('Cache-Control', 'no-store').json({ ...next, formToken: accounts.formToken(req, res) })
   })
   app.post('/teaching/continue/:slug', formParser, serializeProgress(async (req, res) => {
+    const student = requireStudent(req, res)
+    if (!student) return
     if (!accounts.validForm(req)) return res.sendStatus(403)
-    const state = continuation(req, res)
-    if (!state) return
-    const { student, progress, next } = state
-    if (!['scene', 'level'].includes(next.kind)) return res.status(409).json(next)
-    let session = progress[next.slug]
-    // Resume the first remaining scene of the next level, keeping its saved code.
-    if (next.kind === 'level' && session) {
-      const titles = readLevel(next.slug).teachingMap.scenarioTitles || ['主场景']
-      next.scene = Math.max(0, titles.findIndex((_, i) => !session.scenePasses?.[i]))
-    }
-    if (!session) session = progress[next.slug] = newSession(readLevel(next.slug, next.scene), next.scene)
-    else {
-      session.teachingScene = next.scene
-      session._id = `facebe${crypto.randomBytes(9).toString('hex')}`
-      session.state = { complete: false, scripts: {} }
-    }
-    accounts.saveProgress(student.studentId, progress)
-    res.set('Cache-Control', 'no-store').json({ url: `/play/level/${next.slug}?codeLanguage=python` })
+    const result = progressLifecycle.continue(student.studentId, req.params.slug, req.body?.sessionId)
+    res.set('Cache-Control', 'no-store').json(result)
   }))
   app.post('/teaching/scenario', formParser, serializeProgress(async (req, res) => {
     const student = requireStudent(req, res)
     if (!student) return
     if (!accounts.validForm(req)) return res.sendStatus(403)
-    const slug = req.body?.slug; const scene = Number(req.body?.scene)
-    if (!readLevel(slug, scene)) return res.status(400).end()
-    if (!requireUnlocked(res, slug)) return
-    const progress = accounts.readProgress(student.studentId)
-    const session = progress[slug]
-    if (session) {
-      session.teachingScene = scene
-      // Rotate the ID so a late save from the old scene cannot credit the new one.
-      session._id = `facebe${crypto.randomBytes(9).toString('hex')}`
-      session.state = { complete: false, scripts: {} }
-      accounts.saveProgress(student.studentId, progress)
-    } else {
-      progress[slug] = newSession(readLevel(slug, scene), scene)
-      accounts.saveProgress(student.studentId, progress)
-    }
-    res.redirect(303, `/play/level/${slug}?codeLanguage=python`)
+    const result = progressLifecycle.selectScene(student.studentId, req.body?.slug, Number(req.body?.scene), req.body?.sessionId)
+    res.redirect(303, result.url)
   }))
   app.get('/teaching/world-map.js', (req, res) => {
     res.set('Cache-Control', 'no-cache').type('js').send(fs.readFileSync(path.join(__dirname, 'world-map-client.js'), 'utf8'))
@@ -216,12 +172,8 @@ module.exports = function setupLocalLevels (app) {
     if (!level) return next()
     const student = requireStudent(req, res)
     if (!student) return
-    if (!requireUnlocked(res, level.slug)) return
-    const owner = student.studentId; const state = accounts.readProgress(owner)
-    if (!state[level.slug]) {
-      state[level.slug] = newSession(level)
-      accounts.saveProgress(owner, state)
-    }
+    const owner = student.studentId
+    const { progress: state } = progressLifecycle.openSession(owner, level.slug)
     if (state[level.slug].mapRevision !== level.teachingMap?.revision) {
       state[level.slug].state = { complete: false, scripts: {} }
       state[level.slug].mapRevision = level.teachingMap?.revision
@@ -251,5 +203,9 @@ module.exports = function setupLocalLevels (app) {
     } else if (req.method !== 'GET') return res.status(405).json({ message: 'Unsupported local session operation.' })
     sendSession(res, session)
   }))
+  app.use((error, req, res, next) => {
+    if (!(error instanceof ProgressError)) return next(error)
+    res.status(error.status).set('Cache-Control', 'no-store').json(error.detail)
+  })
 }
 module.exports.readLevel = readLevel
