@@ -1,0 +1,164 @@
+{
+  "index": 31,
+  "section": 2,
+  "name": "判断教学：没有敌人就不攻击",
+  "lessonOrder": 9.1,
+  "revision": 2,
+  "prototype": false,
+  "hiddenByDefault": true,
+  "checkpoints": [],
+  "gems": [],
+  "hazards": [],
+  "gates": [],
+  "torches": [
+    [
+      8,
+      24
+    ],
+    [
+      58,
+      24
+    ]
+  ],
+  "labels": [],
+  "exitStyle": "stairs",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "maxActions": 240,
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    72,
+    40
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "exit": [
+    48,
+    12
+  ],
+  "corridors": [
+    [
+      8,
+      12,
+      64,
+      12
+    ]
+  ],
+  "apis": [
+    "findNearestEnemy",
+    "attack"
+  ],
+  "knowledge": "if enemy · None · 两种场景",
+  "quest": "通道有时有斥候，有时是空的。同一份程序都要安全通过。",
+  "description": "这条通道可能有斥候、可能换成另一名哨兵，也可能是空的。有敌人时先清掉，空通道可以直接走；最后都要到楼梯。同一份程序完成三个场景。",
+  "starter": "hero.moveRight()\nenemy = hero.findNearestEnemy()\n# 用 if 判断有敌人才攻击。\n",
+  "adventure": {
+    "mode": "rescue",
+    "actors": [
+      {
+        "id": "落单斥候",
+        "kind": "enemy",
+        "at": [
+          30,
+          12
+        ],
+        "health": 20,
+        "speed": 0,
+        "damage": 1,
+        "aggro": 0
+      }
+    ]
+  },
+  "goals": [],
+  "scenarios": [
+    {
+      "title": "通道里有斥候",
+      "adventure": {
+        "mode": "rescue",
+        "actors": [
+          {
+            "id": "落单斥候",
+            "kind": "enemy",
+            "at": [
+              30,
+              12
+            ],
+            "health": 20,
+            "speed": 0,
+            "damage": 1,
+            "aggro": 0
+          }
+        ]
+      },
+      "solution": "hero.moveRight()\nenemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)\nhero.moveRight(2)\n",
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "title": "空通道，没有敌人",
+      "adventure": {
+        "mode": "rescue",
+        "actors": []
+      },
+      "solution": "hero.moveRight()\nenemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)\nhero.moveRight(2)\n",
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "title": "换岗了，遇到另一名哨兵",
+      "adventure": {
+        "mode": "rescue",
+        "actors": [
+          {
+            "id": "门廊哨兵",
+            "kind": "enemy",
+            "at": [
+              30,
+              12
+            ],
+            "health": 20,
+            "speed": 0,
+            "damage": 1,
+            "aggro": 0
+          }
+        ]
+      },
+      "solution": "hero.moveRight()\nenemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)\nhero.moveRight(2)\n",
+      "singleStep": false,
+      "learningContract": null
+    }
+  ],
+  "tutorial": {
+    "title": "用 if 避免攻击空目标",
+    "steps": [
+      {
+        "text": "查找后加入下面两行。if行末写冒号，攻击行缩进4个空格。",
+        "code": "if enemy:\n    hero.attack(enemy)",
+        "observe": "找到敌人时执行攻击；结果为None时跳过。",
+        "evidence": {
+          "kind": "enemies-cleared"
+        }
+      },
+      {
+        "text": "最后写 hero.moveRight(2)，不要缩进。运行并提交后，继续验证空通道场景，不改代码。",
+        "observe": "无论有没有敌人，都要到达楼梯。",
+        "evidence": {
+          "kind": "exit"
+        }
+      }
+    ]
+  },
+  "hints": [
+    "最后的移动放在if外面，否则没有敌人时英雄不会离开。"
+  ],
+  "learningContract": null,
+  "singleStep": false,
+  "introBrief": [
+    "判断教学：没有敌人就不攻击",
+    "通道有时有斥候，有时是空的。同一份程序都要安全通过。"
+  ]
+}
