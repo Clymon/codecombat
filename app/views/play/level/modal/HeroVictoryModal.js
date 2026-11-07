@@ -592,7 +592,10 @@ module.exports = (HeroVictoryModal = (function () {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ code: this.session.get('code'), state: this.session.get('state'), codeLanguage: 'python' }),
         })
-        if (!saved.ok) throw new Error('进度尚未保存成功，请重试。')
+        if (!saved.ok) {
+          const failure = await saved.json().catch(() => ({}))
+          throw new Error(failure.message || '保存失败，请保留当前页面和代码，稍后重试。')
+        }
         const response = await fetch(`/teaching/continue/${this.level.get('slug')}?sessionId=${this.session.id}`)
         const next = await response.json()
         if (!response.ok) throw new Error(next.message || '暂时无法读取下一关，请重试。')
@@ -601,7 +604,7 @@ module.exports = (HeroVictoryModal = (function () {
         this.$('#continue-button').text(next.label)
       } catch (error) {
         this.teachingNext = null
-        this.$('.local-save-notice').text(error.message)
+        this.$('.local-save-notice').text(/[\u3400-\u9fff]/.test(error.message) ? error.message : '保存失败或连接中断，请勿刷新页面，代码仍保留在编辑器中。请点击重试。')
         this.$('#continue-button').text('重试保存')
       } finally {
         this.preparingTeachingContinuation = false
@@ -626,7 +629,7 @@ module.exports = (HeroVictoryModal = (function () {
         window.location.assign(result.url)
       } catch (error) {
         this.teachingNext = null
-        this.$('.local-save-notice').text(error.message)
+        this.$('.local-save-notice').text(/[\u3400-\u9fff]/.test(error.message) ? error.message : '保存失败或连接中断，请勿刷新页面，代码仍保留在编辑器中。请点击重试。')
         this.$('#continue-button').prop('disabled', false).text('重试')
         this.continuingTeaching = false
       }

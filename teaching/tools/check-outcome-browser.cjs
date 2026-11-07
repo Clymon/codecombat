@@ -46,7 +46,9 @@ const cases = [
       const result = { name, index, scene, expected }; const errors = []; const onError = e => errors.push(e.stack); page.on('pageerror', onError)
       try {
         const slug = 'local-python-' + String(index).padStart(2, '0')
-        await page.goto('about:blank'); require('../test/progress-fixture.cjs')('99997782', slug); await context.request.post(base + '/teaching/scenario', { form: { slug, scene: String(scene), formToken: token } })
+        await page.goto('about:blank'); require('../test/progress-fixture.cjs')('99997782', slug); const opened = await context.request.get(base + '/db/level/' + slug + '/session'); assert.ok(opened.ok(), await opened.text())
+        const sessionId = (await opened.json())._id
+        const selected = await context.request.post(base + '/teaching/scenario', { form: { slug, scene: String(scene), formToken: token, sessionId }, maxRedirects: 0 }); assert.equal(selected.status(), 303, await selected.text())
         await page.goto(base + '/play/level/' + slug + '?codeLanguage=python'); await page.getByRole('button', { name: '进入关卡', exact: true }).click({ timeout: 60000 }); await page.waitForTimeout(1800)
         for (const sel of ['.ds-guide-skip', '.vn-close']) if (await page.locator(sel).isVisible()) await page.locator(sel).click()
         await page.evaluate(() => { window.outcomeResult = null; window.outcomeWorld = null; Backbone.Mediator.subscribe('god:goals-calculated', e => { if (!e.preload) window.outcomeResult = { status: e.overallStatus, goals: e.goalStates } }, window); Backbone.Mediator.subscribe('god:new-world-created', e => { window.outcomeWorld = e.world }, window) })

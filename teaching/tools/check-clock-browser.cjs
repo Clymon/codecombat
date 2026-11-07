@@ -32,7 +32,9 @@ const reports = []
       const slug = `local-python-${String(c.index).padStart(2, '0')}`; fixture(student, slug)
       const html = await (await page.request.get(base + '/teaching')).text()
       const formToken = html.match(/name="formToken" value="([0-9a-f]{64})"/)[1]
-      const res = await page.request.post(base + '/teaching/scenario', { form: { formToken, slug, scene: String(c.scene) } }); assert.ok(res.ok())
+      const opened = await page.request.get(base + '/db/level/' + slug + '/session'); assert.ok(opened.ok(), await opened.text())
+      const sessionId = (await opened.json())._id
+      const res = await page.request.post(base + '/teaching/scenario', { form: { formToken, slug, sessionId, scene: String(c.scene) }, maxRedirects: 0 }); assert.equal(res.status(), 303, await res.text())
       await page.goto(`${base}/play/level/${slug}?codeLanguage=python`)
       await page.getByRole('button', { name: '进入关卡', exact: true }).click({ timeout: 60000 })
       await page.waitForTimeout(2200)
