@@ -3,6 +3,44 @@ function atItemApproach (position, object) {
   return !!(position && object?.approach && object?.at) && Math.hypot(position.x - object.approach[0], position.y - object.approach[1]) < 1.1 && Math.hypot(position.x - object.at[0], position.y - object.at[1]) <= 12.5
 }
 module.exports = {
+  query (name, request = {}) {
+    if (name === 'pathOpen' && Object.hasOwn(request, 'args') && !['left', 'right', 'up', 'down'].includes(request.args[0])) return { ready: false, status: 'direction', message: '方向请用带引号的 "left"、"right"、"up" 或 "down"。' }
+    const detail = {
+      pathOpen: '只查询指定方向是否放行，不会替守卫开门。',
+      nextTileSafe: '以英雄当前位置为参照检查右方下一格；巡逻不会暂停。',
+      findNearestEnemy: '只返回当前可见的最近活敌人；鼠标不会选定查询结果，未找到时返回 None。',
+      isVictory: '查询整场战斗是否完成；暂时没有敌人不代表增援结束。',
+      atBeacon: '检查英雄当前是否到达信标。',
+      pathLength: '读取路牌给出的格数，不随英雄移动而递减。',
+      readSignal: '读取本场景的能量数值。',
+    }[name] || ''
+    return { ready: true, status: 'query', message: `随时可查询，不会移动英雄。${detail}` }
+  },
+  signalSpeech (position, actors, request = {}) {
+    const nearby = actor => !!position && Math.hypot(position.x - actor.at[0], position.y - actor.at[1]) <= 4
+    const targetIndex = actors.findIndex(actor => actor.kind === 'signal' && (request.targetId != null ? actor.id === request.targetId : nearby(actor)))
+    const signal = actors[targetIndex]
+    const result = (ready, status, message) => ({ ready, status, message, targetIndex })
+    if (signal && (!signal.active || !signal.alive)) return result(false, 'inactive', '这个信号台当前不可用。查看当前地图中的信号台。')
+    if (signal?.lit) return result(false, 'complete', '这个信号台已经点亮，不用重复报口令。前往下一个未点亮的信号台。')
+    if (!signal || !nearby(signal)) return result(false, 'far', '这里离信号台太远。走到台前再说“点火”。')
+    if (!Object.hasOwn(request, 'text')) return result(true, 'needs-phrase', '已靠近信号台；还需要说出关卡要求的正确口令。')
+    if (request.text !== '点火') return result(false, 'phrase', '信号台没有回应。石台上的口令是“点火”。')
+    return result(true, 'ready', '位置与口令满足，可以点亮信号台。')
+  },
+  attackTarget (position, actors, input) {
+    const id = typeof input === 'string' ? input : input?.id
+    const targetIndex = actors.findIndex(actor => actor.id === id)
+    const target = actors[targetIndex]
+    const result = (ready, status, message, inRange = false, canHit = false) => ({ ready, status, message, targetIndex, inRange, canHit })
+    if (!id) return result(false, 'missing', '没有攻击目标。先寻找敌人，用 if 确认有目标，再 attack(enemy)。')
+    if (!target) return result(false, 'missing', `找不到“${id}”。检查对象名字、引号和大小写。`)
+    if (!['enemy', 'door'].includes(target.kind)) return result(false, 'friendly', '这是友方或信号台，不能攻击。')
+    if (!target.active || !target.alive) return result(false, 'inactive', '这个目标已经不在战场上了。把寻找敌人的语句放进循环，每轮重新寻找。')
+    const separation = position ? Math.hypot(position.x - target.at[0], position.y - target.at[1]) : Infinity
+    const inRange = separation <= 6.5
+    return result(true, inRange ? 'ready' : 'approach', inRange ? '已在攻击距离内；在代码里指定此目标后攻击。' : '调用后会自动走近；道路必须能够到达目标。', inRange, separation <= 8)
+  },
   chargePlate (position, plate, state = {}, health = 100) {
     const occupied = !!position && Math.hypot(position.x - plate.at[0], position.y - plate.at[1]) <= plate.radius && health > 0
     const complete = !!state.complete
