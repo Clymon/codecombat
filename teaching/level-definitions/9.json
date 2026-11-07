@@ -1,0 +1,243 @@
+{
+  "index": 9,
+  "section": 2,
+  "revision": 4,
+  "lessonOrder": 9,
+  "name": "第2节 · 补给站：开门才取宝石",
+  "description": "右侧补给站有时开放、有时关闭。开放时拿回宝石，再返回岔口；关闭时不要闯岗。最后从下方法阵撤离。漏拿宝石时法阵不启动，闯关闭的门岗会受伤。两个场景用同一份程序完成。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    48,
+    40
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      32,
+      12
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    24,
+    12
+  ],
+  "exitMarker": {
+    "x": 24,
+    "y": 5,
+    "direction": "→",
+    "label": "终点"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      6,
+      24
+    ]
+  ],
+  "labels": [],
+  "knowledge": "if：有条件地执行一组动作",
+  "apis": [
+    "pathOpen"
+  ],
+  "starter": "# 观察补给站的门岗和宝石，最后从下方撤离。\n",
+  "scenarios": [
+    {
+      "title": "补给站开放，有宝石",
+      "size": [
+        60,
+        60
+      ],
+      "start": [
+        12,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          32,
+          24
+        ],
+        [
+          18,
+          24,
+          18,
+          36
+        ],
+        [
+          12,
+          8,
+          12,
+          24
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        12,
+        12
+      ],
+      "exitMarker": {
+        "x": 12,
+        "y": 5,
+        "label": "撤离点"
+      },
+      "goalLabel": "完成补给后从下方法阵撤离",
+      "gems": [
+        [
+          24,
+          24
+        ]
+      ],
+      "hazards": [],
+      "torches": [
+        [
+          6,
+          42
+        ]
+      ],
+      "gates": [
+        {
+          "id": "Supply Guard",
+          "at": [
+            18,
+            24
+          ],
+          "aside": [
+            18,
+            36
+          ],
+          "approach": [
+            12,
+            24
+          ],
+          "locked": true,
+          "openedAt": -1
+        }
+      ],
+      "sensor": {
+        "open": {
+          "right": true
+        }
+      },
+      "labels": [],
+      "solution": "if pathOpen(\"right\"):\n    hero.moveRight()\n    hero.moveLeft()\nhero.moveDown()\n",
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "title": "补给站关闭，直接撤离",
+      "size": [
+        60,
+        60
+      ],
+      "start": [
+        12,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          32,
+          24
+        ],
+        [
+          18,
+          24,
+          18,
+          36
+        ],
+        [
+          12,
+          8,
+          12,
+          24
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        12,
+        12
+      ],
+      "exitMarker": {
+        "x": 12,
+        "y": 5,
+        "label": "撤离点"
+      },
+      "goalLabel": "完成补给后从下方法阵撤离",
+      "gems": [],
+      "hazards": [],
+      "torches": [
+        [
+          6,
+          42
+        ]
+      ],
+      "gates": [
+        {
+          "id": "Supply Guard",
+          "at": [
+            18,
+            24
+          ],
+          "aside": [
+            18,
+            36
+          ],
+          "approach": [
+            12,
+            24
+          ],
+          "locked": true
+        }
+      ],
+      "sensor": {
+        "open": {
+          "right": false
+        }
+      },
+      "labels": [],
+      "solution": "if pathOpen(\"right\"):\n    hero.moveRight()\n    hero.moveLeft()\nhero.moveDown()\n",
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "singleStep": false,
+      "learningContract": null
+    }
+  ],
+  "hints": [
+    "宝石只在开放场景出现。漏拿时，撤离法阵不会亮。",
+    "向右取物和向左返回都缩进到 if 内；向下撤离不缩进。"
+  ],
+  "visualTask": true,
+  "quest": "右侧补给站开放时，取回宝石再返回；关闭时跳过。最后从下方的法阵撤离。",
+  "inscriptions": [],
+  "exitStyle": "portal",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "learningContract": null,
+  "singleStep": false,
+  "maxActions": 240,
+  "introBrief": [
+    "补给站：开门才取宝石",
+    "右侧补给站开放时，取回宝石再返回；关闭时跳过。最后从下方的法阵撤离。"
+  ]
+}

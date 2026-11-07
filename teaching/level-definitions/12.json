@@ -1,0 +1,625 @@
+{
+  "index": 12,
+  "section": 2,
+  "revision": 5,
+  "lessonOrder": 12,
+  "name": "第2节 · 用手里的金币支付通行费【选做】",
+  "description": "领取左侧箱子里的金币。上路通行费4枚，右路2枚，下路1枚；守卫按你的物资档位开放一条路。走到开放门岗前支付，再从身旁法阵撤离。4枚及以上走上路，2至3枚走右路，1枚走下路。同一程序完成四批物资。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    72,
+    60
+  ],
+  "start": [
+    36,
+    24
+  ],
+  "corridors": [
+    [
+      12,
+      24,
+      60,
+      24
+    ],
+    [
+      36,
+      0,
+      36,
+      48
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    36,
+    36
+  ],
+  "exitMarker": {
+    "x": 36,
+    "y": 53,
+    "direction": "",
+    "label": "按牌子选路"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      8,
+      40
+    ]
+  ],
+  "labels": [],
+  "knowledge": "if / elif / else：按金币数量选择通道",
+  "apis": [
+    "take",
+    "give"
+  ],
+  "optional": true,
+  "starter": "coins = hero.take(\"补给箱\")\n# 从4枚这一档开始判断；走到守卫前，交出对应通行费。\n",
+  "scenarios": [
+    {
+      "size": [
+        72,
+        60
+      ],
+      "start": [
+        36,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          60,
+          24
+        ],
+        [
+          36,
+          0,
+          36,
+          48
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        36,
+        36
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 53,
+        "direction": "",
+        "label": "按牌子选路"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          8,
+          40
+        ]
+      ],
+      "labels": [],
+      "title": "领取 5 枚金币",
+      "sensor": {},
+      "gates": [
+        {
+          "id": "Closed 0",
+          "at": [
+            42,
+            24
+          ],
+          "aside": [
+            60,
+            48
+          ],
+          "approach": [
+            36,
+            24
+          ],
+          "locked": true
+        },
+        {
+          "id": "Closed 1",
+          "at": [
+            36,
+            18
+          ],
+          "aside": [
+            60,
+            48
+          ],
+          "approach": [
+            36,
+            24
+          ],
+          "locked": true
+        }
+      ],
+      "solution": "coins = hero.take(\"补给箱\")\nif coins >= 4:\n    hero.moveUp()\n    hero.give(\"守卫\", 4)\nelif coins >= 2:\n    hero.moveRight()\n    hero.give(\"守卫\", 2)\nelse:\n    hero.moveDown()\n    hero.give(\"守卫\", 1)\n",
+      "inscriptions": [
+        {
+          "text": "4 枚",
+          "x": 36,
+          "y": 43
+        },
+        {
+          "text": "2 枚",
+          "x": 55,
+          "y": 29
+        },
+        {
+          "text": "1 枚",
+          "x": 36,
+          "y": 5
+        }
+      ],
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "inventory": {
+        "item": "金币",
+        "unit": "枚",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            24,
+            24
+          ],
+          "approach": [
+            36,
+            24
+          ],
+          "count": 5
+        },
+        "receivers": [
+          {
+            "name": "守卫",
+            "at": [
+              36,
+              48
+            ],
+            "approach": [
+              36,
+              36
+            ],
+            "amount": 4,
+            "kind": "npc"
+          }
+        ]
+      },
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "size": [
+        72,
+        60
+      ],
+      "start": [
+        36,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          60,
+          24
+        ],
+        [
+          36,
+          0,
+          36,
+          48
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        36,
+        36
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 53,
+        "direction": "",
+        "label": "按牌子选路"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          8,
+          40
+        ]
+      ],
+      "labels": [],
+      "title": "领取 4 枚金币",
+      "sensor": {},
+      "gates": [
+        {
+          "id": "Closed 0",
+          "at": [
+            42,
+            24
+          ],
+          "aside": [
+            60,
+            48
+          ],
+          "approach": [
+            36,
+            24
+          ],
+          "locked": true
+        },
+        {
+          "id": "Closed 1",
+          "at": [
+            36,
+            18
+          ],
+          "aside": [
+            60,
+            48
+          ],
+          "approach": [
+            36,
+            24
+          ],
+          "locked": true
+        }
+      ],
+      "solution": "coins = hero.take(\"补给箱\")\nif coins >= 4:\n    hero.moveUp()\n    hero.give(\"守卫\", 4)\nelif coins >= 2:\n    hero.moveRight()\n    hero.give(\"守卫\", 2)\nelse:\n    hero.moveDown()\n    hero.give(\"守卫\", 1)\n",
+      "inscriptions": [
+        {
+          "text": "4 枚",
+          "x": 36,
+          "y": 43
+        },
+        {
+          "text": "2 枚",
+          "x": 55,
+          "y": 29
+        },
+        {
+          "text": "1 枚",
+          "x": 36,
+          "y": 5
+        }
+      ],
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "inventory": {
+        "item": "金币",
+        "unit": "枚",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            24,
+            24
+          ],
+          "approach": [
+            36,
+            24
+          ],
+          "count": 4
+        },
+        "receivers": [
+          {
+            "name": "守卫",
+            "at": [
+              36,
+              48
+            ],
+            "approach": [
+              36,
+              36
+            ],
+            "amount": 4,
+            "kind": "npc"
+          }
+        ]
+      },
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "size": [
+        72,
+        60
+      ],
+      "start": [
+        36,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          60,
+          24
+        ],
+        [
+          36,
+          0,
+          36,
+          48
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        48,
+        24
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 53,
+        "direction": "",
+        "label": "按牌子选路"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          8,
+          40
+        ]
+      ],
+      "labels": [],
+      "title": "领取 2 枚金币",
+      "sensor": {},
+      "gates": [
+        {
+          "id": "Closed 0",
+          "at": [
+            36,
+            30
+          ],
+          "aside": [
+            60,
+            48
+          ],
+          "approach": [
+            36,
+            24
+          ],
+          "locked": true
+        },
+        {
+          "id": "Closed 1",
+          "at": [
+            36,
+            18
+          ],
+          "aside": [
+            60,
+            48
+          ],
+          "approach": [
+            36,
+            24
+          ],
+          "locked": true
+        }
+      ],
+      "solution": "coins = hero.take(\"补给箱\")\nif coins >= 4:\n    hero.moveUp()\n    hero.give(\"守卫\", 4)\nelif coins >= 2:\n    hero.moveRight()\n    hero.give(\"守卫\", 2)\nelse:\n    hero.moveDown()\n    hero.give(\"守卫\", 1)\n",
+      "inscriptions": [
+        {
+          "text": "4 枚",
+          "x": 36,
+          "y": 43
+        },
+        {
+          "text": "2 枚",
+          "x": 55,
+          "y": 29
+        },
+        {
+          "text": "1 枚",
+          "x": 36,
+          "y": 5
+        }
+      ],
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "inventory": {
+        "item": "金币",
+        "unit": "枚",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            24,
+            24
+          ],
+          "approach": [
+            36,
+            24
+          ],
+          "count": 2
+        },
+        "receivers": [
+          {
+            "name": "守卫",
+            "at": [
+              60,
+              24
+            ],
+            "approach": [
+              48,
+              24
+            ],
+            "amount": 2,
+            "kind": "npc"
+          }
+        ]
+      },
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "size": [
+        72,
+        60
+      ],
+      "start": [
+        36,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          60,
+          24
+        ],
+        [
+          36,
+          0,
+          36,
+          48
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        36,
+        12
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 53,
+        "direction": "",
+        "label": "按牌子选路"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          8,
+          40
+        ]
+      ],
+      "labels": [],
+      "title": "领取 1 枚金币",
+      "sensor": {},
+      "gates": [
+        {
+          "id": "Closed 0",
+          "at": [
+            36,
+            30
+          ],
+          "aside": [
+            60,
+            48
+          ],
+          "approach": [
+            36,
+            24
+          ],
+          "locked": true
+        },
+        {
+          "id": "Closed 1",
+          "at": [
+            42,
+            24
+          ],
+          "aside": [
+            60,
+            48
+          ],
+          "approach": [
+            36,
+            24
+          ],
+          "locked": true
+        }
+      ],
+      "solution": "coins = hero.take(\"补给箱\")\nif coins >= 4:\n    hero.moveUp()\n    hero.give(\"守卫\", 4)\nelif coins >= 2:\n    hero.moveRight()\n    hero.give(\"守卫\", 2)\nelse:\n    hero.moveDown()\n    hero.give(\"守卫\", 1)\n",
+      "inscriptions": [
+        {
+          "text": "4 枚",
+          "x": 36,
+          "y": 43
+        },
+        {
+          "text": "2 枚",
+          "x": 55,
+          "y": 29
+        },
+        {
+          "text": "1 枚",
+          "x": 36,
+          "y": 5
+        }
+      ],
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "inventory": {
+        "item": "金币",
+        "unit": "枚",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            24,
+            24
+          ],
+          "approach": [
+            36,
+            24
+          ],
+          "count": 1
+        },
+        "receivers": [
+          {
+            "name": "守卫",
+            "at": [
+              36,
+              0
+            ],
+            "approach": [
+              36,
+              12
+            ],
+            "amount": 1,
+            "kind": "npc"
+          }
+        ]
+      },
+      "singleStep": false,
+      "learningContract": null
+    }
+  ],
+  "visualTask": true,
+  "quest": "领到金币后选择通道：有4枚走上路，有2枚走右路，只有1枚走下路。到守卫前付费离开。",
+  "inscriptions": [],
+  "exitStyle": "portal",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "allowCodeChanges": false,
+  "powerCircuit": false,
+  "hints": [
+    "先比较 coins >= 4，再比较 coins >= 2。",
+    "每个分支里都有移动和付费两步。金币不足时不能强行支付。"
+  ],
+  "learningContract": null,
+  "singleStep": false,
+  "maxActions": 240,
+  "introBrief": [
+    "用手里的金币支付通行费【选做】",
+    "领到金币后选择通道：有4枚走上路，有2枚走右路，只有1枚走下路。到守卫前付费离开。"
+  ]
+}
