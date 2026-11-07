@@ -1,0 +1,156 @@
+{
+  "index": 17,
+  "section": 4,
+  "revision": 5,
+  "lessonOrder": 17,
+  "name": "第4节 · 把最后一块材料送出去",
+  "description": "领取三块能量石，沿路每座炉座各装一块。背包里的石头减少，路边的炉火逐座亮起；最后一块交出后，出口启动。可以显示剩余数量帮助检查，但发言不是通关条件。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    60,
+    48
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      56,
+      12
+    ],
+    [
+      12,
+      12,
+      12,
+      24
+    ],
+    [
+      24,
+      12,
+      24,
+      24
+    ],
+    [
+      36,
+      12,
+      36,
+      24
+    ],
+    [
+      48,
+      12,
+      48,
+      24
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    48,
+    12
+  ],
+  "exitMarker": {
+    "x": 48,
+    "y": 5,
+    "direction": "→",
+    "label": "终点"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      6,
+      32
+    ]
+  ],
+  "labels": [],
+  "knowledge": "while：消耗物品并更新剩余数量",
+  "singleStep": false,
+  "expectedSpeech": null,
+  "starter": "remaining = hero.take(\"补给箱\")\n# 还有材料就继续：右走、装1块、减1、显示剩余数量。\n",
+  "solution": "remaining = hero.take(\"补给箱\")\nwhile remaining > 0:\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n    remaining -= 1\n    print(remaining)\n",
+  "hints": [
+    "实际背包会自动减少，你定义的 remaining 需要自己更新。",
+    "当物资用完，就不用继续找下一座炉。先看背包和炉火，再检查程序。"
+  ],
+  "quest": "领取能量石，逐座点亮炉火，送完最后一块后离开。",
+  "inscriptions": [],
+  "exitStyle": "marker",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "visualTask": true,
+  "allowCodeChanges": false,
+  "apis": [
+    "take",
+    "give"
+  ],
+  "powerCircuit": false,
+  "gates": [],
+  "inventory": {
+    "item": "能量石",
+    "unit": "块",
+    "supply": {
+      "name": "补给箱",
+      "at": [
+        12,
+        24
+      ],
+      "approach": [
+        12,
+        12
+      ],
+      "count": 3
+    },
+    "receivers": [
+      {
+        "name": "炉座",
+        "at": [
+          24,
+          24
+        ],
+        "approach": [
+          24,
+          12
+        ],
+        "amount": 1,
+        "kind": "socket"
+      },
+      {
+        "name": "炉座",
+        "at": [
+          36,
+          24
+        ],
+        "approach": [
+          36,
+          12
+        ],
+        "amount": 1,
+        "kind": "socket"
+      },
+      {
+        "name": "炉座",
+        "at": [
+          48,
+          24
+        ],
+        "approach": [
+          48,
+          12
+        ],
+        "amount": 1,
+        "kind": "socket"
+      }
+    ]
+  },
+  "learningContract": null,
+  "maxActions": 240,
+  "introBrief": [
+    "把最后一块材料送出去",
+    "领取能量石，逐座点亮炉火，送完最后一块后离开。"
+  ]
+}
