@@ -50,7 +50,7 @@ module.exports = function setupLocalLevels (app, options = {}) {
     res.set('Cache-Control', 'no-cache').json(type)
   })
   const formParser = express.urlencoded({ extended: false, limit: '2kb' })
-  const levels = () => fs.readdirSync(levelsDir).filter(f => /^local-python-\d{2}\.json$/.test(f)).map(f => readLevel(f.slice(0, -5))).sort(compareLevels)
+  const levels = () => catalog.map(entry => readLevel(entry.slug)).sort(compareLevels)
   const progressLifecycle = createLearningProgress({ readLevel, levels })
   const handleProgress = handler => (req, res, next) => Promise.resolve(handler(req, res, next)).catch(next)
   const htmlHeaders = { 'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'", 'X-Frame-Options': 'DENY', 'Referrer-Policy': 'no-referrer' }

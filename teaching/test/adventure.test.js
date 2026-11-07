@@ -1,11 +1,12 @@
 const test = require('node:test'); const assert = require('node:assert/strict')
-const Adventure = require('../adventure-runtime'); const designs = [...require('../adventure-maps'), ...require('../tutorial-maps')]
+const Adventure = require('../adventure-runtime'); const compiled = require('../tools/build-levels').compileLevels()
 function setup (index, scene = 0) {
-  const d = designs.find(d => d.index === index); const config = structuredClone(d.scenarios?.[scene]?.adventure || d.adventure)
+  const level = compiled.find(l => l.teachingMap.index === index && l.teachingMap.scenarioIndex === scene)
+  const d = level.teachingMap; const config = structuredClone(d.adventure)
   const make = (id, at) => ({ id, pos: { x: at[0], y: at[1] }, health: 100, velocity: { x: 0, y: 0 }, setAction (v) { this.action = v }, setTargetPos () {} })
   const hero = make('Hero Placeholder', d.start); const actors = config.actors.map(a => make(a.id, a.at)); const goals = {}
   const world = { age: 0, dt: 0.05, getThangByID: id => [hero, ...actors].find(t => t.id === id), goalManager: { setGoalState: (id, state) => { goals[id] = state } }, endWorld (won) { this.ended = won } }
-  const geometry = require(`../levels/local-python-${index}.json`).systems.find(s => s.original === 'facadecccc00000000000001').config
+  const geometry = level.systems.find(s => s.original === 'facadecccc00000000000001').config
   const rules = { ...geometry, adventureConfig: { ...config, guided: !!d.tutorial }, world, faceToward () {}, fail (h, message) { this.failed = true; h.teachingFailure = message; goals['stay-safe'] = 'failure' } }
   const a = new Adventure(rules, hero)
   const tick = (seconds, action) => { for (let n = 0; n < seconds / world.dt && !rules.failed && !a.complete; n++) { action?.(); a.update(); world.age += world.dt } }

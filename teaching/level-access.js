@@ -1,5 +1,6 @@
 const { compareLevels, defaultVisible } = require('./curriculum')
-const catalog = require('./level-catalog').compileCatalog().map(entry => entry.catalog)
+// Runtime selection must use the same published generation as native scenes.
+const catalog = require('./levels/catalog.json')
 const visibleLevel = (level, visibility) => visibility[level.slug] ?? defaultVisible(level.teachingMap)
 
 // The main route never requires an optional challenge. Side paths start at the
