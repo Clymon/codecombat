@@ -6,7 +6,7 @@ class TeachingRules extends System {
     this.installSpeech(hero)
     this.installSensors(hero)
     if (hero && this.learningContract && !this.learning) this.learning = new TeachingLearning(this, hero, this.learningContract)
-    if (hero && this.inventoryConfig && !this.inventory) this.inventory = new TeachingInventory(this, hero, this.inventoryConfig)
+    if (hero && this.inventoryConfig && !this.inventory) this.inventory = new TeachingInventory(this, hero, this.inventoryConfig, TeachingInteractions)
     if (this.inventory) for (const id of ['reach-exit', 'deliver-supplies', 'take-supplies']) this.world.goalManager.setGoalState(id, 'incomplete')
     if (hero && this.adventureConfig) this.adventure = new TeachingAdventure(this, hero)
     // Native idle/move completion may call unblock while our custom attack/wait
@@ -389,7 +389,7 @@ class TeachingRules extends System {
     this.installSpeech(hero)
     this.installSensors(hero)
     if (hero && this.learningContract && !this.learning) this.learning = new TeachingLearning(this, hero, this.learningContract)
-    if (hero && this.inventoryConfig && !this.inventory) this.inventory = new TeachingInventory(this, hero, this.inventoryConfig)
+    if (hero && this.inventoryConfig && !this.inventory) this.inventory = new TeachingInventory(this, hero, this.inventoryConfig, TeachingInteractions)
     if (!this.initialized) {
       this.initialized = true
       this.checkpointCount = 0
