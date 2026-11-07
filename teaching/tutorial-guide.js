@@ -6,23 +6,17 @@ function observed (e, hero) {
   if (e.kind === 'damaged') return actor?.hp < actor?.maxHealth
   if (e.kind === 'dead') return actor?.alive === false
   if (e.kind === 'lit') return actor?.lit === true
+  if (e.kind === 'enemy-arrived') return a.actors?.some(a => a.kind === 'enemy' && a.active) === true
+  if (e.kind === 'enemies-cleared') return a.actors?.filter(a => a.kind === 'enemy').every(a => !a.alive) === true
   if (e.kind === 'call') return learning.calls?.[e.name] > 0
   if (e.kind === 'exit') return hero.teachingExitStartedAt >= 0
   if (e.kind === 'victory') return a.complete === true
   return false
 }
 function attachGuide (task, design) {
-  const contract = design.learningContract
-  if (contract) {
-    const p = document.createElement('p'); p.className = 'teaching-code-rule'
-    p.textContent = [...(contract.loops || []).map(l => `必须用 ${l} 实际重复动作`), contract.maxStatements ? `最多 ${contract.maxStatements} 行有效代码` : ''].filter(Boolean).join('；') || '按本关要求实际使用新命令。'
-    task.firstChild.textContent += ' · ' + ((contract.loops || []).join(' / ') || '新命令') + (contract.maxStatements ? ` · ≤${contract.maxStatements}行` : '')
-    task.insertBefore(p, task.children[1])
-    if (contract.maxStatements) { const note = document.createElement('small'); note.textContent = '空行、注释不计；每条语句、循环头和else各计1行。换行写参数仍计1行；分号合并仍分开计。'; task.insertBefore(note, p.nextSibling) }
-  }
   if (!design.tutorial) return () => {}
-  task.open = true
-  task.firstChild.textContent = '教学引导 · 可收起'
+  task.open = false
+  task.firstChild.textContent = '教学引导 · 点击查看'
   const block = document.createElement('section'); block.className = 'teaching-guide'
   const h = document.createElement('h4'); h.textContent = design.tutorial.title; block.append(h)
   const checks = design.tutorial.steps.map((step, i) => {

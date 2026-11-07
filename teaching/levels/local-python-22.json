@@ -6188,6 +6188,7 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "inventoryConfig": null,
         "learningContract": null,
         "adventureConfig": {
           "mode": "lure",
@@ -7672,6 +7673,7 @@
         "exitDuration": 1.8,
         "sensor": {},
         "switches": [],
+        "decoySwitches": [],
         "singleStep": false,
         "maxActions": 90,
         "expectedSpeech": null

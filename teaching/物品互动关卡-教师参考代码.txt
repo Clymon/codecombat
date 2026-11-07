@@ -1,0 +1,155 @@
+教师参考：以下程序只是可行解法，不作为语句或行数限制。按实际游戏结果验收，多场景使用同一程序。
+
+
+第2节 · 领取能量石，交给出口机关
+补给箱里是一批能量石，右侧出口机关需要整批物资。先取出，再向右走两格交给机关。箱子会打开，背包增加；交付后背包清空，出口启动。两批物资数量不同，同一份程序都要送对。
+
+场景1：补给箱有 2 块能量石
+stones = hero.take("补给箱")
+hero.moveRight(2)
+hero.give("出口机关", stones)
+
+
+场景2：补给箱有 4 块能量石
+stones = hero.take("补给箱")
+hero.moveRight(2)
+hero.give("出口机关", stones)
+
+
+
+第2节 · 修好机关，送出剩余材料
+这批能量石要分两处交付。右边第一格的维修机关固定收2块，第二格的出口机关收剩下的全部。先领取，修好中间机关，再把余量送到出口。两批物资不同，同一程序都要交对数量。
+
+场景1：领取 5 块，维修用2块
+total = hero.take("补给箱")
+hero.moveRight()
+hero.give("维修机关", 2)
+remaining = total - 2
+hero.moveRight()
+hero.give("出口机关", remaining)
+
+
+场景2：领取 6 块，维修用2块
+total = hero.take("补给箱")
+hero.moveRight()
+hero.give("维修机关", 2)
+remaining = total - 2
+hero.moveRight()
+hero.give("出口机关", remaining)
+
+
+
+第2节 · 用手里的金币支付通行费【选做】
+领取左侧箱子里的金币。上路通行费4枚，右路2枚，下路1枚；守卫按你的物资档位开放一条路。走到开放门岗前支付，再从身旁法阵撤离。4枚及以上走上路，2至3枚走右路，1枚走下路。同一程序完成四批物资。
+
+场景1：领取 5 枚金币
+coins = hero.take("补给箱")
+if coins >= 4:
+    hero.moveUp()
+    hero.give("守卫", 4)
+elif coins >= 2:
+    hero.moveRight()
+    hero.give("守卫", 2)
+else:
+    hero.moveDown()
+    hero.give("守卫", 1)
+
+
+场景2：领取 4 枚金币
+coins = hero.take("补给箱")
+if coins >= 4:
+    hero.moveUp()
+    hero.give("守卫", 4)
+elif coins >= 2:
+    hero.moveRight()
+    hero.give("守卫", 2)
+else:
+    hero.moveDown()
+    hero.give("守卫", 1)
+
+
+场景3：领取 2 枚金币
+coins = hero.take("补给箱")
+if coins >= 4:
+    hero.moveUp()
+    hero.give("守卫", 4)
+elif coins >= 2:
+    hero.moveRight()
+    hero.give("守卫", 2)
+else:
+    hero.moveDown()
+    hero.give("守卫", 1)
+
+
+场景4：领取 1 枚金币
+coins = hero.take("补给箱")
+if coins >= 4:
+    hero.moveUp()
+    hero.give("守卫", 4)
+elif coins >= 2:
+    hero.moveRight()
+    hero.give("守卫", 2)
+else:
+    hero.moveDown()
+    hero.give("守卫", 1)
+
+
+
+第3节 · 每座炉座装一块能量石
+补给箱中的能量石与沿路炉座一一对应。先领取整批物资，再逐座装填，每座1块。装入后炉火亮起、背包减少，全部装好后出口启动。物资与炉座数量有2、4、5三种变化，同一份程序都要完成。
+
+场景1：2 块能量石，2 座炉座
+count = hero.take("补给箱")
+for i in range(count):
+    hero.moveRight()
+    hero.give("炉座", 1)
+
+
+场景2：4 块能量石，4 座炉座
+count = hero.take("补给箱")
+for i in range(count):
+    hero.moveRight()
+    hero.give("炉座", 1)
+
+
+场景3：5 块能量石，5 座炉座
+count = hero.take("补给箱")
+for i in range(count):
+    hero.moveRight()
+    hero.give("炉座", 1)
+
+
+
+第4节 · 把最后一块材料送出去
+领取三块能量石，沿路每座炉座各装一块。背包里的石头减少，路边的炉火逐座亮起；最后一块交出后，出口启动。可以显示剩余数量帮助检查，但发言不是通关条件。
+
+场景1：主场景
+remaining = hero.take("补给箱")
+while remaining > 0:
+    hero.moveRight()
+    hero.give("炉座", 1)
+    remaining -= 1
+    print(remaining)
+
+
+
+第4节 · 别向空箱索要材料
+已有程序会在材料用完后继续向前。先运行，看它在哪座炉前耗尽物资；修改后，要能送完一箱材料，也要能处理空箱。打开箱子才能确认这批有没有货。发言只供自己检查，不影响通关。
+
+场景1：箱里有3块，装完就停
+remaining = hero.take("补给箱")
+while remaining > 0:
+    hero.moveRight()
+    hero.give("炉座", 1)
+    remaining -= 1
+    print(remaining)
+
+
+场景2：箱子已空，不用装填
+remaining = hero.take("补给箱")
+while remaining > 0:
+    hero.moveRight()
+    hero.give("炉座", 1)
+    remaining -= 1
+    print(remaining)
+

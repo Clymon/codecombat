@@ -1,5 +1,6 @@
 // Chinese documentation for the commands implemented by our local Python maps.
 // Keep this independent of the renderer so every published API can be checked.
+const { GLOBAL_QUERIES } = require('./environment-api')
 const moves = { moveRight: '右', moveLeft: '左', moveUp: '上', moveDown: '下' }
 const method = (name, description, example, args = [], returns) => ({
   name,
@@ -11,6 +12,7 @@ const method = (name, description, example, args = [], returns) => ({
   ...(returns ? { returns } : {}),
   hideGrantedBy: true,
   teachingCommand: true,
+  snippets: { python: { tab: name, code: `hero.${name}(${args.filter(a => !a.optional).map((a, i) => '${' + (i + 1) + ':' + a.example + '}').join(', ')})` } },
 })
 const arg = (name, type, description, example, optional = false) => ({ name, type, description, example, optional })
 const result = (type, description) => ({ type, description })
@@ -33,6 +35,13 @@ function commandDocs (slug, design, language) {
     'open_right = hero.pathOpen("right")',
     [arg('direction', 'string', '方向必须加引号："right"右、"left"左、"up"上、"down"下。只查询本关任务中提供的方向。', '"right"')],
     result('boolean', '`True` 表示该方向放行；`False` 表示未放行。可用于 `if` 判断。'))
+  docs.take = method('take',
+    '站在补给箱前，打开箱子并把整批物品装进背包。**返回真正领取的数量**，可以存入变量。同一个箱子只能领取一次；空箱返回0。离开领取位置后不能隔空取物。',
+    'stones = hero.take("补给箱")', [arg('name', 'string', '箱子名字，要加英文引号。', '"补给箱"')], result('number', '本次领取的物品数量；实际背包同时增加。'))
+  docs.give = method('give',
+    '先走到收货人或机关前，再交出指定数量的物品。**背包会实际减少，但保存数量的变量不会自动改变。**数量不足、目标错误、位置不对都不会交付成功；每处收齐后不要重复交付。',
+    design.index === 12 ? 'hero.give("守卫", 4)' : design.index >= 16 ? 'hero.give("炉座", 1)' : 'hero.give("出口机关", stones)',
+    [arg('name', 'string', '地图上的收货人或机关名称，要加英文引号。多个炉座都用"炉座"，只交给当前面前的那一座。', JSON.stringify(design.inventory?.receivers?.[0]?.name || '目标名称')), arg('amount', 'number', '要交出的正整数数量，可以填写变量；不加引号。', '1')])
   docs.pathLength = method('pathLength',
     '读取本场景路牌上给出的**路程格数**，括号里不用填内容。可以先存入变量，再决定走几次。\n\n这是路牌上的数，英雄走动后它**不会自动减1**；记录剩余格数的变量需要自己更新。',
     'length = hero.pathLength()', [], result('number', '路牌给出的非负整数，例如0、2或4。0表示不需要前进。'))
@@ -50,8 +59,14 @@ function commandDocs (slug, design, language) {
     'hero.press(1)  # 已站在1号开关上时使用',
     [arg('number', 'number', '要按的开关编号，填整数，不加引号。必须符合本关要求的顺序。', '1')])
   docs.wait = method('wait',
-    '让英雄在原地等待 **0.5 秒**，然后执行下一行。括号里**不用填数字**。\n\n等待期间，巡逻和敌人仍会行动。用在循环中时，等待之后要重新检查路况或寻找敌人。',
-    'hero.wait()')
+    '让英雄暂停行动，按**整数秒**等待后执行下一行。省略参数时等待 **1 秒**，`hero.wait(1)` 等待1秒。\n\n等待期间，刷怪、巡逻、敌人攻击和营火受伤都照常发生。while中没有行动的分支也会继续推进游戏，不需要用wait来“启动”时间。等待后要重新检查路况或寻找敌人。',
+    'hero.wait()  # 等1秒\nhero.wait(3)  # 等3秒',
+    [arg('seconds', 'number', '等待的游戏秒数，填0到30之间的整数，不支持小数。省略为1；0表示不主动停顿。', '1', true)])
+  if (design.chargePlates?.length) {
+    docs.wait.description += `\n\n本关有${design.chargePlates.length}块石板，每块需停留${design.chargePlates[0].seconds}秒。踩亮当前这块，再走向下一块。已点亮的石板保持点亮；在同一块上等更久不能替其他石板充能。按真实停留时间计，不按wait调用次数计。`
+    docs.wait.example.python = 'hero.wait()  # 在脚下石板停留1秒'
+    docs.wait.snippets.python.code = 'hero.wait()'
+  }
   const rescue = design.adventure?.mode === 'rescue'
   docs.attack = method('attack',
     '对指定的敌人或牢门攻击**一次**。离得远时会先走近；一次挥剑造成20点伤害，目标可能需要多次攻击。\n\n可以传入带引号的对象名字，也可以传入找到的敌人变量。不要攻击 `None`、友方或已经倒下的目标。',
@@ -78,8 +93,21 @@ function commandDocs (slug, design, language) {
   }
   return [...new Set([...Object.keys(moves), 'say', ...(design.apis || [])])].map(name => {
     if (!docs[name]) throw new Error(`Missing teaching command documentation: ${name}`)
-    return docs[name]
-  }).concat(print)
+    const doc = docs[name]
+    doc.teachingScope = GLOBAL_QUERIES.includes(name) ? 'global' : ['take', 'give', 'press'].includes(name) ? 'nearby' : name === 'attack' ? 'target' : 'hero'
+    const labels = { global: '环境查询 · 随时可调用', nearby: '近距离交互 · 先走到目标位置', target: '指定目标 · 自动靠近后攻击', hero: '英雄动作或感知' }
+    doc.description = `**${labels[doc.teachingScope]}**\n\n${doc.description}`
+    for (const globalName of GLOBAL_QUERIES) {
+      doc.description = doc.description.replaceAll(`hero.${globalName}(`, `${globalName}(`)
+      doc.example.python = doc.example.python.replaceAll(`hero.${globalName}(`, `${globalName}(`)
+    }
+    if (doc.teachingScope === 'global') {
+      doc.type = 'snippet'; doc.owner = 'snippets'
+      doc.displayName = `${name}(${doc.args.map(a => a.name).join(', ')})`
+      doc.snippets.python.code = doc.snippets.python.code.replace(`hero.${name}`, name)
+    }
+    return doc
+  }).concat({ ...print, teachingScope: 'global' })
 }
 
 module.exports = { commandDocs }

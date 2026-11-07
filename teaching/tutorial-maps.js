@@ -103,17 +103,17 @@ module.exports = [
     knowledge: 'wait · isVictory · 延迟增援',
     adventure: { mode: 'defend', camp: { at: [36, 12], health: 100 }, actors: [{ ...target, id: '迟到的斥候', at: [24, 24], spawnAt: 1, speed: 4, aggro: 100 }] },
     quest: '一名斥候稍后才会出现。先看看是否已经获胜，等待后再查找并击败它。',
-    description: '输入 print(hero.isVictory())，观察开局结果False。hero.wait() 等待0.5秒；等待后重新查找，再用if确认有敌人并攻击。本关只有一名20点生命的敌人；击败后自动通关，不必走楼梯。',
+    description: '输入 print(isVictory())，观察开局结果False。hero.wait(1) 让英雄等待1秒，敌人照常行动；等待后重新查找，再用if确认有敌人并攻击。本关只有一名20点生命的敌人；击败后自动通关，不必走楼梯。',
     starter: '# 先显示是否已经获胜，再等待、查找、攻击。\n',
     tutorial: {
       title: '暂时没敌人，不等于已经获胜',
       steps: [
-        { text: '先运行下面两行。isVictory返回是否已获胜；wait让游戏时间前进半秒。', code: 'print(hero.isVictory())\nhero.wait()', observe: '开局显示False。等待后才能看到稍后出现的敌人。', evidence: { kind: 'call', name: 'wait' } },
-        { text: '在后面加查找和有敌人才攻击的代码，再运行。', code: 'enemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)', observe: '击败唯一敌人后自动过关。下一关把查找、判断和等待放进while。', evidence: { kind: 'victory' } },
+        { text: '先运行下面两行。isVictory返回是否已获胜；wait(1)让英雄等待1秒，世界时间不会停止。', code: 'print(isVictory())\nhero.wait(1)', observe: '开局显示False。斥候按时间出现，英雄等待时敌人也会继续行动。', evidence: { kind: 'call', name: 'wait' } },
+        { text: '在后面加查找和有敌人才攻击的代码，再运行。', code: 'enemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)', observe: '击败唯一敌人后自动过关。下一关把查找和判断放进while，反复观察战场；wait是可选的主动停顿。', evidence: { kind: 'victory' } },
       ],
     },
     hints: ['isVictory判断整场战斗是否已经结束，不是在问眼前有没有敌人。', '等待后重新查找目标。把攻击放在if里；这一关先不用循环。'],
-    solution: 'print(hero.isVictory())\nhero.wait()\nenemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)\n',
+    solution: 'print(isVictory())\nhero.wait(1)\nenemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)\n',
   }),
   { ...copy(25), index: 33, lessonOrder: 19.2, section: 4, prototype: false, hiddenByDefault: true, optional: true, name: 'while挑战：守住分批增援', tutorial: null },
 ]

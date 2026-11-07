@@ -9,8 +9,8 @@ test('every published command in all 42 scenes has Chinese help, correct functio
       const expected = ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'say', ...(design.apis || [])]
       for (const name of expected) {
         const doc = docs.find(doc => doc.name === name); names.add(name)
-        assert.ok(doc, `${slug}: ${name}`); assert.equal(doc.type, 'function'); assert.equal(doc.owner, 'this')
-        assert.match(doc.description, /[\u4e00-\u9fff]/); assert.ok(doc.example.python.trim())
+        assert.ok(doc, `${slug}: ${name}`); assert.equal(doc.type, doc.teachingScope === 'global' ? 'snippet' : 'function'); assert.equal(doc.owner, doc.teachingScope === 'global' ? 'snippets' : 'this')
+        assert.match(doc.description, /[\u4e00-\u9fff]/); assert.ok(doc.example.python.trim()); assert.equal(doc.snippets.python.tab, name); assert.ok(doc.snippets.python.code.startsWith(`${doc.teachingScope === 'global' ? '' : 'hero.'}${name}(`)); assert.ok(!doc.snippets.python.code.includes('\n'))
         for (const argument of doc.args) { assert.ok(argument.description); assert.ok(argument.example) }
       }
       assert.equal(docs.length, expected.length + 1)
@@ -28,7 +28,7 @@ test('every published command in all 42 scenes has Chinese help, correct functio
 test('help distinguishes sensors from actions and preserves local behavior boundaries', () => {
   const doc = name => commandDocs('local-python-25', { apis: [name], adventure: { mode: 'defend' } }, 'python').find(d => d.name === name)
   for (const name of ['pathOpen', 'pathLength', 'readSignal', 'atBeacon', 'nextTileSafe', 'findNearestEnemy', 'isVictory']) assert.ok(doc(name).returns.description)
-  assert.match(doc('wait').description, /0.5 秒/); assert.equal(doc('wait').args.length, 0)
+  assert.match(doc('wait').description, /等待 \*\*1 秒\*\*/); assert.equal(doc('wait').args[0].name, 'seconds'); assert.equal(doc('wait').args[0].optional, true); assert.match(doc('wait').args[0].description, /整数，不支持小数/)
   assert.match(doc('nextTileSafe').description, /始终检查右边/)
   assert.match(doc('pathLength').description, /不会自动减1/)
   assert.match(doc('findNearestEnemy').returns.description, /None/)

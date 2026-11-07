@@ -3,8 +3,8 @@
   "original": "facade000000000000000011",
   "slug": "local-python-11",
   "name": "第2节 · 门开且安全才走【选做】",
-  "description": "右路需要同时满足两个条件：门岗开放，而且下一格没有危险。用 hero.pathOpen(\"right\") 和 hero.nextTileSafe() 检测。两个条件都满足才向右走一格；否则向下走一格。 开放通道上的发光法阵是终点；要求原地等待的场景不用进入法阵。",
-  "loadingTip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+  "description": "右侧是近路，但门开着也可能有尖刺。门岗放行且路面安全时，走右路拿宝石离开；否则走下方撤离通道。三种场景使用同一份程序。",
+  "loadingTip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
   "type": "hero",
   "product": "codecombat",
   "version": {
@@ -5327,7 +5327,7 @@
                 "name": "plan",
                 "source": "// Write movement commands here.\n",
                 "languages": {
-                  "python": "# 用 and 连接“门开”和“安全”。\n"
+                  "python": "# 看守卫，也看尖刺；开着的门不一定安全。\n"
                 },
                 "permissions": {
                   "read": [],
@@ -5358,6 +5358,28 @@
           "majorVersion": 0,
           "config": {
             "maxSpeed": 12
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "52aa3b9eccbd588d4d000003",
+      "id": "Parcel 1",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 36,
+              "y": 12,
+              "z": 0.5
+            }
           }
         }
       ]
@@ -5641,6 +5663,7 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "inventoryConfig": null,
         "learningContract": null,
         "walls": [
           {
@@ -6995,7 +7018,7 @@
             "locked": true
           }
         ],
-        "noGems": true,
+        "noGems": false,
         "requireFinished": true,
         "exitStyle": "portal",
         "exitDirection": [
@@ -7009,8 +7032,9 @@
           }
         },
         "switches": [],
+        "decoySwitches": [],
         "singleStep": false,
-        "maxActions": 30,
+        "maxActions": 240,
         "expectedSpeech": null
       }
     }
@@ -7025,6 +7049,19 @@
       "worldEndsAfter": 1
     },
     {
+      "id": "collect-parcels",
+      "name": "收集全部1颗宝石",
+      "collectThangs": {
+        "who": [
+          "humans"
+        ],
+        "targets": [
+          "Parcel 1"
+        ]
+      },
+      "worldEndsAfter": 1
+    },
+    {
       "id": "reach-exit",
       "name": "启动法阵并传送",
       "worldEndsAfter": 1
@@ -7035,7 +7072,7 @@
     "specificArticles": [
       {
         "name": "本关任务",
-        "body": "右路需要同时满足两个条件：门岗开放，而且下一格没有危险。用 hero.pathOpen(\"right\") 和 hero.nextTileSafe() 检测。两个条件都满足才向右走一格；否则向下走一格。 开放通道上的发光法阵是终点；要求原地等待的场景不用进入法阵。"
+        "body": "右侧是近路，但门开着也可能有尖刺。门岗放行且路面安全时，走右路拿宝石离开；否则走下方撤离通道。三种场景使用同一份程序。"
       }
     ]
   },
@@ -7059,11 +7096,11 @@
   "teachingMap": {
     "index": 11,
     "section": 2,
-    "revision": 1,
+    "revision": 4,
     "lessonOrder": 11,
     "name": "第2节 · 门开且安全才走【选做】",
-    "description": "右路需要同时满足两个条件：门岗开放，而且下一格没有危险。用 hero.pathOpen(\"right\") 和 hero.nextTileSafe() 检测。两个条件都满足才向右走一格；否则向下走一格。 开放通道上的发光法阵是终点；要求原地等待的场景不用进入法阵。",
-    "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+    "description": "右侧是近路，但门开着也可能有尖刺。门岗放行且路面安全时，走右路拿宝石离开；否则走下方撤离通道。三种场景使用同一份程序。",
+    "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
     "size": [
       72,
       60
@@ -7098,7 +7135,12 @@
       "label": "按牌子选路"
     },
     "hazards": [],
-    "gems": [],
+    "gems": [
+      [
+        36,
+        12
+      ]
+    ],
     "torches": [
       [
         8,
@@ -7112,7 +7154,8 @@
       "nextTileSafe"
     ],
     "optional": true,
-    "starter": "# 用 and 连接“门开”和“安全”。\n",
+    "starter": "# 看守卫，也看尖刺；开着的门不一定安全。\n",
+    "visualTask": true,
     "quest": "守卫让开不代表路上没有陷阱。右路既要开放，也要没有尖刺；只要有一项不满足，就走下方通道。",
     "inscriptions": [],
     "exitStyle": "portal",
@@ -7121,6 +7164,16 @@
       0
     ],
     "learningContract": null,
+    "singleStep": false,
+    "maxActions": 240,
+    "hints": [
+      "点击守卫和尖刺查看区别：放行与安全是两件事。",
+      "可以把两个条件合起来，也可以分两次判断；看最终选路是否正确。"
+    ],
+    "introBrief": [
+      "门开且安全才走【选做】",
+      "守卫让开不代表路上没有陷阱。右路既要开放，也要没有尖刺；只要有一项不满足，就走下方通道。"
+    ],
     "title": "门关 / 无尖刺",
     "sensor": {
       "open": {

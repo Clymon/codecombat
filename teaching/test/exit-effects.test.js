@@ -48,7 +48,7 @@ test('portal fade is tied to replay time, while waiting markers leave the hero v
   assert.equal(exitPose({ exitStyle: 'camp' }, 2, 4).scale, 1)
 })
 test('stairs follow the final corridor and switch exits stay on the final switch', () => {
-  for (const index of [1, 2, 3, 5, 6, 7, 8, 13, 16]) {
+  for (const index of [1, 2, 3, 5, 6]) {
     const d = designs.find(d => d.index === index)
     for (const scene of d.scenarios || [{}]) {
       const map = { ...d, ...scene }; const expected = index === 1 ? [0, -1] : index === 6 ? [0, 1] : [1, 0]
@@ -61,6 +61,10 @@ test('stairs follow the final corridor and switch exits stay on the final switch
   for (const index of [14, 15]) {
     const d = designs.find(d => d.index === index)
     assert.equal(d.exitStyle, 'portal'); assert.deepEqual(d.exit, d.switches.at(-1).at)
+  }
+  for (const index of [13]) {
+    const d = designs.find(d => d.index === index)
+    for (const scene of d.scenarios || [{}]) { const map = { ...d, ...scene }; assert.equal(map.exitStyle, 'portal'); assert.equal(map.chargePlates.length, 3); assert.ok(map.chargePlates.every(p => p.at[1] > map.exit[1])) }
   }
   const zero = designs.find(d => d.index === 18).scenarios[1]
   assert.equal(zero.exitStyle, 'marker'); assert.deepEqual(zero.start, zero.exit)

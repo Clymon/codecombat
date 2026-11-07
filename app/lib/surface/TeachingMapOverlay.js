@@ -3,12 +3,16 @@
 const { cellsFor, drawGrid, HERO_SCALE } = require('teaching/grid-space')
 const createjs = require('lib/createjs-parts')
 const { visibleSpeech, MAX_VISIBLE } = require('teaching/speech-stack')
+const { taskFeedback, drawTaskFeedback } = require('teaching/task-feedback')
+const { drawChargePlates } = require('teaching/charge-view')
+const { drawItems } = require('teaching/item-view')
 const { drawDungeonDevices } = require('teaching/dungeon-devices')
 const { drawAdventure } = require('teaching/adventure-view')
 const { exitPose } = require('teaching/exit-effects')
 const { attachGuide } = require('teaching/tutorial-guide')
 const { applyHeroFrame } = require('teaching/hero-animation')
 const VillageDialogue = require('teaching/dialogue-view')
+const MapInspector = require('teaching/map-inspector-view')
 const DeepSeekGuide = require('teaching/onboarding-view')
 module.exports = class TeachingMapOverlay {
   constructor (surface, design) {
@@ -41,9 +45,12 @@ module.exports = class TeachingMapOverlay {
     this.updateGuide = attachGuide(task, design)
     root?.appendChild(task)
     this.task = task
-    if (root && design.world?.heroId === 'deepseek') this.dialogue = new VillageDialogue(root, design, surface, { autoIntro: false, story: true })
+    if (root && design.world?.heroId === 'deepseek') this.dialogue = new VillageDialogue(root, design, surface, { autoIntro: false, autoEntry: true, story: true })
 
-    if (root) this.onboarding = new DeepSeekGuide(root, design, surface, task, this.dialogue)
+    if (root) {
+      this.onboarding = new DeepSeekGuide(root, design, surface, task, this.dialogue)
+      this.inspector = new MapInspector(root, design, surface)
+    }
 
     this.container = new createjs.Container()
     this.container.mouseEnabled = false
@@ -62,7 +69,7 @@ module.exports = class TeachingMapOverlay {
       this.container.addChild(box, text)
       return { ...label, box, text }
     })
-    this.switchNumbers = (design.switches || []).map(sw => {
+    this.switchNumbers = [...(design.switches || []), ...(design.decoySwitches || [])].map(sw => {
       const text = new createjs.Text(String(sw.number), 'bold 15px Georgia', '#d7c79f')
       text.textAlign = 'center'; text.textBaseline = 'middle'; this.container.addChild(text)
       return { sw, text }
@@ -74,6 +81,10 @@ module.exports = class TeachingMapOverlay {
       this.container.addChild(box, text)
       return { gate, box, text }
     })
+    this.taskCue = new createjs.Text('', 'bold 15px Arial', '#f7e7b8')
+    this.taskCue.textAlign = 'center'; this.taskCue.lineHeight = 23
+    this.taskCueBox = new createjs.Shape()
+    this.container.addChild(this.taskCueBox, this.taskCue)
     this.message = new createjs.Text('', 'bold 16px Arial', '#ffe2d1')
     this.message.textAlign = 'center'
     this.container.addChild(this.message)
@@ -96,6 +107,11 @@ module.exports = class TeachingMapOverlay {
     })
     surface.webGLStage.setClearColor('#181613')
     surface.normalStage.addChild(this.container)
+    this.onResize = () => {
+      cancelAnimationFrame(this.resizeFrame)
+      this.resizeFrame = requestAnimationFrame(() => { this.update(); surface.normalStage.update() })
+    }
+    window.addEventListener('resize', this.onResize)
   }
 
   update () {
@@ -123,6 +139,9 @@ module.exports = class TeachingMapOverlay {
     const normalCanvas = this.surface.normalCanvas?.[0]
     const canvasTop = normalCanvas?.getBoundingClientRect().top || 0
     const taskPanel = document.getElementById('teaching-task')
+    const goalBox = document.getElementById('goals-view')?.getBoundingClientRect()
+    const rootTop = document.getElementById('level-view')?.getBoundingClientRect().top || 0
+    if (taskPanel && goalBox) taskPanel.style.top = `${Math.max(218, goalBox.bottom - rootTop + 10)}px`
     const messageLeft = taskPanel?.open ? Math.max(0, taskPanel.getBoundingClientRect().right - (normalCanvas?.getBoundingClientRect().left || 0)) + 18 : 0
     this.message.x = messageLeft + (camera.canvasWidth - messageLeft) / 2
     this.message.lineWidth = Math.max(180, Math.min(1000, camera.canvasWidth - messageLeft - 70))
@@ -140,10 +159,20 @@ module.exports = class TeachingMapOverlay {
     this.updateDeparture(hero, world, camera)
     const floorGraphics = this.floorInk.graphics.clear()
     drawGrid(floorGraphics, this.cells, hero, camera)
+    this.inspector?.update(hero, world, floorGraphics)
+    const feedback = taskFeedback(this.design, hero, world)
+    this.taskCue.visible = this.taskCueBox.visible = !!feedback.title && !taskPanel?.open
+    this.taskCue.text = [feedback.title, feedback.status, feedback.observation].filter(Boolean).join('\n')
+    this.taskCue.x = camera.canvasWidth / 2; this.taskCue.y = 18
+    this.taskCue.lineWidth = Math.min(330, camera.canvasWidth - 28)
+    const cueWidth = this.taskCue.lineWidth + 20; const cueHeight = this.taskCue.getMeasuredHeight() + 16
+    if ((normalCanvas?.getBoundingClientRect().width || camera.canvasWidth) < 850) this.taskCue.y = Math.max(18, camera.canvasHeight - cueHeight - 95)
+    this.taskCueBox.graphics.clear().beginFill('rgba(16,30,33,0.88)').drawRoundRect(this.taskCue.x - cueWidth / 2, this.taskCue.y - 8, cueWidth, cueHeight, 8).endFill()
+    drawTaskFeedback(floorGraphics, g, this.design, hero, world, camera, feedback)
     // The current cell replaces the large native circular selection marker.
     this.surface.lankBoss.selectionMark?.toggle(false)
     if (this.design.adventure?.mode !== 'defend') drawDungeonDevices(floorGraphics, this.design, hero, world, camera, g)
-    const labels = drawAdventure(g, floorGraphics, this.design, hero, world, camera, this.surface)
+    const labels = [...drawChargePlates(floorGraphics, g, this.design, hero, world, camera), ...drawAdventure(g, floorGraphics, this.design, hero, world, camera, this.surface), ...drawItems(floorGraphics, g, this.design, hero, world, camera)]
     this.adventureLabels.forEach((text, i) => { text.visible = !!labels[i]; if (labels[i]) Object.assign(text, labels[i]) })
     const stage = this.surface.webGLStage; const obstacles = this.surface.lankBoss.layerAdapters.Obstacle.container
     if (this.floorInk.parent !== stage) stage.addChildAt(this.floorInk, stage.getChildIndex(obstacles))
@@ -172,6 +201,9 @@ module.exports = class TeachingMapOverlay {
   }
 
   destroy () {
+    window.removeEventListener('resize', this.onResize)
+    cancelAnimationFrame(this.resizeFrame)
+    this.inspector?.destroy()
     this.onboarding?.destroy()
     this.dialogue?.destroy()
     this.task?.remove()

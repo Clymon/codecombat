@@ -246,7 +246,12 @@ module.exports = class SpellPaletteView extends CocoView
         propsByItem['Hero'].push owner: owner, prop: prop, item: itemThangTypes[@thang.spriteName]
         ++propCount
 
-    # print is Python syntax, not a hero method. Keep it in the same help palette.
+    # Environment globals are documented once as unprefixed snippets.
+    globals = (doc.name for doc in @teachingDocs when doc.teachingScope is 'global')
+    for itemName, props of propsByItem
+      propsByItem[itemName] = _.reject props, (prop) -> prop.prop in globals
+
+    # Global calls and print share the same insertion/completion machinery.
     if @options.programmable
       for doc in @teachingDocs when doc.type is 'snippet'
         propsByItem['Hero'] ?= []

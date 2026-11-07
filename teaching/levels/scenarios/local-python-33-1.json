@@ -3,8 +3,8 @@
   "original": "facade000000000000000033",
   "slug": "local-python-33",
   "name": "while挑战：守住分批增援",
-  "description": "用while持续守卫，并用if处理有没有敌人。hero.findNearestEnemy() 返回当前可见的最近敌人；没有时返回None。把结果保存在变量里，再交给hero.attack(enemy)。敌人倒下后要重新查找。hero.wait() 等半秒；hero.isVictory() 告诉你是否击败了全部增援。英雄或营火生命降到0失败。两个场景使用同一代码；最后一波结束会自动庆祝通关，无需找楼梯。",
-  "loadingTip": "先观察角色和道路。展开任务日志查看目标、可用命令和提示。",
+  "description": "守住营火，击退分批赶来的所有敌人。通道入口的裂隙会先发红光，随后出现增援；暂时没有敌人不等于战斗结束。敌人倒下后还会有新目标，持续观察战场。英雄或营火生命降到0失败。两个场景的敌人数和间隔不同，同一程序都要守住；获胜后自动结束。",
+  "loadingTip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
   "type": "hero",
   "product": "codecombat",
   "version": {
@@ -7767,7 +7767,7 @@
                 "name": "plan",
                 "source": "// Write movement commands here.\n",
                 "languages": {
-                  "python": "# 持续观察：有敌人就攻击，没有就等待。\n# 可用 hero.isVictory() 判断战斗是否结束。\n"
+                  "python": "# 持续观察：每轮寻找敌人，有敌人就攻击。\n# 可用 isVictory() 判断战斗是否结束。\n"
                 },
                 "permissions": {
                   "read": [],
@@ -8137,17 +8137,8 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
-        "learningContract": {
-          "loops": [
-            "while"
-          ],
-          "inside": {
-            "findNearestEnemy": "while",
-            "attack": "while,if",
-            "wait": "while"
-          },
-          "attackVariable": true
-        },
+        "inventoryConfig": null,
+        "learningContract": null,
         "adventureConfig": {
           "mode": "defend",
           "camp": {
@@ -10147,8 +10138,9 @@
         "exitDuration": 0.7,
         "sensor": {},
         "switches": [],
+        "decoySwitches": [],
         "singleStep": false,
-        "maxActions": 90,
+        "maxActions": 240,
         "expectedSpeech": null
       }
     }
@@ -10178,7 +10170,7 @@
     "specificArticles": [
       {
         "name": "本关任务",
-        "body": "用while持续守卫，并用if处理有没有敌人。hero.findNearestEnemy() 返回当前可见的最近敌人；没有时返回None。把结果保存在变量里，再交给hero.attack(enemy)。敌人倒下后要重新查找。hero.wait() 等半秒；hero.isVictory() 告诉你是否击败了全部增援。英雄或营火生命降到0失败。两个场景使用同一代码；最后一波结束会自动庆祝通关，无需找楼梯。"
+        "body": "守住营火，击退分批赶来的所有敌人。通道入口的裂隙会先发红光，随后出现增援；暂时没有敌人不等于战斗结束。敌人倒下后还会有新目标，持续观察战场。英雄或营火生命降到0失败。两个场景的敌人数和间隔不同，同一程序都要守住；获胜后自动结束。"
       }
     ]
   },
@@ -10204,7 +10196,7 @@
     "name": "while挑战：守住分批增援",
     "section": 4,
     "lessonOrder": 19.2,
-    "revision": 1,
+    "revision": 2,
     "prototype": false,
     "checkpoints": [],
     "gems": [],
@@ -10226,8 +10218,8 @@
       1,
       0
     ],
-    "maxActions": 90,
-    "tip": "先观察角色和道路。展开任务日志查看目标、可用命令和提示。",
+    "maxActions": 240,
+    "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
     "knowledge": "变量 · if · while · 持续观察",
     "size": [
       84,
@@ -10255,9 +10247,9 @@
         58
       ]
     ],
-    "quest": "敌人会分批从三条通道赶来。守住营火，击败全部增援。每次出手前重新寻找目标，没有敌人时稍等。",
-    "description": "用while持续守卫，并用if处理有没有敌人。hero.findNearestEnemy() 返回当前可见的最近敌人；没有时返回None。把结果保存在变量里，再交给hero.attack(enemy)。敌人倒下后要重新查找。hero.wait() 等半秒；hero.isVictory() 告诉你是否击败了全部增援。英雄或营火生命降到0失败。两个场景使用同一代码；最后一波结束会自动庆祝通关，无需找楼梯。",
-    "starter": "# 持续观察：有敌人就攻击，没有就等待。\n# 可用 hero.isVictory() 判断战斗是否结束。\n",
+    "quest": "敌人会分批从三条通道赶来。守住营火，击败全部增援。持续观察战场，发现敌人就攻击；敌人按时间出现。",
+    "description": "守住营火，击退分批赶来的所有敌人。通道入口的裂隙会先发红光，随后出现增援；暂时没有敌人不等于战斗结束。敌人倒下后还会有新目标，持续观察战场。英雄或营火生命降到0失败。两个场景的敌人数和间隔不同，同一程序都要守住；获胜后自动结束。",
+    "starter": "# 持续观察：每轮寻找敌人，有敌人就攻击。\n# 可用 isVictory() 判断战斗是否结束。\n",
     "apis": [
       "attack",
       "findNearestEnemy",
@@ -10337,24 +10329,19 @@
       }
     ],
     "hints": [
-      "查找敌人的语句要放在while里面。旧变量不会自动变成新敌人。",
-      "if enemy: 的分支里攻击；else: 的分支里等待。没有目标时不能调用attack。",
-      "while not hero.isVictory(): 会持续到全部增援被击败。也接受由关卡目标结束的while True守卫程序。"
+      "旧目标倒下后不会自动变成新目标；观察查找结果是否更新。",
+      "没有目标时不要攻击空对象。可以等待，也可以继续观察。",
+      "isVictory() 查询整场战斗是否结束。使用哪种循环不影响通关，关键是营火存活且增援全被击败。"
     ],
     "hiddenByDefault": true,
     "optional": true,
     "tutorial": null,
-    "learningContract": {
-      "loops": [
-        "while"
-      ],
-      "inside": {
-        "findNearestEnemy": "while",
-        "attack": "while,if",
-        "wait": "while"
-      },
-      "attackVariable": true
-    },
+    "learningContract": null,
+    "singleStep": false,
+    "introBrief": [
+      "while挑战：守住分批增援",
+      "敌人会分批从三条通道赶来。守住营火，击败全部增援。持续观察战场，发现敌人就攻击；敌人按时间出现。"
+    ],
     "title": "四名敌人，间隔变短",
     "scenarioIndex": 1,
     "scenarioTitles": [

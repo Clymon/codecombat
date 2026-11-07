@@ -19,7 +19,7 @@ test('closed and open states read correctly; beacon detects initial zero steps',
 test('switches require matching position, number and order; bad number fails persistently', () => {
   const switches = [{ number: 1, at: [24, 12] }, { number: 2, at: [36, 12] }]
   const a = setup({ switches }); a.hero.pos.x = 24; assert.equal(a.hero.press(1), true); a.hero.pos.x = 36; assert.equal(a.hero.press(2), true); assert.equal(a.goals['press-switches'], 'success')
-  const b = setup({ switches }); b.hero.pos.x = 24; b.hero.press(2); assert.equal(b.goals['stay-safe'], 'failure'); assert.match(b.hero.teachingFailure, /开关没按对/)
+  const b = setup({ switches }); b.hero.pos.x = 24; b.hero.press(2); assert.equal(b.goals['stay-safe'], 'failure'); assert.match(b.hero.teachingFailure, /现在要启动 1 号开关/)
 })
 test('loop guard rejects multi-step bypass and too many actions', () => {
   const a = setup({ singleStep: true }); a.hero.moveRight(3); assert.equal(a.goals['stay-safe'], 'failure')
@@ -44,12 +44,16 @@ test('scene completion requires all scenarios with same source; edits invalidate
   await record(session, level, { state: { complete: true, teachingVictoryCode: session.code['hero-placeholder'].plan } }); assert.equal(session.teachingComplete, false)
   session.teachingScene = 1; await record(session, level, { state: { complete: true, teachingVictoryCode: session.code['hero-placeholder'].plan } }); assert.equal(session.teachingComplete, true)
   session.code['hero-placeholder'].plan += '\n# 改了代码\n'; await record(session, level, {}); assert.equal(session.teachingComplete, false); assert.equal(Object.keys(session.scenePasses).length, 0)
-  session.code['hero-placeholder'].plan = 'hero.moveRight()\n'; await record(session, level, { state: { complete: true, teachingVictoryCode: session.code['hero-placeholder'].plan } }); assert.match(session.learningFeedback, /if/); assert.equal(session.state.complete, false)
+  session.code['hero-placeholder'].plan = 'hero.moveRight()\n'; await record(session, level, { state: { complete: true, teachingVictoryCode: session.code['hero-placeholder'].plan } }); assert.equal(session.learningFeedback, ''); assert.equal(session.state.complete, true)
 })
-test('variable scenes may change values and preserve the exact source for each result', async () => {
-  const level = { teachingMap: { index: 7, scenarioTitles: ['2', '4'], allowCodeChanges: true } }
-  const s = { code: { 'hero-placeholder': { plan: 'steps = 2\nhero.moveRight(steps)\n' } }, state: {}, teachingScene: 0 }
-  await record(s, level, { state: { complete: true, teachingVictoryCode: s.code['hero-placeholder'].plan } }); s.teachingScene = 1; s.code['hero-placeholder'].plan = 'steps = 4\nhero.moveRight(steps)\n'; await record(s, level, { state: { complete: true, teachingVictoryCode: s.code['hero-placeholder'].plan } }); assert.equal(s.teachingComplete, true); assert.match(s.scenePasses[0].code, /steps = 2/)
+test('supply scenes use one program for different actual quantities', async () => {
+  const level = { teachingMap: { index: 7, scenarioTitles: ['2块', '4块'] } }
+  const code = 'stones = hero.take("补给箱")\nhero.moveRight(2)\nhero.give("出口机关", stones)'
+  const s = { code: { 'hero-placeholder': { plan: code } }, state: {}, teachingScene: 0 }
+  await record(s, level, { state: { complete: true, teachingVictoryCode: code } })
+  s.teachingScene = 1
+  await record(s, level, { state: { complete: true, teachingVictoryCode: code } })
+  assert.equal(s.teachingComplete, true); assert.equal(s.scenePasses[0].code, s.scenePasses[1].code)
 })
 
 test('stale victory cannot credit edited code', async () => {

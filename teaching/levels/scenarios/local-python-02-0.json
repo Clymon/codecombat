@@ -3,7 +3,7 @@
   "original": "facade000000000000000002",
   "slug": "local-python-02",
   "name": "训练营④：四格长廊",
-  "description": "沿长廊依次经过符文石板1、2、3并收集宝石，再向右走一步到出口。先用四条移动命令完成，再合成一条带参数的命令。上方岔路有尖刺，不要偏离安全通道。",
+  "description": "沿路有三块石板，每块只有一个符文。走到一块石板上，停留1秒，等圆环转满、符文点亮后再走向下一块。未充满就离开，只会清空这块石板的进度；已点亮的石板保持点亮。三块全亮后，再向右走一格到出口。",
   "loadingTip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
   "type": "hero",
   "product": "codecombat",
@@ -1738,6 +1738,94 @@
     },
     {
       "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 34-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 34,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 34-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 34,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 34-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 34,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 34-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 34,
+              "y": 30,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
       "id": "Masonry 34-34",
       "components": [
         {
@@ -1818,6 +1906,94 @@
             "pos": {
               "x": 38,
               "y": 6,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 38-18",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 38,
+              "y": 18,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 38-22",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 38,
+              "y": 22,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 38-26",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 38,
+              "y": 26,
+              "z": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "thangType": "529e7aecc423d4e83b000004",
+      "id": "Masonry 38-30",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 38,
+              "y": 30,
               "z": 6
             }
           }
@@ -3871,46 +4047,6 @@
       ]
     },
     {
-      "thangType": "5422f63718adb78d98d265f7",
-      "id": "Spikes 36-24",
-      "components": [
-        {
-          "original": "524b4150ff92f1f4f8000024",
-          "majorVersion": 0,
-          "config": {}
-        },
-        {
-          "original": "524b75ad7fc0f6d519000001",
-          "majorVersion": 0,
-          "config": {
-            "pos": {
-              "x": 36,
-              "y": 24,
-              "z": -1.3
-            },
-            "rotation": 1.5707963267948966
-          }
-        },
-        {
-          "original": "524b7ba57fc0f6d519000016",
-          "majorVersion": 0,
-          "config": {
-            "attackDamage": 0,
-            "attackRange": 0
-          }
-        },
-        {
-          "original": "52a399b98537a70000000003",
-          "majorVersion": 0,
-          "config": {
-            "scaleFactorX": 1.7,
-            "scaleFactorY": 4.4,
-            "quickScale": true
-          }
-        }
-      ]
-    },
-    {
       "thangType": "529ffbf1cf1818f2be000001",
       "id": "Hero Placeholder",
       "components": [
@@ -3947,14 +4083,15 @@
               "moveLeft",
               "moveUp",
               "moveDown",
-              "say"
+              "say",
+              "wait"
             ],
             "programmableMethods": {
               "plan": {
                 "name": "plan",
                 "source": "// Write movement commands here.\n",
                 "languages": {
-                  "python": "# 观察地图，在下面写移动命令。\n"
+                  "python": "# 让沿路的三块石板全部亮起，再去右侧出口。\n"
                 },
                 "permissions": {
                   "read": [],
@@ -3985,72 +4122,6 @@
           "majorVersion": 0,
           "config": {
             "maxSpeed": 12
-          }
-        }
-      ]
-    },
-    {
-      "thangType": "52aa3b9eccbd588d4d000003",
-      "id": "Parcel 1",
-      "components": [
-        {
-          "original": "524b4150ff92f1f4f8000024",
-          "majorVersion": 0,
-          "config": {}
-        },
-        {
-          "original": "524b75ad7fc0f6d519000001",
-          "majorVersion": 0,
-          "config": {
-            "pos": {
-              "x": 24,
-              "y": 12,
-              "z": 0.5
-            }
-          }
-        }
-      ]
-    },
-    {
-      "thangType": "52aa3b9eccbd588d4d000003",
-      "id": "Parcel 2",
-      "components": [
-        {
-          "original": "524b4150ff92f1f4f8000024",
-          "majorVersion": 0,
-          "config": {}
-        },
-        {
-          "original": "524b75ad7fc0f6d519000001",
-          "majorVersion": 0,
-          "config": {
-            "pos": {
-              "x": 36,
-              "y": 12,
-              "z": 0.5
-            }
-          }
-        }
-      ]
-    },
-    {
-      "thangType": "52aa3b9eccbd588d4d000003",
-      "id": "Parcel 3",
-      "components": [
-        {
-          "original": "524b4150ff92f1f4f8000024",
-          "majorVersion": 0,
-          "config": {}
-        },
-        {
-          "original": "524b75ad7fc0f6d519000001",
-          "majorVersion": 0,
-          "config": {
-            "pos": {
-              "x": 48,
-              "y": 12,
-              "z": 0.5
-            }
           }
         }
       ]
@@ -4163,6 +4234,33 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "chargePlates": [
+          {
+            "at": [
+              24,
+              12
+            ],
+            "radius": 2,
+            "seconds": 1
+          },
+          {
+            "at": [
+              36,
+              12
+            ],
+            "radius": 2,
+            "seconds": 1
+          },
+          {
+            "at": [
+              48,
+              12
+            ],
+            "radius": 2,
+            "seconds": 1
+          }
+        ],
+        "inventoryConfig": null,
         "learningContract": null,
         "walls": [
           {
@@ -4587,6 +4685,30 @@
           },
           {
             "x": 34,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 34,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 34,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 34,
+            "y": 30,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 34,
             "y": 34,
             "halfWidth": 2,
             "halfHeight": 2
@@ -4606,6 +4728,30 @@
           {
             "x": 38,
             "y": 6,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 38,
+            "y": 18,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 38,
+            "y": 22,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 38,
+            "y": 26,
+            "halfWidth": 2,
+            "halfHeight": 2
+          },
+          {
+            "x": 38,
+            "y": 30,
             "halfWidth": 2,
             "halfHeight": 2
           },
@@ -5157,32 +5303,14 @@
           "y2": 40
         },
         "guard": null,
-        "checkpoints": [
-          [
-            24,
-            12
-          ],
-          [
-            36,
-            12
-          ],
-          [
-            48,
-            12
-          ]
-        ],
+        "checkpoints": [],
         "exit": [
           60,
           12
         ],
-        "hazards": [
-          [
-            36,
-            24
-          ]
-        ],
+        "hazards": [],
         "gates": [],
-        "noGems": false,
+        "noGems": true,
         "requireFinished": true,
         "exitStyle": "stairs",
         "exitDirection": [
@@ -5192,6 +5320,7 @@
         "exitDuration": 1.8,
         "sensor": {},
         "switches": [],
+        "decoySwitches": [],
         "singleStep": false,
         "maxActions": 30,
         "expectedSpeech": null
@@ -5204,37 +5333,12 @@
       "saveThangs": [
         "Hero Placeholder"
       ],
-      "name": "避开尖刺和石墙",
+      "name": "不撞石墙",
       "worldEndsAfter": 1
     },
     {
-      "id": "collect-parcels",
-      "name": "收集全部3颗宝石",
-      "collectThangs": {
-        "who": [
-          "humans"
-        ],
-        "targets": [
-          "Parcel 1",
-          "Parcel 2",
-          "Parcel 3"
-        ]
-      },
-      "worldEndsAfter": 1
-    },
-    {
-      "id": "checkpoint-1",
-      "name": "唤醒石板 1",
-      "worldEndsAfter": 1
-    },
-    {
-      "id": "checkpoint-2",
-      "name": "唤醒石板 2",
-      "worldEndsAfter": 1
-    },
-    {
-      "id": "checkpoint-3",
-      "name": "唤醒石板 3",
+      "id": "charge-plate",
+      "name": "点亮沿路全部3块石板",
       "worldEndsAfter": 1
     },
     {
@@ -5248,7 +5352,7 @@
     "specificArticles": [
       {
         "name": "本关任务",
-        "body": "沿长廊依次经过符文石板1、2、3并收集宝石，再向右走一步到出口。先用四条移动命令完成，再合成一条带参数的命令。上方岔路有尖刺，不要偏离安全通道。"
+        "body": "沿路有三块石板，每块只有一个符文。走到一块石板上，停留1秒，等圆环转满、符文点亮后再走向下一块。未充满就离开，只会清空这块石板的进度；已点亮的石板保持点亮。三块全亮后，再向右走一格到出口。"
       }
     ]
   },
@@ -5271,10 +5375,46 @@
   ],
   "teachingMap": {
     "index": 2,
-    "revision": 2,
+    "revision": 4,
     "name": "训练营④：四格长廊",
-    "description": "沿长廊依次经过符文石板1、2、3并收集宝石，再向右走一步到出口。先用四条移动命令完成，再合成一条带参数的命令。上方岔路有尖刺，不要偏离安全通道。",
+    "knowledge": "重复移动与停留充能",
+    "description": "沿路有三块石板，每块只有一个符文。走到一块石板上，停留1秒，等圆环转满、符文点亮后再走向下一块。未充满就离开，只会清空这块石板的进度；已点亮的石板保持点亮。三块全亮后，再向右走一格到出口。",
     "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+    "quest": "沿路三块石板连着出口。每到一块，停留1秒点亮它；三块全亮后从楼梯离开。",
+    "hints": [
+      "每块石板都有自己的圆环。踩上去后充能1秒，就会点亮；离开已点亮的石板不会让它熄灭。",
+      "hero.wait() 让英雄原地等待1秒。让当前这块亮起后，再走向下一块。",
+      "观察三块石板上重复的动作：走一格，等1秒。可以逐次写，也可以用循环；在同一块上等更久不能点亮其他石板。"
+    ],
+    "apis": [
+      "wait"
+    ],
+    "chargePlates": [
+      {
+        "at": [
+          24,
+          12
+        ],
+        "radius": 2,
+        "seconds": 1
+      },
+      {
+        "at": [
+          36,
+          12
+        ],
+        "radius": 2,
+        "seconds": 1
+      },
+      {
+        "at": [
+          48,
+          12
+        ],
+        "radius": 2,
+        "seconds": 1
+      }
+    ],
     "size": [
       84,
       40
@@ -5289,28 +5429,9 @@
         12,
         84,
         12
-      ],
-      [
-        36,
-        12,
-        36,
-        28
       ]
     ],
-    "checkpoints": [
-      [
-        24,
-        12
-      ],
-      [
-        36,
-        12
-      ],
-      [
-        48,
-        12
-      ]
-    ],
+    "checkpoints": [],
     "exit": [
       60,
       12
@@ -5320,26 +5441,8 @@
       "y": 12,
       "direction": "→"
     },
-    "hazards": [
-      [
-        36,
-        24
-      ]
-    ],
-    "gems": [
-      [
-        24,
-        12
-      ],
-      [
-        36,
-        12
-      ],
-      [
-        48,
-        12
-      ]
-    ],
+    "hazards": [],
+    "gems": [],
     "torches": [
       [
         10,
@@ -5355,8 +5458,8 @@
       ]
     ],
     "labels": [],
+    "starter": "# 让沿路的三块石板全部亮起，再去右侧出口。\n",
     "section": 1,
-    "quest": "长廊深处有三颗宝石。取回它们，解除楼梯的封印。试试能否让一条命令走得更远。",
     "inscriptions": [],
     "exitStyle": "stairs",
     "exitDirection": [

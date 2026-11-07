@@ -2,9 +2,9 @@
   "_id": "facade000000000000000019",
   "original": "facade000000000000000019",
   "slug": "local-python-19",
-  "name": "第4节 · 走到信标就停",
-  "description": "这次没有长度牌。hero.atBeacon() 在英雄到达发光信标时返回 True，否则返回 False。用 while not hero.atBeacon()：没到就向右走一格。信标可能在起点、前方2格或4格，同一份代码都要适用。",
-  "loadingTip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+  "name": "第4节 · 沿途充能，找到信标",
+  "description": "每块暗石板需要站稳1秒，点亮后电流沿路传向下一块。最后的信标是终点。路线长短会变；有时信标就在起点，没有暗石板。同一份程序要处理这三种情况。",
+  "loadingTip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
   "type": "hero",
   "product": "codecombat",
   "version": {
@@ -2368,14 +2368,15 @@
               "moveUp",
               "moveDown",
               "say",
-              "atBeacon"
+              "atBeacon",
+              "wait"
             ],
             "programmableMethods": {
               "plan": {
                 "name": "plan",
                 "source": "// Write movement commands here.\n",
                 "languages": {
-                  "python": "# 还没到信标，就向右走一格。\n"
+                  "python": "# 先看脚下是否已经是终点；途中暗板需要停留。\n"
                 },
                 "permissions": {
                   "read": [],
@@ -2601,16 +2602,26 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
-        "learningContract": {
-          "loops": [
-            "while"
-          ],
-          "inside": {
-            "moveRight": "while"
+        "chargePlates": [
+          {
+            "at": [
+              12,
+              12
+            ],
+            "radius": 2,
+            "seconds": 1
           },
-          "allowZero": true,
-          "maxStatements": 2
-        },
+          {
+            "at": [
+              24,
+              12
+            ],
+            "radius": 2,
+            "seconds": 1
+          }
+        ],
+        "inventoryConfig": null,
+        "learningContract": null,
         "walls": [
           {
             "x": 2,
@@ -3237,8 +3248,9 @@
         "exitDuration": 1.6,
         "sensor": {},
         "switches": [],
-        "singleStep": true,
-        "maxActions": 30,
+        "decoySwitches": [],
+        "singleStep": false,
+        "maxActions": 240,
         "expectedSpeech": null
       }
     }
@@ -3253,6 +3265,11 @@
       "worldEndsAfter": 1
     },
     {
+      "id": "charge-plate",
+      "name": "点亮沿路全部2块石板",
+      "worldEndsAfter": 1
+    },
+    {
       "id": "reach-exit",
       "name": "到达信标并传送",
       "worldEndsAfter": 1
@@ -3263,7 +3280,7 @@
     "specificArticles": [
       {
         "name": "本关任务",
-        "body": "这次没有长度牌。hero.atBeacon() 在英雄到达发光信标时返回 True，否则返回 False。用 while not hero.atBeacon()：没到就向右走一格。信标可能在起点、前方2格或4格，同一份代码都要适用。"
+        "body": "每块暗石板需要站稳1秒，点亮后电流沿路传向下一块。最后的信标是终点。路线长短会变；有时信标就在起点，没有暗石板。同一份程序要处理这三种情况。"
       }
     ]
   },
@@ -3287,11 +3304,11 @@
   "teachingMap": {
     "index": 19,
     "section": 4,
-    "revision": 1,
+    "revision": 2,
     "lessonOrder": 19,
-    "name": "第4节 · 走到信标就停",
-    "description": "这次没有长度牌。hero.atBeacon() 在英雄到达发光信标时返回 True，否则返回 False。用 while not hero.atBeacon()：没到就向右走一格。信标可能在起点、前方2格或4格，同一份代码都要适用。",
-    "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+    "name": "第4节 · 沿途充能，找到信标",
+    "description": "每块暗石板需要站稳1秒，点亮后电流沿路传向下一块。最后的信标是终点。路线长短会变；有时信标就在起点，没有暗石板。同一份程序要处理这三种情况。",
+    "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
     "size": [
       48,
       40
@@ -3330,32 +3347,48 @@
     "labels": [],
     "knowledge": "while 动态检测",
     "apis": [
-      "atBeacon"
+      "atBeacon",
+      "wait"
     ],
-    "singleStep": true,
-    "starter": "# 还没到信标，就向右走一格。\n",
+    "singleStep": false,
+    "starter": "# 先看脚下是否已经是终点；途中暗板需要停留。\n",
     "hints": [
-      "not 表示取反；没到达时，循环条件才是 True。",
-      "检测命令必须写在 while 条件中，每轮重新检测。"
+      "先点亮脚下这块，再走向下一格。信标本身不需要充能。",
+      "可以反复检查 hero.atBeacon()，不用猜道路有多长。"
     ],
-    "quest": "找到亮着的传送信标。它有时就在脚下，有时藏在走廊尽头。",
+    "quest": "沿途补亮暗石板，走到最后的信标。",
     "inscriptions": [],
     "exitStyle": "beacon",
     "exitDirection": [
       1,
       0
     ],
-    "learningContract": {
-      "loops": [
-        "while"
-      ],
-      "inside": {
-        "moveRight": "while"
-      },
-      "allowZero": true,
-      "maxStatements": 2
-    },
+    "learningContract": null,
+    "maxActions": 240,
+    "powerCircuit": false,
+    "introBrief": [
+      "沿途充能，找到信标",
+      "沿途补亮暗石板，走到最后的信标。"
+    ],
     "title": "信标在前方2格",
+    "chargePlates": [
+      {
+        "at": [
+          12,
+          12
+        ],
+        "radius": 2,
+        "seconds": 1
+      },
+      {
+        "at": [
+          24,
+          12
+        ],
+        "radius": 2,
+        "seconds": 1
+      }
+    ],
     "scenarioIndex": 0,
     "scenarioTitles": [
       "信标在前方2格",

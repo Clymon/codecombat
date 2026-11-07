@@ -45,9 +45,13 @@ test('full and cropped floor metadata are served locally with their raster image
         const response = await fetch(`${base}/db/thang.type/${id}${suffix}`)
         assert.equal(response.status, 200)
         const type = await response.json(); assert.equal(type.original, id)
-        assert.equal((await fetch(base + type.raw.animations.idle.rasterSheet)).status, 200)
+        const image = await fetch(base + type.raw.animations.idle.rasterSheet)
+        assert.equal(image.status, 200)
+        await image.arrayBuffer() // Drain the response before waiting for server.close().
       }
     }
-    assert.equal((await fetch(`${base}/db/thang.type/${floorId(8)}/version`)).status, 404)
+    const missing = await fetch(`${base}/db/thang.type/${floorId(8)}/version`)
+    assert.equal(missing.status, 404)
+    await missing.arrayBuffer()
   } finally { await new Promise(resolve => server.close(resolve)) }
 })

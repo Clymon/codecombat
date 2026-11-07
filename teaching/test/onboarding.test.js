@@ -18,7 +18,8 @@ test('all level/scenario guides use current map coordinates and leave source dat
     assert.ok(x >= 0 && x <= design.size[0] && y >= 0 && y <= design.size[1], file)
     for (const loop of design.learningContract?.loops || []) assert.ok(steps[1].note.includes(loop))
     assert.equal(JSON.stringify(design), before)
-    assert.equal(steps.filter(s => s.code).length, design.index === 4 ? 1 : 0, 'challenge guide does not disclose a full solution')
+    if (design.index === 7) { assert.match(steps[1].code, /take/); assert.doesNotMatch(steps[1].code, /give|move/) }
+    assert.equal(steps.filter(s => s.code).length, [4, 7].includes(design.index) ? 1 : 0, 'challenge guide does not disclose a full solution')
   }
 })
 
@@ -83,7 +84,7 @@ test('guide waits for entry, pauses playback, skips/reopens, never runs code and
   assert.equal(again.seenKey, seenKey); again.toggle.click(); assert.equal(again.active, true)
   again.destroy()
   const nextScene = new Guide(root, { ...design, scenarioIndex: 1 }, surface, task)
-  mediator.publish('level:loading-view-unveiled'); assert.equal(nextScene.active, true); nextScene.destroy(); assert.equal(document.body.classList.contains('deepseek-guiding'), false)
+  mediator.publish('level:loading-view-unveiled'); assert.equal(nextScene.active, false); nextScene.destroy(); assert.equal(document.body.classList.contains('deepseek-guiding'), false)
 }))
 
 test('hidden submit points at goals and untrusted text remains literal', () => withUI(({ surface, mediator }) => {
@@ -104,3 +105,29 @@ test('submit callout leaves the neighboring run button clickable', () => {
   const p = placeCard(submit, 368, 262, { width: 1280, height: 720 }, [run, submit])
   assert.ok(p.top + 262 <= run.top || p.top >= run.bottom || p.left + 368 <= run.left)
 })
+
+test('UI tour is once per browser; new concepts use one card and variants stay quiet', () => {
+  const { GuideMemory } = require('../guide-memory'); const values = new Map(); const storage = { getItem: k => values.get(k), setItem: (k, v) => values.set(k, v) }
+  const design = { index: 4, start: [12, 12], exit: [24, 12] }
+  const first = new GuideMemory(design, storage); assert.equal(first.automaticSteps().length, 4); first.remember()
+  assert.equal(new GuideMemory({ ...design, index: 1 }, storage).automaticSteps().length, 0)
+  const skill = new GuideMemory({ ...design, index: 7 }, storage); assert.equal(skill.automaticSteps().length, 1); skill.remember()
+  assert.equal(new GuideMemory({ ...design, index: 7, scenarioIndex: 1 }, storage).automaticSteps().length, 0)
+  assert.equal(new GuideMemory({ ...design, index: 7 }, storage).automaticSteps().length, 0)
+})
+test('legacy seen guides prevent an extra full tour after upgrading', () => {
+  const { GuideMemory } = require('../guide-memory')
+  const legacy = { length: 1, key: () => 'deepseek-guide-v1:local-python-07:0', getItem: () => 'seen' }
+  const values = new Map(); const storage = { getItem: k => values.get(k), setItem: (k, v) => values.set(k, v) }
+  assert.equal(new GuideMemory({ index: 7, start: [12, 12] }, storage, legacy).automaticSteps().length, 0)
+  assert.equal(new GuideMemory({ index: 7, start: [12, 12] }, storage).automaticSteps().length, 0, 'migrated history survives a new tab without legacy session storage')
+})
+
+test('tutorial instructions start collapsed and remain available on demand', () => withUI(() => {
+  const { attachGuide } = require('../tutorial-guide')
+  const task = document.getElementById('teaching-task')
+  attachGuide(task, { tutorial: { title: '打破木门', steps: [{ text: '攻击木门', code: 'hero.attack("木门")', observe: '木门掉血', evidence: { kind: 'dead', id: 'door' } }] } })
+  assert.equal(task.open, false)
+  assert.match(task.querySelector('summary').textContent, /点击查看/)
+  task.open = true; assert.match(task.textContent, /hero.attack/)
+}))

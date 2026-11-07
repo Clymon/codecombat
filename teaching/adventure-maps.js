@@ -24,7 +24,7 @@ const waves = (second = false) => [
   { id: '上路斥候', at: [36, 48], spawnAt: second ? 6 : 9, health: 60, speed: 5, damage: 14 },
   ...(second ? [{ id: '最后的斥候', at: [12, 24], spawnAt: 11, health: 40, speed: 5, damage: 14 }] : []),
 ].map(e => ({ kind: 'enemy', ...e, aggro: 100 }))
-const defend = 'while not hero.isVictory():\n    enemy = hero.findNearestEnemy()\n    if enemy:\n        hero.attack(enemy)\n    else:\n        hero.wait()\n'
+const defend = 'while not isVictory():\n    enemy = hero.findNearestEnemy()\n    if enemy:\n        hero.attack(enemy)\n'
 module.exports = [
   base(22, '样关①：把追兵引进陷阱', {
     knowledge: '顺序执行 · 路线与参数',
@@ -92,16 +92,16 @@ module.exports = [
     exitStyle: 'marker',
     corridors: [[8, 24, 66, 24], [36, 8, 36, 58]],
     torches: [[6, 34], [66, 34]],
-    quest: '敌人会分批从三条通道赶来。守住营火，击败全部增援。每次出手前重新寻找目标，没有敌人时稍等。',
-    description: '用while持续守卫，并用if处理有没有敌人。hero.findNearestEnemy() 返回当前可见的最近敌人；没有时返回None。把结果保存在变量里，再交给hero.attack(enemy)。敌人倒下后要重新查找。hero.wait() 等半秒；hero.isVictory() 告诉你是否击败了全部增援。英雄或营火生命降到0失败。两个场景使用同一代码；最后一波结束会自动庆祝通关，无需找楼梯。',
-    starter: '# 持续观察：有敌人就攻击，没有就等待。\n# 可用 hero.isVictory() 判断战斗是否结束。\n',
+    quest: '敌人会分批从三条通道赶来。守住营火，击败全部增援。持续观察战场，发现敌人就攻击；敌人按时间出现。',
+    description: '用while持续守卫，并用if处理有没有敌人。hero.findNearestEnemy() 返回当前可见的最近敌人；没有时返回None。把结果保存在变量里，再交给hero.attack(enemy)。敌人倒下后要重新查找。没有敌人时，循环会继续检查，世界时间照常推进，不必额外写wait。需要英雄主动停顿时，可用hero.wait(1)等1秒；isVictory() 告诉你是否击败了全部增援。英雄或营火生命降到0失败。两个场景使用同一代码；最后一波结束会自动庆祝通关，无需找楼梯。',
+    starter: '# 持续观察：每轮寻找敌人，有敌人就攻击。\n# 可用 isVictory() 判断战斗是否结束。\n',
     apis: ['attack', 'findNearestEnemy', 'wait', 'isVictory'],
     safetyGoalLabel: '英雄和营火存活',
     goalLabel: '击退全部增援，守住营地',
     adventure: { mode: 'defend', camp: { at: [36, 12], health: 100 }, actors: waves() },
     goals: [{ id: 'defend-camp', name: '保护营火，击败全部敌人' }],
     scenarios: [false, true].map(second => ({ title: second ? '四名敌人，间隔变短' : '三名敌人，分批到来', adventure: { mode: 'defend', camp: { at: [36, 12], health: 100 }, actors: waves(second) }, solution: defend })),
-    hints: ['查找敌人的语句要放在while里面。旧变量不会自动变成新敌人。', 'if enemy: 的分支里攻击；else: 的分支里等待。没有目标时不能调用attack。', 'while not hero.isVictory(): 会持续到全部增援被击败。也接受由关卡目标结束的while True守卫程序。'],
+    hints: ['查找敌人的语句要放在while里面。旧变量不会自动变成新敌人。', 'if enemy: 的分支里攻击。暂时没敌人就进入下一轮检查；想主动等待再查找，也可以在else里写hero.wait()。', 'while not isVictory(): 会持续到全部增援被击败。也接受由关卡目标结束的while True守卫程序。'],
     solution: defend,
   }),
 ]

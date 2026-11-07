@@ -3290,6 +3290,7 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "inventoryConfig": null,
         "learningContract": null,
         "walls": [
           {
@@ -4103,6 +4104,7 @@
         "exitDuration": 0,
         "sensor": {},
         "switches": [],
+        "decoySwitches": [],
         "singleStep": false,
         "maxActions": 30,
         "expectedSpeech": null

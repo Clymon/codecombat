@@ -12,7 +12,6 @@ const straight = (length, extras = {}) => ({
   labels: [],
   ...extras,
 })
-const post = (open) => ({ id: 'Signal Guard', at: [18, 12], aside: [18, 24], approach: [12, 12], locked: true, ...(open ? { openedAt: -1 } : {}) })
 const branch = (direction, extras = {}) => ({
   size: [72, 60],
   start: [36, 24],
@@ -45,29 +44,46 @@ module.exports = [
     scenarios: [5, 6].map(total => ({ title: `全长${total}格，已走2格`, ...straight(total - 2), labels: [{ text: `全长 ${total} 格 · 已走 2 格`, x: 36, y: 29 }], solution: `total = ${total}\npassed = 2\nremaining = total - passed\nhero.moveRight(remaining)\n` })),
     hints: ['剩下的格数 = 全长 − 已走的格数。', '移动命令里用 remaining，不要把答案直接写成 3 或 4。'],
   }),
-  base(9, 2, '门开了才走', '右边的门岗可能放行，也可能关闭。hero.pathOpen("right") 在放行时返回 True，关闭时返回 False。用 if：放行就向右走一格；关闭就留在原地。两种场景使用同一份代码。', {
+  base(9, 2, '补给站：开门才取宝石', '右侧是补给站，下方是撤离法阵。先用 pathOpen("right") 检查门岗：开放时向右走一格取宝石，再向左走一格回来；关闭时跳过取物。最后无论门是否开放，都向下走一格撤离。两种场景使用同一份代码。', {
     ...straight(1),
-    knowledge: 'if 与缩进',
+    revision: 3,
+    knowledge: 'if：有条件地执行一组动作',
     apis: ['pathOpen'],
-    starter: '# if 后写检测命令，行末加冒号。\n# 下一行缩进四个空格，写移动命令。\n',
-    scenarios: [true, false].map(open => ({ title: open ? '门岗放行' : '门岗关闭', ...straight(1), corridors: [[12, 12, 32, 12], [18, 12, 18, 24]], exit: open ? [24, 12] : [12, 12], goalLabel: open ? '门岗放行，向右走一格' : '门岗关闭，在起点安全等待', exitMarker: { x: open ? 24 : 12, y: 5, label: open ? '终点' : '安全等待区' }, gates: [post(open)], sensor: { open: { right: open } }, labels: [{ text: open ? '放行：向右走一格' : '关闭：留在起点', x: 36, y: 31 }], solution: 'if hero.pathOpen("right"):\n    hero.moveRight()\n' })),
-    hints: ['True 时执行缩进的移动；False 时跳过它。', '关闭场景不需要 else，也不需要移动或发言。'],
+    starter: '# 检查右侧补给站。开放才进去取物，然后返回。\n# 最后向下撤离，这一步不放在 if 里面。\n',
+    scenarios: [true, false].map(open => ({
+      title: open ? '补给站开放，有宝石' : '补给站关闭，直接撤离',
+      size: [60, 60],
+      start: [12, 24],
+      corridors: [[12, 24, 32, 24], [18, 24, 18, 36], [12, 8, 12, 24]],
+      checkpoints: [],
+      exit: [12, 12],
+      exitMarker: { x: 12, y: 5, label: '撤离点' },
+      goalLabel: '完成补给后从下方法阵撤离',
+      gems: open ? [[24, 24]] : [],
+      hazards: [],
+      torches: [[6, 42]],
+      gates: [{ id: 'Supply Guard', at: [18, 24], aside: [18, 36], approach: [12, 24], locked: true, ...(open ? { openedAt: -1 } : {}) }],
+      sensor: { open: { right: open } },
+      labels: [],
+      solution: 'if pathOpen("right"):\n    hero.moveRight()\n    hero.moveLeft()\nhero.moveDown()\n',
+    })),
+    hints: ['宝石只在开放场景出现。漏拿时，撤离法阵不会亮。', '向右取物和向左返回都缩进到 if 内；向下撤离不缩进。'],
   }),
-  base(10, 2, '两条路选一条', '左右各有一条路，只有一边能走。hero.pathOpen("left") 告诉你左边是否开放。左边开放就左走一格，否则右走一格。用 if 和 else，不能把两条移动都执行。', {
+  base(10, 2, '两条路选一条', '左右各有一条路，只有一边能走。pathOpen("left") 告诉你左边是否开放。左边开放就左走一格，否则右走一格。用 if 和 else，不能把两条移动都执行。', {
     ...branch('left'),
     knowledge: 'if / else',
     apis: ['pathOpen'],
     starter: '# 左路开：向左走；否则：向右走。\n',
-    scenarios: ['left', 'right'].map(direction => ({ ...branch(direction), title: direction === 'left' ? '左路开放' : '右路开放', sensor: { open: { left: direction === 'left', right: direction === 'right' } }, gates: [{ id: 'Closed Path', at: direction === 'left' ? [42, 24] : [30, 24], aside: [36, 48], approach: [36, 24], locked: true }], labels: [{ text: direction === 'left' ? '左路开放 · 右路关闭' : '左路关闭 · 右路开放', x: 36, y: 49 }], solution: 'if hero.pathOpen("left"):\n    hero.moveLeft()\nelse:\n    hero.moveRight()\n' })),
+    scenarios: ['left', 'right'].map(direction => ({ ...branch(direction), gems: [branch(direction).exit], title: direction === 'left' ? '左路开放' : '右路开放', sensor: { open: { left: direction === 'left', right: direction === 'right' } }, gates: [{ id: 'Closed Path', at: direction === 'left' ? [42, 24] : [30, 24], aside: [36, 48], approach: [36, 24], locked: true }], labels: [{ text: direction === 'left' ? '左路开放 · 右路关闭' : '左路关闭 · 右路开放', x: 36, y: 49 }], solution: 'if pathOpen("left"):\n    hero.moveLeft()\nelse:\n    hero.moveRight()\n' })),
     hints: ['else 后面也有冒号。', '两条移动语句分别缩进到各自的分支里。'],
   }),
-  base(11, 2, '门开且安全才走【选做】', '右路需要同时满足两个条件：门岗开放，而且下一格没有危险。用 hero.pathOpen("right") 和 hero.nextTileSafe() 检测。两个条件都满足才向右走一格；否则向下走一格。', {
+  base(11, 2, '门开且安全才走【选做】', '右路需要同时满足两个条件：门岗开放，而且下一格没有危险。用 pathOpen("right") 和 nextTileSafe() 检测。两个条件都满足才向右走一格；否则向下走一格。', {
     ...branch('right'),
     knowledge: 'and',
     apis: ['pathOpen', 'nextTileSafe'],
     optional: true,
     starter: '# 用 and 连接“门开”和“安全”。\n',
-    scenarios: [[true, true], [true, false], [false, true]].map(([open, safe]) => ({ ...branch(open && safe ? 'right' : 'down'), title: `${open ? '门开' : '门关'} / ${safe ? '无尖刺' : '有尖刺'}`, sensor: { open: { right: open } }, hazards: safe ? [] : [[48, 24]], gates: open ? [] : [{ id: 'Closed Path', at: [42, 24], aside: [42, 36], approach: [36, 24], locked: true }], labels: [{ text: `右路：${open ? '门开' : '门关'}，${safe ? '安全' : '尖刺'}；下路安全`, x: 36, y: 49 }], solution: 'if hero.pathOpen("right") and hero.nextTileSafe():\n    hero.moveRight()\nelse:\n    hero.moveDown()\n' })),
+    scenarios: [[true, true], [true, false], [false, true]].map(([open, safe]) => ({ ...branch(open && safe ? 'right' : 'down'), gems: [branch(open && safe ? 'right' : 'down').exit], title: `${open ? '门开' : '门关'} / ${safe ? '无尖刺' : '有尖刺'}`, sensor: { open: { right: open } }, hazards: safe ? [] : [[48, 24]], gates: open ? [] : [{ id: 'Closed Path', at: [42, 24], aside: [42, 36], approach: [36, 24], locked: true }], labels: [{ text: `右路：${open ? '门开' : '门关'}，${safe ? '安全' : '尖刺'}；下路安全`, x: 36, y: 49 }], solution: 'if pathOpen("right") and nextTileSafe():\n    hero.moveRight()\nelse:\n    hero.moveDown()\n' })),
   }),
   base(12, 2, '按分数选择通道【选做】', '牌上的分数由 hero.readSignal() 读取。80 分及以上走上路；60—79 分走右路；不到60分走下路。每次只走一格。写 if / elif / else，让同一份代码通过所有分数场景。', {
     ...branch('up'),
@@ -75,9 +91,9 @@ module.exports = [
     apis: ['readSignal'],
     optional: true,
     starter: 'score = hero.readSignal()\n# 从最高档开始判断。\n',
-    scenarios: [90, 80, 60, 59].map(score => ({ ...branch(score >= 80 ? 'up' : score >= 60 ? 'right' : 'down'), title: `分数 ${score}`, sensor: { signal: score }, labels: [{ text: `通行分数 ${score}`, x: 36, y: 53 }, { text: '≥80', x: 36, y: 43 }, { text: '60—79', x: 55, y: 29 }, { text: '<60', x: 36, y: 5 }], gates: ['up', 'right', 'down'].filter(d => d !== (score >= 80 ? 'up' : score >= 60 ? 'right' : 'down')).map((d, i) => ({ id: `Closed ${i}`, at: d === 'up' ? [36, 30] : d === 'right' ? [42, 24] : [36, 18], aside: [60, 48], approach: [36, 24], locked: true })), solution: 'score = hero.readSignal()\nif score >= 80:\n    hero.moveUp()\nelif score >= 60:\n    hero.moveRight()\nelse:\n    hero.moveDown()\n' })),
+    scenarios: [90, 80, 60, 59].map(score => ({ ...branch(score >= 80 ? 'up' : score >= 60 ? 'right' : 'down'), gems: [branch(score >= 80 ? 'up' : score >= 60 ? 'right' : 'down').exit], title: `分数 ${score}`, sensor: { signal: score }, labels: [{ text: `通行分数 ${score}`, x: 36, y: 53 }, { text: '≥80', x: 36, y: 43 }, { text: '60—79', x: 55, y: 29 }, { text: '<60', x: 36, y: 5 }], gates: ['up', 'right', 'down'].filter(d => d !== (score >= 80 ? 'up' : score >= 60 ? 'right' : 'down')).map((d, i) => ({ id: `Closed ${i}`, at: d === 'up' ? [36, 30] : d === 'right' ? [42, 24] : [36, 18], aside: [60, 48], approach: [36, 24], locked: true })), solution: 'score = hero.readSignal()\nif score >= 80:\n    hero.moveUp()\nelif score >= 60:\n    hero.moveRight()\nelse:\n    hero.moveDown()\n' })),
   }),
-  base(13, 3, '用 for 点亮三站', '走廊有三个蓝圈。每走一格会点亮一个。用 for 和 range(3) 重复三次单步移动，最后停在第三个圈。不能用带步数的移动代替循环。', {
+  base(13, 3, '三段供能路：用 for 接通出口', '走廊有三个蓝圈。每走一格会点亮一个。用 for 和 range(3) 重复三次单步移动，最后停在第三个圈。不能用带步数的移动代替循环。', {
     ...straight(3),
     knowledge: 'for / range(n)',
     singleStep: true,
@@ -87,7 +103,7 @@ module.exports = [
     solution: 'for step in range(3):\n    hero.moveRight()\n',
     hints: ['for step in range(3): 的下一行缩进。', 'range(3) 重复三次；这里暂时不需要使用 step。'],
   }),
-  base(14, 3, '依次按下1、2、3号开关', '三个开关依次在右边第1、2、3格。每轮先走一格，再用 hero.press(number) 按下脚下对应编号的开关。用 range(1, 4) 让 number 依次等于1、2、3。三个开关全部点亮后停在3号。', {
+  base(14, 3, '启动电源：依次按下1、2、3', '三个开关依次在右边第1、2、3格。每轮先走一格，再用 hero.press(number) 按下脚下对应编号的开关。用 range(1, 4) 让 number 依次等于1、2、3。三个开关全部点亮后停在3号。', {
     ...straight(3),
     knowledge: '循环变量 / range 起止',
     singleStep: true,
@@ -107,13 +123,13 @@ module.exports = [
     starter: '# range(起点, 终点, 步长)\n',
     solution: 'for number in range(2, 7, 2):\n    hero.moveRight(2)\n    hero.press(number)\n',
   }),
-  base(16, 3, '读路牌，决定循环次数', '路牌会给出走廊长度。hero.pathLength() 返回牌上的格数。把它存进 length，用 for 循环每次向右走一格。切换2格、4格、5格场景，代码一字不改都要恰好停在出口。', {
+  base(16, 3, '供能路变长了：读取需要走的格数', '路牌会给出走廊长度。hero.pathLength() 返回牌上的格数。把它存进 length，用 for 循环每次向右走一格。切换2格、4格、5格场景，代码一字不改都要恰好停在出口。', {
     ...straight(2),
     knowledge: '变量作为循环次数',
     apis: ['pathLength'],
     singleStep: true,
     starter: 'length = hero.pathLength()\n# 重复 length 次，每次移动一格。\n',
-    scenarios: [2, 4, 5].map(n => ({ ...straight(n), title: `走廊 ${n} 格`, sensor: { length: n }, labels: [{ text: `到出口 ${n} 格`, x: 36, y: 29 }], solution: 'length = hero.pathLength()\nfor step in range(length):\n    hero.moveRight()\n' })),
+    scenarios: [2, 4, 5].map(n => ({ ...straight(n), title: `走廊 ${n} 格`, checkpoints: Array.from({ length: n }, (_, i) => [24 + i * 12, 12]), sensor: { length: n }, labels: [{ text: `到出口 ${n} 格`, x: 36, y: 29 }], solution: 'length = hero.pathLength()\nfor step in range(length):\n    hero.moveRight()\n' })),
   }),
   base(17, 4, '剩余格数减到0', '到出口还有3格。先写 remaining = 3；只要 remaining > 0 就向右走一格，再把 remaining 减1。用 print(remaining) 显示每次减完后的值，应该依次看到2、1、0。', {
     ...straight(3),
@@ -142,14 +158,14 @@ module.exports = [
     scenarios: [2, 4, 0].map(n => ({ ...straight(n), title: n ? `信标在前方${n}格` : '信标就在起点', exitMarker: { x: 12 + n * 12, y: 5, direction: '', label: '信标' }, solution: 'while not hero.atBeacon():\n    hero.moveRight()\n' })),
     hints: ['not 表示取反；没到达时，循环条件才是 True。', '检测命令必须写在 while 条件中，每轮重新检测。'],
   }),
-  base(20, 4, '等巡逻走开再前进【选做】', '守卫在第二格上下巡逻。hero.nextTileSafe() 会检查从当前位置向右走一格的整段路程；安全才返回 True。用 while 到信标为止，每轮用 if 判断：安全就右走一格，不安全就 hero.wait() 等一拍，再检查。', {
+  base(20, 4, '等巡逻走开再前进【选做】', '守卫在第二格上下巡逻。nextTileSafe() 会检查从当前位置向右走一格的整段路程；安全才返回 True。用 while 到信标为止，每轮用 if 判断：安全就右走一格，不安全就 hero.wait() 等一拍，再检查。', {
     ...straight(4),
     knowledge: 'while + if / 等待',
     optional: true,
     apis: ['atBeacon', 'nextTileSafe', 'wait'],
     singleStep: true,
     maxActions: 45,
-    scenarios: [0, Math.PI].map((phase, i) => ({ ...straight(4), title: `巡逻场景${i + 1}`, corridors: [[12, 12, 68, 12], [36, 12, 36, 36]], guard: { id: 'Patrol', x: 36, y: 24, axis: 'y', amplitude: 12, radius: 5, speed: 0.7, phase }, labels: [{ text: '先检测安全，再走一格', x: 42, y: 39 }], solution: 'while not hero.atBeacon():\n    if hero.nextTileSafe():\n        hero.moveRight()\n    else:\n        hero.wait()\n' })),
+    scenarios: [0, Math.PI].map((phase, i) => ({ ...straight(4), title: `巡逻场景${i + 1}`, corridors: [[12, 12, 68, 12], [36, 12, 36, 36]], guard: { id: 'Patrol', x: 36, y: 24, axis: 'y', amplitude: 12, radius: 5, speed: 0.7, phase }, labels: [{ text: '先检测安全，再走一格', x: 42, y: 39 }], solution: 'while not hero.atBeacon():\n    if nextTileSafe():\n        hero.moveRight()\n    else:\n        hero.wait()\n' })),
   }),
   base(21, 4, '综合：带口令到终点', '先向右走一格到门岗，读牌并说“自己人”。守卫让开后，用 for 重复两次单步右移，到上方道路的拐角；再用 while 检测信标，每轮向上走一格，直到到达。两个场景的上行距离不同，同一代码都要通过。', {
     ...straight(3),

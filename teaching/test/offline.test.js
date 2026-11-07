@@ -84,6 +84,15 @@ test('local bootstrap, preferences and missing resources never fall through to u
     const served = await get(resource)
     assert.equal(served.status, 200)
     assert.equal(served.headers.get('x-teaching-resource'), manifest.resources[resource].hash)
+    const ids = ['529e7aecc423d4e83b000004', '52aa3b9eccbd588d4d000003', '52aa608b20fccb0000000005', '53fa25f25bc220000052c2be']
+    for (const ordered of [ids, [...ids].reverse()]) {
+      const response = await get('/db/thang.type/names?' + ordered.map(id => 'ids%5B%5D=' + id).join('&'))
+      assert.equal(response.status, 200)
+      const records = await response.json()
+      assert.deepEqual(records.map(r => r.original).sort(), [...ids].sort())
+      assert.ok(records.every(r => r.name && r.components))
+    }
+    assert.equal((await get('/db/thang.type/names?ids%5B%5D=000000000000000000000000')).status, 404)
     assert.equal(upstream, 0)
   } finally {
     await new Promise(resolve => server.close(resolve))
