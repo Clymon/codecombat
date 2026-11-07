@@ -1,0 +1,119 @@
+{
+  "index": 15,
+  "section": 3,
+  "revision": 4,
+  "lessonOrder": 15,
+  "name": "第3节 · 绕过短路开关【选做】",
+  "description": "六块编号板交错排列。蓝色的2、4、6号连接出口，要依次走到上面压下；红色的1、3、5号连着接地线，可以走过，但压下就会短路。看线路和颜色选择开关，全部接通后在6号法阵停下。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    96,
+    40
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      92,
+      12
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    84,
+    12
+  ],
+  "exitMarker": {
+    "x": 84,
+    "y": 5,
+    "direction": "→",
+    "label": "终点"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      6,
+      24
+    ]
+  ],
+  "labels": [],
+  "knowledge": "range 步长",
+  "optional": true,
+  "apis": [
+    "press"
+  ],
+  "switches": [
+    {
+      "number": 2,
+      "at": [
+        36,
+        12
+      ]
+    },
+    {
+      "number": 4,
+      "at": [
+        60,
+        12
+      ]
+    },
+    {
+      "number": 6,
+      "at": [
+        84,
+        12
+      ]
+    }
+  ],
+  "starter": "# 红板可以走过，但不要压下。先接通第一块蓝板。\n",
+  "solution": "for number in range(2, 7, 2):\n    hero.moveRight(2)\n    hero.press(number)\n",
+  "visualTask": true,
+  "quest": "接通蓝色的2、4、6号开关，避开红色接地开关。",
+  "inscriptions": [],
+  "powerCircuit": true,
+  "exitStyle": "portal",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "learningContract": null,
+  "singleStep": false,
+  "maxActions": 240,
+  "decoySwitches": [
+    {
+      "number": 1,
+      "at": [
+        24,
+        12
+      ]
+    },
+    {
+      "number": 3,
+      "at": [
+        48,
+        12
+      ]
+    },
+    {
+      "number": 5,
+      "at": [
+        72,
+        12
+      ]
+    }
+  ],
+  "safetyGoalLabel": "不误按接地板，不撞墙",
+  "hints": [
+    "press 会操作脚下编号板；走过不会触发。红色接地线和蓝色供电线用途不同。",
+    "相邻蓝板相隔两格，编号也相差2。可以用步数参数移动，用循环整理这个规律。"
+  ],
+  "introBrief": [
+    "绕过短路开关【选做】",
+    "接通蓝色的2、4、6号开关，避开红色接地开关。"
+  ]
+}

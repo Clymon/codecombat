@@ -1,0 +1,276 @@
+{
+  "index": 8,
+  "section": 2,
+  "revision": 5,
+  "lessonOrder": 8,
+  "name": "第2节 · 修好机关，送出剩余材料",
+  "description": "这批能量石要分两处交付。右边第一格的维修机关固定收2块，第二格的出口机关收剩下的全部。先领取，修好中间机关，再把余量送到出口。两批物资不同，同一程序都要交对数量。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    60,
+    40
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      56,
+      12
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    48,
+    12
+  ],
+  "exitMarker": {
+    "x": 48,
+    "y": 5,
+    "direction": "→",
+    "label": "终点"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      6,
+      24
+    ]
+  ],
+  "labels": [],
+  "knowledge": "减法：总数减去已经交出的数量",
+  "allowCodeChanges": false,
+  "starter": "total = hero.take(\"补给箱\")\n# 先右走一格，交出2块维修材料。\n# 算出剩余数量，再送给下一格旁的出口机关。\n",
+  "scenarios": [
+    {
+      "title": "领取 5 块，维修用2块",
+      "size": [
+        60,
+        48
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        36,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          44,
+          12
+        ],
+        [
+          12,
+          12,
+          12,
+          24
+        ],
+        [
+          24,
+          12,
+          24,
+          24
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ]
+      ],
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          32
+        ]
+      ],
+      "labels": [],
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "inventory": {
+        "item": "能量石",
+        "unit": "块",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            12,
+            24
+          ],
+          "approach": [
+            12,
+            12
+          ],
+          "count": 5
+        },
+        "receivers": [
+          {
+            "name": "维修机关",
+            "at": [
+              24,
+              24
+            ],
+            "approach": [
+              24,
+              12
+            ],
+            "amount": 2,
+            "kind": "socket"
+          },
+          {
+            "name": "出口机关",
+            "at": [
+              36,
+              24
+            ],
+            "approach": [
+              36,
+              12
+            ],
+            "amount": 3,
+            "kind": "socket"
+          }
+        ]
+      },
+      "solution": "total = hero.take(\"补给箱\")\nhero.moveRight()\nhero.give(\"维修机关\", 2)\nremaining = total - 2\nhero.moveRight()\nhero.give(\"出口机关\", remaining)\n",
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "title": "领取 6 块，维修用2块",
+      "size": [
+        60,
+        48
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        36,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          44,
+          12
+        ],
+        [
+          12,
+          12,
+          12,
+          24
+        ],
+        [
+          24,
+          12,
+          24,
+          24
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ]
+      ],
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          32
+        ]
+      ],
+      "labels": [],
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "inventory": {
+        "item": "能量石",
+        "unit": "块",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            12,
+            24
+          ],
+          "approach": [
+            12,
+            12
+          ],
+          "count": 6
+        },
+        "receivers": [
+          {
+            "name": "维修机关",
+            "at": [
+              24,
+              24
+            ],
+            "approach": [
+              24,
+              12
+            ],
+            "amount": 2,
+            "kind": "socket"
+          },
+          {
+            "name": "出口机关",
+            "at": [
+              36,
+              24
+            ],
+            "approach": [
+              36,
+              12
+            ],
+            "amount": 4,
+            "kind": "socket"
+          }
+        ]
+      },
+      "solution": "total = hero.take(\"补给箱\")\nhero.moveRight()\nhero.give(\"维修机关\", 2)\nremaining = total - 2\nhero.moveRight()\nhero.give(\"出口机关\", remaining)\n",
+      "singleStep": false,
+      "learningContract": null
+    }
+  ],
+  "hints": [
+    "每个机关旁标着需要的数量，背包会随交付减少。",
+    "变量不会随背包自动改变；可以用领取数减去已交出的2块。"
+  ],
+  "quest": "先给维修机关2块能量石，再把余下的全部交给出口机关。",
+  "inscriptions": [],
+  "exitStyle": "stairs",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "visualTask": true,
+  "apis": [
+    "take",
+    "give"
+  ],
+  "powerCircuit": false,
+  "learningContract": null,
+  "singleStep": false,
+  "maxActions": 240,
+  "introBrief": [
+    "修好机关，送出剩余材料",
+    "先给维修机关2块能量石，再把余下的全部交给出口机关。"
+  ]
+}

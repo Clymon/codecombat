@@ -53,15 +53,19 @@ function describeObject (object, d, hero, world) {
       break
     case 'charge': {
       const state = parse(hero?.teachingCharge, { plates: [] }).plates[object.index]
-      ready = distance(hero, object.at) <= object.radius
-      text = state?.complete ? '这块已经点亮。去其他暗着的石板；完成状态会保留。' : `站在这块石板上停留${object.seconds}秒，圆环转满后点亮。没有单独的“充能函数”。`
-      add('wait', 'hero.wait()', '等待可以随时调用；给此石板充能必须站在它上面', ready ? '当前已站在石板上' : '当前未站在这块石板上')
+      const availability = interactions.chargePlate(hero?.pos, object, state, hero?.health)
+      ready = availability.ready
+      text = availability.complete ? availability.message : `站在这块石板上停留${object.seconds}秒，圆环转满后点亮。没有单独的“充能函数”。`
+      add('wait', 'hero.wait()', '等待可以随时调用；给此石板充能必须站在它上面', availability.message)
       break
     }
-    case 'switch':
-      ready = distance(hero, object.at) <= 1; text = object.decoy ? '红色接地板：走过安全，压下会短路。旁边的蓝色开关才接着出口。' : '走到这块编号开关上，再压下它。接通后电流流向下一块；顺序由地面线路决定。'
-      add('press', `hero.press(${object.number})`, object.decoy ? '这是接地板，不应启动；走过不会触发' : '必须站在这块开关上', object.decoy ? '危险：压下会短路' : ready ? '位置满足；还需符合开关顺序' : '需要先移动到这块开关上')
+    case 'switch': {
+      const availability = interactions.pressSwitch(hero?.pos, d.switches, d.decoySwitches, hero?.teachingPressedCount || 0, object.number)
+      ready = availability.ready
+      text = object.decoy ? '红色接地板：走过安全，压下会短路。旁边的蓝色开关才接着出口。' : availability.status === 'complete' ? availability.message : '走到这块编号开关上，再压下它。接通后电流流向下一块；顺序由地面线路决定。'
+      add('press', `hero.press(${object.number})`, object.decoy ? '这是接地板，不应启动；走过不会触发' : '必须站在这块开关上，并符合开关顺序', availability.message)
       break
+    }
     case 'supply': {
       const state = parse(hero?.teachingInventory, {})
       const availability = interactions.takeItems(hero?.pos, object, state, object.name)
