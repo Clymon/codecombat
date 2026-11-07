@@ -1,0 +1,109 @@
+{
+  "index": 22,
+  "name": "样关①：把追兵引进陷阱",
+  "section": 5,
+  "lessonOrder": 22,
+  "revision": 1,
+  "prototype": true,
+  "checkpoints": [],
+  "gems": [],
+  "hazards": [
+    [
+      36,
+      36
+    ]
+  ],
+  "gates": [],
+  "torches": [
+    [
+      6,
+      24
+    ],
+    [
+      72,
+      18
+    ],
+    [
+      64,
+      44
+    ]
+  ],
+  "labels": [],
+  "exitStyle": "stairs",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "maxActions": 90,
+  "tip": "先观察角色和道路。展开任务日志查看目标、可用命令和提示。",
+  "knowledge": "顺序执行 · 路线与参数",
+  "size": [
+    84,
+    60
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "exit": [
+    60,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      76,
+      12
+    ],
+    [
+      12,
+      12,
+      12,
+      36
+    ],
+    [
+      12,
+      36,
+      68,
+      36
+    ]
+  ],
+  "quest": "上层走廊的追兵守着地牢。露面引起它的注意，让它自己踩中尖刺，再从下层楼梯撤离。",
+  "description": "引追兵踩中尖刺，并让英雄活着到达楼梯。追兵看见你后会持续追击，靠近会挥棒攻击；尖刺对双方都危险。只能用移动和等待，不提供攻击。运行可反复试路，成功后提交代码。",
+  "starter": "# 先观察：追兵、尖刺和楼梯分别在哪条走廊？\n",
+  "apis": [
+    "wait"
+  ],
+  "safetyGoalLabel": "英雄存活",
+  "adventure": {
+    "mode": "lure",
+    "actors": [
+      {
+        "id": "追兵",
+        "kind": "enemy",
+        "at": [
+          60,
+          36
+        ],
+        "health": 100,
+        "speed": 10,
+        "damage": 30,
+        "aggro": 52
+      }
+    ]
+  },
+  "goals": [
+    {
+      "id": "lure-trap",
+      "name": "让追兵踩中尖刺"
+    }
+  ],
+  "hints": [
+    "石墙会挡住视线。走到上层走廊露面，追兵才会发现你。",
+    "追兵会追向你的位置。你可以退回下层走廊，让它沿上层通道追过来。",
+    "自己踏上尖刺也会受伤。通关还需要到下层楼梯。"
+  ],
+  "solution": "hero.moveUp(2)\nhero.moveDown(2)\nhero.moveRight(4)\n",
+  "learningContract": null
+}
