@@ -19,7 +19,7 @@
 
 - `node teaching/tools/build-levels.js` 生成原生关卡。
 - `compileLevels()` 只返回原生关卡对象，不写文件；可以传入一组定义检查修改后的场景。
-- `buildLevels(outputDir, { definitions })` 可针对指定定义生成；默认使用完整清单。原生关卡及 `catalog.json` 在 `outputDir`，教师 `references.json` 与可读 `README.md` 在同级 `outputDir-teacher`。教师参考记录源文件链接、编号、章节、修订号、场景、目标和代码，均来自同一次编制。
+- `buildLevels(outputDir, { definitions })` 可针对指定定义生成；默认使用完整清单。原生关卡、`catalog.json` 及精简玩法身份 `progress.json` 在 `outputDir`，教师 `references.json` 与可读 `README.md` 在同级 `outputDir-teacher`。教师参考记录源文件链接、编号、章节、修订号、场景、目标和代码，均来自同一次编制。
 - `node --test teaching/test/level-compilation.test.js teaching/test/outcome-design.test.js` 检查编制结果与符文室实际机关行为。
 
 ## 验证与发布边界

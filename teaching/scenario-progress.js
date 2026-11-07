@@ -23,6 +23,6 @@ async function record (session, level, body) {
   }
   // Completion is derived from an accepted pass, never a client completion flag.
   session.state = { ...session.state, complete: session.scenePasses[session.teachingScene || 0]?.hash === hash }
-  session.teachingComplete = Array.from({ length: count }, (_, i) => session.scenePasses[i]).every(Boolean)
+  session.teachingComplete = Array.from({ length: count }, (_, i) => session.scenePasses[i]).every(pass => pass?.hash && (design.allowCodeChanges || pass.hash === hash))
 }
 module.exports = { record, source }

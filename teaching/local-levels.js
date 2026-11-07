@@ -22,6 +22,9 @@ function readLevel (slug, scene = 0) {
   const file = scene ? path.join(levelsDir, 'scenarios', `${slug}-${scene}.json`) : path.join(levelsDir, `${slug}.json`)
   return fs.existsSync(file) ? applyVillageScene(applyHero(decorateLevel(JSON.parse(fs.readFileSync(file, 'utf8'))))) : null
 }
+// Native files are immutable within a published generation. Its compact companion
+// is replaced in the same directory publication and checked on every operation.
+readLevel.progressRevision = require('./published-progress').createProgressReader(levelsDir)
 function sendSession (res, session) {
   const result = { ...session }
   // The native client supplies its own editability tag; ownership is cookie-based.

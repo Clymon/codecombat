@@ -296,7 +296,7 @@ module.exports = class LevelBus extends Bus
 
   # Debounced as saveSession
   reallySaveSession: ->
-    return if @teachingSavePending or @teachingSaveClosed
+    return if @teachingSavePending or @teachingSaveClosed or @teachingSaveBlocked
     return if _.isEmpty @changedSessionProperties
     # don't let peeking admins mess with the session accidentally
     return unless @session.get('creator') is me.id
@@ -321,6 +321,7 @@ module.exports = class LevelBus extends Bus
       @teachingSavePending = true
       @teachingSaveStatus.saving()
       tempSession.save patch,
+        teachingSaveHandled: true
         patch: true
         type: 'PUT'
         success: =>
@@ -330,12 +331,13 @@ module.exports = class LevelBus extends Bus
             @teachingSaveStatus.clear()
           else
             @saveSession()
-        error: =>
+        error: (model, response) =>
           return if @teachingSaveClosed
           @teachingSavePending = false
           # Restore dirty fields, never stale values: retries read the current editor model.
           @changedSessionProperties[prop] = true for prop of patch
-          @teachingSaveStatus.failed()
+          @teachingSaveBlocked = not TeachingSaveStatus.recovery(response).retryable
+          @teachingSaveStatus.failed(response)
     else
       tempSession.save(patch, {patch: true, type: 'PUT'})
 

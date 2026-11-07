@@ -30,6 +30,8 @@ test('cosmetic revision and reordered JSON retain accepted passes after restart'
     const map = scenes[0].teachingMap
     map.revision += 1
     map.name = '新标题'; map.description = '新版提示'; map.torches = [[1, 2]]
+    map.mentor.line = '只改导师台词'
+    map.world.chapterName = '只改章节显示名称'
     map.gates[0].greeting = '重新措辞的招呼'
     scenes[0].teachingMap = Object.fromEntries(Object.entries(map).reverse())
     const restored = await create().openSession(studentId, slug)
@@ -71,6 +73,13 @@ test('teacher and student HTTP views reconcile revisions before a level is reope
       const cookie = formCookie + '; ' + login.headers.get('set-cookie').split(';')[0]
       const first = await progress.openSession(studentId, slug)
       await progress.saveSession(studentId, first._id, victory('hero.moveRight()'))
+      scenes[0].teachingMap.mentor.line = '新版导师台词'
+      scenes[0].teachingMap.world.chapterName = '新版章节标题'
+      const cosmeticTeacher = await (await fetch(base + `/teaching/teacher/student/${studentId}`)).text()
+      assert.match(cosmeticTeacher, /场景通过数：1 \/ 1/)
+      assert.doesNotMatch(cosmeticTeacher, /重新验证本关全部场景/)
+      const cosmeticStudent = await (await fetch(base + '/teaching', { headers: { cookie } })).text()
+      assert.doesNotMatch(cosmeticStudent, /重新验证本关全部场景/)
       scenes[0].teachingMap.gates[0].password = '新口令'
       const teacher = await (await fetch(base + `/teaching/teacher/student/${studentId}`)).text()
       const card = teacher.match(/<article>[\s\S]*?<\/article>/g).find(html => html.includes('hero.moveRight()'))
@@ -110,9 +119,10 @@ test('legacy JSON with unchanged revision preserves passes and completion, inclu
     const migrated = await progress.openSession(studentId, slug)
     assert.equal(migrated.state.complete, true)
     assert.equal(migrated._id, legacy._id)
-    assert.deepEqual(migrated.scenePasses, legacy.scenePasses)
+    assert.equal(migrated.scenePasses[0].code, legacy.scenePasses[0].code)
+    assert.equal(migrated.scenePasses[0].passedAt, legacy.scenePasses[0].passedAt)
     assert.match(migrated.revisionNotice, /相同地图修订/)
-    assert.deepEqual((await create().openSession(studentId, slug)).scenePasses, legacy.scenePasses)
+    assert.deepEqual((await create().openSession(studentId, slug)).scenePasses, migrated.scenePasses)
     delete legacy.scenePasses
     fs.writeFileSync(path.join(dir, 'progress', studentId + '.json'), JSON.stringify({ [slug]: legacy }))
     const oldest = await progress.openSession(studentId, slug)
@@ -193,5 +203,62 @@ test('a content change during the external checker rejects its late result and p
       if (oldPython === undefined) delete process.env.TEACHING_PYTHON; else process.env.TEACHING_PYTHON = oldPython
       if (oldGate === undefined) delete process.env.TEACHING_TEST_GATE_DIR; else process.env.TEACHING_TEST_GATE_DIR = oldGate
     }
+  })
+})
+
+test('goal display names preserve completion but goal criteria require revalidation', async () => {
+  await withProgress(async ({ progress, scenes }) => {
+    scenes[0].teachingMap.goals = structuredClone(setup.readLevel('local-python-26').teachingMap.goals)
+    const first = await progress.openSession(studentId, slug)
+    await progress.saveSession(studentId, first._id, victory('hero.moveRight()'))
+    scenes[0].teachingMap.goals[0].name = '只改目标说明'
+    const cosmetic = await progress.openSession(studentId, slug)
+    assert.equal(cosmetic.teachingComplete, true)
+    assert.equal(cosmetic._id, first._id)
+    scenes[0].teachingMap.goals[0].id = 'different-required-goal'
+    assert.equal((await progress.openSession(studentId, slug)).teachingComplete, false)
+  })
+})
+
+test('an existing version-one identity upgrades without invalidating the same published gameplay', async () => {
+  await withProgress(async ({ progress, dir }) => {
+    const first = await progress.openSession(studentId, slug)
+    const passed = await progress.saveSession(studentId, first._id, victory('hero.moveRight()'))
+    // Captured from the published decorated scene at ad0708c, before policy repair.
+    passed.gameplayIdentity = { policy: 1, rules: 1, hash: '870db20cd011b71f7ed7fb75bb1d507e4e31b8fa8d0de523a7637a02c633e576' }
+    fs.writeFileSync(path.join(dir, 'progress', studentId + '.json'), JSON.stringify({ [slug]: passed }))
+    const published = createLearningProgress({ readLevel: setup.readLevel, levels: () => [setup.readLevel(slug)] })
+    const restored = await published.openSession(studentId, slug)
+    assert.equal(restored._id, first._id)
+    assert.equal(restored.teachingComplete, true)
+    assert.deepEqual(restored.scenePasses, passed.scenePasses)
+    assert.equal(restored.revisionHistory, undefined)
+  })
+})
+
+test('state-only migration credits only its saved scene, never missing siblings or mismatched source evidence', async () => {
+  await withProgress(async ({ progress, scenes, dir }) => {
+    scenes[0].teachingMap.scenarioTitles = ['主场景', '另一个场景']
+    scenes.push(structuredClone(scenes[0]))
+    const legacy = { _id: 'facebe111111111111111111', mapRevision: scenes[0].teachingMap.revision, teachingScene: 0, state: { complete: true }, code: { 'hero-placeholder': { plan: 'hero.moveRight()' } } }
+    const file = path.join(dir, 'progress', studentId + '.json')
+    fs.mkdirSync(path.dirname(file), { recursive: true })
+    fs.writeFileSync(file, JSON.stringify({ [slug]: legacy }))
+    const migrated = await progress.saveSession(studentId, legacy._id, { playtime: 1 })
+    assert.equal(migrated.state.complete, true)
+    assert.equal(migrated.teachingComplete, false)
+    assert.equal(migrated.scenePasses[1], undefined)
+    legacy.scenePasses = { 1: { code: '# a different older program' } }
+    fs.writeFileSync(file, JSON.stringify({ [slug]: legacy }))
+    const mixed = await progress.saveSession(studentId, legacy._id, { playtime: 2 })
+    assert.equal(mixed.state.complete, true)
+    assert.equal(mixed.teachingComplete, false)
+    delete legacy.scenePasses
+    legacy.codeHash = 'hash-of-a-different-source'
+    fs.writeFileSync(file, JSON.stringify({ [slug]: legacy }))
+    const mismatched = await progress.saveSession(studentId, legacy._id, { playtime: 2 })
+    assert.equal(mismatched.state.complete, false)
+    assert.equal(mismatched.teachingComplete, false)
+    assert.deepEqual(mismatched.scenePasses, {})
   })
 })

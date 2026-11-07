@@ -131,3 +131,38 @@ test('a fresh runtime uses the last published catalog and release identities aft
   assert.equal(runtime.catalog[0].name, selection[0].name)
   assert.deepEqual(Object.keys(runtime.releases), ['local-python-13'])
 })
+
+test('published progress descriptors preserve cosmetic generations and detect changed gameplay without restarting', async t => {
+  const { root, output } = workspace(t)
+  const selection = structuredClone(definitions.filter(d => d.index === 4))
+  buildLevels(output, { definitions: selection })
+  // A small student artifact belongs to the same all-or-nothing generation.
+  assert.ok(fs.statSync(path.join(output, 'progress.json')).size < 4096)
+  const { createProgressReader } = require('../published-progress')
+  const { createLearningProgress } = require('../learning-progress')
+  const accounts = require('../student-accounts')
+  const oldState = process.env.TEACHING_STATE_DIR
+  process.env.TEACHING_STATE_DIR = path.join(root, 'state')
+  t.after(() => { if (oldState === undefined) delete process.env.TEACHING_STATE_DIR; else process.env.TEACHING_STATE_DIR = oldState })
+  const readLevel = (slug, scene = 0) => JSON.parse(fs.readFileSync(path.join(output, scene ? `scenarios/${slug}-${scene}.json` : `${slug}.json`)))
+  readLevel.progressRevision = createProgressReader(output)
+  const progress = createLearningProgress({ readLevel, levels: () => [readLevel('local-python-04')] })
+  const studentId = '99881808'
+  accounts.ensureStudent(studentId)
+  const first = await progress.openSession(studentId, 'local-python-04')
+  const code = 'hero.moveRight()'
+  await progress.saveSession(studentId, first._id, { code: { 'hero-placeholder': { plan: code } }, state: { complete: true, teachingVictoryCode: code } })
+  selection[0].description = '仅改文字的新一代'
+  selection[0].revision += 1
+  buildLevels(output, { definitions: selection })
+  const cosmetic = (await progress.readProgress(studentId))['local-python-04']
+  assert.equal(cosmetic.teachingComplete, true)
+  assert.equal(cosmetic._id, first._id)
+  selection[0].gates[0].password = '新口令'
+  buildLevels(output, { definitions: selection })
+  await assert.rejects(progress.saveSession(studentId, first._id, { playtime: 2 }), error => error.status === 409)
+  const revised = (await progress.readProgress(studentId))['local-python-04']
+  assert.equal(revised.teachingComplete, false)
+  assert.equal(revised.code['hero-placeholder'].plan, code)
+  assert.match(revised.revisionNotice, /重新验证/)
+})

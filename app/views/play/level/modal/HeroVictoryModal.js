@@ -1,3 +1,4 @@
+const TeachingSaveStatus = require('lib/TeachingSaveStatus')
 /*
  * decaffeinate suggestions:
  * DS002: Fix invalid constructor
@@ -581,6 +582,16 @@ module.exports = (HeroVictoryModal = (function () {
       return campaign
     }
 
+    showTeachingSaveFailure (error) {
+      this.teachingNext = null
+      this.teachingRecovery = TeachingSaveStatus.recovery(error)
+      this.$('.local-save-notice').text(this.teachingRecovery.message)
+      if (!this.teachingRecovery.retryable) {
+        this.$('.local-save-notice').append('<a href="/teaching" target="_blank" rel="noopener">复制代码后，在新标签页打开课程地图</a>')
+      }
+      this.$('#continue-button').text(this.teachingRecovery.retryable ? '重试保存' : '返回编辑器复制代码')
+    }
+
     async prepareTeachingContinuation () {
       if (this.preparingTeachingContinuation) return
       this.preparingTeachingContinuation = true
@@ -594,18 +605,17 @@ module.exports = (HeroVictoryModal = (function () {
         })
         if (!saved.ok) {
           const failure = await saved.json().catch(() => ({}))
-          throw new Error(failure.message || '保存失败，请保留当前页面和代码，稍后重试。')
+          throw Object.assign(new Error(failure.message || '保存失败，请保留当前页面和代码，稍后重试。'), { status: saved.status })
         }
         const response = await fetch(`/teaching/continue/${this.level.get('slug')}?sessionId=${this.session.id}`)
         const next = await response.json()
-        if (!response.ok) throw new Error(next.message || '暂时无法读取下一关，请重试。')
+        if (!response.ok) throw Object.assign(new Error(next.message || '暂时无法读取下一关，请重试。'), { status: response.status })
         this.teachingNext = next
+        this.teachingRecovery = null
         this.$('.local-save-notice').text(next.message)
         this.$('#continue-button').text(next.label)
       } catch (error) {
-        this.teachingNext = null
-        this.$('.local-save-notice').text(/[\u3400-\u9fff]/.test(error.message) ? error.message : '保存失败或连接中断，请勿刷新页面，代码仍保留在编辑器中。请点击重试。')
-        this.$('#continue-button').text('重试保存')
+        this.showTeachingSaveFailure(error)
       } finally {
         this.preparingTeachingContinuation = false
         this.$('#continue-button').prop('disabled', false)
@@ -614,6 +624,7 @@ module.exports = (HeroVictoryModal = (function () {
 
     async continueTeaching () {
       if (this.preparingTeachingContinuation || this.continuingTeaching) return
+      if (this.teachingRecovery && !this.teachingRecovery.retryable) return this.hide()
       const next = this.teachingNext
       if (!next || next.kind === 'waiting') return this.prepareTeachingContinuation()
       if (next.kind === 'retry') return this.hide()
@@ -625,12 +636,11 @@ module.exports = (HeroVictoryModal = (function () {
           method: 'POST', body: new URLSearchParams({ formToken: next.formToken, sessionId: this.session.id }),
         })
         const result = await response.json()
-        if (!response.ok) throw new Error(result.message || '下一关暂时无法进入，请重试。')
+        if (!response.ok) throw Object.assign(new Error(result.message || '下一关暂时无法进入，请重试。'), { status: response.status })
         window.location.assign(result.url)
       } catch (error) {
-        this.teachingNext = null
-        this.$('.local-save-notice').text(/[\u3400-\u9fff]/.test(error.message) ? error.message : '保存失败或连接中断，请勿刷新页面，代码仍保留在编辑器中。请点击重试。')
-        this.$('#continue-button').prop('disabled', false).text('重试')
+        this.showTeachingSaveFailure(error)
+        this.$('#continue-button').prop('disabled', false)
         this.continuingTeaching = false
       }
     }

@@ -128,7 +128,14 @@ function buildLevels (outputDir = path.join(dir, 'levels'), { definitions, fileS
   const entries = require('../level-catalog').compileCatalog(definitions)
   const levels = nativeLevels(entries)
   const json = value => JSON.stringify(value, null, 2) + '\n'
-  const studentFiles = { 'catalog.json': json(entries.map(entry => entry.catalog)) }
+  const progress = Object.fromEntries(entries.map(entry => {
+    // Match the historical reader's metadata for exact version-one migration;
+    // the current identity ignores this presentation enrichment entirely.
+    const scenes = entry.scenes.map(scene => require('../village-scenes').applyVillageScene(require('../story-cast').decorateLevel({ teachingMap: structuredClone(scene.teachingMap), thangs: [] })))
+    const { revision, scenarioTitles, allowCodeChanges } = entry.scenes[0].teachingMap
+    return [entry.slug, { teachingMap: { revision, scenarioTitles, allowCodeChanges }, identity: require('../progress-revisions').identity((slug, i = 0) => scenes[i], entry.slug) }]
+  }))
+  const studentFiles = { 'catalog.json': json(entries.map(entry => entry.catalog)), 'progress.json': json({ format: 1, levels: progress }) }
   for (const level of levels) {
     const sceneIndex = level.teachingMap.scenarioIndex
     const content = json(level)
