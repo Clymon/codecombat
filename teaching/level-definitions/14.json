@@ -1,0 +1,94 @@
+{
+  "index": 14,
+  "section": 3,
+  "revision": 4,
+  "lessonOrder": 14,
+  "name": "第3节 · 接通三个继电开关",
+  "description": "三个编号开关串联着出口。走到闪光的开关上，用 press(编号) 压下它；接通后光会沿线路流向下一块。必须按电路顺序接通，直接走过去不会启动。全部亮起后在末端法阵停下。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    60,
+    40
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      56,
+      12
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    48,
+    12
+  ],
+  "exitMarker": {
+    "x": 48,
+    "y": 5,
+    "direction": "→",
+    "label": "终点"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      6,
+      24
+    ]
+  ],
+  "labels": [],
+  "knowledge": "循环变量 / range 起止",
+  "singleStep": false,
+  "apis": [
+    "press"
+  ],
+  "switches": [
+    {
+      "number": 1,
+      "at": [
+        24,
+        12
+      ]
+    },
+    {
+      "number": 2,
+      "at": [
+        36,
+        12
+      ]
+    },
+    {
+      "number": 3,
+      "at": [
+        48,
+        12
+      ]
+    }
+  ],
+  "starter": "# 先让1号开关接通，看电流流向哪里。\n",
+  "solution": "for number in range(1, 4):\n    hero.moveRight()\n    hero.press(number)\n",
+  "hints": [
+    "位置和编号都要对应：站在1号上，才能压下1号。",
+    "每次都要先移动再按开关。循环变量可以替你依次产生1、2、3；逐个写出动作也有效。"
+  ],
+  "visualTask": true,
+  "quest": "按线路方向接通1、2、3号开关，让出口通电。",
+  "inscriptions": [],
+  "powerCircuit": true,
+  "exitStyle": "portal",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "learningContract": null,
+  "maxActions": 240,
+  "introBrief": [
+    "接通三个继电开关",
+    "按线路方向接通1、2、3号开关，让出口通电。"
+  ]
+}

@@ -1,0 +1,200 @@
+{
+  "index": 20,
+  "section": 4,
+  "revision": 2,
+  "lessonOrder": 20,
+  "name": "第4节 · 等巡逻走开再前进【选做】",
+  "description": "守卫会穿过前方通道，进入红色警戒圈会失败。安全时继续前进，危险时留在原地，最终到达信标。两种巡逻起始位置不同，同一程序都要安全。nextTileSafe() 会判断右边下一格的通行时机；等待时世界照常运行。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    72,
+    40
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      68,
+      12
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    60,
+    12
+  ],
+  "exitMarker": {
+    "x": 60,
+    "y": 5,
+    "direction": "→",
+    "label": "终点"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      6,
+      24
+    ]
+  ],
+  "labels": [],
+  "knowledge": "while + if / 等待",
+  "optional": true,
+  "apis": [
+    "atBeacon",
+    "nextTileSafe",
+    "wait"
+  ],
+  "singleStep": false,
+  "maxActions": 240,
+  "scenarios": [
+    {
+      "size": [
+        72,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          68,
+          12
+        ],
+        [
+          36,
+          12,
+          36,
+          36
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        60,
+        12
+      ],
+      "exitMarker": {
+        "x": 60,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "title": "巡逻场景1",
+      "guard": {
+        "id": "Patrol",
+        "x": 36,
+        "y": 24,
+        "axis": "y",
+        "amplitude": 12,
+        "radius": 5,
+        "speed": 0.7,
+        "phase": 0
+      },
+      "solution": "while not hero.atBeacon():\n    if nextTileSafe():\n        hero.moveRight()\n    else:\n        hero.wait()\n",
+      "inscriptions": [],
+      "exitStyle": "beacon",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "size": [
+        72,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          68,
+          12
+        ],
+        [
+          36,
+          12,
+          36,
+          36
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        60,
+        12
+      ],
+      "exitMarker": {
+        "x": 60,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "title": "巡逻场景2",
+      "guard": {
+        "id": "Patrol",
+        "x": 36,
+        "y": 24,
+        "axis": "y",
+        "amplitude": 12,
+        "radius": 5,
+        "speed": 0.7,
+        "phase": 3.141592653589793
+      },
+      "solution": "while not hero.atBeacon():\n    if nextTileSafe():\n        hero.moveRight()\n    else:\n        hero.wait()\n",
+      "inscriptions": [],
+      "exitStyle": "beacon",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "singleStep": false,
+      "learningContract": null
+    }
+  ],
+  "quest": "食人魔来回经过必经之路。观察它的节奏，等路安全了再继续前进，到达信标。",
+  "inscriptions": [],
+  "exitStyle": "beacon",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "learningContract": null,
+  "hints": [
+    "看红圈怎样经过路口；它离开之后再通过。",
+    "每次等待后路况可能已经变了，需要重新观察。等待多久、用哪种循环由你决定。"
+  ],
+  "introBrief": [
+    "等巡逻走开再前进【选做】",
+    "食人魔来回经过必经之路。观察它的节奏，等路安全了再继续前进，到达信标。"
+  ]
+}

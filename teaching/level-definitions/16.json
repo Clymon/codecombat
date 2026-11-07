@@ -1,0 +1,472 @@
+{
+  "index": 16,
+  "section": 3,
+  "revision": 5,
+  "lessonOrder": 16,
+  "name": "第3节 · 每座炉座装一块能量石",
+  "description": "补给箱中的能量石与沿路炉座一一对应。先领取整批物资，再逐座装填，每座1块。装入后炉火亮起、背包减少，全部装好后出口启动。物资与炉座数量有2、4、5三种变化，同一份程序都要完成。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    48,
+    40
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      44,
+      12
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    36,
+    12
+  ],
+  "exitMarker": {
+    "x": 36,
+    "y": 5,
+    "direction": "→",
+    "label": "终点"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      6,
+      24
+    ]
+  ],
+  "labels": [],
+  "knowledge": "for：用领取数量决定重复次数",
+  "apis": [
+    "take",
+    "give"
+  ],
+  "singleStep": false,
+  "starter": "count = hero.take(\"补给箱\")\n# 每轮：走到下一座炉座前，装入1块能量石。\n",
+  "scenarios": [
+    {
+      "title": "2 块能量石，2 座炉座",
+      "size": [
+        60,
+        48
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        36,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          44,
+          12
+        ],
+        [
+          12,
+          12,
+          12,
+          24
+        ],
+        [
+          24,
+          12,
+          24,
+          24
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ]
+      ],
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          32
+        ]
+      ],
+      "labels": [],
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "inventory": {
+        "item": "能量石",
+        "unit": "块",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            12,
+            24
+          ],
+          "approach": [
+            12,
+            12
+          ],
+          "count": 2
+        },
+        "receivers": [
+          {
+            "name": "炉座",
+            "at": [
+              24,
+              24
+            ],
+            "approach": [
+              24,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          },
+          {
+            "name": "炉座",
+            "at": [
+              36,
+              24
+            ],
+            "approach": [
+              36,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          }
+        ]
+      },
+      "solution": "count = hero.take(\"补给箱\")\nfor i in range(count):\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n",
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "title": "4 块能量石，4 座炉座",
+      "size": [
+        72,
+        48
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        60,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          68,
+          12
+        ],
+        [
+          12,
+          12,
+          12,
+          24
+        ],
+        [
+          24,
+          12,
+          24,
+          24
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ],
+        [
+          48,
+          12,
+          48,
+          24
+        ],
+        [
+          60,
+          12,
+          60,
+          24
+        ]
+      ],
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          32
+        ]
+      ],
+      "labels": [],
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "inventory": {
+        "item": "能量石",
+        "unit": "块",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            12,
+            24
+          ],
+          "approach": [
+            12,
+            12
+          ],
+          "count": 4
+        },
+        "receivers": [
+          {
+            "name": "炉座",
+            "at": [
+              24,
+              24
+            ],
+            "approach": [
+              24,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          },
+          {
+            "name": "炉座",
+            "at": [
+              36,
+              24
+            ],
+            "approach": [
+              36,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          },
+          {
+            "name": "炉座",
+            "at": [
+              48,
+              24
+            ],
+            "approach": [
+              48,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          },
+          {
+            "name": "炉座",
+            "at": [
+              60,
+              24
+            ],
+            "approach": [
+              60,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          }
+        ]
+      },
+      "solution": "count = hero.take(\"补给箱\")\nfor i in range(count):\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n",
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "title": "5 块能量石，5 座炉座",
+      "size": [
+        84,
+        48
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        72,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          80,
+          12
+        ],
+        [
+          12,
+          12,
+          12,
+          24
+        ],
+        [
+          24,
+          12,
+          24,
+          24
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ],
+        [
+          48,
+          12,
+          48,
+          24
+        ],
+        [
+          60,
+          12,
+          60,
+          24
+        ],
+        [
+          72,
+          12,
+          72,
+          24
+        ]
+      ],
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          32
+        ]
+      ],
+      "labels": [],
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "inventory": {
+        "item": "能量石",
+        "unit": "块",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            12,
+            24
+          ],
+          "approach": [
+            12,
+            12
+          ],
+          "count": 5
+        },
+        "receivers": [
+          {
+            "name": "炉座",
+            "at": [
+              24,
+              24
+            ],
+            "approach": [
+              24,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          },
+          {
+            "name": "炉座",
+            "at": [
+              36,
+              24
+            ],
+            "approach": [
+              36,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          },
+          {
+            "name": "炉座",
+            "at": [
+              48,
+              24
+            ],
+            "approach": [
+              48,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          },
+          {
+            "name": "炉座",
+            "at": [
+              60,
+              24
+            ],
+            "approach": [
+              60,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          },
+          {
+            "name": "炉座",
+            "at": [
+              72,
+              24
+            ],
+            "approach": [
+              72,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          }
+        ]
+      },
+      "solution": "count = hero.take(\"补给箱\")\nfor i in range(count):\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n",
+      "singleStep": false,
+      "learningContract": null
+    }
+  ],
+  "visualTask": true,
+  "quest": "把领取的能量石分给沿路炉座，每座一块。全部装好才能开启出口。",
+  "inscriptions": [],
+  "powerCircuit": false,
+  "exitStyle": "portal",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "allowCodeChanges": false,
+  "hints": [
+    "只走过炉座不会装填；点炉座查看交付命令。",
+    "先数物资，再重复“走到下一座、装一块”，程序就能随这一批的数量变化。"
+  ],
+  "learningContract": null,
+  "maxActions": 240,
+  "introBrief": [
+    "每座炉座装一块能量石",
+    "把领取的能量石分给沿路炉座，每座一块。全部装好才能开启出口。"
+  ]
+}

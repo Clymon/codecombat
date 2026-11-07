@@ -96,7 +96,7 @@ test('scene passes require one program unless the level explicitly allows code c
     const progress = createLearningProgress({
       readLevel: (id, scene) => {
         const level = setup.readLevel(id, scene)
-        return level && { ...level, teachingMap: { ...level.teachingMap, allowCodeChanges: true } }
+        return level && id === slug ? { ...level, teachingMap: { ...level.teachingMap, allowCodeChanges: true } } : level
       },
       levels: () => [setup.readLevel(slug)],
     })
@@ -109,7 +109,7 @@ test('scene passes require one program unless the level explicitly allows code c
     assert.equal(both.teachingComplete, true)
     assert.equal(both.scenePasses[0].code, 'hero.moveDown()')
     assert.equal(both.scenePasses[1].code, 'hero.moveRight()')
-    assert.equal((await (await student.get(`/db/level/${slug}/session`)).json()).teachingComplete, true)
+    assert.equal((await progress.openSession('99881403', slug)).teachingComplete, true)
   })
 })
 

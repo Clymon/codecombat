@@ -1,0 +1,269 @@
+{
+  "index": 19,
+  "section": 4,
+  "revision": 2,
+  "lessonOrder": 19,
+  "name": "第4节 · 沿途充能，找到信标",
+  "description": "每块暗石板需要站稳1秒，点亮后电流沿路传向下一块。最后的信标是终点。路线长短会变；有时信标就在起点，没有暗石板。同一份程序要处理这三种情况。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    48,
+    40
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      44,
+      12
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    36,
+    12
+  ],
+  "exitMarker": {
+    "x": 36,
+    "y": 5,
+    "direction": "→",
+    "label": "终点"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      6,
+      24
+    ]
+  ],
+  "labels": [],
+  "knowledge": "while 动态检测",
+  "apis": [
+    "atBeacon",
+    "wait"
+  ],
+  "singleStep": false,
+  "starter": "# 先看脚下是否已经是终点；途中暗板需要停留。\n",
+  "scenarios": [
+    {
+      "size": [
+        48,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          44,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        36,
+        12
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 5,
+        "direction": "",
+        "label": "信标"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "title": "信标在前方2格",
+      "solution": "while not hero.atBeacon():\n    hero.wait()\n    hero.moveRight()\n",
+      "inscriptions": [],
+      "exitStyle": "beacon",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "singleStep": false,
+      "learningContract": null,
+      "chargePlates": [
+        {
+          "at": [
+            12,
+            12
+          ],
+          "radius": 2,
+          "seconds": 1
+        },
+        {
+          "at": [
+            24,
+            12
+          ],
+          "radius": 2,
+          "seconds": 1
+        }
+      ]
+    },
+    {
+      "size": [
+        72,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          68,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        60,
+        12
+      ],
+      "exitMarker": {
+        "x": 60,
+        "y": 5,
+        "direction": "",
+        "label": "信标"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "title": "信标在前方4格",
+      "solution": "while not hero.atBeacon():\n    hero.wait()\n    hero.moveRight()\n",
+      "inscriptions": [],
+      "exitStyle": "beacon",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "singleStep": false,
+      "learningContract": null,
+      "chargePlates": [
+        {
+          "at": [
+            12,
+            12
+          ],
+          "radius": 2,
+          "seconds": 1
+        },
+        {
+          "at": [
+            24,
+            12
+          ],
+          "radius": 2,
+          "seconds": 1
+        },
+        {
+          "at": [
+            36,
+            12
+          ],
+          "radius": 2,
+          "seconds": 1
+        },
+        {
+          "at": [
+            48,
+            12
+          ],
+          "radius": 2,
+          "seconds": 1
+        }
+      ]
+    },
+    {
+      "size": [
+        48,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          20,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        12,
+        12
+      ],
+      "exitMarker": {
+        "x": 12,
+        "y": 5,
+        "direction": "",
+        "label": "信标"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "title": "信标就在起点",
+      "solution": "while not hero.atBeacon():\n    hero.wait()\n    hero.moveRight()\n",
+      "inscriptions": [],
+      "exitStyle": "beacon",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "singleStep": false,
+      "learningContract": null,
+      "chargePlates": []
+    }
+  ],
+  "hints": [
+    "先点亮脚下这块，再走向下一格。信标本身不需要充能。",
+    "可以反复检查 hero.atBeacon()，不用猜道路有多长。"
+  ],
+  "quest": "沿途补亮暗石板，走到最后的信标。",
+  "inscriptions": [],
+  "exitStyle": "beacon",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "learningContract": null,
+  "maxActions": 240,
+  "powerCircuit": false,
+  "introBrief": [
+    "沿途充能，找到信标",
+    "沿途补亮暗石板，走到最后的信标。"
+  ]
+}
