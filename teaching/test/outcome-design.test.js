@@ -1,5 +1,5 @@
 const test = require('node:test'); const assert = require('node:assert/strict'); const vm = require('node:vm'); const fs = require('node:fs')
-const designs = require('../map-designs'); const Rules = vm.runInNewContext(fs.readFileSync(require.resolve('../rules-system'), 'utf8'), { System: class {} })
+const designs = require('../map-designs'); const Rules = vm.runInNewContext(fs.readFileSync(require.resolve('../rules-system'), 'utf8'), { System: class {}, TeachingInteractions: require('../interaction-rules') })
 function setup (index, scene = 0) {
   const d = designs.find(d => d.index === index); const map = { ...d, ...d.scenarios?.[scene] }
   const hero = { health: 100, pos: { x: map.start[0], y: map.start[1] }, setAction () {} }; const goals = {}
