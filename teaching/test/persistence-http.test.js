@@ -127,3 +127,41 @@ test('40 students repeatedly save and submit concurrently without exchanging cod
     }))
   } finally { await server.stop(); fs.rmSync(dir, { recursive: true, force: true }) }
 })
+
+test('same-revision legacy state-only completion survives metadata autosave and a real process restart', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'coco-legacy-restart-'))
+  const slug = 'local-python-04'
+  const id = 'facebe111111111111111111'
+  const code = 'hero.moveRight()'
+  fs.mkdirSync(path.join(dir, 'progress'))
+  fs.writeFileSync(path.join(dir, 'progress/99881603.json'), JSON.stringify({
+    [slug]: {
+      _id: id,
+      mapRevision: require('../levels/local-python-04.json').teachingMap.revision,
+      state: { complete: true },
+      code: { 'hero-placeholder': { plan: code } },
+    },
+  }))
+  let server = await start(dir)
+  try {
+    const student = await login(server, '99881603')
+    const save = await student.save(id, { playtime: 1 })
+    assert.equal(save.status, 200)
+    assert.equal((await save.json()).teachingComplete, true)
+    await server.stop()
+    server = await start(dir)
+    const returning = await login(server, '99881603')
+    const restored = await (await returning.get('/db/level/' + slug + '/session')).json()
+    assert.equal(restored._id, id)
+    assert.equal(restored.state.complete, true)
+    assert.equal(restored.teachingComplete, true)
+    assert.equal(restored.scenePasses[0].code, code)
+    const teacher = await (await returning.get('/teaching/teacher/student/99881603')).text()
+    assert.match(teacher, /场景通过数：1 \/ 1/)
+    const forged = await returning.save(id, { code: { 'hero-placeholder': { plan: '# different source' } }, state: { complete: true, teachingVictoryCode: code } })
+    assert.equal(forged.status, 200)
+    const changed = await forged.json()
+    assert.equal(changed.teachingComplete, false)
+    assert.equal(changed.state.complete, false)
+  } finally { await server.stop(); fs.rmSync(dir, { recursive: true, force: true }) }
+})

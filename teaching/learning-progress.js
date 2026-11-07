@@ -20,6 +20,14 @@ function createSession (level, scene) {
 }
 
 function createLearningProgress ({ readLevel, levels }) {
+  function revision (slug) {
+    const published = readLevel.progressRevision?.(slug)
+    if (published) return published
+    // Mutable/custom readers retain live scene inspection, including while the
+    // external checker runs. No cached identity is inferred for an unknown source.
+    const level = readLevel(slug)
+    return level && { ...level, identity: revisions.identity(readLevel, slug) }
+  }
   // Only this module coordinates progress operations. Route callers cannot omit the queue.
   const pending = new Map()
   function serialized (studentId, operation) {
@@ -35,8 +43,8 @@ function createLearningProgress ({ readLevel, levels }) {
     const progress = accounts.readProgress(studentId)
     let changed = false
     for (const [slug, session] of Object.entries(progress)) {
-      const level = readLevel(slug)
-      if (level) changed = revisions.reconcile(session, level, revisions.identity(readLevel, slug)) || changed
+      const level = revision(slug)
+      if (level) changed = revisions.reconcile(session, level, level.identity) || changed
     }
     if (changed) accounts.saveProgress(studentId, progress)
     return progress
@@ -72,7 +80,7 @@ function createLearningProgress ({ readLevel, levels }) {
       session.teachingScene = scene
       session.state = { complete: false, scripts: {} }
       session.learningFeedback = ''
-    } else progress[slug] = { ...createSession(level, scene), gameplayIdentity: revisions.identity(readLevel, slug) }
+    } else progress[slug] = { ...createSession(level, scene), gameplayIdentity: revision(slug).identity }
     accounts.saveProgress(studentId, progress)
     return progress[slug]
   }
@@ -102,11 +110,11 @@ function createLearningProgress ({ readLevel, levels }) {
       const progress = loadProgress(studentId)
       requireAccess(progress, slug)
       if (!progress[slug]) {
-        progress[slug] = { ...createSession(level, 0), gameplayIdentity: revisions.identity(readLevel, slug) }
+        progress[slug] = { ...createSession(level, 0), gameplayIdentity: revision(slug).identity }
         accounts.saveProgress(studentId, progress)
       }
       const session = progress[slug]
-      if (revisions.reconcile(session, level, revisions.identity(readLevel, slug))) accounts.saveProgress(studentId, progress)
+      if (revisions.reconcile(session, level, revision(slug).identity)) accounts.saveProgress(studentId, progress)
       return session
     },
     readSession (studentId, sessionId) {

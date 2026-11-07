@@ -231,6 +231,13 @@ class CocoModel extends Backbone.Model {
     }
     options.error = (model, res) => {
       let left, notyError
+      // Local classroom autosave owns its persistent Chinese recovery UI and
+      // retries current editor contents. Do not also toast or resend this old patch.
+      if (options.teachingSaveHandled && /^facebe[0-9a-f]{18}$/.test(this.id || '') && error) {
+        error(this, res)
+        options.success = (options.error = null)
+        return
+      }
       if (res.status === 0) {
         let msg
         if (this.retries == null) { this.retries = 0 }

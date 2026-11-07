@@ -1,0 +1,494 @@
+{
+  "format": 1,
+  "levels": {
+    "local-python-01": {
+      "teachingMap": {
+        "revision": 2,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "7c871ce0bedcf58b179125b1f42bc9a40a988e325ed227c18ee195fe43d86e99",
+        "legacyHash": "6142a612e3371fa7e8584983052f68e3e5d14d31f5670750f777aa307362b94c"
+      }
+    },
+    "local-python-02": {
+      "teachingMap": {
+        "revision": 4,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "857958a8a79daf569657d87d7a04eb0c516b4648ea6ba03de61dfb31e9167476",
+        "legacyHash": "7434acb71193221ed563ee4eabd7b78a69ee4ebe6b423326ac4fab733d701f2e"
+      }
+    },
+    "local-python-03": {
+      "teachingMap": {
+        "revision": 2,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "3561e4e11f32fce2a06a176080ed416f13a33ee64d07b796515a5914f8a7d6e1",
+        "legacyHash": "e39db9d453b28f8c5980bcd17901deda3e7e0130bb06dc243513ded2b358fb09"
+      }
+    },
+    "local-python-04": {
+      "teachingMap": {
+        "revision": 1,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "e4a2935f89b684d7732954934d64d8655d2b5c904f65205a931835acfee8ca25",
+        "legacyHash": "870db20cd011b71f7ed7fb75bb1d507e4e31b8fa8d0de523a7637a02c633e576"
+      }
+    },
+    "local-python-05": {
+      "teachingMap": {
+        "revision": 2,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "a805a27c07c13e8e875a76e1f6b751312e6758c7d84b313b3abff32232b1758f",
+        "legacyHash": "2a765c3d3be3e7cd342114ac9ba27af387ec2ba7db5543dd1a5c601357abff3d"
+      }
+    },
+    "local-python-06": {
+      "teachingMap": {
+        "revision": 2,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "4ad0894660731eda26ec8a4daa8860c21ab51a5dcaf10911038756c7115b9882",
+        "legacyHash": "89f88fe5aab98470cd5bb7d97285d8c7b9ac438b6d406593aabb2931557e10b7"
+      }
+    },
+    "local-python-07": {
+      "teachingMap": {
+        "revision": 5,
+        "scenarioTitles": [
+          "补给箱有 2 块能量石",
+          "补给箱有 4 块能量石"
+        ],
+        "allowCodeChanges": false
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "fc3a70455caa0a585b4efba371716ccd3df8a9f8353ae2d53666f23b7d6d6c10",
+        "legacyHash": "104ed2b0b1cbb6c75fa22394a077a7d42033ea8081a342ad2d612b9c8d42f56e"
+      }
+    },
+    "local-python-08": {
+      "teachingMap": {
+        "revision": 5,
+        "scenarioTitles": [
+          "领取 5 块，维修用2块",
+          "领取 6 块，维修用2块"
+        ],
+        "allowCodeChanges": false
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "7d3d3bf0cdbe29b6bb2a3ebf6f906458bedb81ddf7bd63cde5dd119d3ac1e6d8",
+        "legacyHash": "76fc3338e846c48adef45e7052d0248fc553d259e1589ccc3729629d0016ccc7"
+      }
+    },
+    "local-python-09": {
+      "teachingMap": {
+        "revision": 4,
+        "scenarioTitles": [
+          "补给站开放，有宝石",
+          "补给站关闭，直接撤离"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "4d2b36dc4353d78e66f1a43c0e22b6e4706ecf9b53be5154d823d8f8ac3c3261",
+        "legacyHash": "f75fb812db653e40f155d84b8839de6e6059cfd1f0529313e5ebe5244bf43540"
+      }
+    },
+    "local-python-10": {
+      "teachingMap": {
+        "revision": 4,
+        "scenarioTitles": [
+          "左路开放",
+          "右路开放"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "d7df883752ea420e882d99b5e1cf5f254032c38a04e637c56ce4a84673d9b6a4",
+        "legacyHash": "80b4a69e06a786b6747d1a69e47b88d97312717d720c84fbe23020b8deedf127"
+      }
+    },
+    "local-python-11": {
+      "teachingMap": {
+        "revision": 4,
+        "scenarioTitles": [
+          "门开 / 无尖刺",
+          "门开 / 有尖刺",
+          "门关 / 无尖刺"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "dcea3ab5b41da4be232481937023e3b0c340ffcdebae56f3a341e14cdedbcbe1",
+        "legacyHash": "87f4c4ee4610a3e77500eaaf72d208c7aacc22711b64de2fb5291d86cc293fe3"
+      }
+    },
+    "local-python-12": {
+      "teachingMap": {
+        "revision": 5,
+        "scenarioTitles": [
+          "领取 5 枚金币",
+          "领取 4 枚金币",
+          "领取 2 枚金币",
+          "领取 1 枚金币"
+        ],
+        "allowCodeChanges": false
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "7e28b8cb1000613a3184824f5da1f3cddac7e610ea4c9c13cf1bd02066e7a6b8",
+        "legacyHash": "96674d82cb7d34a7f888ece35f81aabe6a7f6ddec0895a7a0adaef9f2b7a29fc"
+      }
+    },
+    "local-python-13": {
+      "teachingMap": {
+        "revision": 4,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "ba269b699006c5d484a7dd8024e273f3aefa272ce514ab91c67859e35b9391f3",
+        "legacyHash": "c418c122edf630da90df2d4ca0734c531966407773138a38db882260b0f001ee"
+      }
+    },
+    "local-python-14": {
+      "teachingMap": {
+        "revision": 4,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "069617dd8ae3746adc9d9adac14e6a0dc082bf2eb2f3a5ac5925355666d50c6e",
+        "legacyHash": "205dc9168c5374b02260fea7821d679bb90a796465d51b8a54c7bdfb3b18c0a8"
+      }
+    },
+    "local-python-15": {
+      "teachingMap": {
+        "revision": 4,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "e614bb00395293769439104a7f97d736906503b58b57781157fa0c7695f2e324",
+        "legacyHash": "a0e91179ddc3782724c6bbcab5ed6443c82f5c09d277d3017e3ddcbf15617d04"
+      }
+    },
+    "local-python-16": {
+      "teachingMap": {
+        "revision": 5,
+        "scenarioTitles": [
+          "2 块能量石，2 座炉座",
+          "4 块能量石，4 座炉座",
+          "5 块能量石，5 座炉座"
+        ],
+        "allowCodeChanges": false
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "0a6e88daf855905d4fb1f674eff3d2081465f4d6547fd5421fe2c540c8c47db2",
+        "legacyHash": "27699e4ed43d9e1512c0bd1f658666ce824bd2ea03b08150800df342cdf3725c"
+      }
+    },
+    "local-python-17": {
+      "teachingMap": {
+        "revision": 5,
+        "scenarioTitles": [
+          "主场景"
+        ],
+        "allowCodeChanges": false
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "0e5460cc741bb9517dca4cc3842bdff6c6ef1da8ab8142aecbb355b20ca0009f",
+        "legacyHash": "25501d1d471587a2b64d69f62ea680f03a6d27d3396a8677774daa7ad0a03633"
+      }
+    },
+    "local-python-18": {
+      "teachingMap": {
+        "revision": 5,
+        "scenarioTitles": [
+          "箱里有3块，装完就停",
+          "箱子已空，不用装填"
+        ],
+        "allowCodeChanges": false
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "978ed0995cfdcbc9ed9b9bfc0fcab01cd6bbb17131c01bb07f8f46d1f008f658",
+        "legacyHash": "eb8a2271cc83b02dca4df5c79de64ee5c85867e524eddee763304d64fc1c05d4"
+      }
+    },
+    "local-python-19": {
+      "teachingMap": {
+        "revision": 2,
+        "scenarioTitles": [
+          "信标在前方2格",
+          "信标在前方4格",
+          "信标就在起点"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "5228e47c2a9a4a2bf5d5340c460c99af78f3bea468b7cf00d715248fdd84f77f",
+        "legacyHash": "4e1eb67d5f931199b6304716521fa2e9ab4e9f909fbfa035875168c59d2b8c37"
+      }
+    },
+    "local-python-20": {
+      "teachingMap": {
+        "revision": 2,
+        "scenarioTitles": [
+          "巡逻场景1",
+          "巡逻场景2"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "811798512c398062adcfff8ff14263a7cb9aee96be2c90d333a60016fc6f7819",
+        "legacyHash": "e4c9d2c39015707e0c160282ffd9a02b2afb1efc781d58915748c2a0154a9b5c"
+      }
+    },
+    "local-python-21": {
+      "teachingMap": {
+        "revision": 3,
+        "scenarioTitles": [
+          "上行 2 格",
+          "上行 3 格"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "ed12f9be9317238d5fecb27c74bf9b52bff8577d61f421a8f37d18bb7585cbe1",
+        "legacyHash": "1678567c48c1411126d84729c7f5ef1d1fa8bbee82f7f457b9e73340a81e4610"
+      }
+    },
+    "local-python-22": {
+      "teachingMap": {
+        "revision": 1,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "1ba8bd9ecf78470900525b4bb1ad3338b571e7d592e6c30f049e74a4a390e7d9",
+        "legacyHash": "d5f2e7b3508972f4d68ad13e3f20b9572d42e77b4aad2fed4970a11e5b6a56be"
+      }
+    },
+    "local-python-23": {
+      "teachingMap": {
+        "revision": 1,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "d4ea78cf12b0683633bd356ee6b72ee83a70acfc45df188b458bf62c62aaf40f",
+        "legacyHash": "419b9239b38ceddd02913950e7fed402f352bc78173101074547e64ce142a010"
+      }
+    },
+    "local-python-24": {
+      "teachingMap": {
+        "revision": 2,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "63c7fd0d1d808dc72e000c09c119f0d4f293b38d18d59da1d762553cc57a783a",
+        "legacyHash": "69dabfe8da2bdd25212f1969d44e4aa41675a55ce57cbc9819fa6f71c81edb7b"
+      }
+    },
+    "local-python-25": {
+      "teachingMap": {
+        "revision": 2,
+        "scenarioTitles": [
+          "三名敌人，分批到来",
+          "四名敌人，间隔变短"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "e02f0e05eb96162d209aa8fb27ab2947c5f23b7dca3ff9c24d9f8c6b486b7a22",
+        "legacyHash": "4f936686ef01aad1eb04ab79fa69d92d7623cb471c37d4d2072ea94680448fe8"
+      }
+    },
+    "local-python-26": {
+      "teachingMap": {
+        "revision": 1,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "20b2ea7a869ba72ec7e28efdbcf21944a2149cd12a7e83cfa068ad61444e8eac",
+        "legacyHash": "0299b7ef8d53b46caee5f26795c2cad0580a4bdea9b8d11fc284909cfba3f964"
+      }
+    },
+    "local-python-27": {
+      "teachingMap": {
+        "revision": 1,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "eb29c8bb064ecc9f8bcbc04e24ee2a0f34dfccbce0c50d6365b811506d2211e1",
+        "legacyHash": "c566260251f69cf622f7c778b0931787e450e036a75be611741c185e5191d121"
+      }
+    },
+    "local-python-28": {
+      "teachingMap": {
+        "revision": 1,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "3d938dbde103a5b1fddc67d5294f31c34ea8980873dc568b861f5769627b1b07",
+        "legacyHash": "675a7f4e348e3ccd0d043af6e3dfae780a8f8dd569b72925f4ccbf0c1cbff358"
+      }
+    },
+    "local-python-29": {
+      "teachingMap": {
+        "revision": 2,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "55a07fa62098734f23371ee0050409d7da46a2323ed6038f3c57d3e7135213ca",
+        "legacyHash": "68060b5f6c411971997f640231c3989e7a77e93b3305976ae7f08a6d424ce6c3"
+      }
+    },
+    "local-python-30": {
+      "teachingMap": {
+        "revision": 2,
+        "scenarioTitles": [
+          "遇到落单斥候",
+          "遇到门廊哨兵"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "5cf7da73eb7d9b126ad0b32a096caf560d396eeed8d608585d984231ccc6b4f2",
+        "legacyHash": "3775c0fd98fa4c6a98f875fc0187c80ddf786724b84c5a3ef421e320c98297a8"
+      }
+    },
+    "local-python-31": {
+      "teachingMap": {
+        "revision": 2,
+        "scenarioTitles": [
+          "通道里有斥候",
+          "空通道，没有敌人",
+          "换岗了，遇到另一名哨兵"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "584f3549ba96f4689961ed4bd3a02e041af0769093d08b4a7cb521cc57799a0d",
+        "legacyHash": "b7caa9eb3926ea7a0937c43c4c0833ad0d2902f42c9d49d96b253de20a0d5644"
+      }
+    },
+    "local-python-32": {
+      "teachingMap": {
+        "revision": 2,
+        "scenarioTitles": [
+          "主场景"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "79f43f075a76259c39452aff7b59894456bc08d955d13281bb72f82ca133d82b",
+        "legacyHash": "6f5d488fac4407d7603c33bb5438c1222251ec388577de4a8b852bb241c3adc9"
+      }
+    },
+    "local-python-33": {
+      "teachingMap": {
+        "revision": 2,
+        "scenarioTitles": [
+          "三名敌人，分批到来",
+          "四名敌人，间隔变短"
+        ]
+      },
+      "identity": {
+        "policy": 2,
+        "rules": 1,
+        "hash": "f9b466b5dbdf76e283634283126e5a951acf000f49003d47e937c7dab16fda2f",
+        "legacyHash": "68439eadaf295b48187473f702a45cd928a1e1af2d3bc0879b95c3b20954facd"
+      }
+    }
+  }
+}
