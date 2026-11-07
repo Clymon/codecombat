@@ -1,0 +1,178 @@
+[
+  {
+    "ticket": 1,
+    "title": "用三间符文室打通统一编制流程",
+    "blockers": [],
+    "prd": 1,
+    "number": 1,
+    "id": 6256556437,
+    "url": "https://github.com/Clymon/codecombat/issues/1"
+  },
+  {
+    "ticket": 2,
+    "title": "迁移基础移动与门岗关卡",
+    "blockers": [
+      1
+    ],
+    "prd": 1,
+    "number": 2,
+    "id": 6256556549,
+    "url": "https://github.com/Clymon/codecombat/issues/2"
+  },
+  {
+    "ticket": 3,
+    "title": "迁移物资与条件判断关卡",
+    "blockers": [
+      1
+    ],
+    "prd": 1,
+    "number": 3,
+    "id": 6256556657,
+    "url": "https://github.com/Clymon/codecombat/issues/3"
+  },
+  {
+    "ticket": 4,
+    "title": "迁移开关与重复操作关卡",
+    "blockers": [
+      1
+    ],
+    "prd": 1,
+    "number": 4,
+    "id": 6256556788,
+    "url": "https://github.com/Clymon/codecombat/issues/4"
+  },
+  {
+    "ticket": 5,
+    "title": "迁移充能巡逻与信标关卡",
+    "blockers": [
+      1
+    ],
+    "prd": 1,
+    "number": 5,
+    "id": 6256556925,
+    "url": "https://github.com/Clymon/codecombat/issues/5"
+  },
+  {
+    "ticket": 6,
+    "title": "迁移追逐破门救援与信号关卡",
+    "blockers": [
+      1
+    ],
+    "prd": 1,
+    "number": 6,
+    "id": 6256557040,
+    "url": "https://github.com/Clymon/codecombat/issues/6"
+  },
+  {
+    "ticket": 7,
+    "title": "迁移敌人观察与分批增援关卡",
+    "blockers": [
+      1
+    ],
+    "prd": 1,
+    "number": 7,
+    "id": 6256557155,
+    "url": "https://github.com/Clymon/codecombat/issues/7"
+  },
+  {
+    "ticket": 8,
+    "title": "完成统一编制切换并移除旧覆盖链",
+    "blockers": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "prd": 1,
+    "number": 8,
+    "id": 6256557297,
+    "url": "https://github.com/Clymon/codecombat/issues/8"
+  },
+  {
+    "ticket": 9,
+    "title": "统一守卫对话条件与地图帮助",
+    "blockers": [],
+    "prd": 2,
+    "number": 9,
+    "id": 6256557422,
+    "url": "https://github.com/Clymon/codecombat/issues/9"
+  },
+  {
+    "ticket": 10,
+    "title": "统一物资领取与交付反馈",
+    "blockers": [
+      9
+    ],
+    "prd": 2,
+    "number": 10,
+    "id": 6256557521,
+    "url": "https://github.com/Clymon/codecombat/issues/10"
+  },
+  {
+    "ticket": 11,
+    "title": "统一开关与充能石板反馈",
+    "blockers": [
+      9
+    ],
+    "prd": 2,
+    "number": 11,
+    "id": 6256557628,
+    "url": "https://github.com/Clymon/codecombat/issues/11"
+  },
+  {
+    "ticket": 12,
+    "title": "统一攻击信号与全局查询说明",
+    "blockers": [
+      9
+    ],
+    "prd": 2,
+    "number": 12,
+    "id": 6256557776,
+    "url": "https://github.com/Clymon/codecombat/issues/12"
+  },
+  {
+    "ticket": 13,
+    "title": "集中场景切换并隔离旧页面请求",
+    "blockers": [],
+    "prd": 3,
+    "number": 13,
+    "id": 6256557873,
+    "url": "https://github.com/Clymon/codecombat/issues/13"
+  },
+  {
+    "ticket": 14,
+    "title": "集中保存与通关记录并支持安全重试",
+    "blockers": [
+      13
+    ],
+    "prd": 3,
+    "number": 14,
+    "id": 6256557961,
+    "url": "https://github.com/Clymon/codecombat/issues/14"
+  },
+  {
+    "ticket": 15,
+    "title": "集中关卡修订与进度失效处理",
+    "blockers": [
+      14
+    ],
+    "prd": 3,
+    "number": 15,
+    "id": 6256558073,
+    "url": "https://github.com/Clymon/codecombat/issues/15"
+  },
+  {
+    "ticket": 16,
+    "title": "完成保存失败恢复与重启验收",
+    "blockers": [
+      14,
+      15
+    ],
+    "prd": 3,
+    "number": 16,
+    "id": 6256558177,
+    "url": "https://github.com/Clymon/codecombat/issues/16"
+  }
+]
