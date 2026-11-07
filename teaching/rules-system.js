@@ -71,11 +71,11 @@ class TeachingRules extends System {
     expose('atBeacon', () => Math.hypot(hero.pos.x - rules.exit[0], hero.pos.y - rules.exit[1]) < 1)
     expose('nextTileSafe', () => rules.nextSafe(hero))
     expose('press', number => {
-      const decoy = (rules.decoySwitches || []).find(s => s.number === number && Math.hypot(hero.pos.x - s.at[0], hero.pos.y - s.at[1]) <= 1)
-      if (decoy) { hero.health = 0; hero.keepTrackedProperty?.('health'); rules.fail(hero, `${number}号红板连着接地线，压下后短路了。可以走过红板，只启动连着蓝色供电线的开关。`); hero.setAction?.('die'); hero.keepTrackedProperty?.('action'); return false }
-      const next = (rules.switches || [])[rules.pressedCount || 0]
-      if (!next || number !== next.number || Math.hypot(hero.pos.x - next.at[0], hero.pos.y - next.at[1]) > 1) {
-        rules.fail(hero, next ? `现在要启动 ${next.number} 号开关。先站到那块石板上，再用 hero.press(${next.number})。` : '所有开关已经启动，不用再按。请到出口。')
+      const availability = TeachingInteractions.pressSwitch(hero.pos, rules.switches, rules.decoySwitches, rules.pressedCount, number)
+      if (!availability.ready) {
+        if (availability.lethal) { hero.health = 0; hero.keepTrackedProperty?.('health') }
+        rules.fail(hero, availability.message)
+        if (availability.lethal) { hero.setAction?.('die'); hero.keepTrackedProperty?.('action') }
         return false
       }
       rules.pressedCount = (rules.pressedCount || 0) + 1
@@ -361,8 +361,8 @@ class TeachingRules extends System {
     this.chargeUpdatedAt = now
     plates.forEach((plate, index) => {
       const state = this.chargeState.plates[index]
-      const occupied = Math.hypot(hero.pos.x - plate.at[0], hero.pos.y - plate.at[1]) <= plate.radius && hero.health > 0
-      if (!state.complete) {
+      const { occupied, complete } = TeachingInteractions.chargePlate(hero.pos, plate, state, hero.health)
+      if (!complete) {
         if (occupied) {
           if (!state.occupied) state.startedAt = now
           if (state.occupied) state.elapsed = Math.min(plate.seconds, state.elapsed + dt)

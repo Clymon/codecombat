@@ -1,5 +1,5 @@
 const test = require('node:test'); const assert = require('node:assert/strict'); const fs = require('node:fs'); const vm = require('node:vm'); const path = require('node:path')
-const Rules = vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../rules-system.js'), 'utf8'), { System: class {} })
+const Rules = vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../rules-system.js'), 'utf8'), { System: class {}, TeachingInteractions: require('../interaction-rules') })
 const { runeProgress } = require('../charge-view')
 function setup () {
   const goals = {}; const hero = { pos: { x: 24, y: 12 }, health: 100 }
