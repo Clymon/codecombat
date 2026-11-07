@@ -33,14 +33,14 @@ function requireStudent (req, res) {
   if (!student) res.status(401).set('Cache-Control', 'no-store').json({ message: '请先使用学号登录。', loginUrl: '/teaching' })
   return student
 }
-function requireUnlocked (res, slug) {
-  const student = accounts.currentStudent(res.req)
-  const access = accessFor(catalog, { progress: student ? accounts.readProgress(student.studentId) : {}, releases: classroom.releases(), visibility: classroom.visibility() })[slug]
+function requireUnlocked (res, slug, progress) {
+  const access = accessFor(catalog, { progress, releases: classroom.releases(), visibility: classroom.visibility() })[slug]
   if (access?.open) return true
   res.status(403).set('Cache-Control', 'no-store').json({ message: access?.message || '此关不可进入，请返回地图。', reason: access?.reason, prerequisites: access?.missing, mapUrl: `/teaching?level=${slug}` })
   return false
 }
-module.exports = function setupLocalLevels (app) {
+module.exports = function setupLocalLevels (app, options = {}) {
+  const readLevel = options.readLevel || module.exports.readLevel
   for (const portrait of ['deepseek-icon.png', 'deepseek-portrait-v2.png']) app.get(`/file/teaching/${portrait}`, (req, res) => res.set('Cache-Control', 'no-cache').sendFile(path.join(__dirname, 'assets/characters/deepseek.png')))
   app.use('/teaching/assets', express.static(path.join(__dirname, 'assets'), { dotfiles: 'deny', maxAge: 0, index: false }))
   for (const suffix of ['', '/version', '/version/0']) app.get(`/db/thang.type/${DEEPSEEK_TYPE}${suffix}`, (req, res) => res.set('Cache-Control', 'no-cache').json(deepseekType()))
@@ -54,22 +54,22 @@ module.exports = function setupLocalLevels (app) {
   const progressLifecycle = createLearningProgress({ readLevel, levels })
   const handleProgress = handler => (req, res, next) => Promise.resolve(handler(req, res, next)).catch(next)
   const htmlHeaders = { 'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'", 'X-Frame-Options': 'DENY', 'Referrer-Policy': 'no-referrer' }
-  const render = (res, student, error = '', status = 200) => {
-    return res.status(status).set(htmlHeaders).type('html').send(accountPage({ student, levels: levels(), progress: student ? accounts.readProgress(student.studentId) : {}, releases: classroom.releases(), visibility: classroom.visibility(), showTeacher: classroom.isTeacherLocal(res.req), error, formToken: accounts.formToken(res.req, res) }))
+  const render = async (res, student, error = '', status = 200) => {
+    return res.status(status).set(htmlHeaders).type('html').send(accountPage({ student, levels: levels(), progress: student ? await progressLifecycle.readProgress(student.studentId) : {}, releases: classroom.releases(), visibility: classroom.visibility(), showTeacher: classroom.isTeacherLocal(res.req), error, formToken: accounts.formToken(res.req, res) }))
   }
   const teacherOnly = (req, res) => {
     if (classroom.isTeacherLocal(req)) return true
     res.status(403).set('Cache-Control', 'no-store').type('text').send('教师端仅可在运行服务的电脑上打开。')
     return false
   }
-  app.get('/teaching/teacher', (req, res) => {
+  app.get('/teaching/teacher', handleProgress(async (req, res) => {
     if (!teacherOnly(req, res)) return
     const students = accounts.registeredStudents()
-    const progressById = Object.fromEntries(students.map(student => [student.studentId, accounts.readProgress(student.studentId)]))
+    const progressById = Object.fromEntries(await Promise.all(students.map(async student => [student.studentId, await progressLifecycle.readProgress(student.studentId)])))
     const count = Number(req.query.count); const actions = { hide: '隐藏', show: '显示', open: '开放', close: '关闭' }
     const notice = typeof req.query.updated === 'string' && Object.hasOwn(actions, req.query.updated) && Number.isInteger(count) && count > 0 && count <= levels().length ? `已批量${actions[req.query.updated]} ${count} 关。` : ''
     res.set(htmlHeaders).type('html').send(teacherPage.teacherPage({ levels: levels(), students, releases: classroom.releases(), visibility: classroom.visibility(), progressById, notice, formToken: accounts.formToken(req, res) }))
-  })
+  }))
   app.get('/teaching/teacher/controls.js', (req, res) => {
     if (!teacherOnly(req, res)) return
     res.set('Cache-Control', 'no-cache').type('application/javascript').send(fs.readFileSync(path.join(__dirname, 'teacher-controls.js'), 'utf8'))
@@ -84,12 +84,12 @@ module.exports = function setupLocalLevels (app) {
     classroom.updateMany(slugs, operation)
     res.redirect(303, `/teaching/teacher?updated=${operation}&count=${slugs.length}#bulk-controls`)
   })
-  app.get('/teaching/teacher/student/:studentId', (req, res) => {
+  app.get('/teaching/teacher/student/:studentId', handleProgress(async (req, res) => {
     if (!teacherOnly(req, res)) return
     const student = accounts.account(req.params.studentId)
     if (!student) return res.sendStatus(404)
-    res.set(htmlHeaders).type('html').send(teacherPage.studentPage({ student, levels: levels(), progress: accounts.readProgress(student.studentId) }))
-  })
+    res.set(htmlHeaders).type('html').send(teacherPage.studentPage({ student, levels: levels(), progress: await progressLifecycle.readProgress(student.studentId) }))
+  }))
   app.post('/teaching/teacher/release', formParser, (req, res) => {
     if (!teacherOnly(req, res)) return
     if (!accounts.validForm(req)) return res.sendStatus(403)
@@ -133,35 +133,36 @@ module.exports = function setupLocalLevels (app) {
   app.get('/teaching/classroom.css', (req, res) => {
     res.set('Cache-Control', 'no-cache').type('css').send(fs.readFileSync(path.join(__dirname, 'classroom.css'), 'utf8'))
   })
-  app.get('/teaching', (req, res) => {
-    render(res, accounts.currentStudent(req))
-  })
+  app.get('/teaching', handleProgress(async (req, res) => {
+    await render(res, accounts.currentStudent(req))
+  }))
   // Retired local route: never send old signup submissions to the upstream proxy.
   app.all('/teaching/register', (req, res) => {
     res.status(410).set('Cache-Control', 'no-store').type('text').send('请在课堂登录页直接输入学号。')
   })
-  app.post('/teaching/login', formParser, (req, res) => {
+  app.post('/teaching/login', formParser, handleProgress(async (req, res) => {
     if (!accounts.validForm(req)) return res.sendStatus(403)
     const studentId = accounts.normalStudentId(req.body?.studentId)
     if (!studentId) return render(res, null, '学号须为4—20位数字，请检查后重试。', 400)
     accounts.ensureStudent(studentId)
     accounts.startSession(req, res, studentId)
     res.redirect(303, '/teaching')
-  })
+  }))
   app.post('/teaching/logout', formParser, (req, res) => {
     if (!accounts.validForm(req)) return res.sendStatus(403)
     accounts.endSession(req, res)
     res.redirect(303, '/teaching')
   })
-  app.get('/db/level/:slug', (req, res, next) => {
+  app.get('/db/level/:slug', handleProgress(async (req, res, next) => {
     const level = readLevel(req.params.slug)
     if (!level) return next()
     if (!requireStudent(req, res)) return
-    if (!requireUnlocked(res, level.slug)) return
     const student = accounts.currentStudent(req)
-    const scene = accounts.readProgress(student.studentId)[level.slug]?.teachingScene || 0
+    const progress = await progressLifecycle.readProgress(student.studentId)
+    if (!requireUnlocked(res, level.slug, progress)) return
+    const scene = progress[level.slug]?.teachingScene || 0
     res.set('Cache-Control', 'no-store').json(readLevel(level.slug, scene) || level)
-  })
+  }))
   app.get('/db/level.system/facadecccc00000000000001/version/0', (req, res) => {
     if (!requireStudent(req, res)) return
     const code = fs.readFileSync(path.join(__dirname, 'interaction-rules.js'), 'utf8').replace('module.exports =', 'const TeachingInteractions =') + '\n' + fs.readFileSync(path.join(__dirname, 'item-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingInventory =') + '\n' + fs.readFileSync(path.join(__dirname, 'learning-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingLearning =') + '\n' + fs.readFileSync(path.join(__dirname, 'adventure-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingAdventure =') + '\n' + fs.readFileSync(path.join(__dirname, 'rules-system.js'), 'utf8')
