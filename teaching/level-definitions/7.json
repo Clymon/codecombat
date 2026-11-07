@@ -1,0 +1,238 @@
+{
+  "index": 7,
+  "section": 2,
+  "revision": 5,
+  "lessonOrder": 7,
+  "name": "第2节 · 领取能量石，交给出口机关",
+  "description": "补给箱里是一批能量石，右侧出口机关需要整批物资。先取出，再向右走两格交给机关。箱子会打开，背包增加；交付后背包清空，出口启动。两批物资数量不同，同一份程序都要送对。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    48,
+    40
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      44,
+      12
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    36,
+    12
+  ],
+  "exitMarker": {
+    "x": 36,
+    "y": 5,
+    "direction": "→",
+    "label": "终点"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      6,
+      24
+    ]
+  ],
+  "labels": [],
+  "knowledge": "变量：保存实际领取的数量",
+  "apis": [
+    "take",
+    "give"
+  ],
+  "allowCodeChanges": false,
+  "starter": "# 打开补给箱，把领取数量保存到 stones。\n# 右走两格，再把 stones 块交给出口机关。\n",
+  "scenarios": [
+    {
+      "title": "补给箱有 2 块能量石",
+      "size": [
+        60,
+        48
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        36,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          44,
+          12
+        ],
+        [
+          12,
+          12,
+          12,
+          24
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ]
+      ],
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          32
+        ]
+      ],
+      "labels": [],
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "inventory": {
+        "item": "能量石",
+        "unit": "块",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            12,
+            24
+          ],
+          "approach": [
+            12,
+            12
+          ],
+          "count": 2
+        },
+        "receivers": [
+          {
+            "name": "出口机关",
+            "at": [
+              36,
+              24
+            ],
+            "approach": [
+              36,
+              12
+            ],
+            "amount": 2,
+            "kind": "socket"
+          }
+        ]
+      },
+      "solution": "stones = hero.take(\"补给箱\")\nhero.moveRight(2)\nhero.give(\"出口机关\", stones)\n",
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "title": "补给箱有 4 块能量石",
+      "size": [
+        60,
+        48
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        36,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          44,
+          12
+        ],
+        [
+          12,
+          12,
+          12,
+          24
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ]
+      ],
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          32
+        ]
+      ],
+      "labels": [],
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "inventory": {
+        "item": "能量石",
+        "unit": "块",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            12,
+            24
+          ],
+          "approach": [
+            12,
+            12
+          ],
+          "count": 4
+        },
+        "receivers": [
+          {
+            "name": "出口机关",
+            "at": [
+              36,
+              24
+            ],
+            "approach": [
+              36,
+              12
+            ],
+            "amount": 4,
+            "kind": "socket"
+          }
+        ]
+      },
+      "solution": "stones = hero.take(\"补给箱\")\nhero.moveRight(2)\nhero.give(\"出口机关\", stones)\n",
+      "singleStep": false,
+      "learningContract": null
+    }
+  ],
+  "hints": [
+    "点箱子可以查看领取命令；领取会返回这批物品的数量。",
+    "把实际领取数量留下来，交付时再使用，就不用每换一箱都改数字。"
+  ],
+  "quest": "箱子里有一批能量石。全部取出，送给右边的出口机关。",
+  "inscriptions": [],
+  "exitStyle": "stairs",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "visualTask": true,
+  "powerCircuit": false,
+  "learningContract": null,
+  "singleStep": false,
+  "maxActions": 240,
+  "introBrief": [
+    "领取能量石，交给出口机关",
+    "箱子里有一批能量石。全部取出，送给右边的出口机关。"
+  ]
+}
