@@ -3,7 +3,6 @@ const fs = require('fs')
 const path = require('path')
 const express = require('express')
 const accounts = require('./student-accounts')
-const { serializeProgress } = require('./learning-checker')
 const { createLearningProgress, ProgressError } = require('./learning-progress')
 const { decorateLevel } = require('./story-cast')
 const { DEEPSEEK_TYPE, deepseekType, applyHero } = require('./hero-types')
@@ -53,6 +52,7 @@ module.exports = function setupLocalLevels (app) {
   const formParser = express.urlencoded({ extended: false, limit: '2kb' })
   const levels = () => fs.readdirSync(levelsDir).filter(f => /^local-python-\d{2}\.json$/.test(f)).map(f => readLevel(f.slice(0, -5))).sort(compareLevels)
   const progressLifecycle = createLearningProgress({ readLevel, levels })
+  const handleProgress = handler => (req, res, next) => Promise.resolve(handler(req, res, next)).catch(next)
   const htmlHeaders = { 'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'", 'X-Frame-Options': 'DENY', 'Referrer-Policy': 'no-referrer' }
   const render = (res, student, error = '', status = 200) => {
     return res.status(status).set(htmlHeaders).type('html').send(accountPage({ student, levels: levels(), progress: student ? accounts.readProgress(student.studentId) : {}, releases: classroom.releases(), visibility: classroom.visibility(), showTeacher: classroom.isTeacherLocal(res.req), error, formToken: accounts.formToken(res.req, res) }))
@@ -107,24 +107,24 @@ module.exports = function setupLocalLevels (app) {
     res.redirect(303, `/teaching/teacher#release-${slug}`)
   })
   // Preview is read-only; each transition rechecks access and the attempt identity.
-  app.get('/teaching/continue/:slug', (req, res) => {
+  app.get('/teaching/continue/:slug', handleProgress(async (req, res) => {
     const student = requireStudent(req, res)
     if (!student) return
-    const next = progressLifecycle.previewContinuation(student.studentId, req.params.slug, req.query.sessionId)
+    const next = await progressLifecycle.previewContinuation(student.studentId, req.params.slug, req.query.sessionId)
     res.set('Cache-Control', 'no-store').json({ ...next, formToken: accounts.formToken(req, res) })
-  })
-  app.post('/teaching/continue/:slug', formParser, serializeProgress(async (req, res) => {
+  }))
+  app.post('/teaching/continue/:slug', formParser, handleProgress(async (req, res) => {
     const student = requireStudent(req, res)
     if (!student) return
     if (!accounts.validForm(req)) return res.sendStatus(403)
-    const result = progressLifecycle.continue(student.studentId, req.params.slug, req.body?.sessionId)
+    const result = await progressLifecycle.continue(student.studentId, req.params.slug, req.body?.sessionId)
     res.set('Cache-Control', 'no-store').json(result)
   }))
-  app.post('/teaching/scenario', formParser, serializeProgress(async (req, res) => {
+  app.post('/teaching/scenario', formParser, handleProgress(async (req, res) => {
     const student = requireStudent(req, res)
     if (!student) return
     if (!accounts.validForm(req)) return res.sendStatus(403)
-    const result = progressLifecycle.selectScene(student.studentId, req.body?.slug, Number(req.body?.scene), req.body?.sessionId)
+    const result = await progressLifecycle.selectScene(student.studentId, req.body?.slug, Number(req.body?.scene), req.body?.sessionId)
     res.redirect(303, result.url)
   }))
   app.get('/teaching/world-map.js', (req, res) => {
@@ -167,40 +167,24 @@ module.exports = function setupLocalLevels (app) {
     const code = fs.readFileSync(path.join(__dirname, 'interaction-rules.js'), 'utf8').replace('module.exports =', 'const TeachingInteractions =') + '\n' + fs.readFileSync(path.join(__dirname, 'item-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingInventory =') + '\n' + fs.readFileSync(path.join(__dirname, 'learning-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingLearning =') + '\n' + fs.readFileSync(path.join(__dirname, 'adventure-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingAdventure =') + '\n' + fs.readFileSync(path.join(__dirname, 'rules-system.js'), 'utf8')
     res.json({ _id: 'facadecccc00000000000001', original: 'facadecccc00000000000001', name: 'TeachingRules', codeLanguage: 'javascript', code, js: code, version: { major: 0, minor: 0 }, dependencies: [], configSchema: { type: 'object', properties: { learningContract: { type: ['object', 'null'] }, adventureConfig: { type: ['object', 'null'] }, walls: { type: 'array', default: [] }, bounds: { type: 'object' }, guard: { type: ['object', 'null'] }, checkpoints: { type: 'array' }, exit: { type: 'array' }, hazards: { type: 'array' }, gates: { type: 'array' }, noGems: { type: 'boolean' }, requireFinished: { type: 'boolean' }, exitStyle: { type: 'string' }, exitDirection: { type: 'array' }, exitDuration: { type: 'number' }, sensor: { type: 'object' }, switches: { type: 'array' }, singleStep: { type: 'boolean' }, maxActions: { type: 'number' }, expectedSpeech: { type: ['array', 'null'] } } } })
   })
-  app.get('/db/level/:slug/session', serializeProgress(async (req, res, next) => {
+  app.get('/db/level/:slug/session', handleProgress(async (req, res, next) => {
     const level = readLevel(req.params.slug)
     if (!level) return next()
     const student = requireStudent(req, res)
     if (!student) return
-    const owner = student.studentId
-    const { progress: state } = progressLifecycle.openSession(owner, level.slug)
-    if (state[level.slug].mapRevision !== level.teachingMap?.revision) {
-      state[level.slug].state = { complete: false, scripts: {} }
-      state[level.slug].mapRevision = level.teachingMap?.revision
-      state[level.slug].scenePasses = {}
-      state[level.slug].teachingComplete = false
-      accounts.saveProgress(owner, state)
-    }
-    sendSession(res, state[level.slug])
+    sendSession(res, await progressLifecycle.openSession(student.studentId, level.slug))
   }))
   // Never forward local session writes to the official backend; isolate by student account.
-  app.use('/db/level.session/:id', express.json({ limit: '1mb', type: req => sessionPattern.test(req.params.id) && req.is('application/json') }), serializeProgress(async (req, res, next) => {
+  app.use('/db/level.session/:id', express.json({ limit: '1mb', type: req => sessionPattern.test(req.params.id) && req.is('application/json') }), handleProgress(async (req, res, next) => {
     if (!sessionPattern.test(req.params.id)) return next()
     const student = requireStudent(req, res)
     if (!student) return
-    const owner = student.studentId; const state = accounts.readProgress(owner)
-    const entry = Object.entries(state).find(([, session]) => session._id === req.params.id)
-    if (!entry) return res.status(404).json({ message: 'Local session not found for this browser.' })
-    const [slug, session] = entry
-    if (!requireUnlocked(res, slug)) return
+    let session
     if (['PUT', 'PATCH', 'POST'].includes(req.method) && req.path === '/') {
-      for (const key of ['code', 'state', 'codeLanguage', 'submittedCode', 'submitted', 'playtime', 'levelName', 'levelID', 'changed', 'codeConcepts']) {
-        if (req.body && Object.hasOwn(req.body, key)) session[key] = req.body[key]
-      }
-      await require('./scenario-progress').record(session, readLevel(slug), req.body)
-      session.updatedAt = new Date().toISOString()
-      accounts.saveProgress(owner, state)
-    } else if (req.method !== 'GET') return res.status(405).json({ message: 'Unsupported local session operation.' })
+      session = await progressLifecycle.saveSession(student.studentId, req.params.id, req.body)
+    } else if (req.method === 'GET') {
+      session = await progressLifecycle.readSession(student.studentId, req.params.id)
+    } else return res.status(405).json({ message: 'Unsupported local session operation.' })
     sendSession(res, session)
   }))
   app.use((error, req, res, next) => {
