@@ -1,7 +1,6 @@
 // Python parses student source without executing it. Keep work off the HTTP event loop.
 const { execFile } = require('child_process')
 const path = require('path')
-const accounts = require('./student-accounts')
 const limit = 2
 let active = 0
 const queue = []
@@ -31,15 +30,4 @@ function check (index, code) {
     pump()
   })
 }
-const pending = new Map()
-function serializeProgress (handler) {
-  return (req, res, next) => {
-    const owner = accounts.currentStudent(req)?.studentId
-    if (!owner) return Promise.resolve(handler(req, res, next)).catch(next)
-    const previous = pending.get(owner) || Promise.resolve()
-    const operation = previous.catch(() => {}).then(() => handler(req, res, next))
-    pending.set(owner, operation)
-    operation.catch(next).finally(() => { if (pending.get(owner) === operation) pending.delete(owner) })
-  }
-}
-module.exports = { check, serializeProgress }
+module.exports = { check }

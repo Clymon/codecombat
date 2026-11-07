@@ -1,0 +1,296 @@
+{
+  "index": 11,
+  "section": 2,
+  "revision": 4,
+  "lessonOrder": 11,
+  "name": "第2节 · 门开且安全才走【选做】",
+  "description": "右侧是近路，但门开着也可能有尖刺。门岗放行且路面安全时，走右路拿宝石离开；否则走下方撤离通道。三种场景使用同一份程序。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    72,
+    60
+  ],
+  "start": [
+    36,
+    24
+  ],
+  "corridors": [
+    [
+      12,
+      24,
+      60,
+      24
+    ],
+    [
+      36,
+      0,
+      36,
+      48
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    48,
+    24
+  ],
+  "exitMarker": {
+    "x": 36,
+    "y": 53,
+    "direction": "",
+    "label": "按牌子选路"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      8,
+      40
+    ]
+  ],
+  "labels": [],
+  "knowledge": "and",
+  "apis": [
+    "pathOpen",
+    "nextTileSafe"
+  ],
+  "optional": true,
+  "starter": "# 看守卫，也看尖刺；开着的门不一定安全。\n",
+  "scenarios": [
+    {
+      "size": [
+        72,
+        60
+      ],
+      "start": [
+        36,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          60,
+          24
+        ],
+        [
+          36,
+          0,
+          36,
+          48
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        48,
+        24
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 53,
+        "direction": "",
+        "label": "按牌子选路"
+      },
+      "hazards": [],
+      "gems": [
+        [
+          48,
+          24
+        ]
+      ],
+      "torches": [
+        [
+          8,
+          40
+        ]
+      ],
+      "labels": [],
+      "title": "门开 / 无尖刺",
+      "sensor": {
+        "open": {
+          "right": true
+        }
+      },
+      "gates": [],
+      "solution": "if pathOpen(\"right\") and nextTileSafe():\n    hero.moveRight()\nelse:\n    hero.moveDown()\n",
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "size": [
+        72,
+        60
+      ],
+      "start": [
+        36,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          60,
+          24
+        ],
+        [
+          36,
+          0,
+          36,
+          48
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        36,
+        12
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 53,
+        "direction": "",
+        "label": "按牌子选路"
+      },
+      "hazards": [
+        [
+          48,
+          24
+        ]
+      ],
+      "gems": [
+        [
+          36,
+          12
+        ]
+      ],
+      "torches": [
+        [
+          8,
+          40
+        ]
+      ],
+      "labels": [],
+      "title": "门开 / 有尖刺",
+      "sensor": {
+        "open": {
+          "right": true
+        }
+      },
+      "gates": [],
+      "solution": "if pathOpen(\"right\") and nextTileSafe():\n    hero.moveRight()\nelse:\n    hero.moveDown()\n",
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "size": [
+        72,
+        60
+      ],
+      "start": [
+        36,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          60,
+          24
+        ],
+        [
+          36,
+          0,
+          36,
+          48
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        36,
+        12
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 53,
+        "direction": "",
+        "label": "按牌子选路"
+      },
+      "hazards": [],
+      "gems": [
+        [
+          36,
+          12
+        ]
+      ],
+      "torches": [
+        [
+          8,
+          40
+        ]
+      ],
+      "labels": [],
+      "title": "门关 / 无尖刺",
+      "sensor": {
+        "open": {
+          "right": false
+        }
+      },
+      "gates": [
+        {
+          "id": "Closed Path",
+          "at": [
+            42,
+            24
+          ],
+          "aside": [
+            42,
+            36
+          ],
+          "approach": [
+            36,
+            24
+          ],
+          "locked": true
+        }
+      ],
+      "solution": "if pathOpen(\"right\") and nextTileSafe():\n    hero.moveRight()\nelse:\n    hero.moveDown()\n",
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "singleStep": false,
+      "learningContract": null
+    }
+  ],
+  "visualTask": true,
+  "quest": "守卫让开不代表路上没有陷阱。右路既要开放，也要没有尖刺；只要有一项不满足，就走下方通道。",
+  "inscriptions": [],
+  "exitStyle": "portal",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "learningContract": null,
+  "singleStep": false,
+  "maxActions": 240,
+  "hints": [
+    "点击守卫和尖刺查看区别：放行与安全是两件事。",
+    "可以把两个条件合起来，也可以分两次判断；看最终选路是否正确。"
+  ],
+  "introBrief": [
+    "门开且安全才走【选做】",
+    "守卫让开不代表路上没有陷阱。右路既要开放，也要没有尖刺；只要有一项不满足，就走下方通道。"
+  ]
+}
