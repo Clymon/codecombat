@@ -1,0 +1,132 @@
+{
+  "index": 29,
+  "name": "for挑战：点亮三座信号台",
+  "section": 3,
+  "lessonOrder": 13.2,
+  "revision": 2,
+  "prototype": false,
+  "checkpoints": [],
+  "gems": [],
+  "hazards": [],
+  "gates": [],
+  "torches": [
+    [
+      6,
+      20
+    ],
+    [
+      96,
+      20
+    ]
+  ],
+  "labels": [],
+  "exitStyle": "stairs",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "maxActions": 240,
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "knowledge": "for · 重复完整动作组",
+  "size": [
+    108,
+    60
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "exit": [
+    96,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      104,
+      12
+    ],
+    [
+      24,
+      12,
+      24,
+      40
+    ],
+    [
+      48,
+      12,
+      48,
+      40
+    ],
+    [
+      72,
+      12,
+      72,
+      40
+    ]
+  ],
+  "apis": [],
+  "quest": "三座信号台连着出口的封印。到台前说“点火”，火焰亮起后返回主廊，再前往下一座。全部点亮后撤离。",
+  "description": "三座信号台连着出口封印。走到每座台前说“点火”，火焰亮起后回主廊，再去下一座。重复点燃同一座不会代替其他台；在远处说话也无效。三座全亮后从右侧离开。",
+  "starter": "# 先点亮最近的信号台，再把同样的动作用于另外两座。\n",
+  "adventure": {
+    "mode": "signals",
+    "actors": [
+      {
+        "id": "信号台1",
+        "kind": "signal",
+        "at": [
+          24,
+          36
+        ],
+        "health": 1
+      },
+      {
+        "id": "信号台2",
+        "kind": "signal",
+        "at": [
+          48,
+          36
+        ],
+        "health": 1
+      },
+      {
+        "id": "信号台3",
+        "kind": "signal",
+        "at": [
+          72,
+          36
+        ],
+        "health": 1
+      }
+    ]
+  },
+  "goals": [
+    {
+      "id": "signal-1",
+      "name": "点亮信号台 1"
+    },
+    {
+      "id": "signal-2",
+      "name": "点亮信号台 2"
+    },
+    {
+      "id": "signal-3",
+      "name": "点亮信号台 3"
+    }
+  ],
+  "hints": [
+    "主廊到台前两格，相邻侧路间两格。",
+    "先完成一次“上去、点火、回来、去下一台”，再考虑怎样整理重复动作。"
+  ],
+  "solution": "hero.moveRight()\nfor i in range(3):\n    hero.moveUp(2)\n    print(\"点火\")\n    hero.moveDown(2)\n    hero.moveRight(2)\n",
+  "hiddenByDefault": true,
+  "tutorial": null,
+  "learningContract": null,
+  "singleStep": false,
+  "introBrief": [
+    "for挑战：点亮三座信号台",
+    "三座信号台连着出口的封印。到台前说“点火”，火焰亮起后返回主廊，再前往下一座。全部点亮后撤离。"
+  ]
+}
