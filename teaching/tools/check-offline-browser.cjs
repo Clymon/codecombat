@@ -20,7 +20,9 @@ assert.match(process.env.AUDIT_STUDENT || '99997777', /^9999\d{4,12}$/);
     for (const d of designs) {
       if (process.env.ONLY && !process.env.ONLY.split(',').includes(String(d.index))) continue; for (let scene = 0; scene < (d.scenarios?.length || 1); scene++) {
         errors = []; failed = []; outside = []; const slug = 'local-python-' + String(d.index).padStart(2, '0'); const result = { slug, scene }; const start = Date.now(); try {
-          await page.goto('about:blank'); require('../test/progress-fixture.cjs')(process.env.AUDIT_STUDENT || '99997777', slug); await context.request.post(base + '/teaching/scenario', { form: { slug, scene: String(scene), formToken: token } })
+          await page.goto('about:blank'); require('../test/progress-fixture.cjs')(process.env.AUDIT_STUDENT || '99997777', slug); const opened = await context.request.get(base + '/db/level/' + slug + '/session'); assert.ok(opened.ok(), await opened.text())
+          const sessionId = (await opened.json())._id
+          const selected = await context.request.post(base + '/teaching/scenario', { form: { slug, scene: String(scene), formToken: token, sessionId }, maxRedirects: 0 }); assert.equal(selected.status(), 303, await selected.text())
           await page.goto(base + '/play/level/' + slug + '?codeLanguage=python'); await page.getByRole('button', { name: '进入关卡', exact: true }).click({ timeout: 60000 }); result.loadMs = Date.now() - start
           await page.waitForTimeout(1500); const skip = page.locator('.ds-guide-skip'); if (await skip.isVisible()) await skip.click()
           const code = d.scenarios?.[scene]?.solution || d.solution || fallback[d.index]; if (!code) throw Error('Missing reference solution'); await page.locator('.ace.coco-view').click(); await page.locator('.ace.coco-view .ace_text-input').focus(); await page.keyboard.press('ControlOrMeta+A'); await page.keyboard.insertText(code)

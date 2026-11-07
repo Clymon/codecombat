@@ -189,6 +189,7 @@ module.exports = function setupLocalLevels (app, options = {}) {
     sendSession(res, session)
   }))
   app.use((error, req, res, next) => {
+    if (error instanceof accounts.PersistenceError) return res.status(503).set('Cache-Control', 'no-store').json({ message: error.message, retryable: true })
     if (!(error instanceof ProgressError)) return next(error)
     res.status(error.status).set('Cache-Control', 'no-store').json(error.detail)
   })

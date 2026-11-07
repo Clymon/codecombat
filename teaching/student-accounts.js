@@ -19,12 +19,26 @@ function readJson (file) {
     throw error
   }
 }
+class PersistenceError extends Error {
+  constructor (cause) {
+    super('保存失败，服务器暂时无法写入进度。请保留当前页面和代码，稍后点击重试保存。', { cause })
+    this.name = 'PersistenceError'
+  }
+}
 function writeJson (file, value, exclusive = false) {
-  fs.mkdirSync(path.dirname(file), { recursive: true })
-  if (exclusive) return fs.writeFileSync(file, JSON.stringify(value), { flag: 'wx', mode: 0o600 })
   const temp = `${file}.${process.pid}.${crypto.randomBytes(4).toString('hex')}.tmp`
-  fs.writeFileSync(temp, JSON.stringify(value), { mode: 0o600 })
-  fs.renameSync(temp, file)
+  try {
+    fs.mkdirSync(path.dirname(file), { recursive: true })
+    if (exclusive) return fs.writeFileSync(file, JSON.stringify(value), { flag: 'wx', mode: 0o600 })
+    fs.writeFileSync(temp, JSON.stringify(value), { mode: 0o600 })
+    fs.renameSync(temp, file)
+  } catch (error) {
+    if (exclusive && error.code === 'EEXIST') throw error
+    throw new PersistenceError(error)
+  } finally {
+    // Never remove the old destination when a write or rename failed.
+    if (!exclusive) { try { fs.unlinkSync(temp) } catch {} }
+  }
 }
 function normalStudentId (value) {
   if (typeof value !== 'string') return null
@@ -113,4 +127,4 @@ function withoutLocalCookies (header = '') {
   return header.split(';').map(value => value.trim()).filter(value => !/^(localStudentSession|localTeaching|localTeachingForm)=/.test(value)).join('; ')
 }
 
-module.exports = { CLASS_NAME, COOKIE_NAME, normalStudentId, account, ensureStudent, currentStudent, startSession, endSession, readProgress, saveProgress, registeredStudents, formToken, validForm, withoutLocalCookies, saveClientPreferences }
+module.exports = { PersistenceError, CLASS_NAME, COOKIE_NAME, normalStudentId, account, ensureStudent, currentStudent, startSession, endSession, readProgress, saveProgress, registeredStudents, formToken, validForm, withoutLocalCookies, saveClientPreferences }
