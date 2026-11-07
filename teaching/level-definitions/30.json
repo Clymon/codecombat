@@ -1,0 +1,151 @@
+{
+  "index": 30,
+  "section": 2,
+  "name": "观察教学：找到敌人再攻击",
+  "lessonOrder": 8.1,
+  "revision": 2,
+  "prototype": false,
+  "hiddenByDefault": true,
+  "checkpoints": [],
+  "gems": [],
+  "hazards": [],
+  "gates": [],
+  "torches": [
+    [
+      8,
+      24
+    ],
+    [
+      58,
+      24
+    ]
+  ],
+  "labels": [],
+  "exitStyle": "stairs",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "maxActions": 240,
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    72,
+    40
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "exit": [
+    48,
+    12
+  ],
+  "corridors": [
+    [
+      8,
+      12,
+      64,
+      12
+    ]
+  ],
+  "apis": [
+    "findNearestEnemy",
+    "attack"
+  ],
+  "knowledge": "返回值 · 变量 · attack(enemy)",
+  "quest": "击败当前哨兵，从右侧楼梯离开。",
+  "description": "路中央有一名哨兵挡着出口。击败它，再走到楼梯。两次巡查遇到的哨兵名字不同，同一份程序都要识别并处理当前目标。点敌人可查看攻击用法；查找函数会返回当前的敌人对象。",
+  "starter": "hero.moveRight()\n# 查找敌人，把结果保存在 enemy 中，再攻击。\n",
+  "adventure": {
+    "mode": "rescue",
+    "actors": [
+      {
+        "id": "落单斥候",
+        "kind": "enemy",
+        "at": [
+          30,
+          12
+        ],
+        "health": 20,
+        "speed": 0,
+        "damage": 1,
+        "aggro": 0
+      }
+    ]
+  },
+  "goals": [],
+  "tutorial": {
+    "title": "enemy 保存的是找到的敌人",
+    "steps": [
+      {
+        "text": "在已有移动语句后输入下面两行并运行。enemy不加引号。",
+        "code": "enemy = hero.findNearestEnemy()\nhero.attack(enemy)",
+        "observe": "查找本身不攻击；下一行才让英雄攻击找到的敌人。",
+        "evidence": {
+          "kind": "enemies-cleared"
+        }
+      },
+      {
+        "text": "最后加 hero.moveRight(2)，重新运行，从楼梯离开。",
+        "observe": "没有敌人时查找结果是None。接下来学习if，再判断是否需要攻击。",
+        "evidence": {
+          "kind": "exit"
+        }
+      }
+    ]
+  },
+  "hints": [
+    "\"enemy\" 是文字，enemy 才是变量里保存的目标。"
+  ],
+  "solution": "hero.moveRight()\nenemy = hero.findNearestEnemy()\nhero.attack(enemy)\nhero.moveRight(2)\n",
+  "learningContract": null,
+  "singleStep": false,
+  "scenarios": [
+    {
+      "title": "遇到落单斥候",
+      "adventure": {
+        "mode": "rescue",
+        "actors": [
+          {
+            "id": "落单斥候",
+            "kind": "enemy",
+            "at": [
+              30,
+              12
+            ],
+            "health": 20,
+            "speed": 0,
+            "damage": 1,
+            "aggro": 0
+          }
+        ]
+      },
+      "solution": "hero.moveRight()\nenemy = hero.findNearestEnemy()\nhero.attack(enemy)\nhero.moveRight(2)\n"
+    },
+    {
+      "title": "遇到门廊哨兵",
+      "adventure": {
+        "mode": "rescue",
+        "actors": [
+          {
+            "id": "门廊哨兵",
+            "kind": "enemy",
+            "at": [
+              30,
+              12
+            ],
+            "health": 20,
+            "speed": 0,
+            "damage": 1,
+            "aggro": 0
+          }
+        ]
+      },
+      "solution": "hero.moveRight()\nenemy = hero.findNearestEnemy()\nhero.attack(enemy)\nhero.moveRight(2)\n"
+    }
+  ],
+  "introBrief": [
+    "观察教学：找到敌人再攻击",
+    "击败当前哨兵，从右侧楼梯离开。"
+  ]
+}
