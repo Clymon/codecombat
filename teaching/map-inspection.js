@@ -1,3 +1,4 @@
+const interactions = require('./interaction-rules')
 const { commandDocs } = require('./command-docs')
 const parse = (value, fallback) => { try { return JSON.parse(value || 'null') || fallback } catch (_) { return fallback } }
 const distance = (hero, at) => hero?.pos ? Math.hypot(hero.pos.x - at[0], hero.pos.y - at[1]) : Infinity
@@ -8,7 +9,7 @@ function mapObjects (d, hero, world) {
   for (const sw of [...(d.switches || []), ...(d.decoySwitches || []).map(s => ({ ...s, decoy: true }))]) objects.push({ id: `switch-${sw.number}`, kind: 'switch', name: `${sw.number} 号开关`, ...sw })
   for (const [i, gate] of (d.gates || []).entries()) {
     const actor = world?.getThangByID(gate.id)
-    objects.push({ ...gate, id: `gate-${gate.id}`, kind: 'gate', name: gate.name || ((d.gates || []).length > 1 ? `门岗守卫 ${i + 1}` : '门岗守卫'), at: actor?.pos ? [actor.pos.x, actor.pos.y] : gate.at, tall: true, open: actor?.teachingGateStatus === 'open' || gate.openedAt != null })
+    objects.push({ ...gate, id: `gate-${gate.id}`, kind: 'gate', name: gate.name || ((d.gates || []).length > 1 ? `门岗守卫 ${i + 1}` : '门岗守卫'), at: actor?.pos ? [actor.pos.x, actor.pos.y] : gate.at, tall: true, openedAt: actor ? undefined : gate.openedAt, opening: actor?.teachingGateStatus === 'opening', open: actor ? ['open', 'opening'].includes(actor.teachingGateStatus) : gate.openedAt != null })
   }
   if (d.inventory) {
     objects.push({ ...d.inventory.supply, id: 'supply', kind: 'supply', tall: true })
@@ -75,12 +76,14 @@ function describeObject (object, d, hero, world) {
       add('give', `hero.give(${JSON.stringify(object.name)}, amount)`, '先到收货位置，背包里要有足够物品', r?.delivered ? '已交齐，不需要重复交付' : ready ? '位置满足；执行时还会检查数量' : '距离不满足，先走到目标前')
       break
     }
-    case 'gate':
-      ready = distance(hero, object.approach) <= 1 && distance(hero, object.at) <= 12.5
-      text = object.open ? '守卫已经让开，可以通过。' : object.locked ? '此门岗关闭，不能靠攻击或口令强行打开。' : '先走到守卫正前方再说话。发言由附近的守卫听见，不由鼠标选择决定。'
+    case 'gate': {
+      const availability = interactions.gateSpeech(hero?.pos, object, d.walls || [])
+      ready = availability.ready
+      text = object.opening ? '守卫正在让开，等通道腾出后再通过。' : object.open ? '守卫已经让开，可以通过。' : object.locked ? '此门岗关闭，不能靠攻击或口令强行打开。' : '先走到守卫正前方再说话。发言由附近的守卫听见，不由鼠标选择决定。'
       for (const direction of Object.keys(d.sensor?.open || {})) add('pathOpen', `opened = pathOpen(${JSON.stringify(direction)})`, '查询这个方向是否放行；不移动英雄，也不替守卫开门', '随时可查询，不要求走近')
-      if (!object.locked && !object.open) add('say', 'hero.say("你好")', '到守卫正前方紧邻的一格，且中间不能隔墙', ready ? '当前已到对话位置' : '太远，守卫听不到')
+      if (!object.locked && !object.open) add('say', 'hero.say("你好")', '到守卫正前方紧邻的一格，且中间不能隔墙', availability.message)
       break
+    }
     case 'spawn':
       text = '增援会从裂隙中出现。红光转亮时敌人即将到达；不需要走上去，也没有启动刷怪的函数。'
       add('findNearestEnemy', 'enemy = hero.findNearestEnemy()', '只返回已经出现的敌人，尚未出现时可能返回 None', '随时可以观察战场')
