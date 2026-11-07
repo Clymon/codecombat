@@ -19,7 +19,7 @@ function onCorridor (x, y, corridors, margin = 5) {
     return Math.hypot(x - nearX, y - nearY) <= margin
   })
 }
-function make (design) {
+function make (design, teachingMap) {
   const { index, name, description, gems: positions, corridors, size: [width, height] } = design
   const slug = `local-python-${String(index).padStart(2, '0')}`
   const id = `facade${String(index).padStart(18, '0')}`
@@ -98,8 +98,7 @@ function make (design) {
   systems.find(s => s.original === '528113240268d018e300000c').config = { simpleMoveDistance: CELL_SIZE, ...(index >= 7 ? { simpleMoveSnapPoints: Array.from({ length: Math.floor(width / 12) + 1 }, (_, x) => Array.from({ length: Math.floor(height / 12) + 1 }, (_, y) => ({ x: x * 12, y: y * 12 }))).flat(), simpleMoveSnapThreshold: 2.5 } : {}) }
   systems.find(s => s.original === '528114e60268d018e300001a').config = { showCoordinates: false, showGrid: false, preventZoomToHero: true, showPaths: 'never', showTargetMark: false }
   systems.push(engineComponent('facadecccc00000000000001', { ...(design.chargePlates ? { chargePlates: design.chargePlates } : {}), inventoryConfig: design.inventory || null, learningContract: design.learningContract || null, ...(design.adventure ? { adventureConfig: { ...design.adventure, guided: !!design.tutorial } } : {}), walls, bounds: { x1: 0, y1: 0, x2: width, y2: height }, guard: design.guard || null, checkpoints: design.checkpoints, exit: design.exit, hazards: design.hazards, gates: design.gates || [], noGems: positions.length === 0, requireFinished: true, exitStyle: design.exitStyle, exitDirection: design.exitDirection, exitDuration: durations[design.exitStyle] || 0, sensor: design.sensor || {}, switches: design.switches || [], decoySwitches: design.decoySwitches || [], singleStep: !!design.singleStep, maxActions: design.maxActions || 30, expectedSpeech: design.expectedSpeech || null }))
-  const { solution, scenarios, ...publicDesign } = design
-  const level = { _id: id, original: id, slug, name, description, loadingTip: design.tip, type: 'hero', product: 'codecombat', version: { major: 0, minor: 0, isLatestMajor: true, isLatestMinor: true }, permissions: [{ target: 'public', access: 'read' }], thangs, systems, goals: [{ id: 'stay-safe', saveThangs: ['Hero Placeholder'], name: design.safetyGoalLabel || (design.guard ? '避开巡逻警戒圈' : design.gates?.length ? '不闯关闭的门岗' : design.hazards?.length ? '避开尖刺和石墙' : '不撞石墙'), worldEndsAfter: 1 }, { id: 'collect-parcels', name: `收集全部${positions.length}颗宝石`, collectThangs: { who: ['humans'], targets: positions.map((_, n) => `Parcel ${n + 1}`) }, worldEndsAfter: 1 }], documentation: { generalArticles: [], specificArticles: [{ name: '本关任务', body: description }] }, scripts: [{ id: 'Local Camera', channel: 'god:new-world-created', noteChain: [{ name: 'View', script: { duration: 0.01 }, playback: { playing: true } }] }], teachingMap: publicDesign, victory: {}, campaign: 'local-teaching', concepts: ['basic_syntax'], i18n: {}, releasePhase: 'internalRelease', aiChatKind: 'none' }
+  const level = { _id: id, original: id, slug, name, description, loadingTip: design.tip, type: 'hero', product: 'codecombat', version: { major: 0, minor: 0, isLatestMajor: true, isLatestMinor: true }, permissions: [{ target: 'public', access: 'read' }], thangs, systems, goals: [{ id: 'stay-safe', saveThangs: ['Hero Placeholder'], name: design.safetyGoalLabel || (design.guard ? '避开巡逻警戒圈' : design.gates?.length ? '不闯关闭的门岗' : design.hazards?.length ? '避开尖刺和石墙' : '不撞石墙'), worldEndsAfter: 1 }, { id: 'collect-parcels', name: `收集全部${positions.length}颗宝石`, collectThangs: { who: ['humans'], targets: positions.map((_, n) => `Parcel ${n + 1}`) }, worldEndsAfter: 1 }], documentation: { generalArticles: [], specificArticles: [{ name: '本关任务', body: description }] }, scripts: [{ id: 'Local Camera', channel: 'god:new-world-created', noteChain: [{ name: 'View', script: { duration: 0.01 }, playback: { playing: true } }] }], teachingMap, victory: {}, campaign: 'local-teaching', concepts: ['basic_syntax'], i18n: {}, releasePhase: 'internalRelease', aiChatKind: 'none' }
   level.goals.push(...(design.goals || []).map(g => ({ ...g, worldEndsAfter: 1 })))
   if (design.inventory) level.goals.push({ id: 'take-supplies', name: '从补给箱领取物品', worldEndsAfter: 1 }, { id: 'deliver-supplies', name: '完成实际交付，开启出口', worldEndsAfter: 1 })
   if (!positions.length) level.goals = level.goals.filter(g => g.id !== 'collect-parcels')
@@ -110,16 +109,19 @@ function make (design) {
   level.goals.push(...design.checkpoints.map((p, n) => ({ id: `checkpoint-${n + 1}`, name: (design.gates || []).some(g => g.approach[0] === p[0] && g.approach[1] === p[1]) ? '抵达门岗' : `唤醒石板 ${n + 1}`, worldEndsAfter: 1 })), { id: 'reach-exit', name: design.goalLabel || ({ stairs: '完成沿路任务，从楼梯离开', portal: '启动法阵并传送', beacon: '到达信标并传送', marker: '在终点石板停下', camp: '留在安全位置' }[design.exitStyle]) || '到达终点', worldEndsAfter: 1 })
   return level
 }
-fs.mkdirSync(path.join(dir, 'levels', 'scenarios'), { recursive: true })
-for (const design of require('../map-designs')) {
-  const scenes = design.scenarios || [{}]
-  scenes.forEach((scene, sceneIndex) => {
-    const level = make({ ...design, ...scene })
-    level.teachingMap.scenarioIndex = sceneIndex
-    level.teachingMap.scenarioTitles = scenes.map((s, i) => s.title || '主场景')
-    level.teachingMap.slug = level.slug
-    if (sceneIndex === 0) fs.writeFileSync(path.join(dir, 'levels', `${level.slug}.json`), JSON.stringify(level, null, 2) + '\n')
-    fs.writeFileSync(path.join(dir, 'levels', 'scenarios', `${level.slug}-${sceneIndex}.json`), JSON.stringify(level, null, 2) + '\n')
-  })
+function compileLevels (definitions) {
+  return require('../level-catalog').compileCatalog(definitions).flatMap(entry => entry.scenes.map(scene => make(scene.design, scene.teachingMap)))
 }
-module.exports = { onCorridor }
+function buildLevels (outputDir = path.join(dir, 'levels')) {
+  const levels = compileLevels()
+  fs.mkdirSync(path.join(outputDir, 'scenarios'), { recursive: true })
+  for (const level of levels) {
+    const sceneIndex = level.teachingMap.scenarioIndex
+    const content = JSON.stringify(level, null, 2) + '\n'
+    if (sceneIndex === 0) fs.writeFileSync(path.join(outputDir, `${level.slug}.json`), content)
+    fs.writeFileSync(path.join(outputDir, 'scenarios', `${level.slug}-${sceneIndex}.json`), content)
+  }
+  return levels
+}
+if (require.main === module) buildLevels()
+module.exports = { onCorridor, compileLevels, buildLevels }
