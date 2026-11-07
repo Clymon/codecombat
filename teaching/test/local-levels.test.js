@@ -10,7 +10,7 @@ const accounts = require('../student-accounts')
 const classroom = require('../classroom-state')
 const { rewritePrintAsHeroSay } = require('../print-to-say')
 const { visibleSpeech, MAX_VISIBLE } = require('../speech-stack')
-const Rules = vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../rules-system.js'), 'utf8'), { System: class {constructor (world, config) { this.world = world; Object.assign(this, config) }} })
+const Rules = vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../rules-system.js'), 'utf8'), { TeachingInteractions: require('../interaction-rules'), System: class {constructor (world, config) { this.world = world; Object.assign(this, config) }} })
 function world (x, y, guard) {
   const hero = { pos: { x, y } }
   const goals = {}

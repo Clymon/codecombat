@@ -2,7 +2,7 @@ const test = require('node:test')
 const assert = require('node:assert/strict')
 const fs = require('node:fs'); const vm = require('node:vm'); const path = require('node:path')
 const { CELL_SIZE, cellsFor } = require('../grid-space')
-const Rules = vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../rules-system.js'), 'utf8'), { System: class {} })
+const Rules = vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../rules-system.js'), 'utf8'), { TeachingInteractions: require('../interaction-rules'), System: class {} })
 function speak (x, y, walls = []) {
   const guard = {}; const hero = {}; const gate = { id: 'Guard', at: [36, 12], approach: [24, 12], password: '自己人' }
   const rules = Object.assign(new Rules(), { world: { age: 0, getThangByID: () => guard }, gates: [gate], walls })

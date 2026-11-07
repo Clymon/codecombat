@@ -1,4 +1,4 @@
-/* global System, TeachingAdventure, TeachingLearning, TeachingInventory */
+/* global System, TeachingAdventure, TeachingLearning, TeachingInventory, TeachingInteractions */
 // Original local map rules. Rendered walls and these bounds share one source.
 class TeachingRules extends System {
   start () {
@@ -226,16 +226,7 @@ class TeachingRules extends System {
   }
 
   canTalkToGate (event, gate) {
-    // The marked approach square is directly in front; allow only arrival drift.
-    if (Math.hypot(event.x - gate.approach[0], event.y - gate.approach[1]) > 1) return false
-    const dx = gate.at[0] - event.x; const dy = gate.at[1] - event.y
-    const distance = Math.hypot(dx, dy)
-    if (distance > 12.5) return false
-    for (let i = 1; i < Math.ceil(distance); i++) {
-      const t = i / Math.ceil(distance); const x = event.x + dx * t; const y = event.y + dy * t
-      if ((this.walls || []).some(w => Math.abs(x - w.x) < w.halfWidth && Math.abs(y - w.y) < w.halfHeight)) return false
-    }
-    return true
+    return TeachingInteractions.gateSpeech(event, gate, this.walls || []).canHear
   }
 
   receiveSpeech (event, hero) {
@@ -244,7 +235,9 @@ class TeachingRules extends System {
     const gates = this.gates || []
     const nearby = gates.find(g => this.canTalkToGate(event, g))
     if (!nearby) {
-      if (gates.some(g => !g.locked)) hero.teachingFailure = '离守卫太远了，他没有听见。'
+      const responses = gates.filter(g => !g.locked && g.openedAt == null).map(g => TeachingInteractions.gateSpeech(event, g, this.walls || []))
+      const refusal = responses.find(r => r.status === 'blocked') || responses[0]
+      if (refusal) hero.teachingFailure = refusal.message
       return
     }
     if (nearby.locked || nearby.openedAt != null) return
