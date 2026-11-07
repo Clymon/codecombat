@@ -1,9 +1,10 @@
-// Owns complete scene transitions; HTTP callers supply identity and intent only.
+// Owns progress reads and writes as complete, per-student operations.
 const crypto = require('crypto')
 const accounts = require('./student-accounts')
 const classroom = require('./classroom-state')
 const { accessFor, catalog } = require('./level-access')
 const { nextTask } = require('./continuation')
+const { record } = require('./scenario-progress')
 
 class ProgressError extends Error {
   constructor (status, detail) {
@@ -18,6 +19,25 @@ function createSession (level, scene) {
 }
 
 function createLearningProgress ({ readLevel, levels }) {
+  // Only this module coordinates progress operations. Route callers cannot omit the queue.
+  const pending = new Map()
+  function serialized (studentId, operation) {
+    const previous = pending.get(studentId) || Promise.resolve()
+    const result = previous.catch(() => {}).then(operation)
+    pending.set(studentId, result)
+    const settled = () => { if (pending.get(studentId) === result) pending.delete(studentId) }
+    result.then(settled, settled)
+    return result
+  }
+
+  function attempt (studentId, sessionId) {
+    const progress = accounts.readProgress(studentId)
+    const entry = Object.entries(progress).find(([, session]) => session._id === sessionId)
+    if (!entry) throw new ProgressError(404, { message: 'Local session not found for this browser.' })
+    const [slug, session] = entry
+    requireAccess(progress, slug)
+    return { progress, slug, session }
+  }
   function requireAccess (progress, slug) {
     const access = accessFor(catalog, { progress, releases: classroom.releases(), visibility: classroom.visibility() })[slug]
     if (!access?.open) throw new ProgressError(403, { message: access?.message || '此关不可进入，请返回地图。', reason: access?.reason, prerequisites: access?.missing, mapUrl: `/teaching?level=${slug}` })
@@ -56,7 +76,7 @@ function createLearningProgress ({ readLevel, levels }) {
     return { progress, next }
   }
 
-  return {
+  const operations = {
     openSession (studentId, slug) {
       const level = readLevel(slug)
       if (!level) throw new ProgressError(404, { message: '关卡不存在，请返回地图。' })
@@ -66,7 +86,31 @@ function createLearningProgress ({ readLevel, levels }) {
         progress[slug] = createSession(level, 0)
         accounts.saveProgress(studentId, progress)
       }
-      return { session: progress[slug], progress }
+      // Preserve the existing revision behavior here; revision policy changes are separate.
+      const session = progress[slug]
+      if (session.mapRevision !== level.teachingMap?.revision) {
+        session.state = { complete: false, scripts: {} }
+        session.mapRevision = level.teachingMap?.revision
+        session.scenePasses = {}
+        session.teachingComplete = false
+        accounts.saveProgress(studentId, progress)
+      }
+      return session
+    },
+    readSession (studentId, sessionId) {
+      return attempt(studentId, sessionId).session
+    },
+    async saveSession (studentId, sessionId, body = {}) {
+      const { progress, slug, session } = attempt(studentId, sessionId)
+      const code = body.code?.['hero-placeholder']?.plan
+      if (code !== undefined && typeof code !== 'string') throw new ProgressError(400, { message: '代码格式无效，请刷新编辑器后重试。' })
+      for (const key of ['code', 'state', 'codeLanguage', 'submittedCode', 'submitted', 'playtime', 'levelName', 'levelID', 'changed', 'codeConcepts']) {
+        if (Object.hasOwn(body, key)) session[key] = body[key]
+      }
+      await record(session, readLevel(slug), body)
+      session.updatedAt = new Date().toISOString()
+      accounts.saveProgress(studentId, progress)
+      return session
     },
     previewContinuation (studentId, slug, sessionId) {
       return continuation(studentId, slug, sessionId).next
@@ -91,6 +135,7 @@ function createLearningProgress ({ readLevel, levels }) {
       return { url: `/play/level/${slug}?codeLanguage=python` }
     },
   }
+  return Object.fromEntries(Object.entries(operations).map(([name, operation]) => [name, (studentId, ...args) => serialized(studentId, () => operation(studentId, ...args))]))
 }
 
 module.exports = { createLearningProgress, ProgressError }
