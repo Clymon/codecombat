@@ -2,11 +2,11 @@
 const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
-const designs = require('./map-designs')
+const { catalog } = require('./level-access')
 const { defaultVisible } = require('./curriculum')
 const file = () => path.resolve(process.env.TEACHING_STATE_DIR || path.join(__dirname, 'state'), 'classroom.json')
-const defaults = Object.fromEntries(designs.map(d => [`local-python-${String(d.index).padStart(2, '0')}`, d.index === 4]))
-const visibleDefaults = Object.fromEntries(designs.map(d => [`local-python-${String(d.index).padStart(2, '0')}`, defaultVisible(d)]))
+const defaults = Object.fromEntries(catalog.map(level => [level.slug, level.teachingMap.index === 4]))
+const visibleDefaults = Object.fromEntries(catalog.map(level => [level.slug, defaultVisible(level.teachingMap)]))
 
 function read () {
   let saved

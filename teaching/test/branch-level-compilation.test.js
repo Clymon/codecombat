@@ -60,7 +60,8 @@ for (const index of [7, 8, 12]) {
     const [single] = compileLevels([standalone])
     assert.deepEqual(single.teachingMap.inventory, source.scenarios[0].inventory)
     assert.equal(single.teachingMap.scenarioIndex, 0)
-    assert.deepEqual(compileLevels([{ ...standalone, scenarios: [] }]), [])
+    // A registered level must publish at least one playable scene.
+    assert.throws(() => compileLevels([{ ...standalone, scenarios: [] }]), /field scenarios: expected at least one scene/)
 
     const replacement = structuredClone(source.scenarios.at(-1).inventory)
     replacement.supply.count = 0

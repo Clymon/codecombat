@@ -1,6 +1,5 @@
 // Teacher QA programs: run only against the isolated classroom service.
 const compiled = require('./level-catalog').compileCatalog()
-const samples = { 1: 'hero.moveUp()\nhero.moveRight(2)\nhero.moveDown()', 2: 'for step in range(3):\n    hero.moveRight()\n    hero.wait()\nhero.moveRight()', 3: 'hero.moveUp(2)\nhero.moveRight(3)\nhero.moveDown(2)\nhero.moveRight()' }
 const bad = {
   22: [[0, 'hero.moveRight(4)', '未引诱追兵，直接到出口'], [0, 'hero.moveUp(2)\nhero.moveRight(2)', '英雄自己踩中尖刺']],
   23: [[0, 'hero.moveRight()\nhero.moveUp(3)', '硬闯未破牢门'], [0, 'hero.attack("不存在的门")', '对象名字错误']],
@@ -36,4 +35,4 @@ Object.assign(bad, {
   17: [[0, 'remaining = hero.take("补给箱")\nwhile remaining > 0:\n    hero.moveRight()\n    hero.give("炉座", 1)\n    print(remaining)', '实际物品减少，但变量没有更新']],
   18: [[1, 'remaining = hero.take("补给箱")\nhero.moveRight()\nwhile remaining > 0:\n    hero.give("炉座", 1)\n    remaining -= 1', '空箱仍先走了一步']],
 })
-module.exports = compiled.map(({ design: d, slug, references }) => ({ index: d.index, section: d.section, slug, references: references.map(reference => ({ ...reference, code: reference.code || samples[d.index] })), mistakes: (bad[d.index] || []).map(([scene, code, reason]) => ({ scene, code, reason })) }))
+module.exports = compiled.map(({ design: d, slug, references }) => ({ index: d.index, section: d.section, slug, references, mistakes: (bad[d.index] || []).map(([scene, code, reason]) => ({ scene, code, reason })) }))

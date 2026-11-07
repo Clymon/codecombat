@@ -1,0 +1,3604 @@
+[
+  {
+    "slug": "local-python-01",
+    "name": "训练营③：拐弯取宝",
+    "teachingMap": {
+      "index": 1,
+      "revision": 2,
+      "name": "训练营③：拐弯取宝",
+      "description": "从起点出发，先经过符文石板1，再取到上方宝石，最后到右下方的出口。下方近路有尖刺，碰到就失败；墙上的火把只用于照明。",
+      "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+      "size": [
+        48,
+        36
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          12,
+          24
+        ],
+        [
+          12,
+          24,
+          36,
+          24
+        ],
+        [
+          36,
+          24,
+          36,
+          0
+        ],
+        [
+          12,
+          12,
+          40,
+          12
+        ]
+      ],
+      "checkpoints": [
+        [
+          12,
+          24
+        ]
+      ],
+      "exit": [
+        36,
+        12
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 3,
+        "direction": "↓"
+      },
+      "hazards": [
+        [
+          24,
+          12
+        ]
+      ],
+      "gems": [
+        [
+          36,
+          24
+        ]
+      ],
+      "torches": [
+        [
+          6,
+          14
+        ],
+        [
+          20,
+          30
+        ],
+        [
+          40,
+          30
+        ]
+      ],
+      "labels": [],
+      "section": 1,
+      "quest": "带回宝石，找到离开地牢的楼梯。石板上有黯淡的符文；近路上的尖刺并没有收回。",
+      "inscriptions": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        0,
+        -1
+      ],
+      "learningContract": null,
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-02",
+    "name": "训练营④：四格长廊",
+    "teachingMap": {
+      "index": 2,
+      "revision": 4,
+      "name": "训练营④：四格长廊",
+      "knowledge": "重复移动与停留充能",
+      "description": "沿路有三块石板，每块只有一个符文。走到一块石板上，停留1秒，等圆环转满、符文点亮后再走向下一块。未充满就离开，只会清空这块石板的进度；已点亮的石板保持点亮。三块全亮后，再向右走一格到出口。",
+      "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+      "quest": "沿路三块石板连着出口。每到一块，停留1秒点亮它；三块全亮后从楼梯离开。",
+      "hints": [
+        "每块石板都有自己的圆环。踩上去后充能1秒，就会点亮；离开已点亮的石板不会让它熄灭。",
+        "hero.wait() 让英雄原地等待1秒。让当前这块亮起后，再走向下一块。",
+        "观察三块石板上重复的动作：走一格，等1秒。可以逐次写，也可以用循环；在同一块上等更久不能点亮其他石板。"
+      ],
+      "apis": [
+        "wait"
+      ],
+      "chargePlates": [
+        {
+          "at": [
+            24,
+            12
+          ],
+          "radius": 2,
+          "seconds": 1
+        },
+        {
+          "at": [
+            36,
+            12
+          ],
+          "radius": 2,
+          "seconds": 1
+        },
+        {
+          "at": [
+            48,
+            12
+          ],
+          "radius": 2,
+          "seconds": 1
+        }
+      ],
+      "size": [
+        84,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          84,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        60,
+        12
+      ],
+      "exitMarker": {
+        "x": 79,
+        "y": 12,
+        "direction": "→"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          10,
+          20
+        ],
+        [
+          30,
+          20
+        ],
+        [
+          50,
+          20
+        ]
+      ],
+      "labels": [],
+      "starter": "# 让沿路的三块石板全部亮起，再去右侧出口。\n",
+      "section": 1,
+      "inscriptions": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "learningContract": null,
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-03",
+    "name": "训练营⑤：绕开巡逻",
+    "teachingMap": {
+      "index": 3,
+      "revision": 2,
+      "name": "训练营⑤：绕开巡逻",
+      "description": "依次踩过上方两个符文石板，收集三颗宝石，再前往右侧出口。下方守卫来回巡逻，进入其红色警戒圈就失败。石墙挡路，上方走廊可以绕行。",
+      "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+      "size": [
+        84,
+        48
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          12,
+          36
+        ],
+        [
+          12,
+          36,
+          48,
+          36
+        ],
+        [
+          48,
+          36,
+          48,
+          12
+        ],
+        [
+          12,
+          12,
+          84,
+          12
+        ]
+      ],
+      "checkpoints": [
+        [
+          12,
+          36
+        ],
+        [
+          48,
+          36
+        ]
+      ],
+      "exit": [
+        60,
+        12
+      ],
+      "exitMarker": {
+        "x": 79,
+        "y": 12,
+        "direction": "→"
+      },
+      "hazards": [],
+      "gems": [
+        [
+          12,
+          36
+        ],
+        [
+          48,
+          36
+        ],
+        [
+          48,
+          12
+        ]
+      ],
+      "torches": [
+        [
+          6,
+          16
+        ],
+        [
+          6,
+          40
+        ],
+        [
+          30,
+          42
+        ],
+        [
+          54,
+          40
+        ]
+      ],
+      "guard": {
+        "id": "Dungeon Guard",
+        "x": 30,
+        "y": 12,
+        "amplitude": 6,
+        "radius": 8,
+        "speed": 1.2
+      },
+      "labels": [],
+      "section": 1,
+      "quest": "食人魔在下面巡逻。宝石散落在旧通道里，寻找一条能带着宝石安全离开的路。",
+      "inscriptions": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "learningContract": null,
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-04",
+    "name": "训练营①：走到门岗",
+    "teachingMap": {
+      "index": 4,
+      "revision": 1,
+      "lessonOrder": 1,
+      "name": "训练营①：走到门岗",
+      "goalLabel": "抵达守卫面前",
+      "safetyGoalLabel": "没有撞到守卫或石墙",
+      "description": "让英雄走到守卫面前停下。一条 hero.moveRight() 向右走一格。守卫会挡路，但不会攻击你。",
+      "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+      "size": [
+        72,
+        36
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          60,
+          12
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        24,
+        12
+      ],
+      "exitMarker": {
+        "x": 24,
+        "y": 6,
+        "direction": "到岗",
+        "label": "门岗前停下"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          8,
+          22
+        ],
+        [
+          54,
+          22
+        ]
+      ],
+      "labels": [],
+      "gates": [
+        {
+          "id": "Post Guard",
+          "at": [
+            36,
+            12
+          ],
+          "aside": [
+            36,
+            24
+          ],
+          "approach": [
+            24,
+            12
+          ],
+          "locked": true,
+          "greeting": "来得正好！下一趟帮我送封信。"
+        }
+      ],
+      "starter": "# 走近守卫，在他面前停下。\n",
+      "section": 1,
+      "quest": "营地的守卫在前面等你。走近他，在他面前停下。",
+      "inscriptions": [],
+      "exitStyle": "post",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "learningContract": null,
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-05",
+    "name": "训练营②：报口令通行",
+    "teachingMap": {
+      "index": 5,
+      "revision": 2,
+      "lessonOrder": 2,
+      "name": "训练营②：报口令通行",
+      "description": "到守卫面前说对口令，让他让开，再到楼梯处停下。print(\"文字\") 和 hero.say(\"文字\") 都能发言。可以先说“你好”听他回应；信封中的口令也可直接使用。不要在远处喊话。",
+      "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+      "size": [
+        72,
+        36
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          72,
+          12
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ]
+      ],
+      "checkpointLabels": [
+        "到这里报口令"
+      ],
+      "hints": [
+        "守卫听不到远处的喊话。先走近，也可以用 print(\"你好\") 打个招呼。",
+        "信封背面的文字是口令。文字要放在英文引号里。",
+        "守卫让到一旁后，再沿通道前进；楼梯是这一关的终点。"
+      ],
+      "checkpoints": [
+        [
+          24,
+          12
+        ]
+      ],
+      "exit": [
+        48,
+        12
+      ],
+      "exitMarker": {
+        "x": 66,
+        "y": 12,
+        "direction": "→"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          8,
+          22
+        ],
+        [
+          54,
+          22
+        ]
+      ],
+      "labels": [],
+      "gates": [
+        {
+          "id": "Post Guard",
+          "at": [
+            36,
+            12
+          ],
+          "aside": [
+            36,
+            24
+          ],
+          "approach": [
+            24,
+            12
+          ],
+          "password": "自己人"
+        }
+      ],
+      "starter": "# 把信送进营地，找到楼梯。\n",
+      "section": 1,
+      "quest": "把信送进营地。信封背面写着“自己人”。守卫堵住了唯一通道；不清楚他的意思时，可以走近说“你好”。",
+      "inscriptions": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "learningContract": null,
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-06",
+    "name": "训练营⑥：双门岗送信",
+    "teachingMap": {
+      "index": 6,
+      "revision": 2,
+      "lessonOrder": 6,
+      "name": "训练营⑥：双门岗送信",
+      "description": "经过两名守卫，取回沿路两颗宝石，到上层楼梯处停下。每位守卫只听得到在他面前说的话。允许使用带步数的移动命令；路线由你观察和尝试。",
+      "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+      "size": [
+        84,
+        66
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          60,
+          12
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ],
+        [
+          60,
+          12,
+          60,
+          66
+        ],
+        [
+          60,
+          36,
+          72,
+          36
+        ]
+      ],
+      "checkpointLabels": [
+        "门岗一",
+        "门岗二"
+      ],
+      "hints": [
+        "任务日志里的信封批注分别对应两个守卫。",
+        "可以先写到第一处门岗的程序，运行后观察，再补下一段。",
+        "石墙会挡住移动。根据走廊方向决定在哪里拐弯。"
+      ],
+      "checkpoints": [
+        [
+          24,
+          12
+        ],
+        [
+          60,
+          24
+        ]
+      ],
+      "exit": [
+        60,
+        48
+      ],
+      "exitMarker": {
+        "x": 60,
+        "y": 60,
+        "direction": "↑"
+      },
+      "hazards": [],
+      "gems": [
+        [
+          48,
+          12
+        ],
+        [
+          60,
+          48
+        ]
+      ],
+      "torches": [
+        [
+          8,
+          22
+        ],
+        [
+          48,
+          6
+        ],
+        [
+          76,
+          44
+        ]
+      ],
+      "labels": [],
+      "gates": [
+        {
+          "id": "West Post",
+          "at": [
+            36,
+            12
+          ],
+          "aside": [
+            36,
+            24
+          ],
+          "approach": [
+            24,
+            12
+          ],
+          "password": "自己人"
+        },
+        {
+          "id": "North Post",
+          "at": [
+            60,
+            36
+          ],
+          "aside": [
+            72,
+            36
+          ],
+          "approach": [
+            60,
+            24
+          ],
+          "password": "送信人"
+        }
+      ],
+      "starter": "# 观察两处门岗和道路，试着把信送到上层。\n",
+      "section": 1,
+      "quest": "把信送到上层。信封有两道批注：“西岗：自己人；北岗：送信人”。两名守卫各守一处关口。",
+      "inscriptions": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        0,
+        1
+      ],
+      "learningContract": null,
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-07",
+    "name": "第2节 · 领取能量石，交给出口机关",
+    "teachingMap": {
+      "index": 7,
+      "section": 2,
+      "revision": 5,
+      "lessonOrder": 7,
+      "name": "第2节 · 领取能量石，交给出口机关",
+      "description": "补给箱里是一批能量石，右侧出口机关需要整批物资。先取出，再向右走两格交给机关。箱子会打开，背包增加；交付后背包清空，出口启动。两批物资数量不同，同一份程序都要送对。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        48,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          44,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        36,
+        12
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "knowledge": "变量：保存实际领取的数量",
+      "apis": [
+        "take",
+        "give"
+      ],
+      "allowCodeChanges": false,
+      "starter": "# 打开补给箱，把领取数量保存到 stones。\n# 右走两格，再把 stones 块交给出口机关。\n",
+      "hints": [
+        "点箱子可以查看领取命令；领取会返回这批物品的数量。",
+        "把实际领取数量留下来，交付时再使用，就不用每换一箱都改数字。"
+      ],
+      "quest": "箱子里有一批能量石。全部取出，送给右边的出口机关。",
+      "inscriptions": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "visualTask": true,
+      "powerCircuit": false,
+      "learningContract": null,
+      "singleStep": false,
+      "maxActions": 240,
+      "introBrief": [
+        "领取能量石，交给出口机关",
+        "箱子里有一批能量石。全部取出，送给右边的出口机关。"
+      ],
+      "scenarioTitles": [
+        "补给箱有 2 块能量石",
+        "补给箱有 4 块能量石"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-08",
+    "name": "第2节 · 修好机关，送出剩余材料",
+    "teachingMap": {
+      "index": 8,
+      "section": 2,
+      "revision": 5,
+      "lessonOrder": 8,
+      "name": "第2节 · 修好机关，送出剩余材料",
+      "description": "这批能量石要分两处交付。右边第一格的维修机关固定收2块，第二格的出口机关收剩下的全部。先领取，修好中间机关，再把余量送到出口。两批物资不同，同一程序都要交对数量。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        60,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          56,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        48,
+        12
+      ],
+      "exitMarker": {
+        "x": 48,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "knowledge": "减法：总数减去已经交出的数量",
+      "allowCodeChanges": false,
+      "starter": "total = hero.take(\"补给箱\")\n# 先右走一格，交出2块维修材料。\n# 算出剩余数量，再送给下一格旁的出口机关。\n",
+      "hints": [
+        "每个机关旁标着需要的数量，背包会随交付减少。",
+        "变量不会随背包自动改变；可以用领取数减去已交出的2块。"
+      ],
+      "quest": "先给维修机关2块能量石，再把余下的全部交给出口机关。",
+      "inscriptions": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "visualTask": true,
+      "apis": [
+        "take",
+        "give"
+      ],
+      "powerCircuit": false,
+      "learningContract": null,
+      "singleStep": false,
+      "maxActions": 240,
+      "introBrief": [
+        "修好机关，送出剩余材料",
+        "先给维修机关2块能量石，再把余下的全部交给出口机关。"
+      ],
+      "scenarioTitles": [
+        "领取 5 块，维修用2块",
+        "领取 6 块，维修用2块"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-09",
+    "name": "第2节 · 补给站：开门才取宝石",
+    "teachingMap": {
+      "index": 9,
+      "section": 2,
+      "revision": 4,
+      "lessonOrder": 9,
+      "name": "第2节 · 补给站：开门才取宝石",
+      "description": "右侧补给站有时开放、有时关闭。开放时拿回宝石，再返回岔口；关闭时不要闯岗。最后从下方法阵撤离。漏拿宝石时法阵不启动，闯关闭的门岗会受伤。两个场景用同一份程序完成。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        48,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          32,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        24,
+        12
+      ],
+      "exitMarker": {
+        "x": 24,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "knowledge": "if：有条件地执行一组动作",
+      "apis": [
+        "pathOpen"
+      ],
+      "starter": "# 观察补给站的门岗和宝石，最后从下方撤离。\n",
+      "hints": [
+        "宝石只在开放场景出现。漏拿时，撤离法阵不会亮。",
+        "向右取物和向左返回都缩进到 if 内；向下撤离不缩进。"
+      ],
+      "visualTask": true,
+      "quest": "右侧补给站开放时，取回宝石再返回；关闭时跳过。最后从下方的法阵撤离。",
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "learningContract": null,
+      "singleStep": false,
+      "maxActions": 240,
+      "introBrief": [
+        "补给站：开门才取宝石",
+        "右侧补给站开放时，取回宝石再返回；关闭时跳过。最后从下方的法阵撤离。"
+      ],
+      "scenarioTitles": [
+        "补给站开放，有宝石",
+        "补给站关闭，直接撤离"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-10",
+    "name": "第2节 · 两条路选一条",
+    "teachingMap": {
+      "index": 10,
+      "section": 2,
+      "revision": 4,
+      "lessonOrder": 10,
+      "name": "第2节 · 两条路选一条",
+      "description": "左右两条通道只有一条放行。开放的通道里有宝石和撤离法阵，另一条有守卫拦截。带上宝石，在法阵上停下。两个场景开放方向不同，要让同一份程序都能找到通路。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        72,
+        60
+      ],
+      "start": [
+        36,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          60,
+          24
+        ],
+        [
+          36,
+          0,
+          36,
+          48
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        24,
+        24
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 53,
+        "direction": "",
+        "label": "按牌子选路"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          8,
+          40
+        ]
+      ],
+      "labels": [],
+      "knowledge": "if / else",
+      "apis": [
+        "pathOpen"
+      ],
+      "starter": "# 左路开：向左走；否则：向右走。\n",
+      "hints": [
+        "点击门岗，可以查看道路查询函数。",
+        "把查询结果用于决定方向；不要连续闯两边。"
+      ],
+      "visualTask": true,
+      "quest": "岔路口只有一条路开放。观察守卫站在哪一边，让程序根据左边的路况选择通道。",
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "learningContract": null,
+      "singleStep": false,
+      "maxActions": 240,
+      "introBrief": [
+        "两条路选一条",
+        "岔路口只有一条路开放。观察守卫站在哪一边，让程序根据左边的路况选择通道。"
+      ],
+      "scenarioTitles": [
+        "左路开放",
+        "右路开放"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-11",
+    "name": "第2节 · 门开且安全才走【选做】",
+    "teachingMap": {
+      "index": 11,
+      "section": 2,
+      "revision": 4,
+      "lessonOrder": 11,
+      "name": "第2节 · 门开且安全才走【选做】",
+      "description": "右侧是近路，但门开着也可能有尖刺。门岗放行且路面安全时，走右路拿宝石离开；否则走下方撤离通道。三种场景使用同一份程序。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        72,
+        60
+      ],
+      "start": [
+        36,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          60,
+          24
+        ],
+        [
+          36,
+          0,
+          36,
+          48
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        48,
+        24
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 53,
+        "direction": "",
+        "label": "按牌子选路"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          8,
+          40
+        ]
+      ],
+      "labels": [],
+      "knowledge": "and",
+      "apis": [
+        "pathOpen",
+        "nextTileSafe"
+      ],
+      "optional": true,
+      "starter": "# 看守卫，也看尖刺；开着的门不一定安全。\n",
+      "visualTask": true,
+      "quest": "守卫让开不代表路上没有陷阱。右路既要开放，也要没有尖刺；只要有一项不满足，就走下方通道。",
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "learningContract": null,
+      "singleStep": false,
+      "maxActions": 240,
+      "hints": [
+        "点击守卫和尖刺查看区别：放行与安全是两件事。",
+        "可以把两个条件合起来，也可以分两次判断；看最终选路是否正确。"
+      ],
+      "introBrief": [
+        "门开且安全才走【选做】",
+        "守卫让开不代表路上没有陷阱。右路既要开放，也要没有尖刺；只要有一项不满足，就走下方通道。"
+      ],
+      "scenarioTitles": [
+        "门开 / 无尖刺",
+        "门开 / 有尖刺",
+        "门关 / 无尖刺"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-12",
+    "name": "第2节 · 用手里的金币支付通行费【选做】",
+    "teachingMap": {
+      "index": 12,
+      "section": 2,
+      "revision": 5,
+      "lessonOrder": 12,
+      "name": "第2节 · 用手里的金币支付通行费【选做】",
+      "description": "领取左侧箱子里的金币。上路通行费4枚，右路2枚，下路1枚；守卫按你的物资档位开放一条路。走到开放门岗前支付，再从身旁法阵撤离。4枚及以上走上路，2至3枚走右路，1枚走下路。同一程序完成四批物资。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        72,
+        60
+      ],
+      "start": [
+        36,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          60,
+          24
+        ],
+        [
+          36,
+          0,
+          36,
+          48
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        36,
+        36
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 53,
+        "direction": "",
+        "label": "按牌子选路"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          8,
+          40
+        ]
+      ],
+      "labels": [],
+      "knowledge": "if / elif / else：按金币数量选择通道",
+      "apis": [
+        "take",
+        "give"
+      ],
+      "optional": true,
+      "starter": "coins = hero.take(\"补给箱\")\n# 从4枚这一档开始判断；走到守卫前，交出对应通行费。\n",
+      "visualTask": true,
+      "quest": "领到金币后选择通道：有4枚走上路，有2枚走右路，只有1枚走下路。到守卫前付费离开。",
+      "inscriptions": [],
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "allowCodeChanges": false,
+      "powerCircuit": false,
+      "hints": [
+        "先比较 coins >= 4，再比较 coins >= 2。",
+        "每个分支里都有移动和付费两步。金币不足时不能强行支付。"
+      ],
+      "learningContract": null,
+      "singleStep": false,
+      "maxActions": 240,
+      "introBrief": [
+        "用手里的金币支付通行费【选做】",
+        "领到金币后选择通道：有4枚走上路，有2枚走右路，只有1枚走下路。到守卫前付费离开。"
+      ],
+      "scenarioTitles": [
+        "领取 5 枚金币",
+        "领取 4 枚金币",
+        "领取 2 枚金币",
+        "领取 1 枚金币"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-13",
+    "name": "第3节 · 点亮三间符文室",
+    "teachingMap": {
+      "index": 13,
+      "section": 3,
+      "revision": 4,
+      "lessonOrder": 13,
+      "name": "第3节 · 点亮三间符文室",
+      "description": "主廊上方有三间侧室，每间尽头的石板都要站稳1秒才会点亮。圆环未满就离开，这一块会熄灭；已经完成的会保留。三块全部亮起后，从右侧出口离开。走过主廊不会替侧室充能。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        108,
+        60
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          8,
+          12,
+          104,
+          12
+        ],
+        [
+          24,
+          12,
+          24,
+          40
+        ],
+        [
+          48,
+          12,
+          48,
+          40
+        ],
+        [
+          72,
+          12,
+          72,
+          40
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        96,
+        12
+      ],
+      "exitMarker": {
+        "x": 48,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          8,
+          24
+        ],
+        [
+          96,
+          24
+        ]
+      ],
+      "labels": [],
+      "knowledge": "for / range(n)",
+      "singleStep": false,
+      "checkpointLabels": [],
+      "starter": "# 先尝试点亮第一间侧室，再考虑另外两间。\n",
+      "hints": [
+        "先右走一格，再上走两格，到第一块石板上。看圆环是否转满。",
+        "上去、等亮、下来、前往下一间，是三间侧室共有的动作。可以先写通一间，再用循环整理重复部分。"
+      ],
+      "visualTask": true,
+      "quest": "三间侧室各有一块暗石板。逐间充能，接通右侧出口。",
+      "inscriptions": [],
+      "powerCircuit": false,
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "learningContract": null,
+      "maxActions": 240,
+      "switches": [],
+      "gates": [],
+      "apis": [
+        "wait"
+      ],
+      "chargePlates": [
+        {
+          "at": [
+            24,
+            36
+          ],
+          "radius": 2,
+          "seconds": 1
+        },
+        {
+          "at": [
+            48,
+            36
+          ],
+          "radius": 2,
+          "seconds": 1
+        },
+        {
+          "at": [
+            72,
+            36
+          ],
+          "radius": 2,
+          "seconds": 1
+        }
+      ],
+      "introBrief": [
+        "点亮三间符文室",
+        "三间侧室各有一块暗石板。逐间充能，接通右侧出口。"
+      ],
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-14",
+    "name": "第3节 · 接通三个继电开关",
+    "teachingMap": {
+      "index": 14,
+      "section": 3,
+      "revision": 4,
+      "lessonOrder": 14,
+      "name": "第3节 · 接通三个继电开关",
+      "description": "三个编号开关串联着出口。走到闪光的开关上，用 press(编号) 压下它；接通后光会沿线路流向下一块。必须按电路顺序接通，直接走过去不会启动。全部亮起后在末端法阵停下。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        60,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          56,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        48,
+        12
+      ],
+      "exitMarker": {
+        "x": 48,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "knowledge": "循环变量 / range 起止",
+      "singleStep": false,
+      "apis": [
+        "press"
+      ],
+      "switches": [
+        {
+          "number": 1,
+          "at": [
+            24,
+            12
+          ]
+        },
+        {
+          "number": 2,
+          "at": [
+            36,
+            12
+          ]
+        },
+        {
+          "number": 3,
+          "at": [
+            48,
+            12
+          ]
+        }
+      ],
+      "starter": "# 先让1号开关接通，看电流流向哪里。\n",
+      "hints": [
+        "位置和编号都要对应：站在1号上，才能压下1号。",
+        "每次都要先移动再按开关。循环变量可以替你依次产生1、2、3；逐个写出动作也有效。"
+      ],
+      "visualTask": true,
+      "quest": "按线路方向接通1、2、3号开关，让出口通电。",
+      "inscriptions": [],
+      "powerCircuit": true,
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "learningContract": null,
+      "maxActions": 240,
+      "introBrief": [
+        "接通三个继电开关",
+        "按线路方向接通1、2、3号开关，让出口通电。"
+      ],
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-15",
+    "name": "第3节 · 绕过短路开关【选做】",
+    "teachingMap": {
+      "index": 15,
+      "section": 3,
+      "revision": 4,
+      "lessonOrder": 15,
+      "name": "第3节 · 绕过短路开关【选做】",
+      "description": "六块编号板交错排列。蓝色的2、4、6号连接出口，要依次走到上面压下；红色的1、3、5号连着接地线，可以走过，但压下就会短路。看线路和颜色选择开关，全部接通后在6号法阵停下。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        96,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          92,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        84,
+        12
+      ],
+      "exitMarker": {
+        "x": 84,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "knowledge": "range 步长",
+      "optional": true,
+      "apis": [
+        "press"
+      ],
+      "switches": [
+        {
+          "number": 2,
+          "at": [
+            36,
+            12
+          ]
+        },
+        {
+          "number": 4,
+          "at": [
+            60,
+            12
+          ]
+        },
+        {
+          "number": 6,
+          "at": [
+            84,
+            12
+          ]
+        }
+      ],
+      "starter": "# 红板可以走过，但不要压下。先接通第一块蓝板。\n",
+      "visualTask": true,
+      "quest": "接通蓝色的2、4、6号开关，避开红色接地开关。",
+      "inscriptions": [],
+      "powerCircuit": true,
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "learningContract": null,
+      "singleStep": false,
+      "maxActions": 240,
+      "decoySwitches": [
+        {
+          "number": 1,
+          "at": [
+            24,
+            12
+          ]
+        },
+        {
+          "number": 3,
+          "at": [
+            48,
+            12
+          ]
+        },
+        {
+          "number": 5,
+          "at": [
+            72,
+            12
+          ]
+        }
+      ],
+      "safetyGoalLabel": "不误按接地板，不撞墙",
+      "hints": [
+        "press 会操作脚下编号板；走过不会触发。红色接地线和蓝色供电线用途不同。",
+        "相邻蓝板相隔两格，编号也相差2。可以用步数参数移动，用循环整理这个规律。"
+      ],
+      "introBrief": [
+        "绕过短路开关【选做】",
+        "接通蓝色的2、4、6号开关，避开红色接地开关。"
+      ],
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-16",
+    "name": "第3节 · 每座炉座装一块能量石",
+    "teachingMap": {
+      "index": 16,
+      "section": 3,
+      "revision": 5,
+      "lessonOrder": 16,
+      "name": "第3节 · 每座炉座装一块能量石",
+      "description": "补给箱中的能量石与沿路炉座一一对应。先领取整批物资，再逐座装填，每座1块。装入后炉火亮起、背包减少，全部装好后出口启动。物资与炉座数量有2、4、5三种变化，同一份程序都要完成。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        48,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          44,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        36,
+        12
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "knowledge": "for：用领取数量决定重复次数",
+      "apis": [
+        "take",
+        "give"
+      ],
+      "singleStep": false,
+      "starter": "count = hero.take(\"补给箱\")\n# 每轮：走到下一座炉座前，装入1块能量石。\n",
+      "visualTask": true,
+      "quest": "把领取的能量石分给沿路炉座，每座一块。全部装好才能开启出口。",
+      "inscriptions": [],
+      "powerCircuit": false,
+      "exitStyle": "portal",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "allowCodeChanges": false,
+      "hints": [
+        "只走过炉座不会装填；点炉座查看交付命令。",
+        "先数物资，再重复“走到下一座、装一块”，程序就能随这一批的数量变化。"
+      ],
+      "learningContract": null,
+      "maxActions": 240,
+      "introBrief": [
+        "每座炉座装一块能量石",
+        "把领取的能量石分给沿路炉座，每座一块。全部装好才能开启出口。"
+      ],
+      "scenarioTitles": [
+        "2 块能量石，2 座炉座",
+        "4 块能量石，4 座炉座",
+        "5 块能量石，5 座炉座"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-17",
+    "name": "第4节 · 把最后一块材料送出去",
+    "teachingMap": {
+      "index": 17,
+      "section": 4,
+      "revision": 5,
+      "lessonOrder": 17,
+      "name": "第4节 · 把最后一块材料送出去",
+      "description": "领取三块能量石，沿路每座炉座各装一块。背包里的石头减少，路边的炉火逐座亮起；最后一块交出后，出口启动。可以显示剩余数量帮助检查，但发言不是通关条件。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        60,
+        48
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          56,
+          12
+        ],
+        [
+          12,
+          12,
+          12,
+          24
+        ],
+        [
+          24,
+          12,
+          24,
+          24
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ],
+        [
+          48,
+          12,
+          48,
+          24
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        48,
+        12
+      ],
+      "exitMarker": {
+        "x": 48,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          32
+        ]
+      ],
+      "labels": [],
+      "knowledge": "while：消耗物品并更新剩余数量",
+      "singleStep": false,
+      "expectedSpeech": null,
+      "starter": "remaining = hero.take(\"补给箱\")\n# 还有材料就继续：右走、装1块、减1、显示剩余数量。\n",
+      "hints": [
+        "实际背包会自动减少，你定义的 remaining 需要自己更新。",
+        "当物资用完，就不用继续找下一座炉。先看背包和炉火，再检查程序。"
+      ],
+      "quest": "领取能量石，逐座点亮炉火，送完最后一块后离开。",
+      "inscriptions": [],
+      "exitStyle": "marker",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "visualTask": true,
+      "allowCodeChanges": false,
+      "apis": [
+        "take",
+        "give"
+      ],
+      "powerCircuit": false,
+      "gates": [],
+      "inventory": {
+        "item": "能量石",
+        "unit": "块",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            12,
+            24
+          ],
+          "approach": [
+            12,
+            12
+          ],
+          "count": 3
+        },
+        "receivers": [
+          {
+            "name": "炉座",
+            "at": [
+              24,
+              24
+            ],
+            "approach": [
+              24,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          },
+          {
+            "name": "炉座",
+            "at": [
+              36,
+              24
+            ],
+            "approach": [
+              36,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          },
+          {
+            "name": "炉座",
+            "at": [
+              48,
+              24
+            ],
+            "approach": [
+              48,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          }
+        ]
+      },
+      "learningContract": null,
+      "maxActions": 240,
+      "introBrief": [
+        "把最后一块材料送出去",
+        "领取能量石，逐座点亮炉火，送完最后一块后离开。"
+      ],
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-18",
+    "name": "第4节 · 别向空箱索要材料",
+    "teachingMap": {
+      "index": 18,
+      "section": 4,
+      "revision": 5,
+      "lessonOrder": 18,
+      "name": "第4节 · 别向空箱索要材料",
+      "description": "已有程序会在材料用完后继续向前。先运行，看它在哪座炉前耗尽物资；修改后，要能送完一箱材料，也要能处理空箱。打开箱子才能确认这批有没有货。发言只供自己检查，不影响通关。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        60,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          56,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        48,
+        12
+      ],
+      "exitMarker": {
+        "x": 48,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "knowledge": "while 排错：更新变量与零次执行",
+      "apis": [
+        "take",
+        "give"
+      ],
+      "singleStep": false,
+      "starter": "remaining = hero.take(\"补给箱\")\nwhile remaining > 0:\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n    print(remaining)\n",
+      "hints": [
+        "先从背包耗尽的位置查错：程序记录的余量是否也变成了0？",
+        "空箱不需要送货，但仍需打开确认，不能跳过检查。"
+      ],
+      "quest": "修好装填程序：有货就送完，空箱也能完成检查并离开。",
+      "inscriptions": [],
+      "exitStyle": "marker",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "visualTask": true,
+      "allowCodeChanges": false,
+      "powerCircuit": false,
+      "learningContract": null,
+      "maxActions": 240,
+      "expectedSpeech": null,
+      "introBrief": [
+        "别向空箱索要材料",
+        "修好装填程序：有货就送完，空箱也能完成检查并离开。"
+      ],
+      "scenarioTitles": [
+        "箱里有3块，装完就停",
+        "箱子已空，不用装填"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-19",
+    "name": "第4节 · 沿途充能，找到信标",
+    "teachingMap": {
+      "index": 19,
+      "section": 4,
+      "revision": 2,
+      "lessonOrder": 19,
+      "name": "第4节 · 沿途充能，找到信标",
+      "description": "每块暗石板需要站稳1秒，点亮后电流沿路传向下一块。最后的信标是终点。路线长短会变；有时信标就在起点，没有暗石板。同一份程序要处理这三种情况。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        48,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          44,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        36,
+        12
+      ],
+      "exitMarker": {
+        "x": 36,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "knowledge": "while 动态检测",
+      "apis": [
+        "atBeacon",
+        "wait"
+      ],
+      "singleStep": false,
+      "starter": "# 先看脚下是否已经是终点；途中暗板需要停留。\n",
+      "hints": [
+        "先点亮脚下这块，再走向下一格。信标本身不需要充能。",
+        "可以反复检查 hero.atBeacon()，不用猜道路有多长。"
+      ],
+      "quest": "沿途补亮暗石板，走到最后的信标。",
+      "inscriptions": [],
+      "exitStyle": "beacon",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "learningContract": null,
+      "maxActions": 240,
+      "powerCircuit": false,
+      "introBrief": [
+        "沿途充能，找到信标",
+        "沿途补亮暗石板，走到最后的信标。"
+      ],
+      "scenarioTitles": [
+        "信标在前方2格",
+        "信标在前方4格",
+        "信标就在起点"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-20",
+    "name": "第4节 · 等巡逻走开再前进【选做】",
+    "teachingMap": {
+      "index": 20,
+      "section": 4,
+      "revision": 2,
+      "lessonOrder": 20,
+      "name": "第4节 · 等巡逻走开再前进【选做】",
+      "description": "守卫会穿过前方通道，进入红色警戒圈会失败。安全时继续前进，危险时留在原地，最终到达信标。两种巡逻起始位置不同，同一程序都要安全。nextTileSafe() 会判断右边下一格的通行时机；等待时世界照常运行。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        72,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          68,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        60,
+        12
+      ],
+      "exitMarker": {
+        "x": 60,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "knowledge": "while + if / 等待",
+      "optional": true,
+      "apis": [
+        "atBeacon",
+        "nextTileSafe",
+        "wait"
+      ],
+      "singleStep": false,
+      "maxActions": 240,
+      "quest": "食人魔来回经过必经之路。观察它的节奏，等路安全了再继续前进，到达信标。",
+      "inscriptions": [],
+      "exitStyle": "beacon",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "learningContract": null,
+      "hints": [
+        "看红圈怎样经过路口；它离开之后再通过。",
+        "每次等待后路况可能已经变了，需要重新观察。等待多久、用哪种循环由你决定。"
+      ],
+      "introBrief": [
+        "等巡逻走开再前进【选做】",
+        "食人魔来回经过必经之路。观察它的节奏，等路安全了再继续前进，到达信标。"
+      ],
+      "scenarioTitles": [
+        "巡逻场景1",
+        "巡逻场景2"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-21",
+    "name": "第4节 · 过门岗，修复信标路",
+    "teachingMap": {
+      "index": 21,
+      "section": 4,
+      "revision": 3,
+      "lessonOrder": 21,
+      "name": "第4节 · 过门岗，修复信标路",
+      "description": "先到守卫面前报“自己人”，获得放行。沿主廊到最右侧拐角，再向上逐块充能：每块停留1秒，所有石板亮起后，终点信标恢复。上方石板有两块或三块，同一程序都要完成。",
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        60,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          56,
+          12
+        ]
+      ],
+      "checkpoints": [],
+      "exit": [
+        48,
+        12
+      ],
+      "exitMarker": {
+        "x": 48,
+        "y": 5,
+        "direction": "→",
+        "label": "终点"
+      },
+      "hazards": [],
+      "gems": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "knowledge": "顺序 + for + while",
+      "apis": [
+        "atBeacon",
+        "wait"
+      ],
+      "singleStep": false,
+      "optional": true,
+      "starter": "# 先过门岗，再到右侧拐角，修好上方的信标路。\n",
+      "quest": "通过门岗，沿上方通道点亮石板，修复尽头的信标。",
+      "inscriptions": [],
+      "exitStyle": "beacon",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "learningContract": null,
+      "maxActions": 240,
+      "hints": [
+        "守卫让开后再前进；没有放行时硬闯会受伤。",
+        "每上走一格就给脚下石板充能。到达信标时也要补满最后一块。"
+      ],
+      "powerCircuit": false,
+      "introBrief": [
+        "过门岗，修复信标路",
+        "通过门岗，沿上方通道点亮石板，修复尽头的信标。"
+      ],
+      "scenarioTitles": [
+        "上行 2 格",
+        "上行 3 格"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-22",
+    "name": "样关①：把追兵引进陷阱",
+    "teachingMap": {
+      "index": 22,
+      "name": "样关①：把追兵引进陷阱",
+      "section": 5,
+      "lessonOrder": 22,
+      "revision": 1,
+      "prototype": true,
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [
+        [
+          36,
+          36
+        ]
+      ],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          24
+        ],
+        [
+          72,
+          18
+        ],
+        [
+          64,
+          44
+        ]
+      ],
+      "labels": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "maxActions": 90,
+      "tip": "先观察角色和道路。展开任务日志查看目标、可用命令和提示。",
+      "knowledge": "顺序执行 · 路线与参数",
+      "size": [
+        84,
+        60
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        60,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          76,
+          12
+        ],
+        [
+          12,
+          12,
+          12,
+          36
+        ],
+        [
+          12,
+          36,
+          68,
+          36
+        ]
+      ],
+      "quest": "上层走廊的追兵守着地牢。露面引起它的注意，让它自己踩中尖刺，再从下层楼梯撤离。",
+      "description": "引追兵踩中尖刺，并让英雄活着到达楼梯。追兵看见你后会持续追击，靠近会挥棒攻击；尖刺对双方都危险。只能用移动和等待，不提供攻击。运行可反复试路，成功后提交代码。",
+      "starter": "# 先观察：追兵、尖刺和楼梯分别在哪条走廊？\n",
+      "apis": [
+        "wait"
+      ],
+      "safetyGoalLabel": "英雄存活",
+      "adventure": {
+        "mode": "lure",
+        "actors": [
+          {
+            "id": "追兵",
+            "kind": "enemy",
+            "at": [
+              60,
+              36
+            ],
+            "health": 100,
+            "speed": 10,
+            "damage": 30,
+            "aggro": 52
+          }
+        ]
+      },
+      "goals": [
+        {
+          "id": "lure-trap",
+          "name": "让追兵踩中尖刺"
+        }
+      ],
+      "hints": [
+        "石墙会挡住视线。走到上层走廊露面，追兵才会发现你。",
+        "追兵会追向你的位置。你可以退回下层走廊，让它沿上层通道追过来。",
+        "自己踏上尖刺也会受伤。通关还需要到下层楼梯。"
+      ],
+      "learningContract": null,
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-23",
+    "name": "样关②：救出弓箭手",
+    "teachingMap": {
+      "index": 23,
+      "name": "样关②：救出弓箭手",
+      "section": 5,
+      "lessonOrder": 23,
+      "revision": 1,
+      "prototype": true,
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          8,
+          34
+        ],
+        [
+          36,
+          56
+        ],
+        [
+          92,
+          34
+        ]
+      ],
+      "labels": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "maxActions": 90,
+      "tip": "先观察角色和道路。展开任务日志查看目标、可用命令和提示。",
+      "knowledge": "字符串 · 作用对象 · 协作战斗",
+      "size": [
+        108,
+        72
+      ],
+      "start": [
+        12,
+        24
+      ],
+      "exit": [
+        84,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          100,
+          24
+        ],
+        [
+          24,
+          24,
+          24,
+          60
+        ]
+      ],
+      "apis": [
+        "attack",
+        "findNearestEnemy",
+        "wait"
+      ],
+      "quest": "弓箭手被关在侧面的牢房里。击破牢门救她出来，她会跟随你并射击敌人。合作击败重甲守卫，活着离开。",
+      "description": "救出弓箭手、击败重甲守卫，再到楼梯。hero.attack(\"牢门\") 攻击指定对象，距离较远时会先走近；每次挥剑造成20点伤害。牢门40点生命，守卫150点。弓手获救后自动跟随和射箭。攻击错名字会提示，直接闯门会撞伤；英雄或弓手倒下都失败。成功后提交代码。",
+      "starter": "# 攻击对象名要加引号，例如 hero.attack(\"牢门\")。\n# 先救出弓箭手，再对付重甲守卫。\n",
+      "safetyGoalLabel": "英雄和弓手存活",
+      "adventure": {
+        "mode": "rescue",
+        "actors": [
+          {
+            "id": "牢门",
+            "kind": "door",
+            "at": [
+              24,
+              42
+            ],
+            "health": 40
+          },
+          {
+            "id": "弓箭手",
+            "kind": "ally",
+            "at": [
+              24,
+              54
+            ],
+            "health": 80,
+            "speed": 13,
+            "damage": 35,
+            "releaseBy": "牢门"
+          },
+          {
+            "id": "重甲守卫",
+            "kind": "enemy",
+            "at": [
+              54,
+              24
+            ],
+            "health": 150,
+            "speed": 0,
+            "damage": 28,
+            "aggro": 18
+          }
+        ]
+      },
+      "goals": [
+        {
+          "id": "rescue-ally",
+          "name": "击破牢门，救出弓手"
+        },
+        {
+          "id": "defeat-guard",
+          "name": "击败重甲守卫"
+        }
+      ],
+      "hints": [
+        "侧面通道通往牢房。牢门需要两次攻击才能击破。",
+        "弓手会自动帮忙，不需要给她写程序。看血条变化再决定攻击次数。",
+        "重甲守卫会反击。独自硬拼很危险；先让弓手加入。"
+      ],
+      "learningContract": null,
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-24",
+    "name": "样关③：启动三座信号台",
+    "teachingMap": {
+      "index": 24,
+      "name": "样关③：启动三座信号台",
+      "section": 5,
+      "lessonOrder": 24,
+      "revision": 2,
+      "prototype": true,
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          20
+        ],
+        [
+          96,
+          20
+        ]
+      ],
+      "labels": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "maxActions": 240,
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "knowledge": "for · 重复完整动作组",
+      "size": [
+        108,
+        60
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        96,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          104,
+          12
+        ],
+        [
+          24,
+          12,
+          24,
+          40
+        ],
+        [
+          48,
+          12,
+          48,
+          40
+        ],
+        [
+          72,
+          12,
+          72,
+          40
+        ]
+      ],
+      "apis": [],
+      "quest": "三座信号台连着出口的封印。到台前说“点火”，火焰亮起后返回主廊，再前往下一座。全部点亮后撤离。",
+      "description": "三座信号台连着出口封印。走到每座台前说“点火”，火焰亮起后回主廊，再去下一座。重复点燃同一座不会代替其他台；在远处说话也无效。三座全亮后从右侧离开。",
+      "starter": "# 先点亮最近的信号台，再把同样的动作用于另外两座。\n",
+      "adventure": {
+        "mode": "signals",
+        "actors": [
+          {
+            "id": "信号台1",
+            "kind": "signal",
+            "at": [
+              24,
+              36
+            ],
+            "health": 1
+          },
+          {
+            "id": "信号台2",
+            "kind": "signal",
+            "at": [
+              48,
+              36
+            ],
+            "health": 1
+          },
+          {
+            "id": "信号台3",
+            "kind": "signal",
+            "at": [
+              72,
+              36
+            ],
+            "health": 1
+          }
+        ]
+      },
+      "goals": [
+        {
+          "id": "signal-1",
+          "name": "点亮信号台 1"
+        },
+        {
+          "id": "signal-2",
+          "name": "点亮信号台 2"
+        },
+        {
+          "id": "signal-3",
+          "name": "点亮信号台 3"
+        }
+      ],
+      "hints": [
+        "主廊到台前两格，相邻侧路间两格。",
+        "先完成一次“上去、点火、回来、去下一台”，再考虑怎样整理重复动作。"
+      ],
+      "learningContract": null,
+      "singleStep": false,
+      "introBrief": [
+        "样关③：启动三座信号台",
+        "三座信号台连着出口的封印。到台前说“点火”，火焰亮起后返回主廊，再前往下一座。全部点亮后撤离。"
+      ],
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-25",
+    "name": "样关④：守住营地入口",
+    "teachingMap": {
+      "index": 25,
+      "name": "样关④：守住营地入口",
+      "section": 5,
+      "lessonOrder": 25,
+      "revision": 2,
+      "prototype": true,
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          34
+        ],
+        [
+          66,
+          34
+        ]
+      ],
+      "labels": [],
+      "exitStyle": "marker",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "maxActions": 240,
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "knowledge": "变量 · if · while · 持续观察",
+      "size": [
+        84,
+        72
+      ],
+      "start": [
+        36,
+        24
+      ],
+      "exit": [
+        36,
+        24
+      ],
+      "corridors": [
+        [
+          8,
+          24,
+          66,
+          24
+        ],
+        [
+          36,
+          8,
+          36,
+          58
+        ]
+      ],
+      "quest": "敌人会分批从三条通道赶来。守住营火，击败全部增援。持续观察战场，发现敌人就攻击；敌人按时间出现。",
+      "description": "守住营火，击退分批赶来的所有敌人。通道入口的裂隙会先发红光，随后出现增援；暂时没有敌人不等于战斗结束。敌人倒下后还会有新目标，持续观察战场。英雄或营火生命降到0失败。两个场景的敌人数和间隔不同，同一程序都要守住；获胜后自动结束。",
+      "starter": "# 持续观察：每轮寻找敌人，有敌人就攻击。\n# 可用 isVictory() 判断战斗是否结束。\n",
+      "apis": [
+        "attack",
+        "findNearestEnemy",
+        "wait",
+        "isVictory"
+      ],
+      "safetyGoalLabel": "英雄和营火存活",
+      "goalLabel": "击退全部增援，守住营地",
+      "adventure": {
+        "mode": "defend",
+        "camp": {
+          "at": [
+            36,
+            12
+          ],
+          "health": 100
+        },
+        "actors": [
+          {
+            "kind": "enemy",
+            "id": "左路斥候",
+            "at": [
+              12,
+              24
+            ],
+            "spawnAt": 1,
+            "health": 40,
+            "speed": 5,
+            "damage": 14,
+            "aggro": 100
+          },
+          {
+            "kind": "enemy",
+            "id": "右路斥候",
+            "at": [
+              60,
+              24
+            ],
+            "spawnAt": 5,
+            "health": 40,
+            "speed": 5,
+            "damage": 14,
+            "aggro": 100
+          },
+          {
+            "kind": "enemy",
+            "id": "上路斥候",
+            "at": [
+              36,
+              48
+            ],
+            "spawnAt": 9,
+            "health": 60,
+            "speed": 5,
+            "damage": 14,
+            "aggro": 100
+          }
+        ]
+      },
+      "goals": [
+        {
+          "id": "defend-camp",
+          "name": "保护营火，击败全部敌人"
+        }
+      ],
+      "hints": [
+        "旧目标倒下后不会自动变成新目标；观察查找结果是否更新。",
+        "没有目标时不要攻击空对象。可以等待，也可以继续观察。",
+        "isVictory() 查询整场战斗是否结束。使用哪种循环不影响通关，关键是营火存活且增援全被击败。"
+      ],
+      "learningContract": null,
+      "singleStep": false,
+      "introBrief": [
+        "样关④：守住营地入口",
+        "敌人会分批从三条通道赶来。守住营火，击败全部增援。持续观察战场，发现敌人就攻击；敌人按时间出现。"
+      ],
+      "scenarioTitles": [
+        "三名敌人，分批到来",
+        "四名敌人，间隔变短"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-26",
+    "name": "攻击教学：击破第一扇牢门",
+    "teachingMap": {
+      "index": 26,
+      "section": 1,
+      "name": "攻击教学：击破第一扇牢门",
+      "lessonOrder": 6.1,
+      "revision": 1,
+      "prototype": false,
+      "hiddenByDefault": true,
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          8,
+          24
+        ],
+        [
+          58,
+          24
+        ]
+      ],
+      "labels": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "maxActions": 90,
+      "tip": "展开“教学引导”，按步骤写代码并运行。也可以收起引导自己尝试。",
+      "size": [
+        72,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        48,
+        12
+      ],
+      "corridors": [
+        [
+          8,
+          12,
+          64,
+          12
+        ]
+      ],
+      "apis": [
+        "attack"
+      ],
+      "knowledge": "attack · 名字字符串 · 生命值",
+      "quest": "牢门挡住了通道。把门击破，再走到右侧楼梯。",
+      "description": "牢门有40点生命，每次 hero.attack(\"牢门\") 造成20点伤害。先运行一次攻击，观察血条，再补充攻击和移动，击破门并到达楼梯。撞门会受伤；本关没有敌人。",
+      "starter": "# 先写一次攻击，点击“运行”，看牢门的血条。\n",
+      "adventure": {
+        "mode": "rescue",
+        "actors": [
+          {
+            "id": "牢门",
+            "kind": "door",
+            "at": [
+              30,
+              12
+            ],
+            "health": 40
+          }
+        ]
+      },
+      "goals": [
+        {
+          "id": "break-door",
+          "name": "击破牢门（40 → 0）"
+        }
+      ],
+      "tutorial": {
+        "title": "第一次使用 attack",
+        "steps": [
+          {
+            "text": "输入下面这行并运行。英雄会走近牢门，攻击一次。",
+            "code": "hero.attack(\"牢门\")",
+            "observe": "门的血条从40降到20。第一步只观察，还不会通关。",
+            "evidence": {
+              "kind": "damaged",
+              "id": "牢门"
+            }
+          },
+          {
+            "text": "在下一行再写一次相同攻击，重新运行。每次运行都会恢复地图。",
+            "observe": "两次攻击后牢门破碎，通道打开。",
+            "evidence": {
+              "kind": "dead",
+              "id": "牢门"
+            }
+          },
+          {
+            "text": "在两次攻击后写 hero.moveRight(2)，运行完整程序，从右侧楼梯离开。",
+            "observe": "过关后点击提交，进入救援挑战。",
+            "evidence": {
+              "kind": "exit"
+            }
+          }
+        ]
+      },
+      "hints": [
+        "目标名字用英文引号包住，写成 \"牢门\"。",
+        "每次运行都从起点重来，请保留已经写好的两次攻击。"
+      ],
+      "learningContract": null,
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-27",
+    "name": "救援挑战：让弓箭手加入",
+    "teachingMap": {
+      "index": 27,
+      "name": "救援挑战：让弓箭手加入",
+      "section": 1,
+      "lessonOrder": 6.2,
+      "revision": 1,
+      "prototype": false,
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          8,
+          34
+        ],
+        [
+          36,
+          56
+        ],
+        [
+          92,
+          34
+        ]
+      ],
+      "labels": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "maxActions": 90,
+      "tip": "先观察角色和道路。展开任务日志查看目标、可用命令和提示。",
+      "knowledge": "字符串 · 作用对象 · 协作战斗",
+      "size": [
+        108,
+        72
+      ],
+      "start": [
+        12,
+        24
+      ],
+      "exit": [
+        84,
+        24
+      ],
+      "corridors": [
+        [
+          12,
+          24,
+          100,
+          24
+        ],
+        [
+          24,
+          24,
+          24,
+          60
+        ]
+      ],
+      "apis": [
+        "attack"
+      ],
+      "quest": "弓箭手被关在侧面的牢房里。击破牢门救她出来，她会跟随你并射击敌人。合作击败重甲守卫，活着离开。",
+      "description": "救出弓箭手、击败重甲守卫，再到楼梯。hero.attack(\"牢门\") 攻击指定对象，距离较远时会先走近；每次挥剑造成20点伤害。牢门40点生命，守卫150点。弓手获救后自动跟随和射箭。攻击错名字会提示，直接闯门会撞伤；英雄或弓手倒下都失败。成功后提交代码。",
+      "starter": "# 用刚学的攻击命令破门，救出弓箭手，再击败守卫。\n",
+      "safetyGoalLabel": "英雄和弓手存活",
+      "adventure": {
+        "mode": "rescue",
+        "actors": [
+          {
+            "id": "牢门",
+            "kind": "door",
+            "at": [
+              24,
+              42
+            ],
+            "health": 40
+          },
+          {
+            "id": "弓箭手",
+            "kind": "ally",
+            "at": [
+              24,
+              54
+            ],
+            "health": 80,
+            "speed": 13,
+            "damage": 35,
+            "releaseBy": "牢门"
+          },
+          {
+            "id": "重甲守卫",
+            "kind": "enemy",
+            "at": [
+              54,
+              24
+            ],
+            "health": 150,
+            "speed": 0,
+            "damage": 28,
+            "aggro": 18
+          }
+        ]
+      },
+      "goals": [
+        {
+          "id": "rescue-ally",
+          "name": "击破牢门，救出弓手"
+        },
+        {
+          "id": "defeat-guard",
+          "name": "击败重甲守卫"
+        }
+      ],
+      "hints": [
+        "侧面通道通往牢房。牢门需要两次攻击才能击破。",
+        "弓手会自动帮忙，不需要给她写程序。看血条变化再决定攻击次数。",
+        "重甲守卫会反击。独自硬拼很危险；先让弓手加入。"
+      ],
+      "hiddenByDefault": true,
+      "optional": true,
+      "tutorial": null,
+      "learningContract": null,
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-28",
+    "name": "信号教学：走近后再点火",
+    "teachingMap": {
+      "index": 28,
+      "section": 3,
+      "name": "信号教学：走近后再点火",
+      "lessonOrder": 13.1,
+      "revision": 1,
+      "prototype": false,
+      "hiddenByDefault": true,
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [],
+      "labels": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "maxActions": 90,
+      "tip": "展开“教学引导”，按步骤写代码并运行。也可以收起引导自己尝试。",
+      "size": [
+        72,
+        60
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        48,
+        12
+      ],
+      "corridors": [
+        [
+          8,
+          12,
+          64,
+          12
+        ],
+        [
+          24,
+          12,
+          24,
+          40
+        ]
+      ],
+      "apis": [],
+      "knowledge": "发言的位置 · 完整动作组",
+      "quest": "侧路尽头有一座熄灭的信号台。把它点亮，再回主廊离开。",
+      "description": "先右走1格、上走2格，到信号台前说“点火”，再下走2格、右走2格到楼梯。在起点说话或口令不对都不会点亮。print 和 hero.say 都能发言。",
+      "starter": "# 先走到信号台前，再说“点火”。\n",
+      "adventure": {
+        "mode": "signals",
+        "actors": [
+          {
+            "id": "信号台1",
+            "kind": "signal",
+            "at": [
+              24,
+              36
+            ],
+            "health": 1
+          }
+        ]
+      },
+      "goals": [
+        {
+          "id": "signal-1",
+          "name": "点亮信号台"
+        }
+      ],
+      "tutorial": {
+        "title": "一句话要在正确的位置说",
+        "steps": [
+          {
+            "text": "输入并运行下面的三行。注意英雄说话时站在哪里。",
+            "code": "hero.moveRight()\nhero.moveUp(2)\nprint(\"点火\")",
+            "observe": "英雄到台前发言后，火焰才亮起。",
+            "evidence": {
+              "kind": "lit",
+              "id": "信号台1"
+            }
+          },
+          {
+            "text": "接着写下走2格、右走2格，重新运行完整程序。",
+            "code": "hero.moveDown(2)\nhero.moveRight(2)",
+            "observe": "下一关有三座台，把“上去、点火、回来、去下一台”放进for。",
+            "evidence": {
+              "kind": "exit"
+            }
+          }
+        ]
+      },
+      "hints": [
+        "相同发言在起点不会生效；先改变位置，再观察火焰。"
+      ],
+      "learningContract": null,
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-29",
+    "name": "for挑战：点亮三座信号台",
+    "teachingMap": {
+      "index": 29,
+      "name": "for挑战：点亮三座信号台",
+      "section": 3,
+      "lessonOrder": 13.2,
+      "revision": 2,
+      "prototype": false,
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          20
+        ],
+        [
+          96,
+          20
+        ]
+      ],
+      "labels": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "maxActions": 240,
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "knowledge": "for · 重复完整动作组",
+      "size": [
+        108,
+        60
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        96,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          104,
+          12
+        ],
+        [
+          24,
+          12,
+          24,
+          40
+        ],
+        [
+          48,
+          12,
+          48,
+          40
+        ],
+        [
+          72,
+          12,
+          72,
+          40
+        ]
+      ],
+      "apis": [],
+      "quest": "三座信号台连着出口的封印。到台前说“点火”，火焰亮起后返回主廊，再前往下一座。全部点亮后撤离。",
+      "description": "三座信号台连着出口封印。走到每座台前说“点火”，火焰亮起后回主廊，再去下一座。重复点燃同一座不会代替其他台；在远处说话也无效。三座全亮后从右侧离开。",
+      "starter": "# 先点亮最近的信号台，再把同样的动作用于另外两座。\n",
+      "adventure": {
+        "mode": "signals",
+        "actors": [
+          {
+            "id": "信号台1",
+            "kind": "signal",
+            "at": [
+              24,
+              36
+            ],
+            "health": 1
+          },
+          {
+            "id": "信号台2",
+            "kind": "signal",
+            "at": [
+              48,
+              36
+            ],
+            "health": 1
+          },
+          {
+            "id": "信号台3",
+            "kind": "signal",
+            "at": [
+              72,
+              36
+            ],
+            "health": 1
+          }
+        ]
+      },
+      "goals": [
+        {
+          "id": "signal-1",
+          "name": "点亮信号台 1"
+        },
+        {
+          "id": "signal-2",
+          "name": "点亮信号台 2"
+        },
+        {
+          "id": "signal-3",
+          "name": "点亮信号台 3"
+        }
+      ],
+      "hints": [
+        "主廊到台前两格，相邻侧路间两格。",
+        "先完成一次“上去、点火、回来、去下一台”，再考虑怎样整理重复动作。"
+      ],
+      "hiddenByDefault": true,
+      "tutorial": null,
+      "learningContract": null,
+      "singleStep": false,
+      "introBrief": [
+        "for挑战：点亮三座信号台",
+        "三座信号台连着出口的封印。到台前说“点火”，火焰亮起后返回主廊，再前往下一座。全部点亮后撤离。"
+      ],
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-30",
+    "name": "观察教学：找到敌人再攻击",
+    "teachingMap": {
+      "index": 30,
+      "section": 2,
+      "name": "观察教学：找到敌人再攻击",
+      "lessonOrder": 8.1,
+      "revision": 2,
+      "prototype": false,
+      "hiddenByDefault": true,
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          8,
+          24
+        ],
+        [
+          58,
+          24
+        ]
+      ],
+      "labels": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "maxActions": 240,
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        72,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        48,
+        12
+      ],
+      "corridors": [
+        [
+          8,
+          12,
+          64,
+          12
+        ]
+      ],
+      "apis": [
+        "findNearestEnemy",
+        "attack"
+      ],
+      "knowledge": "返回值 · 变量 · attack(enemy)",
+      "quest": "击败当前哨兵，从右侧楼梯离开。",
+      "description": "路中央有一名哨兵挡着出口。击败它，再走到楼梯。两次巡查遇到的哨兵名字不同，同一份程序都要识别并处理当前目标。点敌人可查看攻击用法；查找函数会返回当前的敌人对象。",
+      "starter": "hero.moveRight()\n# 查找敌人，把结果保存在 enemy 中，再攻击。\n",
+      "adventure": {
+        "mode": "rescue",
+        "actors": [
+          {
+            "id": "落单斥候",
+            "kind": "enemy",
+            "at": [
+              30,
+              12
+            ],
+            "health": 20,
+            "speed": 0,
+            "damage": 1,
+            "aggro": 0
+          }
+        ]
+      },
+      "goals": [],
+      "tutorial": {
+        "title": "enemy 保存的是找到的敌人",
+        "steps": [
+          {
+            "text": "在已有移动语句后输入下面两行并运行。enemy不加引号。",
+            "code": "enemy = hero.findNearestEnemy()\nhero.attack(enemy)",
+            "observe": "查找本身不攻击；下一行才让英雄攻击找到的敌人。",
+            "evidence": {
+              "kind": "enemies-cleared"
+            }
+          },
+          {
+            "text": "最后加 hero.moveRight(2)，重新运行，从楼梯离开。",
+            "observe": "没有敌人时查找结果是None。接下来学习if，再判断是否需要攻击。",
+            "evidence": {
+              "kind": "exit"
+            }
+          }
+        ]
+      },
+      "hints": [
+        "\"enemy\" 是文字，enemy 才是变量里保存的目标。"
+      ],
+      "learningContract": null,
+      "singleStep": false,
+      "introBrief": [
+        "观察教学：找到敌人再攻击",
+        "击败当前哨兵，从右侧楼梯离开。"
+      ],
+      "scenarioTitles": [
+        "遇到落单斥候",
+        "遇到门廊哨兵"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-31",
+    "name": "判断教学：没有敌人就不攻击",
+    "teachingMap": {
+      "index": 31,
+      "section": 2,
+      "name": "判断教学：没有敌人就不攻击",
+      "lessonOrder": 9.1,
+      "revision": 2,
+      "prototype": false,
+      "hiddenByDefault": true,
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          8,
+          24
+        ],
+        [
+          58,
+          24
+        ]
+      ],
+      "labels": [],
+      "exitStyle": "stairs",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "maxActions": 240,
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "size": [
+        72,
+        40
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        48,
+        12
+      ],
+      "corridors": [
+        [
+          8,
+          12,
+          64,
+          12
+        ]
+      ],
+      "apis": [
+        "findNearestEnemy",
+        "attack"
+      ],
+      "knowledge": "if enemy · None · 两种场景",
+      "quest": "通道有时有斥候，有时是空的。同一份程序都要安全通过。",
+      "description": "这条通道可能有斥候、可能换成另一名哨兵，也可能是空的。有敌人时先清掉，空通道可以直接走；最后都要到楼梯。同一份程序完成三个场景。",
+      "starter": "hero.moveRight()\nenemy = hero.findNearestEnemy()\n# 用 if 判断有敌人才攻击。\n",
+      "adventure": {
+        "mode": "rescue",
+        "actors": [
+          {
+            "id": "落单斥候",
+            "kind": "enemy",
+            "at": [
+              30,
+              12
+            ],
+            "health": 20,
+            "speed": 0,
+            "damage": 1,
+            "aggro": 0
+          }
+        ]
+      },
+      "goals": [],
+      "tutorial": {
+        "title": "用 if 避免攻击空目标",
+        "steps": [
+          {
+            "text": "查找后加入下面两行。if行末写冒号，攻击行缩进4个空格。",
+            "code": "if enemy:\n    hero.attack(enemy)",
+            "observe": "找到敌人时执行攻击；结果为None时跳过。",
+            "evidence": {
+              "kind": "enemies-cleared"
+            }
+          },
+          {
+            "text": "最后写 hero.moveRight(2)，不要缩进。运行并提交后，继续验证空通道场景，不改代码。",
+            "observe": "无论有没有敌人，都要到达楼梯。",
+            "evidence": {
+              "kind": "exit"
+            }
+          }
+        ]
+      },
+      "hints": [
+        "最后的移动放在if外面，否则没有敌人时英雄不会离开。"
+      ],
+      "learningContract": null,
+      "singleStep": false,
+      "introBrief": [
+        "判断教学：没有敌人就不攻击",
+        "通道有时有斥候，有时是空的。同一份程序都要安全通过。"
+      ],
+      "scenarioTitles": [
+        "通道里有斥候",
+        "空通道，没有敌人",
+        "换岗了，遇到另一名哨兵"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-32",
+    "name": "守营准备：等待与胜利条件",
+    "teachingMap": {
+      "index": 32,
+      "section": 4,
+      "name": "守营准备：等待与胜利条件",
+      "lessonOrder": 19.1,
+      "revision": 2,
+      "prototype": false,
+      "hiddenByDefault": true,
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          34
+        ],
+        [
+          66,
+          34
+        ]
+      ],
+      "labels": [],
+      "exitStyle": "marker",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "maxActions": 240,
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "knowledge": "wait · isVictory · 延迟增援",
+      "size": [
+        84,
+        72
+      ],
+      "start": [
+        36,
+        24
+      ],
+      "exit": [
+        36,
+        24
+      ],
+      "corridors": [
+        [
+          8,
+          24,
+          66,
+          24
+        ],
+        [
+          36,
+          8,
+          36,
+          58
+        ]
+      ],
+      "quest": "一名斥候稍后才会出现。先看看是否已经获胜，等待后再查找并击败它。",
+      "description": "营地开局是空的，但左侧裂隙很快会亮起红光，随后出现一名斥候。等它出现后击败它，保持营火存活。只看开局就离开无法守住营地。可以尝试等待后查找，也可以持续观察；击败后自动通关。",
+      "starter": "# 先显示是否已经获胜，再等待、查找、攻击。\n",
+      "apis": [
+        "attack",
+        "findNearestEnemy",
+        "wait",
+        "isVictory"
+      ],
+      "safetyGoalLabel": "英雄和营火存活",
+      "goalLabel": "击退全部增援，守住营地",
+      "adventure": {
+        "mode": "defend",
+        "camp": {
+          "at": [
+            36,
+            12
+          ],
+          "health": 100
+        },
+        "actors": [
+          {
+            "id": "迟到的斥候",
+            "kind": "enemy",
+            "at": [
+              24,
+              24
+            ],
+            "health": 20,
+            "speed": 4,
+            "damage": 1,
+            "aggro": 100,
+            "spawnAt": 1
+          }
+        ]
+      },
+      "goals": [
+        {
+          "id": "defend-camp",
+          "name": "保护营火，击败全部敌人"
+        }
+      ],
+      "hints": [
+        "isVictory判断整场战斗是否已经结束，不是在问眼前有没有敌人。",
+        "等待后重新查找目标。把攻击放在if里；这一关先不用循环。"
+      ],
+      "tutorial": {
+        "title": "暂时没敌人，不等于已经获胜",
+        "steps": [
+          {
+            "text": "先运行下面两行。isVictory返回是否已获胜；wait(1)让英雄等待1秒，世界时间不会停止。",
+            "code": "print(isVictory())\nhero.wait(1)",
+            "observe": "开局显示False。斥候按时间出现，英雄等待时敌人也会继续行动。",
+            "evidence": {
+              "kind": "enemy-arrived"
+            }
+          },
+          {
+            "text": "在后面加查找和有敌人才攻击的代码，再运行。",
+            "code": "enemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)",
+            "observe": "击败唯一敌人后自动过关。下一关把查找和判断放进while，反复观察战场；wait是可选的主动停顿。",
+            "evidence": {
+              "kind": "victory"
+            }
+          }
+        ]
+      },
+      "learningContract": null,
+      "singleStep": false,
+      "introBrief": [
+        "守营准备：等待与胜利条件",
+        "一名斥候稍后才会出现。先看看是否已经获胜，等待后再查找并击败它。"
+      ],
+      "scenarioTitles": [
+        "主场景"
+      ]
+    }
+  },
+  {
+    "slug": "local-python-33",
+    "name": "while挑战：守住分批增援",
+    "teachingMap": {
+      "index": 33,
+      "name": "while挑战：守住分批增援",
+      "section": 4,
+      "lessonOrder": 19.2,
+      "revision": 2,
+      "prototype": false,
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          34
+        ],
+        [
+          66,
+          34
+        ]
+      ],
+      "labels": [],
+      "exitStyle": "marker",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "maxActions": 240,
+      "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+      "knowledge": "变量 · if · while · 持续观察",
+      "size": [
+        84,
+        72
+      ],
+      "start": [
+        36,
+        24
+      ],
+      "exit": [
+        36,
+        24
+      ],
+      "corridors": [
+        [
+          8,
+          24,
+          66,
+          24
+        ],
+        [
+          36,
+          8,
+          36,
+          58
+        ]
+      ],
+      "quest": "敌人会分批从三条通道赶来。守住营火，击败全部增援。持续观察战场，发现敌人就攻击；敌人按时间出现。",
+      "description": "守住营火，击退分批赶来的所有敌人。通道入口的裂隙会先发红光，随后出现增援；暂时没有敌人不等于战斗结束。敌人倒下后还会有新目标，持续观察战场。英雄或营火生命降到0失败。两个场景的敌人数和间隔不同，同一程序都要守住；获胜后自动结束。",
+      "starter": "# 持续观察：每轮寻找敌人，有敌人就攻击。\n# 可用 isVictory() 判断战斗是否结束。\n",
+      "apis": [
+        "attack",
+        "findNearestEnemy",
+        "wait",
+        "isVictory"
+      ],
+      "safetyGoalLabel": "英雄和营火存活",
+      "goalLabel": "击退全部增援，守住营地",
+      "adventure": {
+        "mode": "defend",
+        "camp": {
+          "at": [
+            36,
+            12
+          ],
+          "health": 100
+        },
+        "actors": [
+          {
+            "kind": "enemy",
+            "id": "左路斥候",
+            "at": [
+              12,
+              24
+            ],
+            "spawnAt": 1,
+            "health": 40,
+            "speed": 5,
+            "damage": 14,
+            "aggro": 100
+          },
+          {
+            "kind": "enemy",
+            "id": "右路斥候",
+            "at": [
+              60,
+              24
+            ],
+            "spawnAt": 5,
+            "health": 40,
+            "speed": 5,
+            "damage": 14,
+            "aggro": 100
+          },
+          {
+            "kind": "enemy",
+            "id": "上路斥候",
+            "at": [
+              36,
+              48
+            ],
+            "spawnAt": 9,
+            "health": 60,
+            "speed": 5,
+            "damage": 14,
+            "aggro": 100
+          }
+        ]
+      },
+      "goals": [
+        {
+          "id": "defend-camp",
+          "name": "保护营火，击败全部敌人"
+        }
+      ],
+      "hints": [
+        "旧目标倒下后不会自动变成新目标；观察查找结果是否更新。",
+        "没有目标时不要攻击空对象。可以等待，也可以继续观察。",
+        "isVictory() 查询整场战斗是否结束。使用哪种循环不影响通关，关键是营火存活且增援全被击败。"
+      ],
+      "hiddenByDefault": true,
+      "optional": true,
+      "tutorial": null,
+      "learningContract": null,
+      "singleStep": false,
+      "introBrief": [
+        "while挑战：守住分批增援",
+        "敌人会分批从三条通道赶来。守住营火，击败全部增援。持续观察战场，发现敌人就攻击；敌人按时间出现。"
+      ],
+      "scenarioTitles": [
+        "三名敌人，分批到来",
+        "四名敌人，间隔变短"
+      ]
+    }
+  }
+]

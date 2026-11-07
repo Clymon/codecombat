@@ -1,3 +1,5 @@
+历史讲解笔记：当前完整关卡和场景参考代码见 levels-teacher/README.md；机器可读索引见 levels-teacher/references.json。修改代码请编辑 level-definitions/ 对应源定义后重新生成。
+
 教师参考：以下程序只是可行解法，不作为语句或行数限制。按实际游戏结果验收，多场景使用同一程序。
 
 

@@ -109,19 +109,96 @@ function make (design, teachingMap) {
   level.goals.push(...design.checkpoints.map((p, n) => ({ id: `checkpoint-${n + 1}`, name: (design.gates || []).some(g => g.approach[0] === p[0] && g.approach[1] === p[1]) ? '抵达门岗' : `唤醒石板 ${n + 1}`, worldEndsAfter: 1 })), { id: 'reach-exit', name: design.goalLabel || ({ stairs: '完成沿路任务，从楼梯离开', portal: '启动法阵并传送', beacon: '到达信标并传送', marker: '在终点石板停下', camp: '留在安全位置' }[design.exitStyle]) || '到达终点', worldEndsAfter: 1 })
   return level
 }
-function compileLevels (definitions) {
-  return require('../level-catalog').compileCatalog(definitions).flatMap(entry => entry.scenes.map(scene => make(scene.design, scene.teachingMap)))
+function nativeLevels (entries) {
+  return entries.flatMap(entry => entry.scenes.map(scene => {
+    const level = make(scene.design, scene.teachingMap)
+    const seen = new Set()
+    for (const [i, thang] of level.thangs.entries()) {
+      if (seen.has(thang.id)) require('../level-validation').invalid(scene.design.index, `${scene.teachingMap.scenarioIndex} (${scene.design.title || '主场景'})`, `thangs[${i}].id`, `duplicate native object identity ${thang.id}`)
+      seen.add(thang.id)
+    }
+    return level
+  }))
 }
-function buildLevels (outputDir = path.join(dir, 'levels')) {
-  const levels = compileLevels()
-  fs.mkdirSync(path.join(outputDir, 'scenarios'), { recursive: true })
+function compileLevels (definitions) {
+  return nativeLevels(require('../level-catalog').compileCatalog(definitions))
+}
+function buildLevels (outputDir = path.join(dir, 'levels'), { definitions, fileSystem = fs } = {}) {
+  // Resolve, validate and serialize the COMPLETE generation before any writes.
+  const entries = require('../level-catalog').compileCatalog(definitions)
+  const levels = nativeLevels(entries)
+  const json = value => JSON.stringify(value, null, 2) + '\n'
+  const studentFiles = { 'catalog.json': json(entries.map(entry => entry.catalog)) }
   for (const level of levels) {
     const sceneIndex = level.teachingMap.scenarioIndex
-    const content = JSON.stringify(level, null, 2) + '\n'
-    if (sceneIndex === 0) fs.writeFileSync(path.join(outputDir, `${level.slug}.json`), content)
-    fs.writeFileSync(path.join(outputDir, 'scenarios', `${level.slug}-${sceneIndex}.json`), content)
+    const content = json(level)
+    if (sceneIndex === 0) studentFiles[`${level.slug}.json`] = content
+    studentFiles[`scenarios/${level.slug}-${sceneIndex}.json`] = content
   }
+  const references = entries.map(entry => ({
+    index: entry.design.index,
+    slug: entry.slug,
+    name: entry.design.name,
+    section: entry.design.section,
+    revision: entry.design.revision,
+    source: `../level-definitions/${entry.design.index}.json`,
+    scenes: entry.references.map(reference => ({ ...reference, goals: levels.find(level => level.slug === entry.slug && level.teachingMap.scenarioIndex === reference.scene).goals })),
+  }))
+  const readable = ['# 教师参考（自动生成）', '', '来自最终解析场景；修改对应源定义后重新生成。此目录不能作为学生静态资源发布。', '', ...references.flatMap(entry => [
+    `## ${entry.index} · ${entry.name}`,
+    '',
+    `第 ${entry.section} 节 · revision ${entry.revision} · [源定义](${entry.source})`,
+    '',
+    ...entry.scenes.flatMap(scene => [`### 场景 ${scene.scene} · ${scene.title}`, '', ...scene.goals.map(goal => `- ${goal.name}`), '', '```python', scene.code.trimEnd(), '```', '']),
+  ])].join('\n')
+  const teacherFiles = { 'references.json': json(references), 'README.md': readable }
+  const destination = path.resolve(outputDir)
+  fileSystem.mkdirSync(path.dirname(destination), { recursive: true })
+  const staging = fileSystem.mkdtempSync(path.join(path.dirname(destination), `.${path.basename(destination)}-build-`))
+  try {
+    for (const [folder, contents] of [['levels', studentFiles], ['teacher', teacherFiles]]) {
+      fileSystem.mkdirSync(path.join(staging, folder), { recursive: true })
+      if (folder === 'levels') fileSystem.mkdirSync(path.join(staging, folder, 'scenarios'))
+      for (const [name, content] of Object.entries(contents)) fileSystem.writeFileSync(path.join(staging, folder, name), content)
+    }
+    publishGeneration(fileSystem, staging, destination)
+  } catch (error) {
+    // A rollback failure retains backups for explicit operator recovery.
+    if (!error.recoveryDirectory) fileSystem.rmSync(staging, { recursive: true, force: true })
+    throw error
+  }
+  fileSystem.rmSync(staging, { recursive: true, force: true })
   return levels
+}
+function publishGeneration (io, staging, destination) {
+  const outputs = [
+    { target: destination, staged: path.join(staging, 'levels'), backup: path.join(staging, 'previous-levels') },
+    { target: `${destination}-teacher`, staged: path.join(staging, 'teacher'), backup: path.join(staging, 'previous-teacher') },
+  ]
+  for (const output of outputs) {
+    if (io.existsSync(output.target) && !io.lstatSync(output.target).isDirectory()) throw new Error(`Build destination must be a directory: ${output.target}`)
+  }
+  try {
+    for (const output of outputs) {
+      if (io.existsSync(output.target)) { io.renameSync(output.target, output.backup); output.saved = true }
+      io.renameSync(output.staged, output.target)
+      output.published = true
+    }
+  } catch (error) {
+    const failures = []
+    for (const output of [...outputs].reverse()) {
+      try {
+        if (output.published) io.rmSync(output.target, { recursive: true, force: true })
+        if (output.saved) io.renameSync(output.backup, output.target)
+      } catch (rollbackError) { failures.push(rollbackError) }
+    }
+    if (failures.length) {
+      const recovery = new AggregateError([error, ...failures], `Publication rollback needs recovery from ${staging}`)
+      recovery.recoveryDirectory = staging
+      throw recovery
+    }
+    throw error
+  }
 }
 if (require.main === module) buildLevels()
 module.exports = { onCorridor, compileLevels, buildLevels }
