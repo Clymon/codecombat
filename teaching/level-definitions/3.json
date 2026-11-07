@@ -1,0 +1,112 @@
+{
+  "index": 3,
+  "revision": 2,
+  "name": "训练营⑤：绕开巡逻",
+  "description": "依次踩过上方两个符文石板，收集三颗宝石，再前往右侧出口。下方守卫来回巡逻，进入其红色警戒圈就失败。石墙挡路，上方走廊可以绕行。",
+  "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+  "size": [
+    84,
+    48
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      12,
+      36
+    ],
+    [
+      12,
+      36,
+      48,
+      36
+    ],
+    [
+      48,
+      36,
+      48,
+      12
+    ],
+    [
+      12,
+      12,
+      84,
+      12
+    ]
+  ],
+  "checkpoints": [
+    [
+      12,
+      36
+    ],
+    [
+      48,
+      36
+    ]
+  ],
+  "exit": [
+    60,
+    12
+  ],
+  "exitMarker": {
+    "x": 79,
+    "y": 12,
+    "direction": "→"
+  },
+  "hazards": [],
+  "gems": [
+    [
+      12,
+      36
+    ],
+    [
+      48,
+      36
+    ],
+    [
+      48,
+      12
+    ]
+  ],
+  "torches": [
+    [
+      6,
+      16
+    ],
+    [
+      6,
+      40
+    ],
+    [
+      30,
+      42
+    ],
+    [
+      54,
+      40
+    ]
+  ],
+  "guard": {
+    "id": "Dungeon Guard",
+    "x": 30,
+    "y": 12,
+    "amplitude": 6,
+    "radius": 8,
+    "speed": 1.2
+  },
+  "labels": [],
+  "section": 1,
+  "quest": "食人魔在下面巡逻。宝石散落在旧通道里，寻找一条能带着宝石安全离开的路。",
+  "inscriptions": [],
+  "exitStyle": "stairs",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "learningContract": null,
+  "solution": "hero.moveUp(2)\nhero.moveRight(3)\nhero.moveDown(2)\nhero.moveRight()"
+}

@@ -1,0 +1,86 @@
+{
+  "index": 4,
+  "revision": 1,
+  "lessonOrder": 1,
+  "name": "训练营①：走到门岗",
+  "goalLabel": "抵达守卫面前",
+  "safetyGoalLabel": "没有撞到守卫或石墙",
+  "description": "让英雄走到守卫面前停下。一条 hero.moveRight() 向右走一格。守卫会挡路，但不会攻击你。",
+  "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+  "size": [
+    72,
+    36
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      60,
+      12
+    ],
+    [
+      36,
+      12,
+      36,
+      24
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    24,
+    12
+  ],
+  "exitMarker": {
+    "x": 24,
+    "y": 6,
+    "direction": "到岗",
+    "label": "门岗前停下"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      8,
+      22
+    ],
+    [
+      54,
+      22
+    ]
+  ],
+  "labels": [],
+  "gates": [
+    {
+      "id": "Post Guard",
+      "at": [
+        36,
+        12
+      ],
+      "aside": [
+        36,
+        24
+      ],
+      "approach": [
+        24,
+        12
+      ],
+      "locked": true,
+      "greeting": "来得正好！下一趟帮我送封信。"
+    }
+  ],
+  "starter": "# 走近守卫，在他面前停下。\n",
+  "solution": "hero.moveRight()\n",
+  "section": 1,
+  "quest": "营地的守卫在前面等你。走近他，在他面前停下。",
+  "inscriptions": [],
+  "exitStyle": "post",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "learningContract": null
+}
