@@ -63,17 +63,19 @@ function describeObject (object, d, hero, world) {
       add('press', `hero.press(${object.number})`, object.decoy ? '这是接地板，不应启动；走过不会触发' : '必须站在这块开关上', object.decoy ? '危险：压下会短路' : ready ? '位置满足；还需符合开关顺序' : '需要先移动到这块开关上')
       break
     case 'supply': {
-      ready = distance(hero, object.approach) < 1.1 && distance(hero, object.at) <= 12.5
       const state = parse(hero?.teachingInventory, {})
+      const availability = interactions.takeItems(hero?.pos, object, state, object.name)
+      ready = availability.ready
       text = state.claimed ? '这个箱子已领取，不能重复领取。' : '走到箱子前领取物品；返回实际领取数量，可以存进变量。'
-      add('take', `count = hero.take(${JSON.stringify(object.name)})`, '站在箱子正前方的格子；同一箱只能领取一次', state.claimed ? '已领取' : ready ? '当前位置可以领取' : '距离不满足，先到箱子前')
+      add('take', `count = hero.take(${JSON.stringify(object.name)})`, '站在箱子正前方的格子；同一箱只能领取一次', availability.message)
       break
     }
     case 'receiver': {
-      ready = distance(hero, object.approach) < 1.1 && distance(hero, object.at) <= 12.5
-      const r = parse(hero?.teachingInventory, { receivers: [] }).receivers[object.index]
-      text = `需要${object.amount}${d.inventory.unit}${d.inventory.item}。示例中的 amount 要替换为你的数量变量或数值。`
-      add('give', `hero.give(${JSON.stringify(object.name)}, amount)`, '先到收货位置，背包里要有足够物品', r?.delivered ? '已交齐，不需要重复交付' : ready ? '位置满足；执行时还会检查数量' : '距离不满足，先走到目标前')
+      const state = parse(hero?.teachingInventory, { claimed: false, bag: 0, receivers: d.inventory.receivers })
+      const availability = interactions.giveItems(hero?.pos, d.inventory, state, { name: object.name, receiverIndex: object.index })
+      ready = availability.ready
+      text = state.receivers?.[object.index]?.delivered ? '这里已交齐物品，去下一个位置或出口。' : `需要${object.amount}${d.inventory.unit}${d.inventory.item}。示例中的 amount 要替换为你的数量变量或数值。`
+      add('give', `hero.give(${JSON.stringify(object.name)}, amount)`, '先到收货位置，背包里要有足够物品', availability.message)
       break
     }
     case 'gate': {
