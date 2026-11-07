@@ -1,0 +1,259 @@
+{
+  "index": 18,
+  "section": 4,
+  "revision": 5,
+  "lessonOrder": 18,
+  "name": "第4节 · 别向空箱索要材料",
+  "description": "已有程序会在材料用完后继续向前。先运行，看它在哪座炉前耗尽物资；修改后，要能送完一箱材料，也要能处理空箱。打开箱子才能确认这批有没有货。发言只供自己检查，不影响通关。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    60,
+    40
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      56,
+      12
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    48,
+    12
+  ],
+  "exitMarker": {
+    "x": 48,
+    "y": 5,
+    "direction": "→",
+    "label": "终点"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      6,
+      24
+    ]
+  ],
+  "labels": [],
+  "knowledge": "while 排错：更新变量与零次执行",
+  "apis": [
+    "take",
+    "give"
+  ],
+  "singleStep": false,
+  "starter": "remaining = hero.take(\"补给箱\")\nwhile remaining > 0:\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n    print(remaining)\n",
+  "scenarios": [
+    {
+      "title": "箱里有3块，装完就停",
+      "size": [
+        60,
+        48
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        48,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          56,
+          12
+        ],
+        [
+          12,
+          12,
+          12,
+          24
+        ],
+        [
+          24,
+          12,
+          24,
+          24
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ],
+        [
+          48,
+          12,
+          48,
+          24
+        ]
+      ],
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          32
+        ]
+      ],
+      "labels": [],
+      "inscriptions": [],
+      "exitStyle": "marker",
+      "inventory": {
+        "item": "能量石",
+        "unit": "块",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            12,
+            24
+          ],
+          "approach": [
+            12,
+            12
+          ],
+          "count": 3
+        },
+        "receivers": [
+          {
+            "name": "炉座",
+            "at": [
+              24,
+              24
+            ],
+            "approach": [
+              24,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          },
+          {
+            "name": "炉座",
+            "at": [
+              36,
+              24
+            ],
+            "approach": [
+              36,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          },
+          {
+            "name": "炉座",
+            "at": [
+              48,
+              24
+            ],
+            "approach": [
+              48,
+              12
+            ],
+            "amount": 1,
+            "kind": "socket"
+          }
+        ]
+      },
+      "expectedSpeech": null,
+      "solution": "remaining = hero.take(\"补给箱\")\nwhile remaining > 0:\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n    remaining -= 1\n    print(remaining)\n",
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "title": "箱子已空，不用装填",
+      "size": [
+        60,
+        48
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "exit": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          20,
+          12
+        ],
+        [
+          12,
+          12,
+          12,
+          24
+        ]
+      ],
+      "checkpoints": [],
+      "gems": [],
+      "hazards": [],
+      "gates": [],
+      "torches": [
+        [
+          6,
+          32
+        ]
+      ],
+      "labels": [],
+      "inscriptions": [],
+      "exitStyle": "marker",
+      "inventory": {
+        "item": "能量石",
+        "unit": "块",
+        "supply": {
+          "name": "补给箱",
+          "at": [
+            12,
+            24
+          ],
+          "approach": [
+            12,
+            12
+          ],
+          "count": 0
+        },
+        "receivers": []
+      },
+      "expectedSpeech": null,
+      "solution": "remaining = hero.take(\"补给箱\")\nwhile remaining > 0:\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n    remaining -= 1\n    print(remaining)\n",
+      "singleStep": false,
+      "learningContract": null
+    }
+  ],
+  "hints": [
+    "先从背包耗尽的位置查错：程序记录的余量是否也变成了0？",
+    "空箱不需要送货，但仍需打开确认，不能跳过检查。"
+  ],
+  "quest": "修好装填程序：有货就送完，空箱也能完成检查并离开。",
+  "inscriptions": [],
+  "exitStyle": "marker",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "visualTask": true,
+  "allowCodeChanges": false,
+  "powerCircuit": false,
+  "learningContract": null,
+  "maxActions": 240,
+  "expectedSpeech": null,
+  "introBrief": [
+    "别向空箱索要材料",
+    "修好装填程序：有货就送完，空箱也能完成检查并离开。"
+  ]
+}
