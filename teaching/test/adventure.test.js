@@ -76,7 +76,7 @@ test('camp damage reaches zero and fails independently of hero health', () => {
 test('first-line API failures survive the rules first update', () => {
   const fs = require('fs'); const vm = require('vm'); const path = require('path')
   const s = setup(25)
-  const Rules = vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../rules-system.js'), 'utf8'), { System: class {}, TeachingAdventure: Adventure, TeachingLearning: require('../learning-runtime') })
+  const Rules = vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../rules-system.js'), 'utf8'), { TeachingInteractions: require('../interaction-rules'), System: class {}, TeachingAdventure: Adventure, TeachingLearning: require('../learning-runtime') })
   const rules = Object.assign(new Rules(), s.rules); delete rules.fail; delete rules.faceToward
   rules.start(); s.hero.attack(null); rules.update()
   assert.match(s.hero.teachingFailure, /没有攻击目标/); assert.equal(rules.failed, true)
