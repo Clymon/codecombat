@@ -3,8 +3,8 @@
   "original": "facade000000000000000029",
   "slug": "local-python-29",
   "name": "for挑战：点亮三座信号台",
-  "description": "用一个for循环启动三座信号台，再到楼梯。每一轮都要完成上台、说“点火”、返回主廊、前往下一台的一组动作。print(\"点火\") 或 hero.say(\"点火\") 均可；距离太远或文字不对，信号台不会点亮。重复点同一座不算新的一座。成功后提交代码。",
-  "loadingTip": "先观察角色和道路。展开任务日志查看目标、可用命令和提示。",
+  "description": "三座信号台连着出口封印。走到每座台前说“点火”，火焰亮起后回主廊，再去下一座。重复点燃同一座不会代替其他台；在远处说话也无效。三座全亮后从右侧离开。",
+  "loadingTip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
   "type": "hero",
   "product": "codecombat",
   "version": {
@@ -7572,7 +7572,7 @@
                 "name": "plan",
                 "source": "// Write movement commands here.\n",
                 "languages": {
-                  "python": "hero.moveRight()\n# 把每座信号台都要做的一整组动作放进 for 循环。\n"
+                  "python": "# 先点亮最近的信号台，再把同样的动作用于另外两座。\n"
                 },
                 "permissions": {
                   "read": [],
@@ -7958,17 +7958,8 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
-        "learningContract": {
-          "loops": [
-            "for"
-          ],
-          "inside": {
-            "moveUp": "for",
-            "moveDown": "for",
-            "say": "for"
-          },
-          "maxStatements": 6
-        },
+        "inventoryConfig": null,
+        "learningContract": null,
         "adventureConfig": {
           "mode": "signals",
           "actors": [
@@ -9906,8 +9897,9 @@
         "exitDuration": 1.8,
         "sensor": {},
         "switches": [],
+        "decoySwitches": [],
         "singleStep": false,
-        "maxActions": 90,
+        "maxActions": 240,
         "expectedSpeech": null
       }
     }
@@ -9947,7 +9939,7 @@
     "specificArticles": [
       {
         "name": "本关任务",
-        "body": "用一个for循环启动三座信号台，再到楼梯。每一轮都要完成上台、说“点火”、返回主廊、前往下一台的一组动作。print(\"点火\") 或 hero.say(\"点火\") 均可；距离太远或文字不对，信号台不会点亮。重复点同一座不算新的一座。成功后提交代码。"
+        "body": "三座信号台连着出口封印。走到每座台前说“点火”，火焰亮起后回主廊，再去下一座。重复点燃同一座不会代替其他台；在远处说话也无效。三座全亮后从右侧离开。"
       }
     ]
   },
@@ -9973,7 +9965,7 @@
     "name": "for挑战：点亮三座信号台",
     "section": 3,
     "lessonOrder": 13.2,
-    "revision": 1,
+    "revision": 2,
     "prototype": false,
     "checkpoints": [],
     "gems": [],
@@ -9995,8 +9987,8 @@
       1,
       0
     ],
-    "maxActions": 90,
-    "tip": "先观察角色和道路。展开任务日志查看目标、可用命令和提示。",
+    "maxActions": 240,
+    "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
     "knowledge": "for · 重复完整动作组",
     "size": [
       108,
@@ -10038,8 +10030,8 @@
     ],
     "apis": [],
     "quest": "三座信号台连着出口的封印。到台前说“点火”，火焰亮起后返回主廊，再前往下一座。全部点亮后撤离。",
-    "description": "用一个for循环启动三座信号台，再到楼梯。每一轮都要完成上台、说“点火”、返回主廊、前往下一台的一组动作。print(\"点火\") 或 hero.say(\"点火\") 均可；距离太远或文字不对，信号台不会点亮。重复点同一座不算新的一座。成功后提交代码。",
-    "starter": "hero.moveRight()\n# 把每座信号台都要做的一整组动作放进 for 循环。\n",
+    "description": "三座信号台连着出口封印。走到每座台前说“点火”，火焰亮起后回主廊，再去下一座。重复点燃同一座不会代替其他台；在远处说话也无效。三座全亮后从右侧离开。",
+    "starter": "# 先点亮最近的信号台，再把同样的动作用于另外两座。\n",
     "adventure": {
       "mode": "signals",
       "actors": [
@@ -10087,23 +10079,17 @@
       }
     ],
     "hints": [
-      "从主廊到台前有两格。点亮后还要退回主廊，才能横向走到下一台。",
-      "每座台之间相隔两格。移动和发言都要放在循环里面。",
-      "range(3) 重复三次。最后一轮回到主廊后，继续向右即可到楼梯。"
+      "主廊到台前两格，相邻侧路间两格。",
+      "先完成一次“上去、点火、回来、去下一台”，再考虑怎样整理重复动作。"
     ],
     "hiddenByDefault": true,
     "tutorial": null,
-    "learningContract": {
-      "loops": [
-        "for"
-      ],
-      "inside": {
-        "moveUp": "for",
-        "moveDown": "for",
-        "say": "for"
-      },
-      "maxStatements": 6
-    },
+    "learningContract": null,
+    "singleStep": false,
+    "introBrief": [
+      "for挑战：点亮三座信号台",
+      "三座信号台连着出口的封印。到台前说“点火”，火焰亮起后返回主廊，再前往下一座。全部点亮后撤离。"
+    ],
     "scenarioIndex": 0,
     "scenarioTitles": [
       "主场景"

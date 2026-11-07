@@ -7,6 +7,7 @@ store = require('core/store')
 Concepts = require 'collections/Concepts'
 globalVar = require 'core/globalVar'
 v4Debounce = require 'lodash-4/debounce'
+TeachingSaveStatus = require './TeachingSaveStatus'
 
 module.exports = class LevelBus extends Bus
 
@@ -295,6 +296,7 @@ module.exports = class LevelBus extends Bus
 
   # Debounced as saveSession
   reallySaveSession: ->
+    return if @teachingSavePending or @teachingSaveClosed or @teachingSaveBlocked
     return if _.isEmpty @changedSessionProperties
     # don't let peeking admins mess with the session accidentally
     return unless @session.get('creator') is me.id
@@ -314,7 +316,30 @@ module.exports = class LevelBus extends Bus
     # since updates are coming fast and loose for session objects
     # don't let what the server returns overwrite changes since the save began
     tempSession = new LevelSession _id: @session.id
-    tempSession.save(patch, {patch: true, type: 'PUT'})
+    if /^facebe[0-9a-f]{18}$/.test(@session.id or '')
+      @teachingSaveStatus ?= new TeachingSaveStatus document, => @reallySaveSession()
+      @teachingSavePending = true
+      @teachingSaveStatus.saving()
+      tempSession.save patch,
+        teachingSaveHandled: true
+        patch: true
+        type: 'PUT'
+        success: =>
+          return if @teachingSaveClosed
+          @teachingSavePending = false
+          if _.isEmpty @changedSessionProperties
+            @teachingSaveStatus.clear()
+          else
+            @saveSession()
+        error: (model, response) =>
+          return if @teachingSaveClosed
+          @teachingSavePending = false
+          # Restore dirty fields, never stale values: retries read the current editor model.
+          @changedSessionProperties[prop] = true for prop of patch
+          @teachingSaveBlocked = not TeachingSaveStatus.recovery(response).retryable
+          @teachingSaveStatus.failed(response)
+    else
+      tempSession.save(patch, {patch: true, type: 'PUT'})
 
   updateSessionConcepts: ->
     return unless @session.get('codeLanguage') in ['javascript', 'python']
@@ -345,6 +370,9 @@ module.exports = class LevelBus extends Bus
     )
 
   destroy: ->
+    @teachingSaveClosed = true
+    @saveSession.cancel()
+    @teachingSaveStatus?.clear()
     clearInterval(@timerIntervalID)
     for destroyFunction in @vuexDestroyFunctions
       destroyFunction()

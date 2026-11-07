@@ -25,7 +25,14 @@ function drawAdventure (g, ground, design, hero, world, camera, surface) {
       continue
     }
     if (!a.active) {
-      if (a.spawnAt - world.age < 1.2 && a.spawnAt > world.age) ground.setStrokeStyle(2).beginStroke('#ef885f').drawEllipse(p.x - 21 * z, p.y - 9 * z, 42 * z, 18 * z).endStroke()
+      // Visible entry rift, with a brighter rotating warning before a timed arrival.
+      const soon = a.spawnAt - world.age <= 2
+      ground.setStrokeStyle(3).beginStroke(soon ? '#ff9869' : '#80584b').beginFill('#261c22').drawEllipse(p.x - 24 * z, p.y - 10 * z, 48 * z, 20 * z).endFill().endStroke()
+      if (soon) {
+        const phase = world.age * 4
+        ground.setStrokeStyle(3).beginStroke('#ffcf99').arc(p.x, p.y - 8 * z, 17 * z, phase, phase + Math.PI * 1.4).endStroke()
+        g.setStrokeStyle(2).beginStroke('#ee8a70').moveTo(p.x - 5 * z, p.y).lineTo(p.x + 3 * z, p.y - 19 * z).lineTo(p.x - 2 * z, p.y - 35 * z).endStroke()
+      }
       continue
     }
     if (!a.alive) {

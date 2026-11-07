@@ -1,0 +1,277 @@
+历史讲解笔记：当前完整关卡和场景参考代码见 levels-teacher/README.md；机器可读索引见 levels-teacher/references.json。修改代码请编辑 level-definitions/ 对应源定义后重新生成。
+
+教师参考：以下程序只是可行解法，不作为语句或行数限制。按实际游戏结果验收，多场景使用同一程序。
+
+
+第2节 · 补给站：开门才取宝石
+右侧补给站有时开放、有时关闭。开放时拿回宝石，再返回岔口；关闭时不要闯岗。最后从下方法阵撤离。漏拿宝石时法阵不启动，闯关闭的门岗会受伤。两个场景用同一份程序完成。
+
+场景1：补给站开放，有宝石
+if pathOpen("right"):
+    hero.moveRight()
+    hero.moveLeft()
+hero.moveDown()
+
+
+场景2：补给站关闭，直接撤离
+if pathOpen("right"):
+    hero.moveRight()
+    hero.moveLeft()
+hero.moveDown()
+
+
+
+第2节 · 两条路选一条
+左右两条通道只有一条放行。开放的通道里有宝石和撤离法阵，另一条有守卫拦截。带上宝石，在法阵上停下。两个场景开放方向不同，要让同一份程序都能找到通路。
+
+场景1：左路开放
+if pathOpen("left"):
+    hero.moveLeft()
+else:
+    hero.moveRight()
+
+
+场景2：右路开放
+if pathOpen("left"):
+    hero.moveLeft()
+else:
+    hero.moveRight()
+
+
+
+第2节 · 门开且安全才走【选做】
+右侧是近路，但门开着也可能有尖刺。门岗放行且路面安全时，走右路拿宝石离开；否则走下方撤离通道。三种场景使用同一份程序。
+
+场景1：门开 / 无尖刺
+if pathOpen("right") and nextTileSafe():
+    hero.moveRight()
+else:
+    hero.moveDown()
+
+
+场景2：门开 / 有尖刺
+if pathOpen("right") and nextTileSafe():
+    hero.moveRight()
+else:
+    hero.moveDown()
+
+
+场景3：门关 / 无尖刺
+if pathOpen("right") and nextTileSafe():
+    hero.moveRight()
+else:
+    hero.moveDown()
+
+
+
+第2节 · 用手里的金币支付通行费【选做】
+领取左侧箱子里的金币。上路通行费4枚，右路2枚，下路1枚；守卫按你的物资档位开放一条路。走到开放门岗前支付，再从身旁法阵撤离。4枚及以上走上路，2至3枚走右路，1枚走下路。同一程序完成四批物资。
+
+场景1：领取 5 枚金币
+coins = hero.take("补给箱")
+if coins >= 4:
+    hero.moveUp()
+    hero.give("守卫", 4)
+elif coins >= 2:
+    hero.moveRight()
+    hero.give("守卫", 2)
+else:
+    hero.moveDown()
+    hero.give("守卫", 1)
+
+
+场景2：领取 4 枚金币
+coins = hero.take("补给箱")
+if coins >= 4:
+    hero.moveUp()
+    hero.give("守卫", 4)
+elif coins >= 2:
+    hero.moveRight()
+    hero.give("守卫", 2)
+else:
+    hero.moveDown()
+    hero.give("守卫", 1)
+
+
+场景3：领取 2 枚金币
+coins = hero.take("补给箱")
+if coins >= 4:
+    hero.moveUp()
+    hero.give("守卫", 4)
+elif coins >= 2:
+    hero.moveRight()
+    hero.give("守卫", 2)
+else:
+    hero.moveDown()
+    hero.give("守卫", 1)
+
+
+场景4：领取 1 枚金币
+coins = hero.take("补给箱")
+if coins >= 4:
+    hero.moveUp()
+    hero.give("守卫", 4)
+elif coins >= 2:
+    hero.moveRight()
+    hero.give("守卫", 2)
+else:
+    hero.moveDown()
+    hero.give("守卫", 1)
+
+
+
+第3节 · 点亮三间符文室
+主廊上方有三间侧室，每间尽头的石板都要站稳1秒才会点亮。圆环未满就离开，这一块会熄灭；已经完成的会保留。三块全部亮起后，从右侧出口离开。走过主廊不会替侧室充能。
+
+场景1：主场景
+hero.moveRight()
+for room in range(3):
+    hero.moveUp(2)
+    hero.wait()
+    hero.moveDown(2)
+    hero.moveRight(2)
+
+
+
+第3节 · 接通三个继电开关
+三个编号开关串联着出口。走到闪光的开关上，用 press(编号) 压下它；接通后光会沿线路流向下一块。必须按电路顺序接通，直接走过去不会启动。全部亮起后在末端法阵停下。
+
+场景1：主场景
+for number in range(1, 4):
+    hero.moveRight()
+    hero.press(number)
+
+
+
+第3节 · 绕过短路开关【选做】
+六块编号板交错排列。蓝色的2、4、6号连接出口，要依次走到上面压下；红色的1、3、5号连着接地线，可以走过，但压下就会短路。看线路和颜色选择开关，全部接通后在6号法阵停下。
+
+场景1：主场景
+for number in range(2, 7, 2):
+    hero.moveRight(2)
+    hero.press(number)
+
+
+
+第3节 · 每座炉座装一块能量石
+补给箱中的能量石与沿路炉座一一对应。先领取整批物资，再逐座装填，每座1块。装入后炉火亮起、背包减少，全部装好后出口启动。物资与炉座数量有2、4、5三种变化，同一份程序都要完成。
+
+场景1：2 块能量石，2 座炉座
+count = hero.take("补给箱")
+for i in range(count):
+    hero.moveRight()
+    hero.give("炉座", 1)
+
+
+场景2：4 块能量石，4 座炉座
+count = hero.take("补给箱")
+for i in range(count):
+    hero.moveRight()
+    hero.give("炉座", 1)
+
+
+场景3：5 块能量石，5 座炉座
+count = hero.take("补给箱")
+for i in range(count):
+    hero.moveRight()
+    hero.give("炉座", 1)
+
+
+
+第4节 · 把最后一块材料送出去
+领取三块能量石，沿路每座炉座各装一块。背包里的石头减少，路边的炉火逐座亮起；最后一块交出后，出口启动。可以显示剩余数量帮助检查，但发言不是通关条件。
+
+场景1：主场景
+remaining = hero.take("补给箱")
+while remaining > 0:
+    hero.moveRight()
+    hero.give("炉座", 1)
+    remaining -= 1
+    print(remaining)
+
+
+
+第4节 · 别向空箱索要材料
+已有程序会在材料用完后继续向前。先运行，看它在哪座炉前耗尽物资；修改后，要能送完一箱材料，也要能处理空箱。打开箱子才能确认这批有没有货。发言只供自己检查，不影响通关。
+
+场景1：箱里有3块，装完就停
+remaining = hero.take("补给箱")
+while remaining > 0:
+    hero.moveRight()
+    hero.give("炉座", 1)
+    remaining -= 1
+    print(remaining)
+
+
+场景2：箱子已空，不用装填
+remaining = hero.take("补给箱")
+while remaining > 0:
+    hero.moveRight()
+    hero.give("炉座", 1)
+    remaining -= 1
+    print(remaining)
+
+
+
+第4节 · 沿途充能，找到信标
+每块暗石板需要站稳1秒，点亮后电流沿路传向下一块。最后的信标是终点。路线长短会变；有时信标就在起点，没有暗石板。同一份程序要处理这三种情况。
+
+场景1：信标在前方2格
+while not hero.atBeacon():
+    hero.wait()
+    hero.moveRight()
+
+
+场景2：信标在前方4格
+while not hero.atBeacon():
+    hero.wait()
+    hero.moveRight()
+
+
+场景3：信标就在起点
+while not hero.atBeacon():
+    hero.wait()
+    hero.moveRight()
+
+
+
+第4节 · 等巡逻走开再前进【选做】
+守卫会穿过前方通道，进入红色警戒圈会失败。安全时继续前进，危险时留在原地，最终到达信标。两种巡逻起始位置不同，同一程序都要安全。nextTileSafe() 会判断右边下一格的通行时机；等待时世界照常运行。
+
+场景1：巡逻场景1
+while not hero.atBeacon():
+    if nextTileSafe():
+        hero.moveRight()
+    else:
+        hero.wait()
+
+
+场景2：巡逻场景2
+while not hero.atBeacon():
+    if nextTileSafe():
+        hero.moveRight()
+    else:
+        hero.wait()
+
+
+
+第4节 · 过门岗，修复信标路
+先到守卫面前报“自己人”，获得放行。沿主廊到最右侧拐角，再向上逐块充能：每块停留1秒，所有石板亮起后，终点信标恢复。上方石板有两块或三块，同一程序都要完成。
+
+场景1：上行 2 格
+hero.moveRight()
+print("自己人")
+hero.moveRight(2)
+while not hero.atBeacon():
+    hero.moveUp()
+    hero.wait()
+
+
+场景2：上行 3 格
+hero.moveRight()
+print("自己人")
+hero.moveRight(2)
+while not hero.atBeacon():
+    hero.moveUp()
+    hero.wait()
+

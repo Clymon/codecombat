@@ -4,6 +4,7 @@ SpellTopBarView = require './SpellTopBarView'
 { createAetherOptions, replaceSimpleLoops } = require 'lib/aether_utils'
 { translateJS } = require 'lib/translate-utils'
 { rewritePrintAsHeroSay } = require 'teaching/print-to-say'
+{ rewriteEnvironmentQueries } = require 'teaching/environment-api'
 utils = require 'core/utils'
 
 # while migrating to JS, function: hasChangedSignificantly doesn't work correctly and throws errors when loading a level
@@ -185,6 +186,7 @@ module.exports = class Spell
     unless @language is 'html'
       @thang?.aether.transpile source
       if @language is 'python' and /^local-python-\d{2}$/.test(@level.get('slug') or '')
+        rewriteEnvironmentQueries @thang?.aether.ast
         rewritePrintAsHeroSay @thang?.aether.ast
       @session.lastAST = @thang?.aether.ast
     null

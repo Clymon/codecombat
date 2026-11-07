@@ -1,3 +1,5 @@
+历史讲解笔记：当前完整关卡和场景参考代码见 levels-teacher/README.md；机器可读索引见 levels-teacher/references.json。修改代码请编辑 level-definitions/ 对应源定义后重新生成。
+
 仅供教师备课。以下教学关已分别融入原四小节，按小节中的学习顺序列出。原隐藏/开放状态保留；教师按第1—4小节发布。27救援、33守营为选做。
 
 第1小节
@@ -75,7 +77,7 @@ for i in range(3):
 
 32 守营准备：等待与胜利条件
 主场景
-print(hero.isVictory())
+print(isVictory())
 hero.wait()
 enemy = hero.findNearestEnemy()
 if enemy:
@@ -84,7 +86,7 @@ if enemy:
 
 33 while挑战：守住分批增援（选做）
 三名敌人，分批到来
-while not hero.isVictory():
+while not isVictory():
     enemy = hero.findNearestEnemy()
     if enemy:
         hero.attack(enemy)
@@ -92,7 +94,7 @@ while not hero.isVictory():
         hero.wait()
 
 四名敌人，间隔变短
-while not hero.isVictory():
+while not isVictory():
     enemy = hero.findNearestEnemy()
     if enemy:
         hero.attack(enemy)

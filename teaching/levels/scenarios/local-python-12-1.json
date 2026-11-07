@@ -2,9 +2,9 @@
   "_id": "facade000000000000000012",
   "original": "facade000000000000000012",
   "slug": "local-python-12",
-  "name": "第2节 · 按徽章能量选择通道【选做】",
-  "description": "石碑上的徽章能量由 hero.readSignal() 读取。80 点及以上走上路；60—79 点走右路；不到60点走下路。每次只走一格。写 if / elif / else，让同一份代码通过所有徽章能量场景。 开放通道上的发光法阵是终点；要求原地等待的场景不用进入法阵。",
-  "loadingTip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+  "name": "第2节 · 用手里的金币支付通行费【选做】",
+  "description": "领取左侧箱子里的金币。上路通行费4枚，右路2枚，下路1枚；守卫按你的物资档位开放一条路。走到开放门岗前支付，再从身旁法阵撤离。4枚及以上走上路，2至3枚走右路，1枚走下路。同一程序完成四批物资。",
+  "loadingTip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
   "type": "hero",
   "product": "codecombat",
   "version": {
@@ -5329,6 +5329,52 @@
       ]
     },
     {
+      "thangType": "529e680ac423d4e83b000001",
+      "id": "Item Recipient 1",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 36,
+              "y": 48,
+              "z": 1
+            }
+          }
+        },
+        {
+          "original": "524b7b8c7fc0f6d519000013",
+          "majorVersion": 0,
+          "config": {
+            "maxSpeed": 0
+          }
+        },
+        {
+          "original": "524b7ba57fc0f6d519000016",
+          "majorVersion": 0,
+          "config": {
+            "attackDamage": 0,
+            "attackRange": 0
+          }
+        },
+        {
+          "original": "52a399b98537a70000000003",
+          "majorVersion": 0,
+          "config": {
+            "scaleFactorX": 1.8,
+            "scaleFactorY": 1.8,
+            "quickScale": true
+          }
+        }
+      ]
+    },
+    {
       "thangType": "529ffbf1cf1818f2be000001",
       "id": "Hero Placeholder",
       "components": [
@@ -5366,14 +5412,15 @@
               "moveUp",
               "moveDown",
               "say",
-              "readSignal"
+              "take",
+              "give"
             ],
             "programmableMethods": {
               "plan": {
                 "name": "plan",
                 "source": "// Write movement commands here.\n",
                 "languages": {
-                  "python": "score = hero.readSignal()\n# 从最高档开始判断。\n"
+                  "python": "coins = hero.take(\"补给箱\")\n# 从4枚这一档开始判断；走到守卫前，交出对应通行费。\n"
                 },
                 "permissions": {
                   "read": [],
@@ -5687,6 +5734,37 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "inventoryConfig": {
+          "item": "金币",
+          "unit": "枚",
+          "supply": {
+            "name": "补给箱",
+            "at": [
+              24,
+              24
+            ],
+            "approach": [
+              36,
+              24
+            ],
+            "count": 4
+          },
+          "receivers": [
+            {
+              "name": "守卫",
+              "at": [
+                36,
+                48
+              ],
+              "approach": [
+                36,
+                36
+              ],
+              "amount": 4,
+              "kind": "npc"
+            }
+          ]
+        },
         "learningContract": null,
         "walls": [
           {
@@ -7065,12 +7143,11 @@
           0
         ],
         "exitDuration": 1.6,
-        "sensor": {
-          "signal": 80
-        },
+        "sensor": {},
         "switches": [],
+        "decoySwitches": [],
         "singleStep": false,
-        "maxActions": 30,
+        "maxActions": 240,
         "expectedSpeech": null
       }
     }
@@ -7085,6 +7162,16 @@
       "worldEndsAfter": 1
     },
     {
+      "id": "take-supplies",
+      "name": "从补给箱领取物品",
+      "worldEndsAfter": 1
+    },
+    {
+      "id": "deliver-supplies",
+      "name": "完成实际交付，开启出口",
+      "worldEndsAfter": 1
+    },
+    {
       "id": "reach-exit",
       "name": "启动法阵并传送",
       "worldEndsAfter": 1
@@ -7095,7 +7182,7 @@
     "specificArticles": [
       {
         "name": "本关任务",
-        "body": "石碑上的徽章能量由 hero.readSignal() 读取。80 点及以上走上路；60—79 点走右路；不到60点走下路。每次只走一格。写 if / elif / else，让同一份代码通过所有徽章能量场景。 开放通道上的发光法阵是终点；要求原地等待的场景不用进入法阵。"
+        "body": "领取左侧箱子里的金币。上路通行费4枚，右路2枚，下路1枚；守卫按你的物资档位开放一条路。走到开放门岗前支付，再从身旁法阵撤离。4枚及以上走上路，2至3枚走右路，1枚走下路。同一程序完成四批物资。"
       }
     ]
   },
@@ -7119,11 +7206,11 @@
   "teachingMap": {
     "index": 12,
     "section": 2,
-    "revision": 1,
+    "revision": 5,
     "lessonOrder": 12,
-    "name": "第2节 · 按徽章能量选择通道【选做】",
-    "description": "石碑上的徽章能量由 hero.readSignal() 读取。80 点及以上走上路；60—79 点走右路；不到60点走下路。每次只走一格。写 if / elif / else，让同一份代码通过所有徽章能量场景。 开放通道上的发光法阵是终点；要求原地等待的场景不用进入法阵。",
-    "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+    "name": "第2节 · 用手里的金币支付通行费【选做】",
+    "description": "领取左侧箱子里的金币。上路通行费4枚，右路2枚，下路1枚；守卫按你的物资档位开放一条路。走到开放门岗前支付，再从身旁法阵撤离。4枚及以上走上路，2至3枚走右路，1枚走下路。同一程序完成四批物资。",
+    "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
     "size": [
       72,
       60
@@ -7166,31 +7253,28 @@
       ]
     ],
     "labels": [],
-    "knowledge": "elif 与边界",
+    "knowledge": "if / elif / else：按金币数量选择通道",
     "apis": [
-      "readSignal"
+      "take",
+      "give"
     ],
     "optional": true,
-    "starter": "score = hero.readSignal()\n# 从最高档开始判断。\n",
-    "quest": "遗迹的三道通道按徽章能量分级。石碑记录当前能量，各门刻着允许的范围。读取数值，选择能通过的那一道。",
+    "starter": "coins = hero.take(\"补给箱\")\n# 从4枚这一档开始判断；走到守卫前，交出对应通行费。\n",
+    "visualTask": true,
+    "quest": "领到金币后选择通道：有4枚走上路，有2枚走右路，只有1枚走下路。到守卫前付费离开。",
     "inscriptions": [
       {
-        "text": "80",
-        "x": 36,
-        "y": 53
-      },
-      {
-        "text": "≥80",
+        "text": "4 枚",
         "x": 36,
         "y": 43
       },
       {
-        "text": "60—79",
+        "text": "2 枚",
         "x": 55,
         "y": 29
       },
       {
-        "text": "<60",
+        "text": "1 枚",
         "x": 36,
         "y": 5
       }
@@ -7200,11 +7284,21 @@
       1,
       0
     ],
+    "allowCodeChanges": false,
+    "powerCircuit": false,
+    "hints": [
+      "先比较 coins >= 4，再比较 coins >= 2。",
+      "每个分支里都有移动和付费两步。金币不足时不能强行支付。"
+    ],
     "learningContract": null,
-    "title": "徽章能量 80",
-    "sensor": {
-      "signal": 80
-    },
+    "singleStep": false,
+    "maxActions": 240,
+    "introBrief": [
+      "用手里的金币支付通行费【选做】",
+      "领到金币后选择通道：有4枚走上路，有2枚走右路，只有1枚走下路。到守卫前付费离开。"
+    ],
+    "title": "领取 4 枚金币",
+    "sensor": {},
     "gates": [
       {
         "id": "Closed 0",
@@ -7239,12 +7333,43 @@
         "locked": true
       }
     ],
+    "inventory": {
+      "item": "金币",
+      "unit": "枚",
+      "supply": {
+        "name": "补给箱",
+        "at": [
+          24,
+          24
+        ],
+        "approach": [
+          36,
+          24
+        ],
+        "count": 4
+      },
+      "receivers": [
+        {
+          "name": "守卫",
+          "at": [
+            36,
+            48
+          ],
+          "approach": [
+            36,
+            36
+          ],
+          "amount": 4,
+          "kind": "npc"
+        }
+      ]
+    },
     "scenarioIndex": 1,
     "scenarioTitles": [
-      "徽章能量 90",
-      "徽章能量 80",
-      "徽章能量 60",
-      "徽章能量 59"
+      "领取 5 枚金币",
+      "领取 4 枚金币",
+      "领取 2 枚金币",
+      "领取 1 枚金币"
     ],
     "slug": "local-python-12"
   },

@@ -1,0 +1,311 @@
+{
+  "index": 21,
+  "section": 4,
+  "revision": 3,
+  "lessonOrder": 21,
+  "name": "第4节 · 过门岗，修复信标路",
+  "description": "先到守卫面前报“自己人”，获得放行。沿主廊到最右侧拐角，再向上逐块充能：每块停留1秒，所有石板亮起后，终点信标恢复。上方石板有两块或三块，同一程序都要完成。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    60,
+    40
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      56,
+      12
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    48,
+    12
+  ],
+  "exitMarker": {
+    "x": 48,
+    "y": 5,
+    "direction": "→",
+    "label": "终点"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      6,
+      24
+    ]
+  ],
+  "labels": [],
+  "knowledge": "顺序 + for + while",
+  "apis": [
+    "atBeacon",
+    "wait"
+  ],
+  "singleStep": false,
+  "optional": true,
+  "starter": "# 先过门岗，再到右侧拐角，修好上方的信标路。\n",
+  "scenarios": [
+    {
+      "title": "上行 2 格",
+      "size": [
+        72,
+        72
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          48,
+          12
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ],
+        [
+          48,
+          12,
+          48,
+          44
+        ]
+      ],
+      "checkpoints": [
+        [
+          24,
+          12
+        ]
+      ],
+      "checkpointLabels": [
+        "在这里报口令",
+        "在这里向上转"
+      ],
+      "exit": [
+        48,
+        36
+      ],
+      "exitMarker": {
+        "x": 48,
+        "y": 60,
+        "direction": "↑",
+        "label": "终点信标"
+      },
+      "gems": [],
+      "hazards": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "gates": [
+        {
+          "id": "Final Post",
+          "at": [
+            36,
+            12
+          ],
+          "aside": [
+            36,
+            24
+          ],
+          "approach": [
+            24,
+            12
+          ],
+          "password": "自己人"
+        }
+      ],
+      "solution": "hero.moveRight()\nprint(\"自己人\")\nhero.moveRight(2)\nwhile not hero.atBeacon():\n    hero.moveUp()\n    hero.wait()\n",
+      "inscriptions": [],
+      "exitStyle": "beacon",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "singleStep": false,
+      "learningContract": null,
+      "chargePlates": [
+        {
+          "at": [
+            48,
+            24
+          ],
+          "railAt": [
+            62,
+            24
+          ],
+          "radius": 2,
+          "seconds": 1
+        },
+        {
+          "at": [
+            48,
+            36
+          ],
+          "railAt": [
+            62,
+            36
+          ],
+          "radius": 2,
+          "seconds": 1
+        }
+      ]
+    },
+    {
+      "title": "上行 3 格",
+      "size": [
+        72,
+        72
+      ],
+      "start": [
+        12,
+        12
+      ],
+      "corridors": [
+        [
+          12,
+          12,
+          48,
+          12
+        ],
+        [
+          36,
+          12,
+          36,
+          24
+        ],
+        [
+          48,
+          12,
+          48,
+          56
+        ]
+      ],
+      "checkpoints": [
+        [
+          24,
+          12
+        ]
+      ],
+      "checkpointLabels": [
+        "在这里报口令",
+        "在这里向上转"
+      ],
+      "exit": [
+        48,
+        48
+      ],
+      "exitMarker": {
+        "x": 48,
+        "y": 60,
+        "direction": "↑",
+        "label": "终点信标"
+      },
+      "gems": [],
+      "hazards": [],
+      "torches": [
+        [
+          6,
+          24
+        ]
+      ],
+      "labels": [],
+      "gates": [
+        {
+          "id": "Final Post",
+          "at": [
+            36,
+            12
+          ],
+          "aside": [
+            36,
+            24
+          ],
+          "approach": [
+            24,
+            12
+          ],
+          "password": "自己人"
+        }
+      ],
+      "solution": "hero.moveRight()\nprint(\"自己人\")\nhero.moveRight(2)\nwhile not hero.atBeacon():\n    hero.moveUp()\n    hero.wait()\n",
+      "inscriptions": [],
+      "exitStyle": "beacon",
+      "exitDirection": [
+        1,
+        0
+      ],
+      "singleStep": false,
+      "learningContract": null,
+      "chargePlates": [
+        {
+          "at": [
+            48,
+            24
+          ],
+          "railAt": [
+            62,
+            24
+          ],
+          "radius": 2,
+          "seconds": 1
+        },
+        {
+          "at": [
+            48,
+            36
+          ],
+          "railAt": [
+            62,
+            36
+          ],
+          "radius": 2,
+          "seconds": 1
+        },
+        {
+          "at": [
+            48,
+            48
+          ],
+          "railAt": [
+            62,
+            48
+          ],
+          "radius": 2,
+          "seconds": 1
+        }
+      ]
+    }
+  ],
+  "quest": "通过门岗，沿上方通道点亮石板，修复尽头的信标。",
+  "inscriptions": [],
+  "exitStyle": "beacon",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "learningContract": null,
+  "maxActions": 240,
+  "hints": [
+    "守卫让开后再前进；没有放行时硬闯会受伤。",
+    "每上走一格就给脚下石板充能。到达信标时也要补满最后一块。"
+  ],
+  "powerCircuit": false,
+  "introBrief": [
+    "过门岗，修复信标路",
+    "通过门岗，沿上方通道点亮石板，修复尽头的信标。"
+  ]
+}

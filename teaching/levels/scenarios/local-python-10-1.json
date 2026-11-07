@@ -3,8 +3,8 @@
   "original": "facade000000000000000010",
   "slug": "local-python-10",
   "name": "第2节 · 两条路选一条",
-  "description": "左右各有一条路，只有一边能走。hero.pathOpen(\"left\") 告诉你左边是否开放。左边开放就左走一格，否则右走一格。用 if 和 else，不能把两条移动都执行。 开放通道上的发光法阵是终点；要求原地等待的场景不用进入法阵。",
-  "loadingTip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+  "description": "左右两条通道只有一条放行。开放的通道里有宝石和撤离法阵，另一条有守卫拦截。带上宝石，在法阵上停下。两个场景开放方向不同，要让同一份程序都能找到通路。",
+  "loadingTip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
   "type": "hero",
   "product": "codecombat",
   "version": {
@@ -5360,6 +5360,28 @@
           }
         }
       ]
+    },
+    {
+      "thangType": "52aa3b9eccbd588d4d000003",
+      "id": "Parcel 1",
+      "components": [
+        {
+          "original": "524b4150ff92f1f4f8000024",
+          "majorVersion": 0,
+          "config": {}
+        },
+        {
+          "original": "524b75ad7fc0f6d519000001",
+          "majorVersion": 0,
+          "config": {
+            "pos": {
+              "x": 48,
+              "y": 24,
+              "z": 0.5
+            }
+          }
+        }
+      ]
     }
   ],
   "systems": [
@@ -5640,6 +5662,7 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
+        "inventoryConfig": null,
         "learningContract": null,
         "walls": [
           {
@@ -6994,7 +7017,7 @@
             "locked": true
           }
         ],
-        "noGems": true,
+        "noGems": false,
         "requireFinished": true,
         "exitStyle": "portal",
         "exitDirection": [
@@ -7009,8 +7032,9 @@
           }
         },
         "switches": [],
+        "decoySwitches": [],
         "singleStep": false,
-        "maxActions": 30,
+        "maxActions": 240,
         "expectedSpeech": null
       }
     }
@@ -7025,6 +7049,19 @@
       "worldEndsAfter": 1
     },
     {
+      "id": "collect-parcels",
+      "name": "收集全部1颗宝石",
+      "collectThangs": {
+        "who": [
+          "humans"
+        ],
+        "targets": [
+          "Parcel 1"
+        ]
+      },
+      "worldEndsAfter": 1
+    },
+    {
       "id": "reach-exit",
       "name": "启动法阵并传送",
       "worldEndsAfter": 1
@@ -7035,7 +7072,7 @@
     "specificArticles": [
       {
         "name": "本关任务",
-        "body": "左右各有一条路，只有一边能走。hero.pathOpen(\"left\") 告诉你左边是否开放。左边开放就左走一格，否则右走一格。用 if 和 else，不能把两条移动都执行。 开放通道上的发光法阵是终点；要求原地等待的场景不用进入法阵。"
+        "body": "左右两条通道只有一条放行。开放的通道里有宝石和撤离法阵，另一条有守卫拦截。带上宝石，在法阵上停下。两个场景开放方向不同，要让同一份程序都能找到通路。"
       }
     ]
   },
@@ -7059,11 +7096,11 @@
   "teachingMap": {
     "index": 10,
     "section": 2,
-    "revision": 1,
+    "revision": 4,
     "lessonOrder": 10,
     "name": "第2节 · 两条路选一条",
-    "description": "左右各有一条路，只有一边能走。hero.pathOpen(\"left\") 告诉你左边是否开放。左边开放就左走一格，否则右走一格。用 if 和 else，不能把两条移动都执行。 开放通道上的发光法阵是终点；要求原地等待的场景不用进入法阵。",
-    "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+    "description": "左右两条通道只有一条放行。开放的通道里有宝石和撤离法阵，另一条有守卫拦截。带上宝石，在法阵上停下。两个场景开放方向不同，要让同一份程序都能找到通路。",
+    "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
     "size": [
       72,
       60
@@ -7098,7 +7135,12 @@
       "label": "按牌子选路"
     },
     "hazards": [],
-    "gems": [],
+    "gems": [
+      [
+        48,
+        24
+      ]
+    ],
     "torches": [
       [
         8,
@@ -7112,9 +7154,10 @@
     ],
     "starter": "# 左路开：向左走；否则：向右走。\n",
     "hints": [
-      "else 后面也有冒号。",
-      "两条移动语句分别缩进到各自的分支里。"
+      "点击门岗，可以查看道路查询函数。",
+      "把查询结果用于决定方向；不要连续闯两边。"
     ],
+    "visualTask": true,
     "quest": "岔路口只有一条路开放。观察守卫站在哪一边，让程序根据左边的路况选择通道。",
     "inscriptions": [],
     "exitStyle": "portal",
@@ -7123,6 +7166,12 @@
       0
     ],
     "learningContract": null,
+    "singleStep": false,
+    "maxActions": 240,
+    "introBrief": [
+      "两条路选一条",
+      "岔路口只有一条路开放。观察守卫站在哪一边，让程序根据左边的路况选择通道。"
+    ],
     "title": "右路开放",
     "sensor": {
       "open": {

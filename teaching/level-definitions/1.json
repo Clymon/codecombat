@@ -1,0 +1,93 @@
+{
+  "index": 1,
+  "revision": 2,
+  "name": "训练营③：拐弯取宝",
+  "description": "从起点出发，先经过符文石板1，再取到上方宝石，最后到右下方的出口。下方近路有尖刺，碰到就失败；墙上的火把只用于照明。",
+  "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+  "size": [
+    48,
+    36
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      12,
+      24
+    ],
+    [
+      12,
+      24,
+      36,
+      24
+    ],
+    [
+      36,
+      24,
+      36,
+      0
+    ],
+    [
+      12,
+      12,
+      40,
+      12
+    ]
+  ],
+  "checkpoints": [
+    [
+      12,
+      24
+    ]
+  ],
+  "exit": [
+    36,
+    12
+  ],
+  "exitMarker": {
+    "x": 36,
+    "y": 3,
+    "direction": "↓"
+  },
+  "hazards": [
+    [
+      24,
+      12
+    ]
+  ],
+  "gems": [
+    [
+      36,
+      24
+    ]
+  ],
+  "torches": [
+    [
+      6,
+      14
+    ],
+    [
+      20,
+      30
+    ],
+    [
+      40,
+      30
+    ]
+  ],
+  "labels": [],
+  "section": 1,
+  "quest": "带回宝石，找到离开地牢的楼梯。石板上有黯淡的符文；近路上的尖刺并没有收回。",
+  "inscriptions": [],
+  "exitStyle": "stairs",
+  "exitDirection": [
+    0,
+    -1
+  ],
+  "learningContract": null,
+  "solution": "hero.moveUp()\nhero.moveRight(2)\nhero.moveDown()"
+}

@@ -455,6 +455,9 @@ module.exports = class Autocomplete
         importance: doc.autoCompletePriority ? 1.0
       snippetEntries.push entry
 
+    if e.language is 'python' and /^local-python-\d{2}$/.test(level.get('slug') or '')
+      snippetEntries.push entry for entry in require('teaching/editor-snippets')
+
     # window.AutocompleteInstance = @Autocomplete  # For debugging. Make sure to not leave active when committing.
     # window.snippetEntries = snippetEntries
     lang = aceUtils.aceEditModes[e.language].substr 'ace/mode/'.length

@@ -10,7 +10,7 @@ module.exports = function completePrerequisites (studentId, slug) {
   function complete (current) {
     for (const predecessor of deps[current] || []) {
       complete(predecessor)
-      progress[predecessor] = { _id: `facebe${crypto.randomBytes(9).toString('hex')}`, code: {}, teachingScene: 0, state: { complete: true }, mapRevision: catalog.find(l => l.slug === predecessor).teachingMap.revision, ...progress[predecessor], teachingComplete: true }
+      progress[predecessor] = { _id: `facebe${crypto.randomBytes(9).toString('hex')}`, code: {}, codeLanguage: 'python', team: 'humans', teachingScene: 0, state: { complete: true }, mapRevision: catalog.find(l => l.slug === predecessor).teachingMap.revision, ...progress[predecessor], level: { original: require(`../levels/${predecessor}.json`).original, majorVersion: 0 }, teachingComplete: true }
     }
   }
   complete(slug)

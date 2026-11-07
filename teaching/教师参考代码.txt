@@ -1,3 +1,5 @@
+历史讲解笔记：当前完整关卡和场景参考代码见 levels-teacher/README.md；机器可读索引见 levels-teacher/references.json。修改代码请编辑 level-definitions/ 对应源定义后重新生成。
+
 地牢三关｜教师参考代码（地图修订2）
 
 每次运行都从起点重新开始。蓝色检查点经过后变绿，不是复活点。

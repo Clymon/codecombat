@@ -1,0 +1,100 @@
+{
+  "index": 28,
+  "section": 3,
+  "name": "信号教学：走近后再点火",
+  "lessonOrder": 13.1,
+  "revision": 1,
+  "prototype": false,
+  "hiddenByDefault": true,
+  "checkpoints": [],
+  "gems": [],
+  "hazards": [],
+  "gates": [],
+  "torches": [],
+  "labels": [],
+  "exitStyle": "stairs",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "maxActions": 90,
+  "tip": "展开“教学引导”，按步骤写代码并运行。也可以收起引导自己尝试。",
+  "size": [
+    72,
+    60
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "exit": [
+    48,
+    12
+  ],
+  "corridors": [
+    [
+      8,
+      12,
+      64,
+      12
+    ],
+    [
+      24,
+      12,
+      24,
+      40
+    ]
+  ],
+  "apis": [],
+  "knowledge": "发言的位置 · 完整动作组",
+  "quest": "侧路尽头有一座熄灭的信号台。把它点亮，再回主廊离开。",
+  "description": "先右走1格、上走2格，到信号台前说“点火”，再下走2格、右走2格到楼梯。在起点说话或口令不对都不会点亮。print 和 hero.say 都能发言。",
+  "starter": "# 先走到信号台前，再说“点火”。\n",
+  "adventure": {
+    "mode": "signals",
+    "actors": [
+      {
+        "id": "信号台1",
+        "kind": "signal",
+        "at": [
+          24,
+          36
+        ],
+        "health": 1
+      }
+    ]
+  },
+  "goals": [
+    {
+      "id": "signal-1",
+      "name": "点亮信号台"
+    }
+  ],
+  "tutorial": {
+    "title": "一句话要在正确的位置说",
+    "steps": [
+      {
+        "text": "输入并运行下面的三行。注意英雄说话时站在哪里。",
+        "code": "hero.moveRight()\nhero.moveUp(2)\nprint(\"点火\")",
+        "observe": "英雄到台前发言后，火焰才亮起。",
+        "evidence": {
+          "kind": "lit",
+          "id": "信号台1"
+        }
+      },
+      {
+        "text": "接着写下走2格、右走2格，重新运行完整程序。",
+        "code": "hero.moveDown(2)\nhero.moveRight(2)",
+        "observe": "下一关有三座台，把“上去、点火、回来、去下一台”放进for。",
+        "evidence": {
+          "kind": "exit"
+        }
+      }
+    ]
+  },
+  "hints": [
+    "相同发言在起点不会生效；先改变位置，再观察火焰。"
+  ],
+  "solution": "hero.moveRight()\nhero.moveUp(2)\nprint(\"点火\")\nhero.moveDown(2)\nhero.moveRight(2)\n",
+  "learningContract": null
+}
