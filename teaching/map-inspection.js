@@ -1,7 +1,6 @@
 const interactions = require('./interaction-rules')
 const { commandDocs } = require('./command-docs')
 const parse = (value, fallback) => { try { return JSON.parse(value || 'null') || fallback } catch (_) { return fallback } }
-const distance = (hero, at) => hero?.pos ? Math.hypot(hero.pos.x - at[0], hero.pos.y - at[1]) : Infinity
 function mapObjects (d, hero, world) {
   const objects = [{ id: 'environment', kind: 'environment', name: '环境与全局函数', at: d.start }]
   objects.push({ id: 'hero', kind: 'hero', name: 'DeepSeek', at: hero?.pos ? [hero.pos.x, hero.pos.y] : d.start, tall: true })
@@ -23,7 +22,7 @@ function mapObjects (d, hero, world) {
       continue
     }
     const thang = world?.getThangByID(actor.id)
-    objects.push({ ...actor, id: `actor-${actor.id}`, target: actor.id, kind: actor.kind, name: actor.name || actor.id, at: thang?.pos ? [thang.pos.x, thang.pos.y] : state?.at || actor.at, tall: true, state })
+    objects.push({ ...actor, id: `actor-${actor.id}`, target: actor.id, kind: actor.kind, name: actor.name || actor.id, at: state?.at || (thang?.pos ? [thang.pos.x, thang.pos.y] : actor.at), tall: true, state })
   }
   if (d.guard) {
     const g = world?.getThangByID(d.guard.id)
@@ -40,15 +39,23 @@ function describeObject (object, d, hero, world) {
   const byName = name => docs.find(doc => doc.name === name)
   const cards = []; let text = ''; let approach = object.approach || object.at; let ready = true
   const add = (name, code, condition, status) => { const doc = byName(name); if (doc) cards.push({ name, code, condition, status, scope: doc.teachingScope, description: doc.description, returns: doc.returns?.description || '' }) }
+  const addQuery = (name, code) => {
+    const availability = interactions.query(name)
+    add(name, code, availability.message, availability.ready ? '无需靠近对象；查询不改变代码目标' : availability.message)
+  }
   switch (object.kind) {
     case 'environment':
       text = '全局函数不需要 hero. 前缀。环境查询返回信息，位置相关的查询以英雄为参照；print 用来输出。'
-      for (const doc of docs.filter(doc => doc.teachingScope === 'global')) add(doc.name, doc.example.python.split('\n')[0], doc.name === 'print' ? '任意位置可以说话；守卫只能听见近处的发言' : '随时可查询，不会移动英雄', '无需靠近对象')
+      for (const doc of docs.filter(doc => doc.teachingScope === 'global')) {
+        if (doc.name === 'print') add(doc.name, doc.example.python.split('\n')[0], '任意位置可以说话；守卫只能听见近处的发言', '输出内容；不属于环境查询')
+        else addQuery(doc.name, doc.example.python.split('\n')[0])
+      }
       approach = null
       break
     case 'hero':
       text = '移动、等待和感知由英雄执行。代码里的 hero 表示主角。'
-      for (const name of ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'wait', 'say', 'findNearestEnemy', 'atBeacon']) add(name, byName(name)?.example.python.split('\n')[0], name === 'say' ? '可以随时发言；对方需要在听得到的位置' : '可直接调用；移动会受墙体与危险影响', '英雄动作或感知')
+      for (const name of ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'wait', 'say']) add(name, byName(name)?.example.python.split('\n')[0], name === 'say' ? '可以随时发言；对方需要在听得到的位置' : '可直接调用；移动会受墙体与危险影响', '英雄动作或感知')
+      for (const name of ['findNearestEnemy', 'atBeacon', 'pathLength', 'readSignal']) addQuery(name, byName(name)?.example.python.split('\n')[0])
       approach = null
       break
     case 'charge': {
@@ -86,36 +93,44 @@ function describeObject (object, d, hero, world) {
       const availability = interactions.gateSpeech(hero?.pos, object, d.walls || [])
       ready = availability.ready
       text = object.opening ? '守卫正在让开，等通道腾出后再通过。' : object.open ? '守卫已经让开，可以通过。' : object.locked ? '此门岗关闭，不能靠攻击或口令强行打开。' : '先走到守卫正前方再说话。发言由附近的守卫听见，不由鼠标选择决定。'
-      for (const direction of Object.keys(d.sensor?.open || {})) add('pathOpen', `opened = pathOpen(${JSON.stringify(direction)})`, '查询这个方向是否放行；不移动英雄，也不替守卫开门', '随时可查询，不要求走近')
+      for (const direction of Object.keys(d.sensor?.open || {})) addQuery('pathOpen', `opened = pathOpen(${JSON.stringify(direction)})`)
       if (!object.locked && !object.open) add('say', 'hero.say("你好")', '到守卫正前方紧邻的一格，且中间不能隔墙', availability.message)
       break
     }
     case 'spawn':
       text = '增援会从裂隙中出现。红光转亮时敌人即将到达；不需要走上去，也没有启动刷怪的函数。'
-      add('findNearestEnemy', 'enemy = hero.findNearestEnemy()', '只返回已经出现的敌人，尚未出现时可能返回 None', '随时可以观察战场')
-      add('isVictory', 'finished = isVictory()', '暂时看不到敌人，不代表增援已经结束', '随时可查询整场战斗是否完成')
+      addQuery('findNearestEnemy', 'enemy = hero.findNearestEnemy()')
+      addQuery('isVictory', 'finished = isVictory()')
       break
-    case 'enemy': case 'door':
-      text = object.state?.alive === false ? '该目标已经倒下或损毁，不能再攻击。' : '攻击需要在代码中指定目标。英雄会自动走近后攻击；道路必须能够到达目标。'
-      add('attack', `hero.attack(${JSON.stringify(object.target)})`, '在代码里填写目标名字（加引号），或查找到的敌人对象', object.state?.alive === false ? '目标已失效' : distance(hero, object.at) <= 6.5 ? '已在攻击距离内' : '调用后会自动走近')
-      if (object.kind === 'enemy') add('findNearestEnemy', 'enemy = hero.findNearestEnemy()', '返回当前最近的可见敌人；不保证就是鼠标点中的这一位', '查询后用 if enemy: 确认存在')
+    case 'enemy': case 'door': case 'ally': {
+      const target = { ...object, ...object.state, id: object.target, at: object.at, active: object.state?.active ?? true, alive: object.state?.alive ?? true }
+      const availability = interactions.attackTarget(hero?.pos, [target], object.target)
+      ready = availability.ready
+      text = ready ? '攻击需要在代码中指定目标。英雄会自动走近后攻击；道路必须能够到达目标。' : availability.message
+      if (object.kind === 'ally') { text += '按照关卡目标解救或护送；没有单独的救援函数。'; break }
+      add('attack', `hero.attack(${JSON.stringify(object.target)})`, '在代码里填写目标名字（加引号），或查找到的敌人对象', availability.message)
+      if (object.kind === 'enemy') addQuery('findNearestEnemy', 'enemy = hero.findNearestEnemy()')
       break
-    case 'signal':
-      text = '靠近信号台后说出关卡要求的口令。'; ready = distance(hero, object.at) <= 4
-      add('say', 'hero.say("口令")', '走到台前；把示例文字换成实际口令', ready ? '已靠近信号台' : '需要先靠近')
+    }
+    case 'signal': {
+      const signal = { ...object, ...object.state, id: object.target, at: object.at, active: object.state?.active ?? true, alive: object.state?.alive ?? true }
+      const availability = interactions.signalSpeech(hero?.pos, [signal], { targetId: object.target })
+      ready = availability.ready
+      text = availability.status === 'complete' ? availability.message : '靠近信号台后说出关卡要求的口令。'
+      add('say', 'hero.say("口令")', '走到台前；把示例文字换成实际口令', availability.message)
       break
-    case 'ally': text = '友方角色，不能攻击。按照关卡目标解救或护送；没有单独的救援函数。'; break
+    }
     case 'patrol':
       text = '这名守卫是巡逻障碍，进入警戒范围会失败。'
-      add('nextTileSafe', 'safe = nextTileSafe()', '检测英雄右方下一格，不会让巡逻暂停', '随时可查询')
+      addQuery('nextTileSafe', 'safe = nextTileSafe()')
       break
     case 'hazard': text = '尖刺是危险地形，碰到会受伤或死亡，没有可以关闭它的函数。观察路线绕开。'; break
     case 'gem': text = '走到宝石处会自动拾取，不需要 take()；take 用于补给箱。'; break
     case 'checkpoint': text = '走到这块石板会自动触发，不需要调用 press()；press 只用于编号开关。'; break
     case 'exit':
       text = hero?.teachingExitReady ? '出口已开启。完成最后一段移动，到出口停下。' : '完成地图左上角的任务后，这里才会开启；没有直接开门或跳关函数。'
-      add('atBeacon', 'arrived = hero.atBeacon()', '检查英雄是否已经到达信标，不会传送英雄', '随时可查询自身位置')
-      add('isVictory', 'finished = isVictory()', '查询战斗目标是否已经完成', '随时可查询')
+      addQuery('atBeacon', 'arrived = hero.atBeacon()')
+      addQuery('isVictory', 'finished = isVictory()')
       break
   }
   return { id: object.id, name: object.name, text, cards, approach, ready }
