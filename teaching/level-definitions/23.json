@@ -1,0 +1,125 @@
+{
+  "index": 23,
+  "name": "样关②：救出弓箭手",
+  "section": 5,
+  "lessonOrder": 23,
+  "revision": 1,
+  "prototype": true,
+  "checkpoints": [],
+  "gems": [],
+  "hazards": [],
+  "gates": [],
+  "torches": [
+    [
+      8,
+      34
+    ],
+    [
+      36,
+      56
+    ],
+    [
+      92,
+      34
+    ]
+  ],
+  "labels": [],
+  "exitStyle": "stairs",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "maxActions": 90,
+  "tip": "先观察角色和道路。展开任务日志查看目标、可用命令和提示。",
+  "knowledge": "字符串 · 作用对象 · 协作战斗",
+  "size": [
+    108,
+    72
+  ],
+  "start": [
+    12,
+    24
+  ],
+  "exit": [
+    84,
+    24
+  ],
+  "corridors": [
+    [
+      12,
+      24,
+      100,
+      24
+    ],
+    [
+      24,
+      24,
+      24,
+      60
+    ]
+  ],
+  "apis": [
+    "attack",
+    "findNearestEnemy",
+    "wait"
+  ],
+  "quest": "弓箭手被关在侧面的牢房里。击破牢门救她出来，她会跟随你并射击敌人。合作击败重甲守卫，活着离开。",
+  "description": "救出弓箭手、击败重甲守卫，再到楼梯。hero.attack(\"牢门\") 攻击指定对象，距离较远时会先走近；每次挥剑造成20点伤害。牢门40点生命，守卫150点。弓手获救后自动跟随和射箭。攻击错名字会提示，直接闯门会撞伤；英雄或弓手倒下都失败。成功后提交代码。",
+  "starter": "# 攻击对象名要加引号，例如 hero.attack(\"牢门\")。\n# 先救出弓箭手，再对付重甲守卫。\n",
+  "safetyGoalLabel": "英雄和弓手存活",
+  "adventure": {
+    "mode": "rescue",
+    "actors": [
+      {
+        "id": "牢门",
+        "kind": "door",
+        "at": [
+          24,
+          42
+        ],
+        "health": 40
+      },
+      {
+        "id": "弓箭手",
+        "kind": "ally",
+        "at": [
+          24,
+          54
+        ],
+        "health": 80,
+        "speed": 13,
+        "damage": 35,
+        "releaseBy": "牢门"
+      },
+      {
+        "id": "重甲守卫",
+        "kind": "enemy",
+        "at": [
+          54,
+          24
+        ],
+        "health": 150,
+        "speed": 0,
+        "damage": 28,
+        "aggro": 18
+      }
+    ]
+  },
+  "goals": [
+    {
+      "id": "rescue-ally",
+      "name": "击破牢门，救出弓手"
+    },
+    {
+      "id": "defeat-guard",
+      "name": "击败重甲守卫"
+    }
+  ],
+  "hints": [
+    "侧面通道通往牢房。牢门需要两次攻击才能击破。",
+    "弓手会自动帮忙，不需要给她写程序。看血条变化再决定攻击次数。",
+    "重甲守卫会反击。独自硬拼很危险；先让弓手加入。"
+  ],
+  "solution": "hero.moveRight()\nhero.moveUp()\nhero.attack(\"牢门\")\nhero.attack(\"牢门\")\nhero.moveDown()\nhero.moveRight(2)\nhero.attack(\"重甲守卫\")\nhero.attack(\"重甲守卫\")\nhero.attack(\"重甲守卫\")\nhero.attack(\"重甲守卫\")\nhero.moveRight(3)\n",
+  "learningContract": null
+}

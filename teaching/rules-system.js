@@ -8,7 +8,7 @@ class TeachingRules extends System {
     if (hero && this.learningContract && !this.learning) this.learning = new TeachingLearning(this, hero, this.learningContract)
     if (hero && this.inventoryConfig && !this.inventory) this.inventory = new TeachingInventory(this, hero, this.inventoryConfig, TeachingInteractions)
     if (this.inventory) for (const id of ['reach-exit', 'deliver-supplies', 'take-supplies']) this.world.goalManager.setGoalState(id, 'incomplete')
-    if (hero && this.adventureConfig) this.adventure = new TeachingAdventure(this, hero)
+    if (hero && this.adventureConfig) this.adventure = new TeachingAdventure(this, hero, TeachingInteractions)
     // Native idle/move completion may call unblock while our custom attack/wait
     // is still running. Keep its Future alive until the custom action finishes.
     if (hero?.unblock) {
@@ -62,14 +62,16 @@ class TeachingRules extends System {
       hero.apiProperties = (hero.apiProperties || []).filter(p => p !== name)
       hero.apiOwnMethods = Array.from(new Set([...(hero.apiOwnMethods || []), name]))
     }
-    expose('pathOpen', direction => {
-      if (!['left', 'right', 'up', 'down'].includes(direction)) throw new Error('方向请用带引号的 "left"、"right"、"up" 或 "down"。')
-      return rules.sensor?.open?.[direction] === true
+    const exposeQuery = (name, fn) => expose(name, (...args) => {
+      const availability = TeachingInteractions.query(name, { args })
+      if (!availability.ready) throw new Error(availability.message)
+      return fn(...args)
     })
-    expose('pathLength', () => rules.sensor?.length || 0)
-    expose('readSignal', () => rules.sensor?.signal || 0)
-    expose('atBeacon', () => Math.hypot(hero.pos.x - rules.exit[0], hero.pos.y - rules.exit[1]) < 1)
-    expose('nextTileSafe', () => rules.nextSafe(hero))
+    exposeQuery('pathOpen', direction => rules.sensor?.open?.[direction] === true)
+    exposeQuery('pathLength', () => rules.sensor?.length || 0)
+    exposeQuery('readSignal', () => rules.sensor?.signal || 0)
+    exposeQuery('atBeacon', () => Math.hypot(hero.pos.x - rules.exit[0], hero.pos.y - rules.exit[1]) < 1)
+    exposeQuery('nextTileSafe', () => rules.nextSafe(hero))
     expose('press', number => {
       const availability = TeachingInteractions.pressSwitch(hero.pos, rules.switches, rules.decoySwitches, rules.pressedCount, number)
       if (!availability.ready) {

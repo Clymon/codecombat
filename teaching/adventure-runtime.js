@@ -1,6 +1,7 @@
 // Self-contained so the same class runs in the simulation worker and Node tests.
 module.exports = class TeachingAdventure {
-  constructor (rules, hero) {
+  constructor (rules, hero, interactions = require('./interaction-rules')) {
+    this.interactions = interactions
     this.rules = rules
     this.world = rules.world
     this.hero = hero
@@ -31,11 +32,16 @@ module.exports = class TeachingAdventure {
       hero.apiOwnMethods = Array.from(new Set([...(hero.apiOwnMethods || []), name]))
       if (blocking) hero.plannifyMethod?.(name)
     }
+    const exposeQuery = (name, fn) => expose(name, (...args) => {
+      const availability = this.interactions.query(name, { args })
+      if (!availability.ready) throw new Error(availability.message)
+      return fn(...args)
+    })
     if (['rescue', 'defend'].includes(this.config.mode)) {
-      expose('findNearestEnemy', () => this.nearest(hero.pos)?.thang || null)
+      exposeQuery('findNearestEnemy', () => this.nearest(hero.pos)?.thang || null)
       expose('attack', target => this.attack(target), true)
     }
-    if (this.config.mode === 'defend') expose('isVictory', () => this.complete === true)
+    if (this.config.mode === 'defend') exposeQuery('isVictory', () => this.complete === true)
     this.snapshot()
   }
 
@@ -141,13 +147,18 @@ module.exports = class TeachingAdventure {
   attack (input) {
     const h = this.hero
     if (this.rules.failed || this.complete) return 'done'
+    const availability = this.interactions.attackTarget(h.pos, this.actors.map(a => ({ ...a, at: [a.thang.pos.x, a.thang.pos.y] })), this.swing?.target.id || input)
+    if (!availability.ready && !(this.swing?.started != null && availability.status === 'inactive')) {
+      if (this.swing) {
+        h.maxSpeed = this.swing.moveSpeed; this.swing = null; this.action(h, 'idle')
+        h.teachingFailure = availability.message
+      } else this.rules.fail(h, availability.message)
+      return 'done'
+    }
+    // Keep the original recovery time even when the target falls during this swing.
+    if (!availability.ready && !this.swing?.hit) h.teachingFailure = availability.message
     if (!this.swing) {
-      const id = typeof input === 'string' ? input : input?.id
-      const target = this.actors.find(a => a.id === id)
-      if (!id) { this.rules.fail(h, '没有攻击目标。先寻找敌人，用 if 确认有目标，再 attack(enemy)。'); return 'done' }
-      if (!target) { this.rules.fail(h, `找不到“${id}”。检查对象名字、引号和大小写。`); return 'done' }
-      if (!['enemy', 'door'].includes(target.kind)) { this.rules.fail(h, '这是友方或信号台，不能攻击。'); return 'done' }
-      if (!target.active || !target.alive) { this.rules.fail(h, '这个目标已经不在战场上了。把寻找敌人的语句放进循环，每轮重新寻找。'); return 'done' }
+      const target = this.actors[availability.targetIndex]
       this.rules.actionCount = (this.rules.actionCount || 0) + 1
       if (this.rules.actionCount > this.rules.maxActions) { this.rules.fail(h, '攻击次数超过安全上限。检查循环中的目标和停止条件。'); return 'done' }
       this.swing = { target, moveSpeed: h.maxSpeed }
@@ -158,8 +169,7 @@ module.exports = class TeachingAdventure {
     const s = this.swing; const target = s.target
     if (h.velocity) { h.velocity.x = 0; h.velocity.y = 0 }
     if (s.started == null) {
-      if (!target.alive) { h.maxSpeed = s.moveSpeed; this.swing = null; return 'done' }
-      if (this.distance(h.pos, target.thang.pos) > 6.5) { this.move(h, target.thang.pos, 12, 6); return }
+      if (!availability.inRange) { this.move(h, target.thang.pos, 12, 6); return }
       s.started = this.world.age
       this.rules.faceToward(h, target.thang.pos)
       this.event('swing', h.pos, target.thang.pos)
@@ -167,7 +177,7 @@ module.exports = class TeachingAdventure {
     this.action(h, 'attack')
     if (!s.hit && this.world.age >= s.started + 0.25) {
       s.hit = true
-      if (target.alive && this.distance(h.pos, target.thang.pos) <= 8) this.hurt(target, 20, h.pos)
+      if (availability.canHit) this.hurt(target, 20, h.pos)
     }
     if (this.world.age >= s.started + 0.65) { h.maxSpeed = s.moveSpeed; this.swing = null; this.action(h, 'idle'); return 'done' }
   }
@@ -189,15 +199,13 @@ module.exports = class TeachingAdventure {
 
   hear (event) {
     if (this.config.mode !== 'signals' || this.rules.failed) return
-    const signal = this.actors.find(a => a.kind === 'signal' && Math.hypot(event.x - a.at[0], event.y - a.at[1]) <= 4)
-    if (!signal) { this.hero.teachingFailure = '这里离信号台太远。走到台前再说“点火”。'; return }
-    if (event.text !== '点火') { this.hero.teachingFailure = '信号台没有回应。石台上的口令是“点火”。'; return }
+    const availability = this.interactions.signalSpeech(event, this.actors, { text: event.text })
+    if (!availability.ready) { this.hero.teachingFailure = availability.message; return }
+    const signal = this.actors[availability.targetIndex]
     this.hero.teachingFailure = ''
-    if (!signal.lit) {
-      signal.lit = true; signal.litAt = this.world.age; signal.thang.alpha = 1
-      this.event('ignite', signal.thang.pos, signal.thang.pos)
-      this.world.goalManager.setGoalState(`signal-${this.actors.indexOf(signal) + 1}`, 'success')
-    }
+    signal.lit = true; signal.litAt = this.world.age; signal.thang.alpha = 1
+    this.event('ignite', signal.thang.pos, signal.thang.pos)
+    this.world.goalManager.setGoalState(`signal-${availability.targetIndex + 1}`, 'success')
   }
 
   ready () {
