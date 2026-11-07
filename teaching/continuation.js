@@ -3,7 +3,7 @@ function nextTask (levels, slug, session, releases) {
   const index = levels.findIndex(level => level.slug === slug); const level = levels[index]
   const pass = session?.scenePasses?.[session.teachingScene || 0]
   if (!level || !pass || session.state?.complete !== true || session.learningFeedback || pass.hash !== session.codeHash) {
-    return { kind: 'retry', label: '返回修改', message: session?.learningFeedback || '本场景尚未完成保存和验收，请返回代码区重新运行并提交。' }
+    return { kind: 'retry', label: '返回修改', message: session?.learningFeedback || session?.revisionNotice || '本场景尚未完成保存和验收，请返回代码区重新运行并提交。' }
   }
   const titles = level.teachingMap.scenarioTitles || ['主场景']
   const scene = titles.findIndex((_, i) => !session.scenePasses[i])
