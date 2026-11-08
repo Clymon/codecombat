@@ -1,0 +1,1867 @@
+[
+  {
+    "index": 1,
+    "slug": "local-python-01",
+    "name": "训练营③：拐弯取宝",
+    "section": 1,
+    "revision": 2,
+    "source": "../level-definitions/1.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "hero.moveUp()\nhero.moveRight(2)\nhero.moveDown()",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "避开尖刺和石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "collect-parcels",
+            "name": "收集全部1颗宝石",
+            "collectThangs": {
+              "who": [
+                "humans"
+              ],
+              "targets": [
+                "Parcel 1"
+              ]
+            },
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "checkpoint-1",
+            "name": "唤醒石板 1",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 2,
+    "slug": "local-python-02",
+    "name": "训练营④：四格长廊",
+    "section": 1,
+    "revision": 4,
+    "source": "../level-definitions/2.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "for step in range(3):\n    hero.moveRight()\n    hero.wait()\nhero.moveRight()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "charge-plate",
+            "name": "点亮沿路全部3块石板",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 3,
+    "slug": "local-python-03",
+    "name": "训练营⑤：绕开巡逻",
+    "section": 1,
+    "revision": 2,
+    "source": "../level-definitions/3.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "hero.moveUp(2)\nhero.moveRight(3)\nhero.moveDown(2)\nhero.moveRight()",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "避开巡逻警戒圈",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "collect-parcels",
+            "name": "收集全部3颗宝石",
+            "collectThangs": {
+              "who": [
+                "humans"
+              ],
+              "targets": [
+                "Parcel 1",
+                "Parcel 2",
+                "Parcel 3"
+              ]
+            },
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "checkpoint-1",
+            "name": "唤醒石板 1",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "checkpoint-2",
+            "name": "唤醒石板 2",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 4,
+    "slug": "local-python-04",
+    "name": "训练营①：走到门岗",
+    "section": 1,
+    "revision": 1,
+    "source": "../level-definitions/4.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "hero.moveRight()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "没有撞到守卫或石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "抵达守卫面前",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 5,
+    "slug": "local-python-05",
+    "name": "训练营②：报口令通行",
+    "section": 1,
+    "revision": 2,
+    "source": "../level-definitions/5.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "hero.moveRight()\nprint(\"自己人\")\nhero.moveRight()\nhero.moveRight()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不闯关闭的门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "gate-Post Guard",
+            "name": "获得守卫放行",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "checkpoint-1",
+            "name": "抵达门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 6,
+    "slug": "local-python-06",
+    "name": "训练营⑥：双门岗送信",
+    "section": 1,
+    "revision": 2,
+    "source": "../level-definitions/6.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "hero.moveRight()\nprint(\"自己人\")\nhero.moveRight(3)\nhero.moveUp()\nhero.say(\"送信人\")\nhero.moveUp(2)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不闯关闭的门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "collect-parcels",
+            "name": "收集全部2颗宝石",
+            "collectThangs": {
+              "who": [
+                "humans"
+              ],
+              "targets": [
+                "Parcel 1",
+                "Parcel 2"
+              ]
+            },
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "gate-West Post",
+            "name": "获得守卫放行",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "gate-North Post",
+            "name": "获得守卫放行",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "checkpoint-1",
+            "name": "抵达门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "checkpoint-2",
+            "name": "抵达门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 7,
+    "slug": "local-python-07",
+    "name": "第2节 · 领取能量石，交给出口机关",
+    "section": 2,
+    "revision": 5,
+    "source": "../level-definitions/7.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "补给箱有 2 块能量石",
+        "code": "stones = hero.take(\"补给箱\")\nhero.moveRight(2)\nhero.give(\"出口机关\", stones)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "补给箱有 4 块能量石",
+        "code": "stones = hero.take(\"补给箱\")\nhero.moveRight(2)\nhero.give(\"出口机关\", stones)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 8,
+    "slug": "local-python-08",
+    "name": "第2节 · 修好机关，送出剩余材料",
+    "section": 2,
+    "revision": 5,
+    "source": "../level-definitions/8.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "领取 5 块，维修用2块",
+        "code": "total = hero.take(\"补给箱\")\nhero.moveRight()\nhero.give(\"维修机关\", 2)\nremaining = total - 2\nhero.moveRight()\nhero.give(\"出口机关\", remaining)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "领取 6 块，维修用2块",
+        "code": "total = hero.take(\"补给箱\")\nhero.moveRight()\nhero.give(\"维修机关\", 2)\nremaining = total - 2\nhero.moveRight()\nhero.give(\"出口机关\", remaining)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 9,
+    "slug": "local-python-09",
+    "name": "第2节 · 补给站：开门才取宝石",
+    "section": 2,
+    "revision": 4,
+    "source": "../level-definitions/9.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "补给站开放，有宝石",
+        "code": "if pathOpen(\"right\"):\n    hero.moveRight()\n    hero.moveLeft()\nhero.moveDown()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不闯关闭的门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "collect-parcels",
+            "name": "收集全部1颗宝石",
+            "collectThangs": {
+              "who": [
+                "humans"
+              ],
+              "targets": [
+                "Parcel 1"
+              ]
+            },
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成补给后从下方法阵撤离",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "补给站关闭，直接撤离",
+        "code": "if pathOpen(\"right\"):\n    hero.moveRight()\n    hero.moveLeft()\nhero.moveDown()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不闯关闭的门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成补给后从下方法阵撤离",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 10,
+    "slug": "local-python-10",
+    "name": "第2节 · 两条路选一条",
+    "section": 2,
+    "revision": 4,
+    "source": "../level-definitions/10.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "左路开放",
+        "code": "if pathOpen(\"left\"):\n    hero.moveLeft()\nelse:\n    hero.moveRight()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不闯关闭的门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "collect-parcels",
+            "name": "收集全部1颗宝石",
+            "collectThangs": {
+              "who": [
+                "humans"
+              ],
+              "targets": [
+                "Parcel 1"
+              ]
+            },
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "右路开放",
+        "code": "if pathOpen(\"left\"):\n    hero.moveLeft()\nelse:\n    hero.moveRight()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不闯关闭的门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "collect-parcels",
+            "name": "收集全部1颗宝石",
+            "collectThangs": {
+              "who": [
+                "humans"
+              ],
+              "targets": [
+                "Parcel 1"
+              ]
+            },
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 11,
+    "slug": "local-python-11",
+    "name": "第2节 · 门开且安全才走【选做】",
+    "section": 2,
+    "revision": 4,
+    "source": "../level-definitions/11.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "门开 / 无尖刺",
+        "code": "if pathOpen(\"right\") and nextTileSafe():\n    hero.moveRight()\nelse:\n    hero.moveDown()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "collect-parcels",
+            "name": "收集全部1颗宝石",
+            "collectThangs": {
+              "who": [
+                "humans"
+              ],
+              "targets": [
+                "Parcel 1"
+              ]
+            },
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "门开 / 有尖刺",
+        "code": "if pathOpen(\"right\") and nextTileSafe():\n    hero.moveRight()\nelse:\n    hero.moveDown()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "避开尖刺和石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "collect-parcels",
+            "name": "收集全部1颗宝石",
+            "collectThangs": {
+              "who": [
+                "humans"
+              ],
+              "targets": [
+                "Parcel 1"
+              ]
+            },
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 2,
+        "title": "门关 / 无尖刺",
+        "code": "if pathOpen(\"right\") and nextTileSafe():\n    hero.moveRight()\nelse:\n    hero.moveDown()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不闯关闭的门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "collect-parcels",
+            "name": "收集全部1颗宝石",
+            "collectThangs": {
+              "who": [
+                "humans"
+              ],
+              "targets": [
+                "Parcel 1"
+              ]
+            },
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 12,
+    "slug": "local-python-12",
+    "name": "第2节 · 用手里的金币支付通行费【选做】",
+    "section": 2,
+    "revision": 5,
+    "source": "../level-definitions/12.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "领取 5 枚金币",
+        "code": "coins = hero.take(\"补给箱\")\nif coins >= 4:\n    hero.moveUp()\n    hero.give(\"守卫\", 4)\nelif coins >= 2:\n    hero.moveRight()\n    hero.give(\"守卫\", 2)\nelse:\n    hero.moveDown()\n    hero.give(\"守卫\", 1)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不闯关闭的门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "领取 4 枚金币",
+        "code": "coins = hero.take(\"补给箱\")\nif coins >= 4:\n    hero.moveUp()\n    hero.give(\"守卫\", 4)\nelif coins >= 2:\n    hero.moveRight()\n    hero.give(\"守卫\", 2)\nelse:\n    hero.moveDown()\n    hero.give(\"守卫\", 1)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不闯关闭的门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 2,
+        "title": "领取 2 枚金币",
+        "code": "coins = hero.take(\"补给箱\")\nif coins >= 4:\n    hero.moveUp()\n    hero.give(\"守卫\", 4)\nelif coins >= 2:\n    hero.moveRight()\n    hero.give(\"守卫\", 2)\nelse:\n    hero.moveDown()\n    hero.give(\"守卫\", 1)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不闯关闭的门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 3,
+        "title": "领取 1 枚金币",
+        "code": "coins = hero.take(\"补给箱\")\nif coins >= 4:\n    hero.moveUp()\n    hero.give(\"守卫\", 4)\nelif coins >= 2:\n    hero.moveRight()\n    hero.give(\"守卫\", 2)\nelse:\n    hero.moveDown()\n    hero.give(\"守卫\", 1)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不闯关闭的门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 13,
+    "slug": "local-python-13",
+    "name": "第3节 · 点亮三间符文室",
+    "section": 3,
+    "revision": 4,
+    "source": "../level-definitions/13.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "hero.moveRight()\nfor room in range(3):\n    hero.moveUp(2)\n    hero.wait()\n    hero.moveDown(2)\n    hero.moveRight(2)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "charge-plate",
+            "name": "点亮沿路全部3块石板",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 14,
+    "slug": "local-python-14",
+    "name": "第3节 · 接通三个继电开关",
+    "section": 3,
+    "revision": 4,
+    "source": "../level-definitions/14.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "for number in range(1, 4):\n    hero.moveRight()\n    hero.press(number)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "press-switches",
+            "name": "按顺序点亮指定开关",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 15,
+    "slug": "local-python-15",
+    "name": "第3节 · 绕过短路开关【选做】",
+    "section": 3,
+    "revision": 4,
+    "source": "../level-definitions/15.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "for number in range(2, 7, 2):\n    hero.moveRight(2)\n    hero.press(number)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不误按接地板，不撞墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "press-switches",
+            "name": "按顺序点亮指定开关",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 16,
+    "slug": "local-python-16",
+    "name": "第3节 · 每座炉座装一块能量石",
+    "section": 3,
+    "revision": 5,
+    "source": "../level-definitions/16.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "2 块能量石，2 座炉座",
+        "code": "count = hero.take(\"补给箱\")\nfor i in range(count):\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "4 块能量石，4 座炉座",
+        "code": "count = hero.take(\"补给箱\")\nfor i in range(count):\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 2,
+        "title": "5 块能量石，5 座炉座",
+        "code": "count = hero.take(\"补给箱\")\nfor i in range(count):\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "启动法阵并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 17,
+    "slug": "local-python-17",
+    "name": "第4节 · 把最后一块材料送出去",
+    "section": 4,
+    "revision": 5,
+    "source": "../level-definitions/17.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "remaining = hero.take(\"补给箱\")\nwhile remaining > 0:\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n    remaining -= 1\n    print(remaining)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "在终点石板停下",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 18,
+    "slug": "local-python-18",
+    "name": "第4节 · 别向空箱索要材料",
+    "section": 4,
+    "revision": 5,
+    "source": "../level-definitions/18.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "箱里有3块，装完就停",
+        "code": "remaining = hero.take(\"补给箱\")\nwhile remaining > 0:\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n    remaining -= 1\n    print(remaining)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "在终点石板停下",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "箱子已空，不用装填",
+        "code": "remaining = hero.take(\"补给箱\")\nwhile remaining > 0:\n    hero.moveRight()\n    hero.give(\"炉座\", 1)\n    remaining -= 1\n    print(remaining)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "take-supplies",
+            "name": "从补给箱领取物品",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "deliver-supplies",
+            "name": "完成实际交付，开启出口",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "在终点石板停下",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 19,
+    "slug": "local-python-19",
+    "name": "第4节 · 沿途充能，找到信标",
+    "section": 4,
+    "revision": 2,
+    "source": "../level-definitions/19.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "信标在前方2格",
+        "code": "while not hero.atBeacon():\n    hero.wait()\n    hero.moveRight()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "charge-plate",
+            "name": "点亮沿路全部2块石板",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "到达信标并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "信标在前方4格",
+        "code": "while not hero.atBeacon():\n    hero.wait()\n    hero.moveRight()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "charge-plate",
+            "name": "点亮沿路全部4块石板",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "到达信标并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 2,
+        "title": "信标就在起点",
+        "code": "while not hero.atBeacon():\n    hero.wait()\n    hero.moveRight()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "到达信标并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 20,
+    "slug": "local-python-20",
+    "name": "第4节 · 等巡逻走开再前进【选做】",
+    "section": 4,
+    "revision": 2,
+    "source": "../level-definitions/20.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "巡逻场景1",
+        "code": "while not hero.atBeacon():\n    if nextTileSafe():\n        hero.moveRight()\n    else:\n        hero.wait()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "避开巡逻警戒圈",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "到达信标并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "巡逻场景2",
+        "code": "while not hero.atBeacon():\n    if nextTileSafe():\n        hero.moveRight()\n    else:\n        hero.wait()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "避开巡逻警戒圈",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "到达信标并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 21,
+    "slug": "local-python-21",
+    "name": "第4节 · 过门岗，修复信标路",
+    "section": 4,
+    "revision": 3,
+    "source": "../level-definitions/21.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "上行 2 格",
+        "code": "hero.moveRight()\nprint(\"自己人\")\nhero.moveRight(2)\nwhile not hero.atBeacon():\n    hero.moveUp()\n    hero.wait()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不闯关闭的门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "charge-plate",
+            "name": "点亮沿路全部2块石板",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "gate-Final Post",
+            "name": "获得守卫放行",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "checkpoint-1",
+            "name": "抵达门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "到达信标并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "上行 3 格",
+        "code": "hero.moveRight()\nprint(\"自己人\")\nhero.moveRight(2)\nwhile not hero.atBeacon():\n    hero.moveUp()\n    hero.wait()\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不闯关闭的门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "charge-plate",
+            "name": "点亮沿路全部3块石板",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "gate-Final Post",
+            "name": "获得守卫放行",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "checkpoint-1",
+            "name": "抵达门岗",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "到达信标并传送",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 22,
+    "slug": "local-python-22",
+    "name": "样关①：把追兵引进陷阱",
+    "section": 5,
+    "revision": 1,
+    "source": "../level-definitions/22.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "hero.moveUp(2)\nhero.moveDown(2)\nhero.moveRight(4)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "英雄存活",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "lure-trap",
+            "name": "让追兵踩中尖刺",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 23,
+    "slug": "local-python-23",
+    "name": "样关②：救出弓箭手",
+    "section": 5,
+    "revision": 1,
+    "source": "../level-definitions/23.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "hero.moveRight()\nhero.moveUp()\nhero.attack(\"牢门\")\nhero.attack(\"牢门\")\nhero.moveDown()\nhero.moveRight(2)\nhero.attack(\"重甲守卫\")\nhero.attack(\"重甲守卫\")\nhero.attack(\"重甲守卫\")\nhero.attack(\"重甲守卫\")\nhero.moveRight(3)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "英雄和弓手存活",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "rescue-ally",
+            "name": "击破牢门，救出弓手",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "defeat-guard",
+            "name": "击败重甲守卫",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 24,
+    "slug": "local-python-24",
+    "name": "样关③：启动三座信号台",
+    "section": 5,
+    "revision": 2,
+    "source": "../level-definitions/24.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "hero.moveRight()\nfor i in range(3):\n    hero.moveUp(2)\n    print(\"点火\")\n    hero.moveDown(2)\n    hero.moveRight(2)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "signal-1",
+            "name": "点亮信号台 1",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "signal-2",
+            "name": "点亮信号台 2",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "signal-3",
+            "name": "点亮信号台 3",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 25,
+    "slug": "local-python-25",
+    "name": "样关④：守住营地入口",
+    "section": 5,
+    "revision": 2,
+    "source": "../level-definitions/25.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "三名敌人，分批到来",
+        "code": "while not isVictory():\n    enemy = hero.findNearestEnemy()\n    if enemy:\n        hero.attack(enemy)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "英雄和营火存活",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "defend-camp",
+            "name": "保护营火，击败全部敌人",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "击退全部增援，守住营地",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "四名敌人，间隔变短",
+        "code": "while not isVictory():\n    enemy = hero.findNearestEnemy()\n    if enemy:\n        hero.attack(enemy)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "英雄和营火存活",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "defend-camp",
+            "name": "保护营火，击败全部敌人",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "击退全部增援，守住营地",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 26,
+    "slug": "local-python-26",
+    "name": "攻击教学：击破第一扇牢门",
+    "section": 1,
+    "revision": 1,
+    "source": "../level-definitions/26.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "hero.attack(\"牢门\")\nhero.attack(\"牢门\")\nhero.moveRight(2)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "break-door",
+            "name": "击破牢门（40 → 0）",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 27,
+    "slug": "local-python-27",
+    "name": "救援挑战：让弓箭手加入",
+    "section": 1,
+    "revision": 1,
+    "source": "../level-definitions/27.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "hero.moveRight()\nhero.moveUp()\nhero.attack(\"牢门\")\nhero.attack(\"牢门\")\nhero.moveDown()\nhero.moveRight(2)\nhero.attack(\"重甲守卫\")\nhero.attack(\"重甲守卫\")\nhero.attack(\"重甲守卫\")\nhero.attack(\"重甲守卫\")\nhero.moveRight(3)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "英雄和弓手存活",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "rescue-ally",
+            "name": "击破牢门，救出弓手",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "defeat-guard",
+            "name": "击败重甲守卫",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 28,
+    "slug": "local-python-28",
+    "name": "信号教学：走近后再点火",
+    "section": 3,
+    "revision": 1,
+    "source": "../level-definitions/28.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "hero.moveRight()\nhero.moveUp(2)\nprint(\"点火\")\nhero.moveDown(2)\nhero.moveRight(2)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "signal-1",
+            "name": "点亮信号台",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 29,
+    "slug": "local-python-29",
+    "name": "for挑战：点亮三座信号台",
+    "section": 3,
+    "revision": 2,
+    "source": "../level-definitions/29.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "hero.moveRight()\nfor i in range(3):\n    hero.moveUp(2)\n    print(\"点火\")\n    hero.moveDown(2)\n    hero.moveRight(2)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "signal-1",
+            "name": "点亮信号台 1",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "signal-2",
+            "name": "点亮信号台 2",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "signal-3",
+            "name": "点亮信号台 3",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 30,
+    "slug": "local-python-30",
+    "name": "观察教学：找到敌人再攻击",
+    "section": 2,
+    "revision": 2,
+    "source": "../level-definitions/30.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "遇到落单斥候",
+        "code": "hero.moveRight()\nenemy = hero.findNearestEnemy()\nhero.attack(enemy)\nhero.moveRight(2)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "遇到门廊哨兵",
+        "code": "hero.moveRight()\nenemy = hero.findNearestEnemy()\nhero.attack(enemy)\nhero.moveRight(2)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 31,
+    "slug": "local-python-31",
+    "name": "判断教学：没有敌人就不攻击",
+    "section": 2,
+    "revision": 2,
+    "source": "../level-definitions/31.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "通道里有斥候",
+        "code": "hero.moveRight()\nenemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)\nhero.moveRight(2)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "空通道，没有敌人",
+        "code": "hero.moveRight()\nenemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)\nhero.moveRight(2)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 2,
+        "title": "换岗了，遇到另一名哨兵",
+        "code": "hero.moveRight()\nenemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)\nhero.moveRight(2)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "不撞石墙",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "完成沿路任务，从楼梯离开",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 32,
+    "slug": "local-python-32",
+    "name": "守营准备：等待与胜利条件",
+    "section": 4,
+    "revision": 2,
+    "source": "../level-definitions/32.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "主场景",
+        "code": "print(isVictory())\nhero.wait(1)\nenemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "英雄和营火存活",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "defend-camp",
+            "name": "保护营火，击败全部敌人",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "击退全部增援，守住营地",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "index": 33,
+    "slug": "local-python-33",
+    "name": "while挑战：守住分批增援",
+    "section": 4,
+    "revision": 2,
+    "source": "../level-definitions/33.json",
+    "scenes": [
+      {
+        "scene": 0,
+        "title": "三名敌人，分批到来",
+        "code": "while not isVictory():\n    enemy = hero.findNearestEnemy()\n    if enemy:\n        hero.attack(enemy)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "英雄和营火存活",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "defend-camp",
+            "name": "保护营火，击败全部敌人",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "击退全部增援，守住营地",
+            "worldEndsAfter": 1
+          }
+        ]
+      },
+      {
+        "scene": 1,
+        "title": "四名敌人，间隔变短",
+        "code": "while not isVictory():\n    enemy = hero.findNearestEnemy()\n    if enemy:\n        hero.attack(enemy)\n",
+        "goals": [
+          {
+            "id": "stay-safe",
+            "saveThangs": [
+              "Hero Placeholder"
+            ],
+            "name": "英雄和营火存活",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "defend-camp",
+            "name": "保护营火，击败全部敌人",
+            "worldEndsAfter": 1
+          },
+          {
+            "id": "reach-exit",
+            "name": "击退全部增援，守住营地",
+            "worldEndsAfter": 1
+          }
+        ]
+      }
+    ]
+  }
+]

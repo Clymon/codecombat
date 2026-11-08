@@ -3,8 +3,8 @@
   "original": "facade000000000000000031",
   "slug": "local-python-31",
   "name": "判断教学：没有敌人就不攻击",
-  "description": "先右走1格，查找并保存enemy。只有找到敌人时才攻击；没有敌人就跳过攻击。最后右走2格到楼梯。两个场景必须使用同一份代码。",
-  "loadingTip": "展开“教学引导”，按步骤写代码并运行。也可以收起引导自己尝试。",
+  "description": "这条通道可能有斥候、可能换成另一名哨兵，也可能是空的。有敌人时先清掉，空通道可以直接走；最后都要到楼梯。同一份程序完成三个场景。",
+  "loadingTip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
   "type": "hero",
   "product": "codecombat",
   "version": {
@@ -3800,15 +3800,8 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
-        "learningContract": {
-          "calls": [
-            "findNearestEnemy"
-          ],
-          "inside": {
-            "attack": "if"
-          },
-          "attackVariable": true
-        },
+        "inventoryConfig": null,
+        "learningContract": null,
         "adventureConfig": {
           "mode": "rescue",
           "actors": [],
@@ -4728,8 +4721,9 @@
         "exitDuration": 1.8,
         "sensor": {},
         "switches": [],
+        "decoySwitches": [],
         "singleStep": false,
-        "maxActions": 90,
+        "maxActions": 240,
         "expectedSpeech": null
       }
     }
@@ -4754,7 +4748,7 @@
     "specificArticles": [
       {
         "name": "本关任务",
-        "body": "先右走1格，查找并保存enemy。只有找到敌人时才攻击；没有敌人就跳过攻击。最后右走2格到楼梯。两个场景必须使用同一份代码。"
+        "body": "这条通道可能有斥候、可能换成另一名哨兵，也可能是空的。有敌人时先清掉，空通道可以直接走；最后都要到楼梯。同一份程序完成三个场景。"
       }
     ]
   },
@@ -4780,7 +4774,7 @@
     "section": 2,
     "name": "判断教学：没有敌人就不攻击",
     "lessonOrder": 9.1,
-    "revision": 1,
+    "revision": 2,
     "prototype": false,
     "hiddenByDefault": true,
     "checkpoints": [],
@@ -4803,8 +4797,8 @@
       1,
       0
     ],
-    "maxActions": 90,
-    "tip": "展开“教学引导”，按步骤写代码并运行。也可以收起引导自己尝试。",
+    "maxActions": 240,
+    "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
     "size": [
       72,
       40
@@ -4831,7 +4825,7 @@
     ],
     "knowledge": "if enemy · None · 两种场景",
     "quest": "通道有时有斥候，有时是空的。同一份程序都要安全通过。",
-    "description": "先右走1格，查找并保存enemy。只有找到敌人时才攻击；没有敌人就跳过攻击。最后右走2格到楼梯。两个场景必须使用同一份代码。",
+    "description": "这条通道可能有斥候、可能换成另一名哨兵，也可能是空的。有敌人时先清掉，空通道可以直接走；最后都要到楼梯。同一份程序完成三个场景。",
     "starter": "hero.moveRight()\nenemy = hero.findNearestEnemy()\n# 用 if 判断有敌人才攻击。\n",
     "adventure": {
       "mode": "rescue",
@@ -4846,8 +4840,7 @@
           "code": "if enemy:\n    hero.attack(enemy)",
           "observe": "找到敌人时执行攻击；结果为None时跳过。",
           "evidence": {
-            "kind": "call",
-            "name": "findNearestEnemy"
+            "kind": "enemies-cleared"
           }
         },
         {
@@ -4862,20 +4855,18 @@
     "hints": [
       "最后的移动放在if外面，否则没有敌人时英雄不会离开。"
     ],
-    "learningContract": {
-      "calls": [
-        "findNearestEnemy"
-      ],
-      "inside": {
-        "attack": "if"
-      },
-      "attackVariable": true
-    },
+    "learningContract": null,
+    "singleStep": false,
+    "introBrief": [
+      "判断教学：没有敌人就不攻击",
+      "通道有时有斥候，有时是空的。同一份程序都要安全通过。"
+    ],
     "title": "空通道，没有敌人",
     "scenarioIndex": 1,
     "scenarioTitles": [
       "通道里有斥候",
-      "空通道，没有敌人"
+      "空通道，没有敌人",
+      "换岗了，遇到另一名哨兵"
     ],
     "slug": "local-python-31"
   },

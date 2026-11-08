@@ -1,0 +1,269 @@
+{
+  "index": 33,
+  "name": "while挑战：守住分批增援",
+  "section": 4,
+  "lessonOrder": 19.2,
+  "revision": 2,
+  "prototype": false,
+  "checkpoints": [],
+  "gems": [],
+  "hazards": [],
+  "gates": [],
+  "torches": [
+    [
+      6,
+      34
+    ],
+    [
+      66,
+      34
+    ]
+  ],
+  "labels": [],
+  "exitStyle": "marker",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "maxActions": 240,
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "knowledge": "变量 · if · while · 持续观察",
+  "size": [
+    84,
+    72
+  ],
+  "start": [
+    36,
+    24
+  ],
+  "exit": [
+    36,
+    24
+  ],
+  "corridors": [
+    [
+      8,
+      24,
+      66,
+      24
+    ],
+    [
+      36,
+      8,
+      36,
+      58
+    ]
+  ],
+  "quest": "敌人会分批从三条通道赶来。守住营火，击败全部增援。持续观察战场，发现敌人就攻击；敌人按时间出现。",
+  "description": "守住营火，击退分批赶来的所有敌人。通道入口的裂隙会先发红光，随后出现增援；暂时没有敌人不等于战斗结束。敌人倒下后还会有新目标，持续观察战场。英雄或营火生命降到0失败。两个场景的敌人数和间隔不同，同一程序都要守住；获胜后自动结束。",
+  "starter": "# 持续观察：每轮寻找敌人，有敌人就攻击。\n# 可用 isVictory() 判断战斗是否结束。\n",
+  "apis": [
+    "attack",
+    "findNearestEnemy",
+    "wait",
+    "isVictory"
+  ],
+  "safetyGoalLabel": "英雄和营火存活",
+  "goalLabel": "击退全部增援，守住营地",
+  "adventure": {
+    "mode": "defend",
+    "camp": {
+      "at": [
+        36,
+        12
+      ],
+      "health": 100
+    },
+    "actors": [
+      {
+        "kind": "enemy",
+        "id": "左路斥候",
+        "at": [
+          12,
+          24
+        ],
+        "spawnAt": 1,
+        "health": 40,
+        "speed": 5,
+        "damage": 14,
+        "aggro": 100
+      },
+      {
+        "kind": "enemy",
+        "id": "右路斥候",
+        "at": [
+          60,
+          24
+        ],
+        "spawnAt": 5,
+        "health": 40,
+        "speed": 5,
+        "damage": 14,
+        "aggro": 100
+      },
+      {
+        "kind": "enemy",
+        "id": "上路斥候",
+        "at": [
+          36,
+          48
+        ],
+        "spawnAt": 9,
+        "health": 60,
+        "speed": 5,
+        "damage": 14,
+        "aggro": 100
+      }
+    ]
+  },
+  "goals": [
+    {
+      "id": "defend-camp",
+      "name": "保护营火，击败全部敌人"
+    }
+  ],
+  "scenarios": [
+    {
+      "title": "三名敌人，分批到来",
+      "adventure": {
+        "mode": "defend",
+        "camp": {
+          "at": [
+            36,
+            12
+          ],
+          "health": 100
+        },
+        "actors": [
+          {
+            "kind": "enemy",
+            "id": "左路斥候",
+            "at": [
+              12,
+              24
+            ],
+            "spawnAt": 1,
+            "health": 40,
+            "speed": 5,
+            "damage": 14,
+            "aggro": 100
+          },
+          {
+            "kind": "enemy",
+            "id": "右路斥候",
+            "at": [
+              60,
+              24
+            ],
+            "spawnAt": 5,
+            "health": 40,
+            "speed": 5,
+            "damage": 14,
+            "aggro": 100
+          },
+          {
+            "kind": "enemy",
+            "id": "上路斥候",
+            "at": [
+              36,
+              48
+            ],
+            "spawnAt": 9,
+            "health": 60,
+            "speed": 5,
+            "damage": 14,
+            "aggro": 100
+          }
+        ]
+      },
+      "solution": "while not isVictory():\n    enemy = hero.findNearestEnemy()\n    if enemy:\n        hero.attack(enemy)\n",
+      "singleStep": false,
+      "learningContract": null
+    },
+    {
+      "title": "四名敌人，间隔变短",
+      "adventure": {
+        "mode": "defend",
+        "camp": {
+          "at": [
+            36,
+            12
+          ],
+          "health": 100
+        },
+        "actors": [
+          {
+            "kind": "enemy",
+            "id": "左路斥候",
+            "at": [
+              12,
+              24
+            ],
+            "spawnAt": 1,
+            "health": 40,
+            "speed": 5,
+            "damage": 14,
+            "aggro": 100
+          },
+          {
+            "kind": "enemy",
+            "id": "右路斥候",
+            "at": [
+              60,
+              24
+            ],
+            "spawnAt": 3.5,
+            "health": 40,
+            "speed": 5,
+            "damage": 14,
+            "aggro": 100
+          },
+          {
+            "kind": "enemy",
+            "id": "上路斥候",
+            "at": [
+              36,
+              48
+            ],
+            "spawnAt": 6,
+            "health": 60,
+            "speed": 5,
+            "damage": 14,
+            "aggro": 100
+          },
+          {
+            "kind": "enemy",
+            "id": "最后的斥候",
+            "at": [
+              12,
+              24
+            ],
+            "spawnAt": 11,
+            "health": 40,
+            "speed": 5,
+            "damage": 14,
+            "aggro": 100
+          }
+        ]
+      },
+      "solution": "while not isVictory():\n    enemy = hero.findNearestEnemy()\n    if enemy:\n        hero.attack(enemy)\n",
+      "singleStep": false,
+      "learningContract": null
+    }
+  ],
+  "hints": [
+    "旧目标倒下后不会自动变成新目标；观察查找结果是否更新。",
+    "没有目标时不要攻击空对象。可以等待，也可以继续观察。",
+    "isVictory() 查询整场战斗是否结束。使用哪种循环不影响通关，关键是营火存活且增援全被击败。"
+  ],
+  "solution": "while not isVictory():\n    enemy = hero.findNearestEnemy()\n    if enemy:\n        hero.attack(enemy)\n",
+  "hiddenByDefault": true,
+  "optional": true,
+  "tutorial": null,
+  "learningContract": null,
+  "singleStep": false,
+  "introBrief": [
+    "while挑战：守住分批增援",
+    "敌人会分批从三条通道赶来。守住营火，击败全部增援。持续观察战场，发现敌人就攻击；敌人按时间出现。"
+  ]
+}

@@ -812,7 +812,7 @@ module.exports = class SpellView extends CocoView
     return if @spell.language is 'html'
     popupFontSizePx = @options.level.get('autocompleteFontSizePx') ? 16
     @autocomplete = new Autocomplete @ace,
-      basic: false
+      basic: /^local-python-\d{2}$/.test(@options.level.get('slug') or '')
       liveCompletion: false
       snippetsLangDefaults: false
       completers:
@@ -832,7 +832,7 @@ module.exports = class SpellView extends CocoView
   reallyAddUserSnippets: (source, lang, session) ->
     return unless @autocomplete and @autocompleteOn
     return if @options.level.get('product') is 'codecombat-junior'
-    return if me.rank() < 15  # Don't do this until later, to avoid custom user snippets before they are useful
+    return if me.rank() < 15 and not /^local-python-\d{2}$/.test(@options.level.get('slug') or '')
     newIdentifiers = aceUtils.parseUserSnippets(source, lang, session)
     # console.log 'debug newIdentifiers: ', newIdentifiers
     @autocomplete?.addCustomSnippets Object.values(newIdentifiers), @editorLang if @editorLang?
@@ -1947,7 +1947,7 @@ module.exports = class SpellView extends CocoView
     aceConfig = me.get('aceConfig') ? {}
     @ace.setBehavioursEnabled aceConfig.behaviors
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
-    @updateAutocomplete(aceConfig.liveCompletion ? false)
+    @updateAutocomplete(aceConfig.liveCompletion ? /^local-python-\d{2}$/.test(@options.level.get('slug') or ''))
     $(window).trigger('resize') unless @destroyed
 
   onChangeLanguage: (e) ->

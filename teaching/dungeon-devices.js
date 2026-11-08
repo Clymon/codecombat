@@ -23,8 +23,17 @@ function drawDungeonDevices (g, d, hero, world, camera, foreground) {
   for (let i = 0; i < (d.switches || []).length; i++) {
     const p = point(d.switches[i].at); const r = 2.3 * z; const lit = (hero?.teachingPressedCount || 0) > i
     diamond(p, r, '#252820', '#7d7156')
-    diamond({ x: p.x, y: p.y + 3 }, r * 0.78, lit ? '#a9e8bd' : '#b2a580', lit ? '#315e48' : '#464437')
+    diamond({ x: p.x, y: p.y + 3 }, r * 0.78, lit ? '#a9e8bd' : '#7bcddd', lit ? '#315e48' : '#464437')
     for (const side of [-1, 1])g.beginFill(lit ? '#b9ffd4' : '#201f1b').drawCircle(p.x + side * r * 0.7, p.y, 2.5).endFill()
+  }
+  for (const sw of d.decoySwitches || []) {
+    const p = point(sw.at); const r = 2.3 * z
+    diamond(p, r, '#db6e61', '#55342e')
+    g.setStrokeStyle(3).beginStroke('#ff9e82').moveTo(p.x - r * 0.4, p.y - r * 0.25).lineTo(p.x + r * 0.4, p.y + r * 0.25).moveTo(p.x + r * 0.4, p.y - r * 0.25).lineTo(p.x - r * 0.4, p.y + r * 0.25).endStroke()
+    // A broken red branch ends in a ground symbol, outside the blue exit circuit.
+    const end = point([sw.at[0], sw.at[1] - 6])
+    g.setStrokeStyle(2).beginStroke('#d87865').moveTo(p.x, p.y).lineTo(end.x, end.y).endStroke()
+    for (let i = 0; i < 3; i++) g.setStrokeStyle(2).beginStroke('#d87865').moveTo(end.x - (10 - i * 3) * camera.zoom, end.y + i * 4).lineTo(end.x + (10 - i * 3) * camera.zoom, end.y + i * 4).endStroke()
   }
   if (d.exitStyle === 'post') return
   const p = point(d.exit); const ready = !!hero?.teachingExitReady; const age = world.age || 0

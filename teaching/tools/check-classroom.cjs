@@ -5,7 +5,7 @@ const path = require('node:path')
 const base = process.argv[2]
 console.log(JSON.stringify({ cpuCores: os.cpus().length, memoryGiB: Math.round(os.totalmem() / 2 ** 30), node: process.version, standaloneDefault: process.env.TEACHING_OFFLINE !== 'false', compressionConfiguredInThisShell: process.env.TEACHING_OFFLINE !== 'false' || !!process.env.COCO_FORCE_COMPRESSION || process.env.COCO_PROXY === 'true' }))
 try {
-  execFileSync(process.env.TEACHING_PYTHON || 'python3', ['-X', 'utf8', path.join(__dirname, 'check-learning.py'), '7'], { input: '# 中文\nsteps=2\nhero.moveRight(steps)\n', encoding: 'utf8', timeout: 10000, stdio: ['pipe', 'pipe', 'pipe'] })
+  execFileSync(process.env.TEACHING_PYTHON || 'python3', ['-X', 'utf8', path.join(__dirname, 'check-learning.py'), '7'], { input: '# 中文\nstones=hero.take("补给箱")\nhero.give("出口机关",stones)\n', encoding: 'utf8', timeout: 10000, stdio: ['pipe', 'pipe', 'pipe'] })
   console.log('Python 校验：通过')
 } catch (e) { console.log('Python 校验：失败', e.code || e.status, '请检查 TEACHING_PYTHON、Python 3 和脚本文件是否完整。'); process.exitCode = 1 }
 async function request (url) {

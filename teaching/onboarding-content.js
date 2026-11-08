@@ -1,23 +1,23 @@
 // UI guidance only. Never contains a complete challenge solution or changes map data.
 const briefs = {
   1: ['先找宝石，再离开', '蓝色石板和宝石在通道里。带上宝石，再走到楼梯；近路上的尖刺会扣血。'],
-  2: ['沿长廊收集宝石', '沿路取回三颗宝石，再去最右边的楼梯。试着给移动命令加一个数字，观察走了多远。'],
+  2: ['走一格，点亮一块', '沿路有三块石板。每到一块就停留1秒，等圆环转满后再向前走。三块全亮后，出口开启。'],
   3: ['先观察巡逻路线', '下面有巡逻的食人魔。看看它走到哪里，再安排取宝石和撤离的路线。'],
   4: ['先走到守卫面前', '我在左边，守卫在右边。先走近他，停在他前面的一格；继续往守卫身上撞会扣血。'],
   5: ['到守卫身边再说话', '守卫堵住了通道。先走近，再试着说“你好”，看他的回应；信封上的口令在任务日志里。'],
   6: ['两名守卫，要分别交谈', '这里有两个门岗。先走到第一名守卫前，报对应口令；通过后再去找第二名守卫。'],
-  7: ['先读地图上的距离', '入口的地图残页写着距离。把数字存进变量，再用这个变量决定往右走多远。'],
-  8: ['算出还没走完的路', '记录里有总距离和已走距离。先做减法，再让英雄走完剩下的路。'],
-  9: ['右路现在能走吗？', '先检查右边的路。能通行才移动；被拦住就留在原地，不要硬闯。'],
+  7: ['打开箱子，领取这一批能量石', '补给箱就在身旁。先领取，看箱盖打开、物品进入背包；再送给右边的出口机关。'],
+  8: ['先交维修材料，再送剩下的', '中间的维修机关要2块，右边的出口机关收剩余材料。每次交付后，核对背包数量的变化。'],
+  9: ['补给站开放才取物，最后向下撤离', '看右侧守卫和宝石。开放时进去取物再回来，关闭时跳过；下方法阵是两个场景共同的终点。'],
   10: ['看路况，再选方向', '两条路只有一条开放。检查左路是否可走，用 if / else 选择行动。'],
   11: ['开着的路也可能有尖刺', '右路必须同时满足“能走”和“没有陷阱”。看清这两个条件，再选择右路或下路。'],
-  12: ['读能量，选对应的门', '石碑上写着当前能量。对照各门的范围，用 if / elif / else 选择通道。'],
-  13: ['重复走过三块石板', '把向右移动放进 for 循环，经过三块石板，再到楼梯。运行时看石板是否依次亮起。'],
+  12: ['领取金币，走付得起的通道', '先从左侧补给箱领钱。上路4枚、右路2枚、下路1枚；按任务优先级选择路线，到守卫面前真正交钱。'],
+  13: ['用三块石板给出口供能', '石板之间的暗线连着法阵。把单步右移放进 for，每次循环点亮一块；三块全亮，法阵才启动。'],
   14: ['走到石板上，再按编号启动', '三块石板分别标着 1、2、3。每次移动后，用本轮编号启动脚下的石板。'],
   15: ['这次只启动偶数石板', '需要启动的是 2、4、6 号石板。观察编号的变化，让循环每次跳过一个数。'],
-  16: ['循环次数要跟着距离变', '每个场景的长廊长度不同。先读取入口的距离，再用它控制循环次数。'],
-  17: ['走一格，剩余距离就少一格', '前面有三格路。每走一格，把剩余格数减 1，再报出数字；同伴应听到 2、1、0。'],
-  18: ['修好停不下来的程序', '已有程序忘了减少剩余格数。先运行看它哪里出错，再修改循环；已经到终点时应一次都不走。'],
+  16: ['给每座炉座装一块能量石', '先领物资，再逐个装填。背包每少一块，炉座就应多亮一座；只走过去不会亮。'],
+  17: ['一边装填，一边记录余量', '领取能量石，每装一块就把remaining减1。把输出和画面上的背包数量对照。'],
+  18: ['背包空了，程序也要停', '程序忘了更新remaining。修好后，有物品就装填，领取空箱时不移动。'],
   19: ['边走边检查是否到终点', '亮着的信标就是终点。每轮先检查是否到达；它可能就在脚下，不一定需要走。'],
   20: ['不安全时先等一等', '食人魔会经过前方道路。每轮重新看路况：安全才往前走，否则等待，再检查。'],
   21: ['先过门岗，再寻找信标', '先走近守卫并报口令，再穿过曲折走廊。后半段长度会变，移动时要持续检查终点。'],
@@ -34,6 +34,8 @@ const briefs = {
 briefs[27] = briefs[23]; briefs[29] = briefs[24]; briefs[33] = briefs[25]
 
 function mapTarget (design) {
+  if (design.chargePlates?.length) return design.chargePlates[0].at
+  if (design.inventory) return design.inventory.supply.at
   if ([7, 8, 12, 16, 18].includes(design.index) && design.inscriptions?.length) return [design.inscriptions[0].x, design.inscriptions[0].y]
   if (design.adventure?.mode === 'defend') return design.start
   if (design.gates?.length) return design.gates[0].at
@@ -43,17 +45,14 @@ function mapTarget (design) {
 }
 
 function stepsFor (design) {
-  const brief = briefs[design.index] || ['先看看本关要做什么', design.quest || design.description]
-  const rule = design.learningContract || {}
-  const requirements = (rule.loops || []).map(loop => `本关必须用 ${loop} 实际重复动作。`)
-  if (rule.maxStatements) requirements.push(`最多 ${rule.maxStatements} 行有效代码，空行和注释不计；用分号合并仍分别计数。`)
+  const brief = design.introBrief || briefs[design.index] || ['先看看本关要做什么', design.quest || design.description]
   let editorText = '在右边的编辑器写 Python。代码框下方的命令图标可以查看用法；不清楚任务时，展开地图左侧的“任务日志”。'
   if (design.index === 4) editorText = '在右边输入这一行，括号也要写。它会让我向右走一格。不要在输入法里把括号打成中文全角。'
   else if (design.tutorial) editorText = `本关练习：${design.knowledge}。地图左侧“教学引导”里有分步示范，可以展开照着试，再观察结果。`
   else if (design.knowledge) editorText = `本关练习：${design.knowledge}。在右边改代码；不记得命令时，点代码框下方对应的命令图标查看用法。`
   return [
     { id: 'map', title: brief[0], text: brief[1], point: mapTarget(design), pointKind: [7, 8, 12, 16, 18].includes(design.index) && design.inscriptions?.length ? 'label' : 'object', target: 'map' },
-    { id: 'editor', title: '在这里写代码', text: editorText, note: requirements.join(''), code: design.index === 4 ? 'hero.moveRight()' : null, target: 'editor' },
+    { id: 'editor', title: '在这里写代码', text: editorText, note: '看实际结果是否完成任务，不限制必须使用哪种语句。', code: design.index === 4 ? 'hero.moveRight()' : design.index === 7 ? 'stones = hero.take("补给箱")' : null, target: 'editor' },
     { id: 'run', title: '点“运行”，看实际发生了什么', text: '点这里，或按 Shift + Enter，试跑你的代码。没达到目标就改代码再运行；每次重跑，地图会回到起点。', note: '点击真正的“运行”按钮会直接收起引导，不会替你改代码。', target: 'run' },
     { id: 'submit', title: '完成目标后，点“提交”', text: '先看地图左上角的目标是否全部完成，再点这里提交验证。通过后会出现下一关或下一场景的入口。', note: design.scenarioTitles?.length > 1 ? '这关有多个场景，要用同一份代码逐个通过。' : '随时可点“DeepSeek 带路”重看这些提示。', target: 'submit' },
   ]

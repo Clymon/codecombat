@@ -1,5 +1,6 @@
 const { compareLevels, defaultVisible } = require('./curriculum')
-const catalog = require('./map-designs').map(d => ({ slug: `local-python-${String(d.index).padStart(2, '0')}`, name: d.name, teachingMap: { ...d, scenarioTitles: (d.scenarios || [{}]).map(s => s.title || '主场景') } }))
+// Runtime selection must use the same published generation as native scenes.
+const catalog = require('./levels/catalog.json')
 const visibleLevel = (level, visibility) => visibility[level.slug] ?? defaultVisible(level.teachingMap)
 
 // The main route never requires an optional challenge. Side paths start at the

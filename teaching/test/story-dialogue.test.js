@@ -58,7 +58,7 @@ test('rules record exact successful and failed frames without altering goals or 
   assert.deepEqual(goals, { 'reach-exit': 'success', 'stay-safe': 'success' })
 })
 
-function ui (run) {
+function ui (run, options = {}) {
   const dom = new JSDOM('<div id="level-view"></div><div id="level-loading-view"></div>', { url: 'http://localhost/teaching' })
   dom.window.matchMedia = () => ({ matches: true })
   const events = new Map(); const timers = new Map(); let timerId = 0
@@ -69,7 +69,7 @@ function ui (run) {
   let view
   try {
     const View = require('../dialogue-view')
-    view = new View(document.getElementById('level-view'), { index: 4, slug: 'test-story', gates: [] }, { normalCanvas: [{ getBoundingClientRect: () => ({ left: 0, width: 700, bottom: 400 }) }] }, { autoIntro: false, story: true })
+    view = new View(document.getElementById('level-view'), { index: 4, slug: 'test-story', gates: [] }, { normalCanvas: [{ getBoundingClientRect: () => ({ left: 0, width: 700, bottom: 400 }) }] }, { autoIntro: false, story: true, ...options })
     const frame = (age, data = {}) => view.update(hero(data), { age, getThangByID: () => null })
     run({ view, events, timers, frame })
   } finally {
@@ -134,3 +134,10 @@ test('native wall contact is recorded even when locomotion stops without a failu
   assert.equal(h.teachingFailure, undefined); assert.equal(h.health, 100)
   world.age = 2; rules.recordHeroVisual(h); assert.equal(JSON.parse(h.teachingVisual).wallAt, 1)
 })
+
+test('quiet entry does not chain dialogue after a guide, but gameplay reactions remain', () => ui(({ view, events, frame }) => {
+  events.get('level:loading-view-unveiled')(); view.setGuideActive(true); view.setGuideActive(false); view.showEntry()
+  assert.equal(view.shell.hidden, true)
+  events.get('tome:manual-cast')(); frame(0); frame(2, { issue: '前面是石墙', issueAt: 2 })
+  assert.equal(view.currentEntry.kind, 'wall')
+}, { autoEntry: false }))

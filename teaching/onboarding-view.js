@@ -1,10 +1,15 @@
 const { stepsFor, placeCard } = require('./onboarding-content')
+const { GuideMemory } = require('./guide-memory')
 const { portraits } = require('./dialogue-content')
 
 module.exports = class DeepSeekGuide {
   constructor (root, design, surface, task, dialogue) {
     this.surface = surface; this.task = task; this.dialogue = dialogue
-    this.steps = stepsFor(design); this.active = false; this.index = 0
+    this.manualSteps = stepsFor(design); this.steps = this.manualSteps; this.active = false; this.index = 0
+    let storage; let legacy
+    try { legacy = window.sessionStorage } catch (_) {}
+    try { storage = window.localStorage } catch (_) { storage = legacy }
+    this.memory = new GuideMemory(design, storage, legacy)
     this.seenKey = `deepseek-guide-v1:${design.slug || design.index}:${design.scenarioIndex || 0}`
     this.shell = document.createElement('section'); this.shell.className = 'deepseek-guide'; this.shell.hidden = true
     this.shell.innerHTML = '<div class="ds-guide-spot" aria-hidden="true"></div><div class="ds-guide-pointer" aria-hidden="true"></div><div class="ds-guide-card" role="dialog" aria-label="DeepSeek 操作引导"><div class="ds-guide-heading"><img alt="DeepSeek"><div><span>DeepSeek · 操作引导</span><h3 aria-live="polite"></h3></div></div><p class="ds-guide-text"></p><pre class="ds-guide-code"></pre><p class="ds-guide-note"></p><div class="ds-guide-footer"><button type="button" class="ds-guide-skip">跳过引导</button><span class="ds-guide-count"></span><button type="button" class="ds-guide-back">上一步</button><button type="button" class="ds-guide-next">下一步</button></div></div>'
@@ -28,9 +33,8 @@ module.exports = class DeepSeekGuide {
     this.onReady = () => {
       if (this.ready) return
       this.ready = true; this.toggle.hidden = false
-      let seen = false
-      try { seen = sessionStorage.getItem(this.seenKey) === 'seen' } catch (_) {}
-      if (!seen) this.open()
+      const steps = this.memory.automaticSteps()
+      if (steps.length) this.open(steps)
       this.layout()
     }
     Backbone.Mediator.subscribe('level:loading-view-unveiled', this.onReady, this)
@@ -42,8 +46,10 @@ module.exports = class DeepSeekGuide {
     if (!loader || (loader.classList.contains('unveiled') && !loader.classList.contains('preview-screen'))) this.onReady()
   }
 
-  open () {
+  open (steps = this.manualSteps) {
     if (!this.ready || this.active) return
+    this.steps = steps
+    this.memory.remember()
     this.previousFocus = document.activeElement
     this.wasPlaying = this.surface.playing && this.surface.currentFrame < (this.surface.world?.totalFrames || 0) - 5
     this.taskWasOpen = this.task?.open

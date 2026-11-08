@@ -9,7 +9,7 @@ module.exports = class VillageDialogue {
     try { storage = sessionStorage } catch (_) {}
     this.story = new StoryMemory(design, storage)
     this.entry = storyLine(design, 'entry', null)
-    this.introPending = this.storyEnabled && !this.story.has(this.entry)
+    this.introPending = this.storyEnabled && options.autoEntry !== false && !this.story.has(this.entry)
     this.intro = introFor(design); this.history = []; this.mode = null; this.index = 0
     this.seenKey = `village-dialogue-v1:${design.slug || design.index}`
     this.shell = document.createElement('section'); this.shell.className = 'village-dialogue'; this.shell.hidden = true

@@ -2,9 +2,9 @@
   "_id": "facade000000000000000014",
   "original": "facade000000000000000014",
   "slug": "local-python-14",
-  "name": "第3节 · 依次按下1、2、3号开关",
-  "description": "三个开关依次在右边第1、2、3格。每轮先走一格，再用 hero.press(number) 按下脚下对应编号的开关。用 range(1, 4) 让 number 依次等于1、2、3。三个开关全部点亮后停在3号。 最后一个编号石板位于法阵中央；全部按对后法阵会启动。",
-  "loadingTip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+  "name": "第3节 · 接通三个继电开关",
+  "description": "三个编号开关串联着出口。走到闪光的开关上，用 press(编号) 压下它；接通后光会沿线路流向下一块。必须按电路顺序接通，直接走过去不会启动。全部亮起后在末端法阵停下。",
+  "loadingTip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
   "type": "hero",
   "product": "codecombat",
   "version": {
@@ -2947,7 +2947,7 @@
                 "name": "plan",
                 "source": "// Write movement commands here.\n",
                 "languages": {
-                  "python": "# 每轮：先移动，再按编号开关。\n"
+                  "python": "# 先让1号开关接通，看电流流向哪里。\n"
                 },
                 "permissions": {
                   "read": [],
@@ -3189,16 +3189,8 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
-        "learningContract": {
-          "loops": [
-            "for"
-          ],
-          "inside": {
-            "moveRight": "for",
-            "press": "for"
-          },
-          "maxStatements": 3
-        },
+        "inventoryConfig": null,
+        "learningContract": null,
         "walls": [
           {
             "x": 2,
@@ -3991,8 +3983,9 @@
             ]
           }
         ],
-        "singleStep": true,
-        "maxActions": 30,
+        "decoySwitches": [],
+        "singleStep": false,
+        "maxActions": 240,
         "expectedSpeech": null
       }
     }
@@ -4022,7 +4015,7 @@
     "specificArticles": [
       {
         "name": "本关任务",
-        "body": "三个开关依次在右边第1、2、3格。每轮先走一格，再用 hero.press(number) 按下脚下对应编号的开关。用 range(1, 4) 让 number 依次等于1、2、3。三个开关全部点亮后停在3号。 最后一个编号石板位于法阵中央；全部按对后法阵会启动。"
+        "body": "三个编号开关串联着出口。走到闪光的开关上，用 press(编号) 压下它；接通后光会沿线路流向下一块。必须按电路顺序接通，直接走过去不会启动。全部亮起后在末端法阵停下。"
       }
     ]
   },
@@ -4046,11 +4039,11 @@
   "teachingMap": {
     "index": 14,
     "section": 3,
-    "revision": 1,
+    "revision": 4,
     "lessonOrder": 14,
-    "name": "第3节 · 依次按下1、2、3号开关",
-    "description": "三个开关依次在右边第1、2、3格。每轮先走一格，再用 hero.press(number) 按下脚下对应编号的开关。用 range(1, 4) 让 number 依次等于1、2、3。三个开关全部点亮后停在3号。 最后一个编号石板位于法阵中央；全部按对后法阵会启动。",
-    "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+    "name": "第3节 · 接通三个继电开关",
+    "description": "三个编号开关串联着出口。走到闪光的开关上，用 press(编号) 压下它；接通后光会沿线路流向下一块。必须按电路顺序接通，直接走过去不会启动。全部亮起后在末端法阵停下。",
+    "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
     "size": [
       60,
       40
@@ -4088,7 +4081,7 @@
     ],
     "labels": [],
     "knowledge": "循环变量 / range 起止",
-    "singleStep": true,
+    "singleStep": false,
     "apis": [
       "press"
     ],
@@ -4115,28 +4108,26 @@
         ]
       }
     ],
-    "starter": "# 每轮：先移动，再按编号开关。\n",
+    "starter": "# 先让1号开关接通，看电流流向哪里。\n",
     "hints": [
-      "range(1, 4) 包含1、2、3，不包含4。",
-      "press 的括号里写 number；不要写带引号的 \"number\"。"
+      "位置和编号都要对应：站在1号上，才能压下1号。",
+      "每次都要先移动再按开关。循环变量可以替你依次产生1、2、3；逐个写出动作也有效。"
     ],
-    "quest": "石板刻着1、2、3，终点法阵的三盏灯都熄灭了。按顺序启动石板，唤醒法阵。",
+    "visualTask": true,
+    "quest": "按线路方向接通1、2、3号开关，让出口通电。",
     "inscriptions": [],
+    "powerCircuit": true,
     "exitStyle": "portal",
     "exitDirection": [
       1,
       0
     ],
-    "learningContract": {
-      "loops": [
-        "for"
-      ],
-      "inside": {
-        "moveRight": "for",
-        "press": "for"
-      },
-      "maxStatements": 3
-    },
+    "learningContract": null,
+    "maxActions": 240,
+    "introBrief": [
+      "接通三个继电开关",
+      "按线路方向接通1、2、3号开关，让出口通电。"
+    ],
     "scenarioIndex": 0,
     "scenarioTitles": [
       "主场景"

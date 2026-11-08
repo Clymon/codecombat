@@ -11,8 +11,9 @@ async function record (session, level, body) {
     session.codeHash = hash
     session.state = { ...session.state, complete: false }
     session.teachingComplete = false
+    session.learningFeedback = ''
   }
-  if (body.state?.complete === true && body.state?.teachingVictoryCode === code) {
+  if (body.state?.complete === true && body.state?.teachingVictoryCode === code && session.scenePasses[session.teachingScene || 0]?.hash !== hash) {
     const error = await check(design.index, code)
     session.learningFeedback = error
     if (!error) {
@@ -20,6 +21,8 @@ async function record (session, level, body) {
       session.state = { ...session.state, complete: true }
     } else session.state = { ...session.state, complete: false }
   }
-  session.teachingComplete = Array.from({ length: count }, (_, i) => session.scenePasses[i]).every(Boolean)
+  // Completion is derived from an accepted pass, never a client completion flag.
+  session.state = { ...session.state, complete: session.scenePasses[session.teachingScene || 0]?.hash === hash }
+  session.teachingComplete = Array.from({ length: count }, (_, i) => session.scenePasses[i]).every(pass => pass?.hash && (design.allowCodeChanges || pass.hash === hash))
 }
 module.exports = { record, source }

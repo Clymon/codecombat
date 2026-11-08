@@ -1,11 +1,12 @@
 const test = require('node:test'); const assert = require('node:assert/strict')
-const Adventure = require('../adventure-runtime'); const designs = [...require('../adventure-maps'), ...require('../tutorial-maps')]
+const Adventure = require('../adventure-runtime'); const compiled = require('../tools/build-levels').compileLevels()
 function setup (index, scene = 0) {
-  const d = designs.find(d => d.index === index); const config = structuredClone(d.scenarios?.[scene]?.adventure || d.adventure)
+  const level = compiled.find(l => l.teachingMap.index === index && l.teachingMap.scenarioIndex === scene)
+  const d = level.teachingMap; const config = structuredClone(d.adventure)
   const make = (id, at) => ({ id, pos: { x: at[0], y: at[1] }, health: 100, velocity: { x: 0, y: 0 }, setAction (v) { this.action = v }, setTargetPos () {} })
   const hero = make('Hero Placeholder', d.start); const actors = config.actors.map(a => make(a.id, a.at)); const goals = {}
   const world = { age: 0, dt: 0.05, getThangByID: id => [hero, ...actors].find(t => t.id === id), goalManager: { setGoalState: (id, state) => { goals[id] = state } }, endWorld (won) { this.ended = won } }
-  const geometry = require(`../levels/local-python-${index}.json`).systems.find(s => s.original === 'facadecccc00000000000001').config
+  const geometry = level.systems.find(s => s.original === 'facadecccc00000000000001').config
   const rules = { ...geometry, adventureConfig: { ...config, guided: !!d.tutorial }, world, faceToward () {}, fail (h, message) { this.failed = true; h.teachingFailure = message; goals['stay-safe'] = 'failure' } }
   const a = new Adventure(rules, hero)
   const tick = (seconds, action) => { for (let n = 0; n < seconds / world.dt && !rules.failed && !a.complete; n++) { action?.(); a.update(); world.age += world.dt } }
@@ -76,7 +77,7 @@ test('camp damage reaches zero and fails independently of hero health', () => {
 test('first-line API failures survive the rules first update', () => {
   const fs = require('fs'); const vm = require('vm'); const path = require('path')
   const s = setup(25)
-  const Rules = vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../rules-system.js'), 'utf8'), { System: class {}, TeachingAdventure: Adventure, TeachingLearning: require('../learning-runtime') })
+  const Rules = vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../rules-system.js'), 'utf8'), { TeachingInteractions: require('../interaction-rules'), System: class {}, TeachingAdventure: Adventure, TeachingLearning: require('../learning-runtime') })
   const rules = Object.assign(new Rules(), s.rules); delete rules.fail; delete rules.faceToward
   rules.start(); s.hero.attack(null); rules.update()
   assert.match(s.hero.teachingFailure, /没有攻击目标/); assert.equal(rules.failed, true)

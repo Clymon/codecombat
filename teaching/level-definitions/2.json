@@ -1,0 +1,96 @@
+{
+  "index": 2,
+  "revision": 4,
+  "name": "训练营④：四格长廊",
+  "knowledge": "重复移动与停留充能",
+  "description": "沿路有三块石板，每块只有一个符文。走到一块石板上，停留1秒，等圆环转满、符文点亮后再走向下一块。未充满就离开，只会清空这块石板的进度；已点亮的石板保持点亮。三块全亮后，再向右走一格到出口。",
+  "tip": "观察道路、守卫和机关。先运行一小段代码看结果；需要语法帮助时展开任务日志。",
+  "quest": "沿路三块石板连着出口。每到一块，停留1秒点亮它；三块全亮后从楼梯离开。",
+  "hints": [
+    "每块石板都有自己的圆环。踩上去后充能1秒，就会点亮；离开已点亮的石板不会让它熄灭。",
+    "hero.wait() 让英雄原地等待1秒。让当前这块亮起后，再走向下一块。",
+    "观察三块石板上重复的动作：走一格，等1秒。可以逐次写，也可以用循环；在同一块上等更久不能点亮其他石板。"
+  ],
+  "apis": [
+    "wait"
+  ],
+  "chargePlates": [
+    {
+      "at": [
+        24,
+        12
+      ],
+      "radius": 2,
+      "seconds": 1
+    },
+    {
+      "at": [
+        36,
+        12
+      ],
+      "radius": 2,
+      "seconds": 1
+    },
+    {
+      "at": [
+        48,
+        12
+      ],
+      "radius": 2,
+      "seconds": 1
+    }
+  ],
+  "size": [
+    84,
+    40
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      12,
+      12,
+      84,
+      12
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    60,
+    12
+  ],
+  "exitMarker": {
+    "x": 79,
+    "y": 12,
+    "direction": "→"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      10,
+      20
+    ],
+    [
+      30,
+      20
+    ],
+    [
+      50,
+      20
+    ]
+  ],
+  "labels": [],
+  "starter": "# 让沿路的三块石板全部亮起，再去右侧出口。\n",
+  "solution": "for step in range(3):\n    hero.moveRight()\n    hero.wait()\nhero.moveRight()\n",
+  "section": 1,
+  "inscriptions": [],
+  "exitStyle": "stairs",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "learningContract": null
+}

@@ -1,4 +1,4 @@
-/* global System, TeachingAdventure, TeachingLearning */
+/* global System, TeachingAdventure, TeachingLearning, TeachingInventory, TeachingInteractions */
 // Original local map rules. Rendered walls and these bounds share one source.
 class TeachingRules extends System {
   start () {
@@ -6,13 +6,16 @@ class TeachingRules extends System {
     this.installSpeech(hero)
     this.installSensors(hero)
     if (hero && this.learningContract && !this.learning) this.learning = new TeachingLearning(this, hero, this.learningContract)
-    if (hero && this.adventureConfig) this.adventure = new TeachingAdventure(this, hero)
+    if (hero && this.inventoryConfig && !this.inventory) this.inventory = new TeachingInventory(this, hero, this.inventoryConfig, TeachingInteractions)
+    if (this.inventory) for (const id of ['reach-exit', 'deliver-supplies', 'take-supplies']) this.world.goalManager.setGoalState(id, 'incomplete')
+    if (hero && this.adventureConfig) this.adventure = new TeachingAdventure(this, hero, TeachingInteractions)
     // Native idle/move completion may call unblock while our custom attack/wait
     // is still running. Keep its Future alive until the custom action finishes.
     if (hero?.unblock) {
       const nativeUnblock = hero.unblock; const rules = this
       hero.unblock = function (...args) {
         if ((this.currentPlan?.methodName === 'attack' && rules.adventure?.swing) || (this.currentPlan?.methodName === 'wait' && this.teachingWaitUntil != null)) return
+        if (this.currentPlan?.methodName === '__classroomTick' && this.teachingLoopTimes?.[this.currentPlan.methodArgs[0]] === this.world.age) return
         return nativeUnblock.apply(this, args)
       }
     }
@@ -59,18 +62,22 @@ class TeachingRules extends System {
       hero.apiProperties = (hero.apiProperties || []).filter(p => p !== name)
       hero.apiOwnMethods = Array.from(new Set([...(hero.apiOwnMethods || []), name]))
     }
-    expose('pathOpen', direction => {
-      if (!['left', 'right', 'up', 'down'].includes(direction)) throw new Error('方向请用带引号的 "left"、"right"、"up" 或 "down"。')
-      return rules.sensor?.open?.[direction] === true
+    const exposeQuery = (name, fn) => expose(name, (...args) => {
+      const availability = TeachingInteractions.query(name, { args })
+      if (!availability.ready) throw new Error(availability.message)
+      return fn(...args)
     })
-    expose('pathLength', () => rules.sensor?.length || 0)
-    expose('readSignal', () => rules.sensor?.signal || 0)
-    expose('atBeacon', () => Math.hypot(hero.pos.x - rules.exit[0], hero.pos.y - rules.exit[1]) < 1)
-    expose('nextTileSafe', () => rules.nextSafe(hero))
+    exposeQuery('pathOpen', direction => rules.sensor?.open?.[direction] === true)
+    exposeQuery('pathLength', () => rules.sensor?.length || 0)
+    exposeQuery('readSignal', () => rules.sensor?.signal || 0)
+    exposeQuery('atBeacon', () => Math.hypot(hero.pos.x - rules.exit[0], hero.pos.y - rules.exit[1]) < 1)
+    exposeQuery('nextTileSafe', () => rules.nextSafe(hero))
     expose('press', number => {
-      const next = (rules.switches || [])[rules.pressedCount || 0]
-      if (!next || number !== next.number || Math.hypot(hero.pos.x - next.at[0], hero.pos.y - next.at[1]) > 1) {
-        rules.fail(hero, '开关没按对：石板没有回应。站到对应编号上，按顺序再试。')
+      const availability = TeachingInteractions.pressSwitch(hero.pos, rules.switches, rules.decoySwitches, rules.pressedCount, number)
+      if (!availability.ready) {
+        if (availability.lethal) { hero.health = 0; hero.keepTrackedProperty?.('health') }
+        rules.fail(hero, availability.message)
+        if (availability.lethal) { hero.setAction?.('die'); hero.keepTrackedProperty?.('action') }
         return false
       }
       rules.pressedCount = (rules.pressedCount || 0) + 1
@@ -78,10 +85,50 @@ class TeachingRules extends System {
       if (rules.pressedCount === rules.switches.length) rules.world.goalManager.setGoalState('press-switches', 'success')
       return true
     })
-    expose('wait', function () {
-      if (this.teachingWaitUntil == null) this.teachingWaitUntil = this.world.age + 0.5
+    // Sensor readings and switch responses are replayed beside the map, not hidden in a log.
+    for (const name of ['pathOpen', 'nextTileSafe', 'readSignal', 'pathLength', 'press']) {
+      const original = hero[name]
+      expose(name, function (...args) {
+        const result = original.apply(this, args)
+        const direction = { right: '右', left: '左', up: '上', down: '下' }[args[0]] || ''
+        const label = { pathOpen: `${direction}路开放`, nextTileSafe: '下一格安全', readSignal: '徽章能量', pathLength: '前方格数', press: '开关启动' }[name]
+        const value = result === true ? 'True（是）' : result === false ? 'False（否）' : String(result)
+        this.teachingObservation = JSON.stringify({ name, value: result, text: name === 'press' ? `${args[0]} 号开关${result ? '已点亮' : '没有启动'}` : `${label}：${value}`, at: rules.world.age })
+        return result
+      })
+    }
+    hero.addTrackedProperties?.(['teachingObservation', 'string'])
+    hero.keepTrackedProperty?.('teachingObservation')
+    // A repeated loop check in the same frame yields until the next world tick.
+    // A real action has already advanced time, so it needs no extra waiting.
+    expose('__classroomTick', function (id) {
+      this.teachingLoopTimes ||= Object.create(null)
+      if (this.teachingLoopTimes[id] === this.world.age) return
+      this.teachingLoopTimes[id] = this.world.age
+      return 'done'
+    })
+    hero.plannifyMethod?.('__classroomTick')
+    hero.addTrackedProperties?.(['teachingWait', 'string'])
+    hero.keepTrackedProperty?.('teachingWait')
+    expose('wait', function (seconds = 1) {
+      if (!Number.isInteger(seconds) || seconds < 0 || seconds > 30) {
+        rules.fail(this, 'wait 的秒数请填0到30之间的整数，例如 hero.wait(3)；不填时等待1秒。')
+        return 'done'
+      }
+      if (this.teachingWaitUntil == null) {
+        this.teachingWaitUntil = this.world.age + seconds
+        this.teachingWait = JSON.stringify({ startedAt: this.world.age, seconds, finishedAt: null })
+      }
+      // Idle animation alone does not stop native movement inertia.
+      this.setTargetPos?.(null)
+      this.intent = undefined
+      if (this.velocity) { this.velocity.x = 0; this.velocity.y = 0 }
       this.setAction?.('idle')
-      if (this.world.age >= this.teachingWaitUntil) { this.teachingWaitUntil = null; return 'done' }
+      if (this.world.age + 1e-9 >= this.teachingWaitUntil) {
+        this.teachingWait = JSON.stringify({ ...JSON.parse(this.teachingWait), finishedAt: this.world.age })
+        this.teachingWaitUntil = null
+        return 'done'
+      }
     })
     hero.plannifyMethod?.('wait')
     for (const name of ['moveRight', 'moveLeft', 'moveUp', 'moveDown', 'wait']) {
@@ -89,13 +136,13 @@ class TeachingRules extends System {
       if (typeof original !== 'function') continue
       hero[name] = function (...args) {
         if (!this.currentPlan) {
-          rules.actionCount = (rules.actionCount || 0) + 1
-          if (rules.actionCount > (rules.maxActions || 30)) {
+          if (name !== 'wait') rules.actionCount = (rules.actionCount || 0) + 1
+          if (name !== 'wait' && rules.actionCount > (rules.maxActions || 30)) {
             rules.fail(this, '循环超过安全次数：检查 while 的条件是否会变成 False，以及循环内是否更新了变量。')
             return 'done'
           }
           if (rules.singleStep && name !== 'wait' && args[0] != null && args[0] !== 1) {
-            rules.fail(this, '本关每次只能走一格。把重复移动写进循环，不要用步数参数代替循环。')
+            rules.fail(this, '这段通道一次只能前进一格。')
             return 'done'
           }
         }
@@ -181,16 +228,7 @@ class TeachingRules extends System {
   }
 
   canTalkToGate (event, gate) {
-    // The marked approach square is directly in front; allow only arrival drift.
-    if (Math.hypot(event.x - gate.approach[0], event.y - gate.approach[1]) > 1) return false
-    const dx = gate.at[0] - event.x; const dy = gate.at[1] - event.y
-    const distance = Math.hypot(dx, dy)
-    if (distance > 12.5) return false
-    for (let i = 1; i < Math.ceil(distance); i++) {
-      const t = i / Math.ceil(distance); const x = event.x + dx * t; const y = event.y + dy * t
-      if ((this.walls || []).some(w => Math.abs(x - w.x) < w.halfWidth && Math.abs(y - w.y) < w.halfHeight)) return false
-    }
-    return true
+    return TeachingInteractions.gateSpeech(event, gate, this.walls || []).canHear
   }
 
   receiveSpeech (event, hero) {
@@ -199,7 +237,9 @@ class TeachingRules extends System {
     const gates = this.gates || []
     const nearby = gates.find(g => this.canTalkToGate(event, g))
     if (!nearby) {
-      if (gates.some(g => !g.locked)) hero.teachingFailure = '离守卫太远了，他没有听见。'
+      const responses = gates.filter(g => !g.locked && g.openedAt == null).map(g => TeachingInteractions.gateSpeech(event, g, this.walls || []))
+      const refusal = responses.find(r => r.status === 'blocked') || responses[0]
+      if (refusal) hero.teachingFailure = refusal.message
       return
     }
     if (nearby.locked || nearby.openedAt != null) return
@@ -309,12 +349,49 @@ class TeachingRules extends System {
     try { return this.updateRules() } finally { this.recordHeroVisual(this.world.getThangByID('Hero Placeholder')) }
   }
 
+  updateChargePlates (hero) {
+    const plates = this.chargePlates
+    if (!plates?.length) return true
+    const now = this.world.age
+    if (!this.chargeState) {
+      this.chargeState = { plates: plates.map(() => ({ elapsed: 0, occupied: false, complete: false, interruptedAt: -1 })), lit: 0, occupied: false, complete: false }
+      hero.addTrackedProperties?.(['teachingCharge', 'string'])
+      hero.keepTrackedProperty?.('teachingCharge')
+      this.world.goalManager.setGoalState('charge-plate', 'incomplete')
+    }
+    const dt = Math.max(0, now - (this.chargeUpdatedAt ?? now))
+    this.chargeUpdatedAt = now
+    plates.forEach((plate, index) => {
+      const state = this.chargeState.plates[index]
+      const { occupied, complete } = TeachingInteractions.chargePlate(hero.pos, plate, state, hero.health)
+      if (!complete) {
+        if (occupied) {
+          if (!state.occupied) state.startedAt = now
+          if (state.occupied) state.elapsed = Math.min(plate.seconds, state.elapsed + dt)
+          state.complete = state.elapsed + 1e-9 >= plate.seconds
+          if (state.complete) { state.elapsed = plate.seconds; state.completedAt = now }
+        } else {
+          if (state.elapsed > 0) state.interruptedAt = now
+          state.elapsed = 0
+        }
+      }
+      state.occupied = occupied
+    })
+    this.chargeState.lit = this.chargeState.plates.filter(p => p.complete).length
+    this.chargeState.occupied = this.chargeState.plates.some(p => p.occupied && !p.complete)
+    this.chargeState.complete = this.chargeState.lit === plates.length
+    if (this.chargeState.complete) this.world.goalManager.setGoalState('charge-plate', 'success')
+    hero.teachingCharge = JSON.stringify(this.chargeState)
+    return this.chargeState.complete
+  }
+
   updateRules () {
     const hero = this.world.getThangByID('Hero Placeholder')
     if (!hero || !this.world.goalManager) return 0
     this.installSpeech(hero)
     this.installSensors(hero)
     if (hero && this.learningContract && !this.learning) this.learning = new TeachingLearning(this, hero, this.learningContract)
+    if (hero && this.inventoryConfig && !this.inventory) this.inventory = new TeachingInventory(this, hero, this.inventoryConfig, TeachingInteractions)
     if (!this.initialized) {
       this.initialized = true
       this.checkpointCount = 0
@@ -328,10 +405,18 @@ class TeachingRules extends System {
       hero.teachingFailure = hero.teachingFailure || ''
       for (const key of ['teachingCheckpointCount', 'teachingExitReady', 'teachingFailure', 'teachingExitOpenedAt', 'teachingExitStartedAt']) hero.keepTrackedProperty?.(key)
     }
+    if (this.inventory) {
+      this.world.goalManager.setGoalState('deliver-supplies', this.inventory.ready() ? 'success' : 'incomplete')
+      this.world.goalManager.setGoalState('take-supplies', this.inventory.claimed ? 'success' : 'incomplete')
+    }
     if (hero.teachingExitStartedAt >= 0) return this.updateDeparture(hero)
     this.adventure?.update()
     if (this.adventure && (this.failed || this.adventureConfig.mode === 'defend')) return hero.pos.x + hero.pos.y
     this.updateGates(hero)
+    for (const i of (this.inventoryConfig?.receivers || []).keys()) {
+      const npc = this.world.getThangByID(`Item Recipient ${i + 1}`)
+      if (npc) this.faceToward(npc, hero.pos)
+    }
     if (hero.teachingPendingPost && Math.hypot(hero.pos.x - hero.teachingPendingPost.approach[0], hero.pos.y - hero.teachingPendingPost.approach[1]) < 1.8) {
       const post = hero.teachingPendingPost
       hero.teachingPendingPost = null
@@ -379,14 +464,33 @@ class TeachingRules extends System {
           this.world.goalManager.setGoalState(`checkpoint-${++this.checkpointCount}`, 'success')
           hero.teachingCheckpointCount = this.checkpointCount
         }
-        const extraReady = (!(this.switches || []).length || this.world.goalManager.getGoalState('press-switches') === 'success') && (!this.expectedSpeech || JSON.stringify(this.spoken || []) === JSON.stringify(this.expectedSpeech))
-        const ready = (!this.adventure || this.adventure.ready()) && extraReady && this.checkpointCount === checkpoints.length && (this.noGems || this.world.goalManager.getGoalState('collect-parcels') === 'success') && (this.gates || []).every(g => g.locked || this.world.goalManager.getGoalState(`gate-${g.id}`) === 'success')
+        const chargeReady = this.updateChargePlates(hero)
+        const extraReady = chargeReady && (!(this.switches || []).length || this.world.goalManager.getGoalState('press-switches') === 'success') && (!this.expectedSpeech || JSON.stringify(this.spoken || []) === JSON.stringify(this.expectedSpeech))
+        const ready = (!this.inventory || this.inventory.ready()) && (!this.adventure || this.adventure.ready()) && extraReady && this.checkpointCount === checkpoints.length && (this.noGems || this.world.goalManager.getGoalState('collect-parcels') === 'success') && (this.gates || []).every(g => g.locked || this.world.goalManager.getGoalState(`gate-${g.id}`) === 'success')
         if (ready && !hero.teachingExitReady) hero.teachingExitOpenedAt = this.world.age
         if (!ready) hero.teachingExitOpenedAt = -1
         hero.teachingExitReady = ready
         const atExit = this.exit && Math.hypot(hero.pos.x - this.exit[0], hero.pos.y - this.exit[1]) < 2 && remaining < 1
-        if (atExit && !ready && !hero.teachingFailure) hero.teachingFailure = this.adventure ? '出口的封印还没有解除。查看左上角尚未完成的目标。' : '出口的封印还没有解除。看看有没有没亮的石板或遗落的宝石。'
-        if (ready && hero.teachingFailure?.startsWith('出口的封印')) hero.teachingFailure = ''
+        if (atExit && !ready && (!hero.teachingFailure || hero.teachingFailure.startsWith('出口尚未启动：'))) {
+          if (this.chargePlates?.length && !chargeReady) hero.teachingFailure = '出口尚未启动：还有石板没有点亮。回到暗着的石板上，停留1秒。'
+          else if (this.inventory) {
+            const pending = this.inventory.receivers.find(r => !r.delivered)
+            const reason = !this.inventory.claimed ? '先打开补给箱，领取物品。' : pending ? `${pending.name}还需要 ${pending.amount} ${this.inventoryConfig.unit}${this.inventoryConfig.item}，走到它前面交付。` : `物品已交齐，但显示的剩余数量不对。每交出一块，把 remaining 减1再输出；应依次显示 ${(this.expectedSpeech || []).join('、')}。`
+            hero.teachingFailure = '出口尚未启动：' + reason
+          } else hero.teachingFailure = this.adventure ? '出口的封印还没有解除。查看左上角尚未完成的目标。' : '出口的封印还没有解除。看看有没有没亮的石板或遗落的宝石。'
+        }
+        if (hero.plansAreFinished && !ready && !this.failed) {
+          const pendingItem = this.inventory?.receivers.find(r => !r.delivered)
+          const nextSwitch = (this.switches || [])[this.pressedCount || 0]
+          if (this.chargePlates?.length && !chargeReady) hero.teachingFailure = this.chargeState.occupied ? '' : '石板还没有全部点亮。每块都要走到上面停留1秒，再去出口。'
+          else if (this.inventory && !this.inventory.claimed) hero.teachingFailure = '补给箱还没有打开。先领取物品，再完成交付。'
+          else if (pendingItem) hero.teachingFailure = `还没有给${pendingItem.name}交齐物品。它需要 ${pendingItem.amount} ${this.inventoryConfig.unit}${this.inventoryConfig.item}；走到它前面再 give。`
+          else if (nextSwitch) hero.teachingFailure = `程序执行完了，还有 ${this.switches.length - (this.pressedCount || 0)} 个开关没启动。下一块是 ${nextSwitch.number} 号；走到上面以后还需要 press。`
+          else if (this.checkpointCount < checkpoints.length) hero.teachingFailure = `程序执行完了，只点亮 ${this.checkpointCount} / ${checkpoints.length} 块石板。出口还没有电；继续完成剩下的移动。`
+          else if (!this.noGems && this.world.goalManager.getGoalState('collect-parcels') !== 'success') hero.teachingFailure = '宝石还在地图上，出口不会启动。取到宝石后再离开。'
+        }
+        if (this.chargePlates?.length && (chargeReady || this.chargeState.occupied) && (hero.teachingFailure?.startsWith('石板还没有全部点亮') || hero.teachingFailure?.startsWith('出口尚未启动：'))) hero.teachingFailure = ''
+        if (ready && (hero.teachingFailure?.startsWith('出口的封印') || hero.teachingFailure?.startsWith('出口尚未启动：'))) hero.teachingFailure = ''
         if (ready && atExit && (!this.requireFinished || hero.plansAreFinished)) {
           if (this.learning && !this.learning.accept()) return
           if (this.exitDuration > 0) {

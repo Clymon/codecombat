@@ -53,6 +53,23 @@ async function capture (resource) {
   pending.set(resource, operation)
   try { return await operation } finally { pending.delete(resource) }
 }
+let bundledNames
+function namesFor (resource) {
+  const url = new URL(resource, 'http://local.invalid')
+  if (url.pathname !== '/db/thang.type/names') return null
+  const ids = url.searchParams.getAll('ids[]')
+  if (!ids.length || ids.length > 100 || ids.some(id => !/^[a-f0-9]{24}$/.test(id))) return null
+  if (!bundledNames) {
+    bundledNames = new Map()
+    for (const [key, entry] of Object.entries(manifest.resources)) {
+      if (!key.startsWith('/db/thang.type/names?')) continue
+      const records = JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(directory, 'blobs', entry.hash + '.gz'))))
+      for (const record of records) bundledNames.set(record.original, record)
+    }
+  }
+  if (ids.some(id => !bundledNames.has(id))) return null
+  return [...new Set(ids)].map(id => bundledNames.get(id))
+}
 function middleware (req, res, next) {
   if (!enabled()) return next()
   const requested = key(req.originalUrl)
@@ -63,6 +80,8 @@ function middleware (req, res, next) {
   }
   if (req.method === 'GET' && allowed(resource)) {
     if (manifest.resources[resource]) return send(manifest.resources[resource])
+    const names = namesFor(resource)
+    if (names) return res.set('Cache-Control', 'public, max-age=0, must-revalidate').json(names)
     if (process.env.TEACHING_CAPTURE_RESOURCES === 'true') return capture(resource).then(send).catch(error => { console.error('[teaching-resource]', error.message); res.status(502).json({ message: '通用资源下载失败', resource }) })
   }
   // No fall-through to the original catch-all upstream proxy.

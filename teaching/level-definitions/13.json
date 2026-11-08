@@ -1,0 +1,122 @@
+{
+  "index": 13,
+  "section": 3,
+  "revision": 4,
+  "lessonOrder": 13,
+  "name": "第3节 · 点亮三间符文室",
+  "description": "主廊上方有三间侧室，每间尽头的石板都要站稳1秒才会点亮。圆环未满就离开，这一块会熄灭；已经完成的会保留。三块全部亮起后，从右侧出口离开。走过主廊不会替侧室充能。",
+  "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
+  "size": [
+    108,
+    60
+  ],
+  "start": [
+    12,
+    12
+  ],
+  "corridors": [
+    [
+      8,
+      12,
+      104,
+      12
+    ],
+    [
+      24,
+      12,
+      24,
+      40
+    ],
+    [
+      48,
+      12,
+      48,
+      40
+    ],
+    [
+      72,
+      12,
+      72,
+      40
+    ]
+  ],
+  "checkpoints": [],
+  "exit": [
+    96,
+    12
+  ],
+  "exitMarker": {
+    "x": 48,
+    "y": 5,
+    "direction": "→",
+    "label": "终点"
+  },
+  "hazards": [],
+  "gems": [],
+  "torches": [
+    [
+      8,
+      24
+    ],
+    [
+      96,
+      24
+    ]
+  ],
+  "labels": [],
+  "knowledge": "for / range(n)",
+  "singleStep": false,
+  "checkpointLabels": [],
+  "starter": "# 先尝试点亮第一间侧室，再考虑另外两间。\n",
+  "solution": "hero.moveRight()\nfor room in range(3):\n    hero.moveUp(2)\n    hero.wait()\n    hero.moveDown(2)\n    hero.moveRight(2)\n",
+  "hints": [
+    "先右走一格，再上走两格，到第一块石板上。看圆环是否转满。",
+    "上去、等亮、下来、前往下一间，是三间侧室共有的动作。可以先写通一间，再用循环整理重复部分。"
+  ],
+  "visualTask": true,
+  "quest": "三间侧室各有一块暗石板。逐间充能，接通右侧出口。",
+  "inscriptions": [],
+  "powerCircuit": false,
+  "exitStyle": "portal",
+  "exitDirection": [
+    1,
+    0
+  ],
+  "learningContract": null,
+  "maxActions": 240,
+  "switches": [],
+  "gates": [],
+  "apis": [
+    "wait"
+  ],
+  "chargePlates": [
+    {
+      "at": [
+        24,
+        36
+      ],
+      "radius": 2,
+      "seconds": 1
+    },
+    {
+      "at": [
+        48,
+        36
+      ],
+      "radius": 2,
+      "seconds": 1
+    },
+    {
+      "at": [
+        72,
+        36
+      ],
+      "radius": 2,
+      "seconds": 1
+    }
+  ],
+  "introBrief": [
+    "点亮三间符文室",
+    "三间侧室各有一块暗石板。逐间充能，接通右侧出口。"
+  ]
+}

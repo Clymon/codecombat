@@ -3,8 +3,8 @@
   "original": "facade000000000000000032",
   "slug": "local-python-32",
   "name": "守营准备：等待与胜利条件",
-  "description": "输入 print(hero.isVictory())，观察开局结果False。hero.wait() 等待0.5秒；等待后重新查找，再用if确认有敌人并攻击。本关只有一名20点生命的敌人；击败后自动通关，不必走楼梯。",
-  "loadingTip": "先观察角色和道路。展开任务日志查看目标、可用命令和提示。",
+  "description": "营地开局是空的，但左侧裂隙很快会亮起红光，随后出现一名斥候。等它出现后击败它，保持营火存活。只看开局就离开无法守住营地。可以尝试等待后查找，也可以持续观察；击败后自动通关。",
+  "loadingTip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
   "type": "hero",
   "product": "codecombat",
   "version": {
@@ -7930,15 +7930,8 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
-        "learningContract": {
-          "calls": [
-            "isVictory",
-            "wait",
-            "findNearestEnemy",
-            "attack"
-          ],
-          "attackVariable": true
-        },
+        "inventoryConfig": null,
+        "learningContract": null,
         "adventureConfig": {
           "mode": "defend",
           "camp": {
@@ -9899,8 +9892,9 @@
         "exitDuration": 0.7,
         "sensor": {},
         "switches": [],
+        "decoySwitches": [],
         "singleStep": false,
-        "maxActions": 90,
+        "maxActions": 240,
         "expectedSpeech": null
       }
     }
@@ -9930,7 +9924,7 @@
     "specificArticles": [
       {
         "name": "本关任务",
-        "body": "输入 print(hero.isVictory())，观察开局结果False。hero.wait() 等待0.5秒；等待后重新查找，再用if确认有敌人并攻击。本关只有一名20点生命的敌人；击败后自动通关，不必走楼梯。"
+        "body": "营地开局是空的，但左侧裂隙很快会亮起红光，随后出现一名斥候。等它出现后击败它，保持营火存活。只看开局就离开无法守住营地。可以尝试等待后查找，也可以持续观察；击败后自动通关。"
       }
     ]
   },
@@ -9956,7 +9950,7 @@
     "section": 4,
     "name": "守营准备：等待与胜利条件",
     "lessonOrder": 19.1,
-    "revision": 1,
+    "revision": 2,
     "prototype": false,
     "hiddenByDefault": true,
     "checkpoints": [],
@@ -9979,8 +9973,8 @@
       1,
       0
     ],
-    "maxActions": 90,
-    "tip": "先观察角色和道路。展开任务日志查看目标、可用命令和提示。",
+    "maxActions": 240,
+    "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
     "knowledge": "wait · isVictory · 延迟增援",
     "size": [
       84,
@@ -10009,7 +10003,7 @@
       ]
     ],
     "quest": "一名斥候稍后才会出现。先看看是否已经获胜，等待后再查找并击败它。",
-    "description": "输入 print(hero.isVictory())，观察开局结果False。hero.wait() 等待0.5秒；等待后重新查找，再用if确认有敌人并攻击。本关只有一名20点生命的敌人；击败后自动通关，不必走楼梯。",
+    "description": "营地开局是空的，但左侧裂隙很快会亮起红光，随后出现一名斥候。等它出现后击败它，保持营火存活。只看开局就离开无法守住营地。可以尝试等待后查找，也可以持续观察；击败后自动通关。",
     "starter": "# 先显示是否已经获胜，再等待、查找、攻击。\n",
     "apis": [
       "attack",
@@ -10058,33 +10052,29 @@
       "title": "暂时没敌人，不等于已经获胜",
       "steps": [
         {
-          "text": "先运行下面两行。isVictory返回是否已获胜；wait让游戏时间前进半秒。",
-          "code": "print(hero.isVictory())\nhero.wait()",
-          "observe": "开局显示False。等待后才能看到稍后出现的敌人。",
+          "text": "先运行下面两行。isVictory返回是否已获胜；wait(1)让英雄等待1秒，世界时间不会停止。",
+          "code": "print(isVictory())\nhero.wait(1)",
+          "observe": "开局显示False。斥候按时间出现，英雄等待时敌人也会继续行动。",
           "evidence": {
-            "kind": "call",
-            "name": "wait"
+            "kind": "enemy-arrived"
           }
         },
         {
           "text": "在后面加查找和有敌人才攻击的代码，再运行。",
           "code": "enemy = hero.findNearestEnemy()\nif enemy:\n    hero.attack(enemy)",
-          "observe": "击败唯一敌人后自动过关。下一关把查找、判断和等待放进while。",
+          "observe": "击败唯一敌人后自动过关。下一关把查找和判断放进while，反复观察战场；wait是可选的主动停顿。",
           "evidence": {
             "kind": "victory"
           }
         }
       ]
     },
-    "learningContract": {
-      "calls": [
-        "isVictory",
-        "wait",
-        "findNearestEnemy",
-        "attack"
-      ],
-      "attackVariable": true
-    },
+    "learningContract": null,
+    "singleStep": false,
+    "introBrief": [
+      "守营准备：等待与胜利条件",
+      "一名斥候稍后才会出现。先看看是否已经获胜，等待后再查找并击败它。"
+    ],
     "scenarioIndex": 0,
     "scenarioTitles": [
       "主场景"

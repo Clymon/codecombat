@@ -3,8 +3,8 @@
   "original": "facade000000000000000030",
   "slug": "local-python-30",
   "name": "观察教学：找到敌人再攻击",
-  "description": "先右走1格。用 enemy = hero.findNearestEnemy() 保存查找结果，再用 hero.attack(enemy) 攻击。斥候20点生命，一次攻击即可击败。最后右走2格到楼梯。本关保证有敌人。学会if后，再处理没有敌人的空通道。",
-  "loadingTip": "展开“教学引导”，按步骤写代码并运行。也可以收起引导自己尝试。",
+  "description": "路中央有一名哨兵挡着出口。击败它，再走到楼梯。两次巡查遇到的哨兵名字不同，同一份程序都要识别并处理当前目标。点敌人可查看攻击用法；查找函数会返回当前的敌人对象。",
+  "loadingTip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
   "type": "hero",
   "product": "codecombat",
   "version": {
@@ -3869,13 +3869,8 @@
       "original": "facadecccc00000000000001",
       "majorVersion": 0,
       "config": {
-        "learningContract": {
-          "calls": [
-            "findNearestEnemy",
-            "attack"
-          ],
-          "attackVariable": true
-        },
+        "inventoryConfig": null,
+        "learningContract": null,
         "adventureConfig": {
           "mode": "rescue",
           "actors": [
@@ -4808,8 +4803,9 @@
         "exitDuration": 1.8,
         "sensor": {},
         "switches": [],
+        "decoySwitches": [],
         "singleStep": false,
-        "maxActions": 90,
+        "maxActions": 240,
         "expectedSpeech": null
       }
     }
@@ -4824,11 +4820,6 @@
       "worldEndsAfter": 1
     },
     {
-      "id": "defeat-guard",
-      "name": "击败落单斥候",
-      "worldEndsAfter": 1
-    },
-    {
       "id": "reach-exit",
       "name": "完成沿路任务，从楼梯离开",
       "worldEndsAfter": 1
@@ -4839,7 +4830,7 @@
     "specificArticles": [
       {
         "name": "本关任务",
-        "body": "先右走1格。用 enemy = hero.findNearestEnemy() 保存查找结果，再用 hero.attack(enemy) 攻击。斥候20点生命，一次攻击即可击败。最后右走2格到楼梯。本关保证有敌人。学会if后，再处理没有敌人的空通道。"
+        "body": "路中央有一名哨兵挡着出口。击败它，再走到楼梯。两次巡查遇到的哨兵名字不同，同一份程序都要识别并处理当前目标。点敌人可查看攻击用法；查找函数会返回当前的敌人对象。"
       }
     ]
   },
@@ -4865,7 +4856,7 @@
     "section": 2,
     "name": "观察教学：找到敌人再攻击",
     "lessonOrder": 8.1,
-    "revision": 1,
+    "revision": 2,
     "prototype": false,
     "hiddenByDefault": true,
     "checkpoints": [],
@@ -4888,8 +4879,8 @@
       1,
       0
     ],
-    "maxActions": 90,
-    "tip": "展开“教学引导”，按步骤写代码并运行。也可以收起引导自己尝试。",
+    "maxActions": 240,
+    "tip": "点击地图对象查看交互方法。运行后观察机关、物品和生命值；左上角目标全部完成后提交。多场景关卡用同一份程序验证不同情况。",
     "size": [
       72,
       40
@@ -4915,8 +4906,8 @@
       "attack"
     ],
     "knowledge": "返回值 · 变量 · attack(enemy)",
-    "quest": "通道里有一名落单斥候。这次用查找命令取得目标，不把敌人的名字写死。",
-    "description": "先右走1格。用 enemy = hero.findNearestEnemy() 保存查找结果，再用 hero.attack(enemy) 攻击。斥候20点生命，一次攻击即可击败。最后右走2格到楼梯。本关保证有敌人。学会if后，再处理没有敌人的空通道。",
+    "quest": "击败当前哨兵，从右侧楼梯离开。",
+    "description": "路中央有一名哨兵挡着出口。击败它，再走到楼梯。两次巡查遇到的哨兵名字不同，同一份程序都要识别并处理当前目标。点敌人可查看攻击用法；查找函数会返回当前的敌人对象。",
     "starter": "hero.moveRight()\n# 查找敌人，把结果保存在 enemy 中，再攻击。\n",
     "adventure": {
       "mode": "rescue",
@@ -4935,12 +4926,7 @@
         }
       ]
     },
-    "goals": [
-      {
-        "id": "defeat-guard",
-        "name": "击败落单斥候"
-      }
-    ],
+    "goals": [],
     "tutorial": {
       "title": "enemy 保存的是找到的敌人",
       "steps": [
@@ -4949,8 +4935,7 @@
           "code": "enemy = hero.findNearestEnemy()\nhero.attack(enemy)",
           "observe": "查找本身不攻击；下一行才让英雄攻击找到的敌人。",
           "evidence": {
-            "kind": "dead",
-            "id": "落单斥候"
+            "kind": "enemies-cleared"
           }
         },
         {
@@ -4965,16 +4950,17 @@
     "hints": [
       "\"enemy\" 是文字，enemy 才是变量里保存的目标。"
     ],
-    "learningContract": {
-      "calls": [
-        "findNearestEnemy",
-        "attack"
-      ],
-      "attackVariable": true
-    },
+    "learningContract": null,
+    "singleStep": false,
+    "introBrief": [
+      "观察教学：找到敌人再攻击",
+      "击败当前哨兵，从右侧楼梯离开。"
+    ],
+    "title": "遇到落单斥候",
     "scenarioIndex": 0,
     "scenarioTitles": [
-      "主场景"
+      "遇到落单斥候",
+      "遇到门廊哨兵"
     ],
     "slug": "local-python-30"
   },

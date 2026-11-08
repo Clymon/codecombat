@@ -10,7 +10,7 @@ const accounts = require('../student-accounts')
 const classroom = require('../classroom-state')
 const { rewritePrintAsHeroSay } = require('../print-to-say')
 const { visibleSpeech, MAX_VISIBLE } = require('../speech-stack')
-const Rules = vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../rules-system.js'), 'utf8'), { System: class {constructor (world, config) { this.world = world; Object.assign(this, config) }} })
+const Rules = vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../rules-system.js'), 'utf8'), { TeachingInteractions: require('../interaction-rules'), System: class {constructor (world, config) { this.world = world; Object.assign(this, config) }} })
 function world (x, y, guard) {
   const hero = { pos: { x, y } }
   const goals = {}
@@ -189,7 +189,7 @@ test('student-number first login, repeat login, isolated progress and upstream p
     const nine = await (await fetch(`${base}/db/level/local-python-09/session`, { headers: { cookie } })).json()
     const sceneCode = { 'hero-placeholder': { plan: 'if hero.pathOpen("right"):\n    hero.moveRight()\n' } }
     await fetch(`${base}/db/level.session/${nine._id}`, { method: 'PUT', headers: { cookie, 'content-type': 'application/json' }, body: JSON.stringify({ code: sceneCode, state: { complete: true, teachingVictoryCode: sceneCode['hero-placeholder'].plan } }) })
-    const choose = (scene, formToken = token) => fetch(`${base}/teaching/scenario`, { method: 'POST', redirect: 'manual', headers: { cookie: `${formCookie}; ${cookie}` }, body: new URLSearchParams({ slug: 'local-python-09', scene: String(scene), formToken }) })
+    const choose = (scene, formToken = token) => fetch(`${base}/teaching/scenario`, { method: 'POST', redirect: 'manual', headers: { cookie: `${formCookie}; ${cookie}` }, body: new URLSearchParams({ slug: 'local-python-09', scene: String(scene), sessionId: nine._id, formToken }) })
     assert.equal((await choose(1, 'bad')).status, 403)
     assert.equal((await choose(99)).status, 400)
     assert.equal((await choose(1)).status, 303)
