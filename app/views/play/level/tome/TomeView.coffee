@@ -217,6 +217,7 @@ module.exports = class TomeView extends CocoView
     @cast e?.preload, e?.realTime, e?.justBegin, e?.cinematic
 
   cast: (preload=false, realTime=false, justBegin=false, cinematic=false) ->
+    return if window.teachingClassroomPaused and not preload
     return if @options.level.isType('web-dev')
     sessionState = @options.session.get('state') ? {}
     if realTime

@@ -212,3 +212,52 @@ for (const status of [401, 404, 409]) {
     } finally { dom.window.close() }
   })
 }
+
+test('classroom autosave recovery offers cabin return without the legacy copy-and-new-tab blocker', () => {
+  const ui = classroom(); let returned = false
+  ui.dom.window.teachingReturnToCabin = () => { returned = true }
+  try {
+    ui.edit('# unsaved code'); ui.requests[0].options.error({ status: 404 })
+    const link = ui.dom.window.document.querySelector('[data-teaching-save-recover]')
+    assert.equal(link.textContent, '回小屋'); assert.equal(link.target, '')
+    link.click(); assert.equal(returned, true)
+    assert.doesNotMatch(ui.dom.window.document.body.textContent, /新标签页/)
+  } finally { ui.close() }
+})
+
+test('classroom victory failure and a still-pending save both allow cabin return', async () => {
+  for (const pending of [false, true]) {
+    const dom = new JSDOM('<body><p class="local-save-notice"></p><button id="continue-button"></button></body>')
+    let returned = false
+    const sandbox = { module: { exports: {} }, window: { teachingReturnToCabin: () => { returned = true } }, require: name => name === 'lib/TeachingSaveStatus' ? require('../../app/lib/TeachingSaveStatus') : class {}, fetch: async () => pending ? new Promise(() => {}) : { ok: false, status: 404, json: async () => ({}) } }
+    vm.runInNewContext(fs.readFileSync(path.join(root, 'app/views/play/level/modal/HeroVictoryModal.js'), 'utf8'), sandbox)
+    const view = Object.create(sandbox.module.exports.prototype)
+    view.session = new Backbone.Model({ code: {}, state: {} }); view.session.id = 'gone'
+    view.level = new Backbone.Model({ slug: 'local-python-34' })
+    const $ = require('jquery')(dom.window); view.$ = selector => $(dom.window.document.body).find(selector)
+    try {
+      const preparing = view.prepareTeachingContinuation()
+      if (pending) view.$('[data-cabin-return]').trigger('click')
+      else { await preparing; assert.equal(view.$('#continue-button').text(), '回小屋'); await view.continueTeaching() }
+      assert.equal(returned, true)
+    } finally { dom.window.close() }
+  }
+})
+
+test('whole free levels return to the cabin, while scenes and teacher pauses retain their continuation', async () => {
+  for (const [kind, paused, expected] of [['level', false, 'cabin'], ['finished', false, 'cabin'], ['waiting', false, 'cabin'], ['scene', false, 'scene'], ['waiting', true, 'waiting']]) {
+    const dom = new JSDOM('<body><p class="local-save-notice"></p><button id="continue-button"></button></body>')
+    let returned = false
+    const sandbox = { module: { exports: {} }, window: { teachingClassroomPaused: paused, teachingReturnToCabin: () => { returned = true } }, require: name => name === 'lib/TeachingSaveStatus' ? require('../../app/lib/TeachingSaveStatus') : class {}, fetch: async () => ({ ok: true, json: async () => ({ kind, label: '继续', message: '状态' }) }) }
+    vm.runInNewContext(fs.readFileSync(path.join(root, 'app/views/play/level/modal/HeroVictoryModal.js'), 'utf8'), sandbox)
+    const view = Object.create(sandbox.module.exports.prototype)
+    view.session = new Backbone.Model({ code: {}, state: { complete: true } }); view.session.id = 'saved'
+    view.level = new Backbone.Model({ slug: 'local-python-01' })
+    const $ = require('jquery')(dom.window); view.$ = selector => $(dom.window.document.body).find(selector)
+    try {
+      await view.prepareTeachingContinuation()
+      assert.equal(view.teachingNext.kind, expected)
+      if (expected === 'cabin') { await view.continueTeaching(); assert.equal(returned, true) }
+    } finally { dom.window.close() }
+  }
+})

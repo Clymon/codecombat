@@ -3,7 +3,7 @@ const coffee = require('coffee-script')
 const adapter = require('../print-to-say')
 function loadGod () {
   const file = path.join(__dirname, '../../app/lib/God.coffee')
-  const sandbox = { module: { exports: {} }, require: name => name === 'teaching/environment-api' ? require('../environment-api') : name === 'teaching/print-to-say' ? adapter : name === 'teaching/learning-trace' ? require('../learning-trace') : name === 'teaching/execution-clock' ? require('../execution-clock') : name === 'core/CocoClass' ? class {} : {}, console }
+  const sandbox = { module: { exports: {} }, require: name => name === 'teaching/python-strings' ? require('../python-strings') : name === 'teaching/environment-api' ? require('../environment-api') : name === 'teaching/print-to-say' ? adapter : name === 'teaching/learning-trace' ? require('../learning-trace') : name === 'teaching/execution-clock' ? require('../execution-clock') : name === 'core/CocoClass' ? class {} : {}, console }
   vm.runInNewContext(coffee.compile(fs.readFileSync(file, 'utf8'), { bare: true }), sandbox)
   return sandbox.module.exports
 }

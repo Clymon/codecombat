@@ -123,7 +123,7 @@ test('student-number first login, repeat login, isolated progress and upstream p
     const token = home.match(/name="formToken" value="([0-9a-f]{64})"/)[1]
     const form = (route, studentId, extra = {}) => fetch(`${base}${route}`, { method: 'POST', redirect: 'manual', body: new URLSearchParams({ studentId, formToken: token }), ...extra, headers: { cookie: formCookie, ...extra.headers } })
     const release = (slug, open, extra = {}) => fetch(`${base}/teaching/teacher/release`, { method: 'POST', redirect: 'manual', body: new URLSearchParams({ slug, open: String(open), formToken: token }), ...extra, headers: { cookie: formCookie, ...extra.headers } })
-    assert.match(home, /25软件1班/); assert.doesNotMatch(home, /创建账号|teaching\/register/); assert.match(home, /进入课堂/); assert.doesNotMatch(home, /type="password"/)
+    assert.match(home, /25软件1班/); assert.doesNotMatch(home, /创建账号|teaching\/register/); assert.match(home, /进入小屋/); assert.doesNotMatch(home, /type="password"/)
     assert.equal((await fetch(`${base}/db/level/local-python-01`)).status, 401)
     assert.equal((await fetch(`${base}/db/level.system/facadecccc00000000000001/version/0`)).status, 401)
     assert.equal(classroom.isTeacherLocal({ socket: { remoteAddress: '192.168.1.2' }, get: () => `127.0.0.1:${server.address().port}` }), false)
@@ -150,7 +150,7 @@ test('student-number first login, repeat login, isolated progress and upstream p
     assert.equal(style.status, 200); assert.match(style.headers.get('content-type'), /text\/css/)
     assert.match(homeResponse.headers.get('content-security-policy'), /img-src 'self'/)
     assert.equal(accounts.account('20250001').className, '25软件1班')
-    const loggedIn = await (await fetch(`${base}/teaching`, { headers: { cookie } })).text()
+    const loggedIn = await (await fetch(`${base}/teaching/free`, { headers: { cookie } })).text()
     assert.match(loggedIn, /当前学号：<strong>20250001/)
     const secondRegistration = await form('/teaching/login', '20250002')
     const secondCookie = secondRegistration.headers.get('set-cookie').split(';')[0]
@@ -205,7 +205,7 @@ test('student-number first login, repeat login, isolated progress and upstream p
     assert.equal((await fetch(`${base}/db/level/local-python-01`, { headers: { cookie } })).status, 403)
     assert.equal((await fetch(`${base}/db/level/local-python-01/session`, { headers: { cookie } })).status, 403)
     assert.equal((await fetch(`${base}/db/level.session/${a._id}`, { headers: { cookie } })).status, 403)
-    const lockedHome = await (await fetch(`${base}/teaching`, { headers: { cookie } })).text()
+    const lockedHome = await (await fetch(`${base}/teaching/free`, { headers: { cookie } })).text()
     assert.match(lockedHome, /等待老师开放/)
     assert.equal((await release('local-python-01', true)).status, 303)
     assert.equal((await form('/teaching/logout', '', { headers: { cookie: `${formCookie}; ${cookie}` } })).status, 303)

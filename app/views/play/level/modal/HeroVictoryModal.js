@@ -584,6 +584,12 @@ module.exports = (HeroVictoryModal = (function () {
 
     showTeachingSaveFailure (error) {
       this.teachingNext = null
+      if (typeof window !== 'undefined' && window.teachingReturnToCabin) {
+        this.teachingRecovery = { returnHome: true }
+        this.$('.local-save-notice').text('服务器未能保存。可以先回小屋，返回时会尝试在本机保留代码草稿。')
+        this.$('#continue-button').text('回小屋')
+        return
+      }
       this.teachingRecovery = TeachingSaveStatus.recovery(error)
       this.$('.local-save-notice').text(this.teachingRecovery.message)
       if (!this.teachingRecovery.retryable) {
@@ -596,6 +602,10 @@ module.exports = (HeroVictoryModal = (function () {
       if (this.preparingTeachingContinuation) return
       this.preparingTeachingContinuation = true
       this.$('#continue-button').prop('disabled', true).text('正在保存…')
+      if (typeof window !== 'undefined' && window.teachingReturnToCabin) {
+        this.$('.local-save-notice').text('正在保存，也可以先回小屋。').append('<button type="button" data-cabin-return>回小屋</button>')
+        this.$('[data-cabin-return]').on('click', () => window.teachingReturnToCabin())
+      }
       try {
         // Await our own save, not the native debounced background save.
         const saved = await fetch(`/db/level.session/${this.session.id}`, {
@@ -608,8 +618,9 @@ module.exports = (HeroVictoryModal = (function () {
           throw Object.assign(new Error(failure.message || '保存失败，请保留当前页面和代码，稍后重试。'), { status: saved.status })
         }
         const response = await fetch(`/teaching/continue/${this.level.get('slug')}?sessionId=${this.session.id}`)
-        const next = await response.json()
+        let next = await response.json()
         if (!response.ok) throw Object.assign(new Error(next.message || '暂时无法读取下一关，请重试。'), { status: response.status })
+        if (typeof window !== 'undefined' && window.teachingReturnToCabin && !window.teachingClassroomPaused && ['level', 'finished', 'waiting'].includes(next.kind)) next = { ...next, kind: 'cabin', label: '返回小屋', message: '本关已完成。回小屋查看记录，再从地图选择下一关。' }
         this.teachingNext = next
         this.teachingRecovery = null
         this.$('.local-save-notice').text(next.message)
@@ -624,9 +635,11 @@ module.exports = (HeroVictoryModal = (function () {
 
     async continueTeaching () {
       if (this.preparingTeachingContinuation || this.continuingTeaching) return
+      if (this.teachingRecovery?.returnHome && window.teachingReturnToCabin) return window.teachingReturnToCabin()
       if (this.teachingRecovery && !this.teachingRecovery.retryable) return this.hide()
       const next = this.teachingNext
       if (!next || next.kind === 'waiting') return this.prepareTeachingContinuation()
+      if (next.kind === 'cabin') return window.teachingReturnToCabin()
       if (next.kind === 'retry') return this.hide()
       if (next.kind === 'finished') return window.location.assign(`/teaching?level=${encodeURIComponent(this.level.get('slug'))}`)
       this.continuingTeaching = true

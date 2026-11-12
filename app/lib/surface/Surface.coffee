@@ -492,7 +492,7 @@ module.exports = Surface = class Surface extends CocoClass
     @updateGrabbability()
 
   onSetPlaying: (e) ->
-    @playing = (e ? {}).playing ? true
+    @playing = if window.teachingClassroomPaused then false else (e ? {}).playing ? true
     @setPlayingCalled = true
     if @playing and @currentFrame >= (@world.totalFrames - 5)
       @currentFrame = 1  # Go back to the beginning (but not frame 0, that frame is weird)
@@ -502,6 +502,7 @@ module.exports = Surface = class Surface extends CocoClass
     @updateGrabbability()
 
   onSetTime: (e) ->
+    return if window.teachingClassroomPaused
     toFrame = @currentFrame
     if e.time?
       @worldLifespan = @world.frames.length / @world.frameRate

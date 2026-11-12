@@ -25,7 +25,7 @@ const teachingClassroom = require('./teaching/classroom-state')
 const {
   publicFolderName,
 } = devUtils
-const publicPath = path.join(PWD, publicFolderName)
+const publicPath = path.resolve(PWD, publicFolderName)
 
 const developmentLogging = function (tokens, req, res) {
   const status = res.statusCode
@@ -121,7 +121,13 @@ const setupQuickBailToMainHTML = function (app) {
   const teachingPage = fast('teaching.html')
   app.get('/play/level/:slug', (req, res, next) => {
     if (/^local-python-\d{2}$/.test(req.params.slug)) {
-      if (!teachingAccounts.currentStudent(req) || !teachingClassroom.isUnlocked(req.params.slug)) return res.redirect('/teaching')
+      const student = teachingAccounts.currentStudent(req)
+      if (!student) return res.redirect('/teaching')
+      const lesson = require('./teaching/lesson-room')
+      if (lesson.load().status === 'live') {
+        lesson.join(student.studentId)
+        if (!lesson.access(student.studentId, req.params.slug)?.allowed) return res.redirect('/teaching/room')
+      } else if (!lesson.reviewAllowed(student.studentId, req.params.slug) && !teachingClassroom.isUnlocked(req.params.slug)) return res.redirect('/teaching')
       if (require('./teaching/offline-resources').enabled()) res.set('Content-Security-Policy', "default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data: blob:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'")
       return teachingPage(req, res, next)
     }

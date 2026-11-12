@@ -1,5 +1,5 @@
 // Public environment queries use global Python calls; actions remain on hero.
-const GLOBAL_QUERIES = ['pathOpen', 'nextTileSafe', 'isVictory']
+const GLOBAL_QUERIES = ['pathOpen', 'nextTileSafe', 'isVictory', 'readTag']
 function rewriteEnvironmentQueries (ast) {
   if (!ast || typeof ast !== 'object') return ast
   // Respect Python variables, function definitions and parameters that shadow a name.

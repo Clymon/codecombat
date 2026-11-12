@@ -138,16 +138,16 @@ const compile = function(contents, locals, filename, cb) {
 
   // console.log {outFile}
 
-  if (!fs.existsSync(path.resolve(`./${publicFolderName}`))) {
-    fs.mkdirSync(path.resolve(`./${publicFolderName}`));
+  if (!fs.existsSync(path.resolve(`${publicFolderName}`))) {
+    fs.mkdirSync(path.resolve(`${publicFolderName}`));
   }
-  if (!fs.existsSync(path.resolve(`./${publicFolderName}/templates`))) {
-    fs.mkdirSync(path.resolve(`./${publicFolderName}/templates`));
+  if (!fs.existsSync(path.resolve(`${publicFolderName}/templates`))) {
+    fs.mkdirSync(path.resolve(`${publicFolderName}/templates`));
   }
-  if (!fs.existsSync(path.resolve(`./${publicFolderName}/templates/static`))) {
-    fs.mkdirSync(path.resolve(`./${publicFolderName}/templates/static`));
+  if (!fs.existsSync(path.resolve(`${publicFolderName}/templates/static`))) {
+    fs.mkdirSync(path.resolve(`${publicFolderName}/templates/static`));
   }
-  fs.writeFileSync(path.join(path.resolve(`./${publicFolderName}/templates/static`), outFile), c.html());
+  fs.writeFileSync(path.join(path.resolve(`${publicFolderName}/templates/static`), outFile), c.html());
   return cb();
 };
   // cb(null, [{filename: outFile, content: c.html()}], deps) # old brunch callback

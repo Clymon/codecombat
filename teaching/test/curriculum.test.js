@@ -30,9 +30,9 @@ test('teacher and student pages use four lesson groups; original hidden choices 
     const post = (route, data) => fetch(base + route, { method: 'POST', redirect: 'manual', headers: { cookie }, body: new URLSearchParams({ formToken: token, ...data }) })
     const login = await post('/teaching/login', { studentId: '99994444' }); cookie += '; ' + login.headers.get('set-cookie').split(';')[0]
     const get = route => fetch(base + route, { headers: { cookie } })
-    assert.doesNotMatch(await (await get('/teaching')).text(), /id="local-python-26"/)
+    assert.doesNotMatch(await (await get('/teaching/free')).text(), /id="local-python-26"/)
     classroom.updateMany(levels.filter(l => !l.teachingMap.prototype).map(l => l.slug), 'open')
-    const html = await (await get('/teaching')).text()
+    const html = await (await get('/teaching/free')).text()
     assert.doesNotMatch(html, /chapter-[5678]|独立试玩组|攻击与救援教学|信号台与for教学|观察与守营教学/)
     for (const [section, ids] of [[1, [6, 26, 27]], [2, [8, 30, 9, 31, 10]], [3, [13, 28, 29, 14]], [4, [19, 32, 33, 20]]]) {
       const group = html.split(`aria-labelledby="chapter-title-${section}"`)[1].split('</section>')[0]

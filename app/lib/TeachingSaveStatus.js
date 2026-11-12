@@ -23,6 +23,7 @@ module.exports = class TeachingSaveStatus {
 
   failed (error) {
     const recovery = TeachingSaveStatus.recovery(error)
+    const returnHome = this.document.defaultView?.teachingReturnToCabin
     if (!this.notice) {
       this.notice = this.document.createElement('div')
       this.notice.setAttribute('data-teaching-save-notice', '')
@@ -43,10 +44,14 @@ module.exports = class TeachingSaveStatus {
       this.notice.append(this.message, this.button, this.recover)
       this.document.body.appendChild(this.notice)
     }
-    this.message.textContent = recovery.message
+    this.message.textContent = returnHome ? '服务器未能保存。可以直接回小屋，返回时会尝试在本机保留代码草稿。' : recovery.message
     this.button.hidden = !recovery.retryable
     this.button.style.display = recovery.retryable ? 'block' : 'none'
-    this.recover.hidden = recovery.retryable
+    this.recover.hidden = returnHome ? false : recovery.retryable
+    if (returnHome) {
+      this.recover.href = '/teaching/room'; this.recover.removeAttribute('target'); this.recover.textContent = '回小屋'
+      this.recover.onclick = event => { event.preventDefault(); returnHome() }
+    }
     this.button.disabled = false
   }
 

@@ -1,10 +1,13 @@
-/* global System, TeachingAdventure, TeachingLearning, TeachingInventory, TeachingInteractions */
+/* global System, TeachingAdventure, TeachingLearning, TeachingInventory, TeachingInteractions, TeachingStrings */
 // Original local map rules. Rendered walls and these bounds share one source.
 class TeachingRules extends System {
   start () {
     const hero = this.world.getThangByID('Hero Placeholder')
+    if (hero && this.stringMission) this.strings = new TeachingStrings(this, hero, this.stringMission)
+    this.prepareTag()
     this.installSpeech(hero)
     this.installSensors(hero)
+    if (hero && this.stringMission && !this.strings) this.strings = new TeachingStrings(this, hero, this.stringMission)
     if (hero && this.learningContract && !this.learning) this.learning = new TeachingLearning(this, hero, this.learningContract)
     if (hero && this.inventoryConfig && !this.inventory) this.inventory = new TeachingInventory(this, hero, this.inventoryConfig, TeachingInteractions)
     if (this.inventory) for (const id of ['reach-exit', 'deliver-supplies', 'take-supplies']) this.world.goalManager.setGoalState(id, 'incomplete')
@@ -14,11 +17,24 @@ class TeachingRules extends System {
     if (hero?.unblock) {
       const nativeUnblock = hero.unblock; const rules = this
       hero.unblock = function (...args) {
+        if (rules.strings?.busy && this.currentPlan?.methodName === rules.strings.busy.name) return
+        if (this.currentPlan?.methodName === 'openTag' && this.teachingOpeningUntil != null) return
         if ((this.currentPlan?.methodName === 'attack' && rules.adventure?.swing) || (this.currentPlan?.methodName === 'wait' && this.teachingWaitUntil != null)) return
         if (this.currentPlan?.methodName === '__classroomTick' && this.teachingLoopTimes?.[this.currentPlan.methodArgs[0]] === this.world.age) return
         return nativeUnblock.apply(this, args)
       }
     }
+  }
+
+  prepareTag () {
+    const tag = this.sensor?.tag
+    if (!tag?.randomized || this.tagPrepared) return
+    this.tagPrepared = true
+    const pick = values => values[this.world.rand.rand(values.length)]
+    const text = pick(tag.regions) + '-' + pick(tag.items) + '-' + this.world.rand.rand(10) + pick(tag.suffixes)
+    // Generate once per simulation; reading twice and replaying frames keep the same package.
+    this.sensor = { ...this.sensor, tag: { ...tag, text } }
+    this.gates = this.gates.map(gate => gate.tagAnswer ? { ...gate, answers: gate.tagAnswer === 'both' ? [text[0], text[text.length - 1]] : [gate.tagAnswer === 'first' ? text[0] : text[text.length - 1]], answerIndex: 0 } : gate)
   }
 
   fail (hero, message) {
@@ -70,6 +86,39 @@ class TeachingRules extends System {
     exposeQuery('pathOpen', direction => rules.sensor?.open?.[direction] === true)
     exposeQuery('pathLength', () => rules.sensor?.length || 0)
     exposeQuery('readSignal', () => rules.sensor?.signal || 0)
+    hero.addTrackedProperties?.(['teachingTag', 'string'])
+    hero.keepTrackedProperty?.('teachingTag')
+    expose('openTag', function (name) {
+      const tag = rules.sensor?.tag
+      if (!tag || name !== tag.name) throw new Error('找不到这只货箱，请点击货箱确认名称。')
+      if (Math.abs(this.pos.x - tag.at[0]) > 0.6 || Math.abs(this.pos.y - (tag.at[1] - 12)) > 0.6) throw new Error('先走到货箱正下方紧邻的一格，再拆封。')
+      const prior = JSON.parse(this.teachingTag || '{}')
+      if (prior.openedAt != null) return 'done'
+      if (this.teachingOpeningUntil == null) {
+        this.teachingOpeningUntil = this.world.age + 1.2
+        this.teachingTag = JSON.stringify({ startedAt: this.world.age, duration: 1.2, openedAt: null })
+      }
+      this.setTargetPos?.(null)
+      this.intent = undefined
+      if (this.velocity) { this.velocity.x = 0; this.velocity.y = 0 }
+      this.rotation = Math.PI / 2
+      this.keepTrackedProperty?.('rotation')
+      this.setAction?.('idle')
+      if (this.world.age + 1e-9 >= this.teachingOpeningUntil) {
+        this.teachingTag = JSON.stringify({ ...JSON.parse(this.teachingTag), openedAt: this.world.age })
+        this.teachingOpeningUntil = null
+        return 'done'
+      }
+    })
+    hero.plannifyMethod?.('openTag')
+    expose('readTag', name => {
+      const tag = rules.sensor?.tag
+      if (!tag || name !== tag.name) throw new Error('找不到这张封签，请检查对象名称。')
+      if (tag.requiresOpen && JSON.parse(hero.teachingTag || '{}').openedAt == null) throw new Error('货箱还没有打开。先走到箱子正下方一格，用 hero.openTag("货箱封签") 拆封。')
+      hero.teachingObservation = JSON.stringify({ name: 'readTag', value: tag.text, text: `读到封签：${tag.text}`, at: rules.world.age })
+      hero.keepTrackedProperty?.('teachingObservation')
+      return tag.text
+    })
     exposeQuery('atBeacon', () => Math.hypot(hero.pos.x - rules.exit[0], hero.pos.y - rules.exit[1]) < 1)
     exposeQuery('nextTileSafe', () => rules.nextSafe(hero))
     expose('press', number => {
@@ -173,7 +222,7 @@ class TeachingRules extends System {
   }
 
   stopAtPost (hero, gate) {
-    const message = gate.locked ? '此路关闭，请走开放的路线。' : '站住！没有口令，不能过去。'
+    const message = gate.answers ? '封签还没核对好，先告诉我需要的信息。' : gate.locked ? '此路关闭，请走开放的路线。' : '站住！没有口令，不能过去。'
     this.gateReply(gate, message, 'blocked')
     hero.setTargetPos?.(null)
     hero.intent = undefined
@@ -232,6 +281,7 @@ class TeachingRules extends System {
   }
 
   receiveSpeech (event, hero) {
+    if (this.failed) return
     this.adventure?.hear(event)
     this.spoken = (this.spoken || []).concat(event.text)
     const gates = this.gates || []
@@ -243,6 +293,23 @@ class TeachingRules extends System {
       return
     }
     if (nearby.locked || nearby.openedAt != null) return
+    if (nearby.answers) {
+      const index = nearby.answerIndex || 0
+      if (event.text !== nearby.answers[index]) {
+        this.gateReply(nearby, event.text.length > 1 ? '我收到了一整段文字，只需要指定的一个字符。' : nearby.greeting, 'rejected')
+        hero.teachingFailure = '守卫还在等封签上的指定字符，请检查索引位置。'
+        if (nearby.tagAnswer) {
+          this.gateReply(nearby, '信息与这只货箱不符，这批先退回。重新读取封签，再来核对。', 'rejected')
+          this.fail(hero, '本次核对未通过。请从 readTag() 读到的文字中取值；重新运行会换一只货箱。')
+        }
+        return
+      }
+      nearby.answerIndex = index + 1
+      hero.teachingFailure = ''
+      if (nearby.answerIndex < nearby.answers.length) this.gateReply(nearby, nearby.answerPrompt, 'waiting')
+      else { this.gateReply(nearby, '封签核对好了，我来给你让路。', 'opening'); nearby.openedAt = event.time }
+      return
+    }
     if (['你好', '口令', '口令是什么', '请问口令'].includes(event.text)) {
       this.gateReply(nearby, `你是来送信的吧？\n暗号是“${nearby.password}”。`, 'waiting')
       hero.teachingFailure = ''
@@ -390,6 +457,7 @@ class TeachingRules extends System {
     if (!hero || !this.world.goalManager) return 0
     this.installSpeech(hero)
     this.installSensors(hero)
+    if (hero && this.stringMission && !this.strings) this.strings = new TeachingStrings(this, hero, this.stringMission)
     if (hero && this.learningContract && !this.learning) this.learning = new TeachingLearning(this, hero, this.learningContract)
     if (hero && this.inventoryConfig && !this.inventory) this.inventory = new TeachingInventory(this, hero, this.inventoryConfig, TeachingInteractions)
     if (!this.initialized) {
@@ -410,6 +478,7 @@ class TeachingRules extends System {
       this.world.goalManager.setGoalState('take-supplies', this.inventory.claimed ? 'success' : 'incomplete')
     }
     if (hero.teachingExitStartedAt >= 0) return this.updateDeparture(hero)
+    this.strings?.update()
     this.adventure?.update()
     if (this.adventure && (this.failed || this.adventureConfig.mode === 'defend')) return hero.pos.x + hero.pos.y
     this.updateGates(hero)
@@ -466,7 +535,7 @@ class TeachingRules extends System {
         }
         const chargeReady = this.updateChargePlates(hero)
         const extraReady = chargeReady && (!(this.switches || []).length || this.world.goalManager.getGoalState('press-switches') === 'success') && (!this.expectedSpeech || JSON.stringify(this.spoken || []) === JSON.stringify(this.expectedSpeech))
-        const ready = (!this.inventory || this.inventory.ready()) && (!this.adventure || this.adventure.ready()) && extraReady && this.checkpointCount === checkpoints.length && (this.noGems || this.world.goalManager.getGoalState('collect-parcels') === 'success') && (this.gates || []).every(g => g.locked || this.world.goalManager.getGoalState(`gate-${g.id}`) === 'success')
+        const ready = (!this.strings || this.strings.ready()) && (!this.inventory || this.inventory.ready()) && (!this.adventure || this.adventure.ready()) && extraReady && this.checkpointCount === checkpoints.length && (this.noGems || this.world.goalManager.getGoalState('collect-parcels') === 'success') && (this.gates || []).every(g => g.locked || this.world.goalManager.getGoalState(`gate-${g.id}`) === 'success')
         if (ready && !hero.teachingExitReady) hero.teachingExitOpenedAt = this.world.age
         if (!ready) hero.teachingExitOpenedAt = -1
         hero.teachingExitReady = ready

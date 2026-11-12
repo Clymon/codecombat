@@ -38,7 +38,7 @@ test('query/profile/session hero choices cannot unlock a character or overwrite 
     assert.equal(level.thangs.find(t => t.id === 'Hero Placeholder').thangType, hero.DEEPSEEK_TYPE)
     assert.equal(accounts.readProgress('99996666')['local-python-04'].code['hero-placeholder'].plan, code)
     assert.equal(accounts.readProgress('99996666')['local-python-04'].heroConfig, undefined)
-    const page = await (await get('/teaching')).text(); assert.match(page, /第一章：新手村/); assert.equal((page.match(/<strong>待解锁<\/strong>/g) || []).length, 9)
+    const page = await (await get('/teaching/free')).text(); assert.match(page, /第一章：新手村/); assert.equal((page.match(/<strong>待解锁<\/strong>/g) || []).length, 9)
     for (const url of [`/db/thang.type/${hero.DEEPSEEK_TYPE}/version`, '/teaching/assets/characters/deepseek.png', '/teaching/assets/characters/liang-wenfeng.png', '/file/teaching/deepseek-icon.png']) assert.equal((await get(url)).status, 200)
   } finally { await new Promise(resolve => server.close(resolve)); if (old === undefined) delete process.env.TEACHING_STATE_DIR; else process.env.TEACHING_STATE_DIR = old; fs.rmSync(dir, { recursive: true, force: true }) }
 })

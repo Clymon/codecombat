@@ -55,7 +55,7 @@ test('manual scene selection preserves code and rejects a stale map form and lat
     assert.equal(after.teachingScene, 1)
     assert.equal(after.code['hero-placeholder'].plan, code)
     assert.equal(after.state.complete, false)
-    const map = await (await get('/teaching')).text()
+    const map = await (await get('/teaching/free')).text()
     assert.ok(map.includes(`name="sessionId" value="${current._id}"`), 'scene forms carry the current attempt identity')
   })
 })

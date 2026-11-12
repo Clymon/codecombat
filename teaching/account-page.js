@@ -23,7 +23,7 @@ function levelCard (level, index, { progress, access, formToken }) {
     ${open && titles.length > 1 ? `<details class="scenes"><summary>场景进度 <strong>${passed} / ${titles.length}</strong><span aria-hidden="true">＋</span></summary><p>${d.allowCodeChanges ? '按题目要求改数据，完成每个场景。' : '同一份代码通过所有场景；改代码后需重新验证。'}</p><div class="scene-list">${titles.map((title, scene) => `<form method="post" action="/teaching/scenario">${hiddenToken(formToken)}<input type="hidden" name="slug" value="${escapeHtml(level.slug)}"><input type="hidden" name="scene" value="${scene}"><input type="hidden" name="sessionId" value="${escapeHtml(session?._id || '')}"><button class="scene-button" type="submit">${session?.scenePasses?.[scene] ? '✓ ' : ''}${escapeHtml(title)} <span aria-hidden="true">→</span></button></form>`).join('')}</div></details>` : ''}
   </article>`
 }
-module.exports = function accountPage ({ student, levels = [], progress = {}, releases = {}, visibility = {}, showTeacher = false, error = '', formToken = '' }) {
+module.exports = function accountPage ({ student, levels = [], progress = {}, releases = {}, visibility = {}, showTeacher = false, embedded = false, error = '', formToken = '' }) {
   levels = [...levels].sort(compareLevels)
   levels = levels.filter(l => visibility[l.slug] !== false && (visibility[l.slug] === true || defaultVisible(l.teachingMap)))
   const levelNumbers = new Map(levels.map((level, i) => [level.slug, i]))
@@ -32,7 +32,7 @@ module.exports = function accountPage ({ student, levels = [], progress = {}, re
   const visibleChapters = chapters.map((c, i) => ({ ...c, number: i + 1 })).filter(c => levels.some(l => (l.teachingMap.section || 1) === c.number))
   const teacherLink = showTeacher ? '<a class="logout" href="/teaching/teacher">教师管理</a>' : ''
   const footer = `<footer>Python 课堂 · ${CLASS_NAME}<span>游戏通用美术：<a href="https://codecombat.com/legal">CodeCombat</a> · CC BY 4.0</span></footer>`
-  const brand = '<a class="brand" href="/teaching"><span class="brand-mark" aria-hidden="true">Py</span><span>Python 闯关<small>新手村</small></span></a>'
+  const brand = '<a class="brand" href="/teaching/room"><span class="brand-mark" aria-hidden="true">Py</span><span>Python 闯关<small>新手村</small></span></a>'
   let content
   if (!student) {
     content = `<div class="masthead">${brand}<span class="class-tag">${CLASS_NAME}</span>${teacherLink}</div>
@@ -42,7 +42,7 @@ module.exports = function accountPage ({ student, levels = [], progress = {}, re
       </section>
       <section class="login-panel parchment" aria-labelledby="login-title"><p class="paper-eyebrow">${CLASS_NAME} · 冒险者入口</p><h2 id="login-title">准备好出发了吗？</h2><p class="login-description">输入自己的学号，继续你的冒险。</p>
         ${error ? `<p class="error" role="alert">${escapeHtml(error)}</p>` : ''}
-        <form method="post" action="/teaching/login">${hiddenToken(formToken)}<label for="login-id">学号</label><input id="login-id" name="studentId" type="text" inputmode="numeric" autocomplete="username" pattern="[0-9]{4,20}" minlength="4" maxlength="20" required placeholder="请输入学号" aria-describedby="login-hint"><p class="field-hint" id="login-hint">无需密码。请使用本人学号，保存每一次进步。</p><button class="button primary" type="submit">进入课堂 <span aria-hidden="true">→</span></button></form>
+        <form method="post" action="/teaching/login">${hiddenToken(formToken)}<label for="login-id">学号</label><input id="login-id" name="studentId" type="text" inputmode="numeric" autocomplete="username" pattern="[0-9]{4,20}" minlength="4" maxlength="20" required placeholder="请输入学号" aria-describedby="login-hint"><p class="field-hint" id="login-hint">无需密码。请使用本人学号，保存每一次进步。</p><button class="button primary" type="submit">进入小屋 <span aria-hidden="true">→</span></button></form>
         <p class="login-footnote">第一次进入也直接登录，学习记录会自动保存。</p>
       </section>
     </main>${footer}<script src="/teaching/world-map.js" defer></script>`
@@ -55,5 +55,5 @@ module.exports = function accountPage ({ student, levels = [], progress = {}, re
       <details class="party-roster"><summary>同行角色 · DeepSeek 与新手村导师</summary><section class="village-party" aria-label="当前主角与引导人物"><img class="active-hero" src="${heroes[0].image}" alt="DeepSeek 鲸鱼娘，戴钢盆头盔、手持饭勺"><div><p class="eyebrow">当前主角</p><h2>DeepSeek 鲸鱼娘</h2><p>新手村使用 DeepSeek 完成全部练习。</p><details class="future-heroes"><summary>其他主角 · 待解锁</summary><p>后续章节陆续开放。</p><ul>${heroes.filter(h => !h.unlocked).map(h => `<li><img src="${h.image}" alt="" loading="lazy"><span>${h.name}</span><strong>待解锁</strong></li>`).join('')}</ul></details></div><aside class="village-mentor"><img src="${npcs[0].image}" alt="梁文锋 Q 版导师"><div><b>梁文锋 · 新手村导师</b><p>先运行看看。遇到新命令，我再带你试一次。</p></div></aside></section></details>
       </main>${footer}<script src="/teaching/world-map.js" defer></script>`
   }
-  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${CLASS_NAME} · Python闯关</title><link rel="stylesheet" href="/teaching/classroom.css"></head><body class="${student ? 'campaign-page' : 'login-page'}"><a class="skip" href="#main">跳到主要内容</a>${content}</body></html>`
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${CLASS_NAME} · Python闯关</title><link rel="stylesheet" href="/teaching/classroom.css"></head><body class="${student ? 'campaign-page' + (embedded ? ' cabin-map-embedded' : '') : 'login-page'}"><a class="skip" href="#main">跳到主要内容</a>${content}</body></html>`
 }

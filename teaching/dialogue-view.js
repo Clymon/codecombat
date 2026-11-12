@@ -102,8 +102,8 @@ module.exports = class VillageDialogue {
     this.shell.style.width = `${canvas.width}px`
     this.shell.style.height = `${height}px`
     this.shell.style.setProperty('--vn-portrait-width', `${Math.max(82, Math.min(166, canvas.width * 0.18))}px`)
-    this.toggle.style.left = `${Math.max(canvas.left + 8, canvas.left + canvas.width - 220)}px`
-    this.toggle.style.top = `${(canvas.top || 0) + 88}px`
+    this.toggle.style.left = `${Math.max(canvas.left + 8, canvas.right - 116)}px`
+    this.toggle.style.top = `${Math.max(canvas.top + 8, bottom - 42)}px`
   }
 
   open (lines, mode) {

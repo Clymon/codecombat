@@ -1,3 +1,4 @@
+{ rewritePythonStrings } = require 'teaching/python-strings'
 SpellView = require './SpellView'
 SpellTopBarView = require './SpellTopBarView'
 {me} = require 'core/auth'
@@ -186,6 +187,7 @@ module.exports = class Spell
     unless @language is 'html'
       @thang?.aether.transpile source
       if @language is 'python' and /^local-python-\d{2}$/.test(@level.get('slug') or '')
+        rewritePythonStrings @thang?.aether.ast
         rewriteEnvironmentQueries @thang?.aether.ast
         rewritePrintAsHeroSay @thang?.aether.ast
       @session.lastAST = @thang?.aether.ast

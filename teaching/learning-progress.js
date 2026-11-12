@@ -19,7 +19,7 @@ function createSession (level, scene) {
   return { _id: `facebe${crypto.randomBytes(9).toString('hex')}`, creator: 'local-teaching-preview', team: 'humans', codeLanguage: 'python', level: { original: level.original, majorVersion: 0 }, state: { complete: false, scripts: {} }, code: {}, permissions: [{ target: 'public', access: 'write' }], teachingScene: scene, mapRevision: level.teachingMap.revision, createdAt: new Date().toISOString() }
 }
 
-function createLearningProgress ({ readLevel, levels }) {
+function createLearningProgress ({ readLevel, levels, store = accounts, requireAccess: customAccess, prepareSave = body => body, onSaved = () => {} }) {
   function revision (slug) {
     const published = readLevel.progressRevision?.(slug)
     if (published) return published
@@ -40,28 +40,29 @@ function createLearningProgress ({ readLevel, levels }) {
   }
 
   function loadProgress (studentId) {
-    const progress = accounts.readProgress(studentId)
+    const progress = store.readProgress(studentId)
     let changed = false
     for (const [slug, session] of Object.entries(progress)) {
       const level = revision(slug)
       if (level) changed = revisions.reconcile(session, level, level.identity) || changed
     }
-    if (changed) accounts.saveProgress(studentId, progress)
+    if (changed) store.saveProgress(studentId, progress)
     return progress
   }
 
-  function attempt (studentId, sessionId) {
-    const progress = accounts.readProgress(studentId)
+  function attempt (studentId, sessionId, operation = 'open') {
+    const progress = store.readProgress(studentId)
     const entry = Object.entries(progress).find(([, session]) => session._id === sessionId)
     if (!entry) throw new ProgressError(404, { message: 'Local session not found for this browser.' })
     const [slug] = entry
     const current = loadProgress(studentId)
     const session = current[slug]
     requireCurrentSession(session, sessionId)
-    requireAccess(current, slug)
+    requireAccess(studentId, current, slug, operation)
     return { progress: current, slug, session }
   }
-  function requireAccess (progress, slug) {
+  function requireAccess (studentId, progress, slug, operation = 'open') {
+    if (customAccess) return customAccess(studentId, slug, operation)
     const access = accessFor(catalog, { progress, releases: classroom.releases(), visibility: classroom.visibility() })[slug]
     if (!access?.open) throw new ProgressError(403, { message: access?.message || '此关不可进入，请返回地图。', reason: access?.reason, prerequisites: access?.missing, mapUrl: `/teaching?level=${slug}` })
   }
@@ -81,17 +82,17 @@ function createLearningProgress ({ readLevel, levels }) {
       session.state = { complete: false, scripts: {} }
       session.learningFeedback = ''
     } else progress[slug] = { ...createSession(level, scene), gameplayIdentity: revision(slug).identity }
-    accounts.saveProgress(studentId, progress)
+    store.saveProgress(studentId, progress)
     return progress[slug]
   }
 
   function continuation (studentId, slug, sessionId) {
     if (!readLevel(slug)) throw new ProgressError(404, { message: '关卡不存在，请返回地图。' })
     const progress = loadProgress(studentId)
-    requireAccess(progress, slug)
+    requireAccess(studentId, progress, slug)
     const session = progress[slug]
     requireCurrentSession(session, sessionId)
-    let next = nextTask(levels().filter(level => classroom.isVisible(level.slug)), slug, session, classroom.releases())
+    let next = nextTask(customAccess ? levels() : levels().filter(level => classroom.isVisible(level.slug)), slug, session, classroom.releases())
     if (next.kind === 'level') {
       const access = accessFor(catalog, { progress, releases: classroom.releases(), visibility: classroom.visibility() })[next.slug]
       if (!access?.open) next = { kind: 'waiting', label: '检查解锁条件', message: access?.message || '下一关尚不可进入。' }
@@ -108,26 +109,33 @@ function createLearningProgress ({ readLevel, levels }) {
       const level = readLevel(slug)
       if (!level) throw new ProgressError(404, { message: '关卡不存在，请返回地图。' })
       const progress = loadProgress(studentId)
-      requireAccess(progress, slug)
+      requireAccess(studentId, progress, slug)
       if (!progress[slug]) {
         progress[slug] = { ...createSession(level, 0), gameplayIdentity: revision(slug).identity }
-        accounts.saveProgress(studentId, progress)
+        store.saveProgress(studentId, progress)
       }
       const session = progress[slug]
-      if (revisions.reconcile(session, level, revision(slug).identity)) accounts.saveProgress(studentId, progress)
+      if (revisions.reconcile(session, level, revision(slug).identity)) store.saveProgress(studentId, progress)
       return session
     },
     readSession (studentId, sessionId) {
       return attempt(studentId, sessionId).session
     },
     async saveSession (studentId, sessionId, body = {}) {
-      const { slug, session } = attempt(studentId, sessionId)
+      const { slug, session } = attempt(studentId, sessionId, 'save')
+      body = prepareSave(body)
       const code = body.code?.['hero-placeholder']?.plan
       if (code !== undefined && typeof code !== 'string') throw new ProgressError(400, { message: '代码格式无效，请刷新编辑器后重试。' })
       for (const key of ['code', 'state', 'codeLanguage', 'submittedCode', 'submitted', 'playtime', 'levelName', 'levelID', 'changed', 'codeConcepts']) {
         if (Object.hasOwn(body, key)) session[key] = body[key]
       }
       await record(session, readLevel(slug), body)
+      if (body.state?.complete && prepareSave(body).state?.complete === false) {
+        const prior = store.readProgress(studentId)[slug]
+        session.scenePasses = prior?.scenePasses || {}
+        session.codeHash = prior?.codeHash
+        await record(session, readLevel(slug), { ...body, state: { ...body.state, complete: false } })
+      }
       // Content can change while the Python checker is running. Reconcile disk first,
       // so an old result (or code) cannot overwrite the current attempt.
       const current = loadProgress(studentId)
@@ -136,7 +144,8 @@ function createLearningProgress ({ readLevel, levels }) {
       current[slug] = session
       if (session.teachingComplete) session.revisionNotice = ''
       session.updatedAt = new Date().toISOString()
-      accounts.saveProgress(studentId, current)
+      store.saveProgress(studentId, current)
+      onSaved(studentId, slug, session)
       return session
     },
     previewContinuation (studentId, slug, sessionId) {
@@ -156,7 +165,7 @@ function createLearningProgress ({ readLevel, levels }) {
     selectScene (studentId, slug, scene, sessionId) {
       if (!readLevel(slug, scene)) throw new ProgressError(400, { message: '场景不存在，请返回地图重新选择。' })
       const progress = loadProgress(studentId)
-      requireAccess(progress, slug)
+      requireAccess(studentId, progress, slug)
       if (progress[slug] || sessionId) requireCurrentSession(progress[slug], sessionId)
       transition(studentId, progress, slug, scene)
       return { url: `/play/level/${slug}?codeLanguage=python` }

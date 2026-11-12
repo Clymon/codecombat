@@ -10,15 +10,18 @@ const { FLOOR_PREFIX } = require('./local-type-ids')
 const { floorType, applyVillageScene } = require('./village-scenes')
 const accountPage = require('./account-page')
 const classroom = require('./classroom-state')
+const lesson = require('./lesson-routes')
 const { catalog, accessFor } = require('./level-access')
 const teacherPage = require('./teacher-page')
-const { compareLevels } = require('./curriculum')
+const { defaultVisible, compareLevels } = require('./curriculum')
 const levelsDir = path.join(__dirname, 'levels')
 const slugPattern = /^local-python-\d{2}$/
 const sessionPattern = /^facebe[0-9a-f]{18}$/
 function readLevel (slug, scene = 0) {
   if (!slugPattern.test(slug)) return null
   if (!Number.isInteger(scene) || scene < 0 || scene > 20) return null
+  const pilot = require('./lesson-levels').read(slug, scene)
+  if (pilot) return applyVillageScene(applyHero(decorateLevel(pilot)))
   const file = scene ? path.join(levelsDir, 'scenarios', `${slug}-${scene}.json`) : path.join(levelsDir, `${slug}.json`)
   return fs.existsSync(file) ? applyVillageScene(applyHero(decorateLevel(JSON.parse(fs.readFileSync(file, 'utf8'))))) : null
 }
@@ -54,15 +57,18 @@ module.exports = function setupLocalLevels (app, options = {}) {
   })
   const formParser = express.urlencoded({ extended: false, limit: '2kb' })
   const levels = () => catalog.map(entry => readLevel(entry.slug)).sort(compareLevels)
-  const progressLifecycle = createLearningProgress({ readLevel, levels })
+  const progressLifecycle = createLearningProgress({ readLevel, levels, prepareSave: body => lesson.room.load().status === 'live' ? { ...body, state: { ...body.state, complete: false }, submitted: false } : body })
+  const classroomMode = lesson.install(app, { readLevel, freeLifecycle: progressLifecycle })
   const handleProgress = handler => (req, res, next) => Promise.resolve(handler(req, res, next)).catch(next)
   const htmlHeaders = { 'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'", 'X-Frame-Options': 'DENY', 'Referrer-Policy': 'no-referrer' }
   const render = async (res, student, error = '', status = 200) => {
-    return res.status(status).set(htmlHeaders).type('html').send(accountPage({ student, levels: levels(), progress: student ? await progressLifecycle.readProgress(student.studentId) : {}, releases: classroom.releases(), visibility: classroom.visibility(), showTeacher: classroom.isTeacherLocal(res.req), error, formToken: accounts.formToken(res.req, res) }))
+    const embedded = res.req.query.embed === '1' && !!student
+    return res.status(status).set(embedded ? { ...htmlHeaders, 'X-Frame-Options': 'SAMEORIGIN', 'Content-Security-Policy': htmlHeaders['Content-Security-Policy'].replace("frame-ancestors 'none'", "frame-ancestors 'self'") } : htmlHeaders).type('html').send(accountPage({ student, levels: levels(), progress: student ? await progressLifecycle.readProgress(student.studentId) : {}, releases: classroom.releases(), visibility: classroom.visibility(), showTeacher: !embedded, embedded, error, formToken: accounts.formToken(res.req, res) }))
   }
   const teacherOnly = (req, res) => {
-    if (classroom.isTeacherLocal(req)) return true
-    res.status(403).set('Cache-Control', 'no-store').type('text').send('教师端仅可在运行服务的电脑上打开。')
+    if (lesson.auth.current(req) || (!lesson.auth.config() && classroom.isTeacherLocal(req))) return true
+    if (req.method === 'GET' && !req.path.endsWith('.js')) res.redirect('/teaching/teacher/login')
+    else res.status(403).set('Cache-Control', 'no-store').type('text').send('请先登录教师账号。')
     return false
   }
   app.get('/teaching/teacher', handleProgress(async (req, res) => {
@@ -113,6 +119,7 @@ module.exports = function setupLocalLevels (app, options = {}) {
   app.get('/teaching/continue/:slug', handleProgress(async (req, res) => {
     const student = requireStudent(req, res)
     if (!student) return
+    if (await classroomMode.continuation(req, res, false)) return
     const next = await progressLifecycle.previewContinuation(student.studentId, req.params.slug, req.query.sessionId)
     res.set('Cache-Control', 'no-store').json({ ...next, formToken: accounts.formToken(req, res) })
   }))
@@ -120,6 +127,7 @@ module.exports = function setupLocalLevels (app, options = {}) {
     const student = requireStudent(req, res)
     if (!student) return
     if (!accounts.validForm(req)) return res.sendStatus(403)
+    if (await classroomMode.continuation(req, res, true)) return
     const result = await progressLifecycle.continue(student.studentId, req.params.slug, req.body?.sessionId)
     res.set('Cache-Control', 'no-store').json(result)
   }))
@@ -127,6 +135,7 @@ module.exports = function setupLocalLevels (app, options = {}) {
     const student = requireStudent(req, res)
     if (!student) return
     if (!accounts.validForm(req)) return res.sendStatus(403)
+    if (lesson.room.load().status === 'live') return res.status(403).json({ message: '课堂场景请通过当前任务的继续按钮切换。' })
     const result = await progressLifecycle.selectScene(student.studentId, req.body?.slug, Number(req.body?.scene), req.body?.sessionId)
     res.redirect(303, result.url)
   }))
@@ -136,8 +145,22 @@ module.exports = function setupLocalLevels (app, options = {}) {
   app.get('/teaching/classroom.css', (req, res) => {
     res.set('Cache-Control', 'no-cache').type('css').send(fs.readFileSync(path.join(__dirname, 'classroom.css'), 'utf8'))
   })
-  app.get('/teaching', handleProgress(async (req, res) => {
+  app.get('/teaching/room/exploration', handleProgress(async (req, res) => {
+    const student = requireStudent(req, res); if (!student) return
+    res.set('Cache-Control', 'no-store')
+    if (lesson.room.load().status === 'live') return res.json({ available: false, levels: [], message: '上课期间先完成老师安排的任务；课堂结束后可从地图自由练习。' })
+    const progress = await progressLifecycle.readProgress(student.studentId); const visibility = classroom.visibility()
+    const visible = levels().filter(l => visibility[l.slug] !== false && (visibility[l.slug] === true || defaultVisible(l.teachingMap)))
+    const access = accessFor(catalog, { progress, releases: classroom.releases(), visibility })
+    res.json({ available: true, levels: visible.map(l => ({ slug: l.slug, title: l.name, description: access[l.slug]?.open ? l.teachingMap.quest || l.description : '', open: !!access[l.slug]?.open, message: access[l.slug]?.message, complete: !!(progress[l.slug]?.teachingComplete ?? progress[l.slug]?.state?.complete), passed: Object.keys(progress[l.slug]?.scenePasses || {}).length, scenes: l.teachingMap.scenarioTitles?.length || 1 })) })
+  }))
+  app.get('/teaching/free', handleProgress(async (req, res) => {
+    if (lesson.room.load().status === 'live') return res.redirect('/teaching/room')
     await render(res, accounts.currentStudent(req))
+  }))
+  app.get('/teaching', handleProgress(async (req, res) => {
+    if (accounts.currentStudent(req)) return res.redirect('/teaching/room' + (slugPattern.test(req.query.level || '') ? '?level=' + req.query.level : ''))
+    await render(res, null)
   }))
   // Retired local route: never send old signup submissions to the upstream proxy.
   app.all('/teaching/register', (req, res) => {
@@ -161,22 +184,23 @@ module.exports = function setupLocalLevels (app, options = {}) {
     if (!level) return next()
     if (!requireStudent(req, res)) return
     const student = accounts.currentStudent(req)
-    const progress = await progressLifecycle.readProgress(student.studentId)
-    if (!requireUnlocked(res, level.slug, progress)) return
+    const progress = await classroomMode.lifecycle(student.studentId, null, level.slug).readProgress(student.studentId)
+    const classAccess = classroomMode.guard(req, res, level.slug)
+    if (classAccess === false || (classAccess === null && !requireUnlocked(res, level.slug, progress))) return
     const scene = progress[level.slug]?.teachingScene || 0
     res.set('Cache-Control', 'no-store').json(readLevel(level.slug, scene) || level)
   }))
   app.get('/db/level.system/facadecccc00000000000001/version/0', (req, res) => {
     if (!requireStudent(req, res)) return
-    const code = fs.readFileSync(path.join(__dirname, 'interaction-rules.js'), 'utf8').replace('module.exports =', 'const TeachingInteractions =') + '\n' + fs.readFileSync(path.join(__dirname, 'item-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingInventory =') + '\n' + fs.readFileSync(path.join(__dirname, 'learning-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingLearning =') + '\n' + fs.readFileSync(path.join(__dirname, 'adventure-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingAdventure =') + '\n' + fs.readFileSync(path.join(__dirname, 'rules-system.js'), 'utf8')
-    res.json({ _id: 'facadecccc00000000000001', original: 'facadecccc00000000000001', name: 'TeachingRules', codeLanguage: 'javascript', code, js: code, version: { major: 0, minor: 0 }, dependencies: [], configSchema: { type: 'object', properties: { learningContract: { type: ['object', 'null'] }, adventureConfig: { type: ['object', 'null'] }, walls: { type: 'array', default: [] }, bounds: { type: 'object' }, guard: { type: ['object', 'null'] }, checkpoints: { type: 'array' }, exit: { type: 'array' }, hazards: { type: 'array' }, gates: { type: 'array' }, noGems: { type: 'boolean' }, requireFinished: { type: 'boolean' }, exitStyle: { type: 'string' }, exitDirection: { type: 'array' }, exitDuration: { type: 'number' }, sensor: { type: 'object' }, switches: { type: 'array' }, singleStep: { type: 'boolean' }, maxActions: { type: 'number' }, expectedSpeech: { type: ['array', 'null'] } } } })
+    const code = fs.readFileSync(path.join(__dirname, 'string-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingStrings =') + '\n' + fs.readFileSync(path.join(__dirname, 'interaction-rules.js'), 'utf8').replace('module.exports =', 'const TeachingInteractions =') + '\n' + fs.readFileSync(path.join(__dirname, 'item-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingInventory =') + '\n' + fs.readFileSync(path.join(__dirname, 'learning-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingLearning =') + '\n' + fs.readFileSync(path.join(__dirname, 'adventure-runtime.js'), 'utf8').replace('module.exports =', 'const TeachingAdventure =') + '\n' + fs.readFileSync(path.join(__dirname, 'rules-system.js'), 'utf8')
+    res.json({ _id: 'facadecccc00000000000001', original: 'facadecccc00000000000001', name: 'TeachingRules', codeLanguage: 'javascript', code, js: code, version: { major: 0, minor: 0 }, dependencies: [], configSchema: { type: 'object', properties: { stringMission: { type: ['object', 'null'] }, learningContract: { type: ['object', 'null'] }, adventureConfig: { type: ['object', 'null'] }, walls: { type: 'array', default: [] }, bounds: { type: 'object' }, guard: { type: ['object', 'null'] }, checkpoints: { type: 'array' }, exit: { type: 'array' }, hazards: { type: 'array' }, gates: { type: 'array' }, noGems: { type: 'boolean' }, requireFinished: { type: 'boolean' }, exitStyle: { type: 'string' }, exitDirection: { type: 'array' }, exitDuration: { type: 'number' }, sensor: { type: 'object' }, switches: { type: 'array' }, singleStep: { type: 'boolean' }, maxActions: { type: 'number' }, expectedSpeech: { type: ['array', 'null'] } } } })
   })
   app.get('/db/level/:slug/session', handleProgress(async (req, res, next) => {
     const level = readLevel(req.params.slug)
     if (!level) return next()
     const student = requireStudent(req, res)
     if (!student) return
-    sendSession(res, await progressLifecycle.openSession(student.studentId, level.slug))
+    sendSession(res, await classroomMode.lifecycle(student.studentId, null, level.slug).openSession(student.studentId, level.slug))
   }))
   // Never forward local session writes to the official backend; isolate by student account.
   app.use('/db/level.session/:id', express.json({ limit: '1mb', type: req => sessionPattern.test(req.params.id) && req.is('application/json') }), handleProgress(async (req, res, next) => {
@@ -185,13 +209,14 @@ module.exports = function setupLocalLevels (app, options = {}) {
     if (!student) return
     let session
     if (['PUT', 'PATCH', 'POST'].includes(req.method) && req.path === '/') {
-      session = await progressLifecycle.saveSession(student.studentId, req.params.id, req.body)
+      session = await classroomMode.lifecycle(student.studentId, req.params.id).saveSession(student.studentId, req.params.id, req.body)
     } else if (req.method === 'GET') {
-      session = await progressLifecycle.readSession(student.studentId, req.params.id)
+      session = await classroomMode.lifecycle(student.studentId, req.params.id).readSession(student.studentId, req.params.id)
     } else return res.status(405).json({ message: 'Unsupported local session operation.' })
     sendSession(res, session)
   }))
   app.use((error, req, res, next) => {
+    if (error instanceof lesson.room.RoomError) return res.status(error.status).set('Cache-Control', 'no-store').json({ message: error.message })
     if (error instanceof accounts.PersistenceError) return res.status(503).set('Cache-Control', 'no-store').json({ message: error.message, retryable: true })
     if (!(error instanceof ProgressError)) return next(error)
     res.status(error.status).set('Cache-Control', 'no-store').json(error.detail)

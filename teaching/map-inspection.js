@@ -3,6 +3,8 @@ const { commandDocs } = require('./command-docs')
 const parse = (value, fallback) => { try { return JSON.parse(value || 'null') || fallback } catch (_) { return fallback } }
 function mapObjects (d, hero, world) {
   const objects = [{ id: 'environment', kind: 'environment', name: '环境与全局函数', at: d.start }]
+  if (d.stringMission) { objects.push({ id: 'string-object', kind: 'string', name: d.stringMission.object, at: d.stringMission.at, approach: d.stringMission.approach }); if (d.stringMission.mode === 'dispatch') objects.push({ id: 'string-delivery', kind: 'string', name: '营地', at: d.stringMission.receiver, approach: d.stringMission.deliveryAt }) }
+  if (d.sensor?.tag) objects.push({ id: 'tag', kind: 'tag', ...d.sensor.tag })
   objects.push({ id: 'hero', kind: 'hero', name: 'DeepSeek', at: hero?.pos ? [hero.pos.x, hero.pos.y] : d.start, tall: true })
   for (const [i, plate] of (d.chargePlates || []).entries()) objects.push({ id: `charge-${i}`, kind: 'charge', name: `充能石板 ${i + 1}`, ...plate, index: i, rail: true })
   for (const sw of [...(d.switches || []), ...(d.decoySwitches || []).map(s => ({ ...s, decoy: true }))]) objects.push({ id: `switch-${sw.number}`, kind: 'switch', name: `${sw.number} 号开关`, ...sw })
@@ -44,6 +46,10 @@ function describeObject (object, d, hero, world) {
     add(name, code, availability.message, availability.ready ? '无需靠近对象；查询不改变代码目标' : availability.message)
   }
   switch (object.kind) {
+    case 'string':
+      text = d.stringMission.brief
+      for (const name of d.apis || []) add(name, byName(name)?.example.python || '', '在所点装置正下方紧邻一格操作', '点击只查看说明，不会执行代码')
+      break
     case 'environment':
       text = '全局函数不需要 hero. 前缀。环境查询返回信息，位置相关的查询以英雄为参照；print 用来输出。'
       for (const doc of docs.filter(doc => doc.teachingScope === 'global')) {
@@ -51,6 +57,16 @@ function describeObject (object, d, hero, world) {
         else addQuery(doc.name, doc.example.python.split('\n')[0])
       }
       approach = null
+      break
+    case 'tag':
+      {
+        const reading = parse(hero?.teachingObservation, {})
+        const unpacked = parse(hero?.teachingTag, {}).openedAt != null
+        text = object.randomized ? reading.name === 'readTag' ? `本次封签：${reading.value}。重新运行会换新货箱，请让程序从读到的文字里取值。` : unpacked ? '纸签已取下，带在主角身上。用 readTag("货箱封签") 读取纸签文字。' : '封签还没有拆开，事先看不到内容。走到货箱正下方一格，用 hero.openTag("货箱封签") 拆封，再用 readTag 读取文字。每次运行可能不同。' : `封签：${object.text}。读到的是整串文字，请按任务取出需要的字符。`
+      }
+      if (object.requiresOpen) add('openTag', `hero.openTag("${object.name}")`, '走到货箱正下方紧邻的一格', '近距离拆封 · 动作结束再继续')
+      addQuery('readTag', `label = readTag("${object.name}")`)
+      approach = object.requiresOpen ? [object.at[0], object.at[1] - 12] : null
       break
     case 'hero':
       text = '移动、等待和感知由英雄执行。代码里的 hero 表示主角。'
@@ -93,6 +109,7 @@ function describeObject (object, d, hero, world) {
       const availability = interactions.gateSpeech(hero?.pos, object, d.walls || [])
       ready = availability.ready
       text = object.opening ? '守卫正在让开，等通道腾出后再通过。' : object.open ? '守卫已经让开，可以通过。' : object.locked ? '此门岗关闭，不能靠攻击或口令强行打开。' : '先走到守卫正前方再说话。发言由附近的守卫听见，不由鼠标选择决定。'
+      if (object.answers && !object.open) text = object.greeting
       for (const direction of Object.keys(d.sensor?.open || {})) addQuery('pathOpen', `opened = pathOpen(${JSON.stringify(direction)})`)
       if (!object.locked && !object.open) add('say', 'hero.say("你好")', '到守卫正前方紧邻的一格，且中间不能隔墙', availability.message)
       break

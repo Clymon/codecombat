@@ -2,6 +2,12 @@
 const { chargeState } = require('./charge-view')
 const { itemFeedback } = require('./item-view')
 function taskFeedback (d, hero, world) {
+  if (d.stringMission) { const h = require('./string-view').stringHint(d, hero); return { title: h.title, status: h.text, target: null, observation: '' } }
+  if (d.sensor?.tag) {
+    let observation; let unpacked
+    try { observation = JSON.parse(hero?.teachingObservation || 'null'); unpacked = JSON.parse(hero?.teachingTag || 'null') } catch (_) {}
+    return { title: observation?.name === 'readTag' ? '读取结果' : unpacked ? '货箱封签' : '', status: observation?.name === 'readTag' ? String(observation.value) : unpacked ? unpacked.openedAt != null ? '纸签已取下，可以读取文字' : '正在拆封…' : '', target: null, observation: observation?.name === 'readTag' && d.sensor.tag.showIndices ? [...String(observation.value)].map((c, i) => `${i}:${c}`).join('  ') : '' }
+  }
   if (hero?.teachingFailure?.includes('接地线，压下后短路')) return { title: '电路短路', status: '红板连着接地线；重新选择蓝色供电开关', target: null, observation: '' }
   if (d.chargePlates?.length) {
     const state = chargeState(hero)

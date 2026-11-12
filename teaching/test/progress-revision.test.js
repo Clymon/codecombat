@@ -78,7 +78,7 @@ test('teacher and student HTTP views reconcile revisions before a level is reope
       const cosmeticTeacher = await (await fetch(base + `/teaching/teacher/student/${studentId}`)).text()
       assert.match(cosmeticTeacher, /场景通过数：1 \/ 1/)
       assert.doesNotMatch(cosmeticTeacher, /重新验证本关全部场景/)
-      const cosmeticStudent = await (await fetch(base + '/teaching', { headers: { cookie } })).text()
+      const cosmeticStudent = await (await fetch(base + '/teaching/free', { headers: { cookie } })).text()
       assert.doesNotMatch(cosmeticStudent, /重新验证本关全部场景/)
       scenes[0].teachingMap.gates[0].password = '新口令'
       const teacher = await (await fetch(base + `/teaching/teacher/student/${studentId}`)).text()
@@ -86,7 +86,7 @@ test('teacher and student HTTP views reconcile revisions before a level is reope
       assert.match(card, /重新验证本关全部场景/)
       assert.match(card, /场景通过数：0 \/ 1/)
       assert.doesNotMatch(card, /badge done">已完成/)
-      const student = await (await fetch(base + '/teaching', { headers: { cookie } })).text()
+      const student = await (await fetch(base + '/teaching/free', { headers: { cookie } })).text()
       assert.match(student, /重新验证本关全部场景/)
       const stale = await fetch(base + '/db/level.session/' + first._id, { method: 'PUT', headers: { cookie, 'content-type': 'application/json' }, body: JSON.stringify(victory('# old page')) })
       assert.equal(stale.status, 404)

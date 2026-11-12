@@ -5,7 +5,7 @@ function instrumentClock (ast) {
   ast.classroomClockInstrumented = true
   let next = 0
   function visit (node) {
-    if (!node || typeof node !== 'object') return
+    if (!node || typeof node !== 'object' || node.teachingPythonHelper) return
     for (const [key, value] of Object.entries(node)) {
       if (['loc', 'range'].includes(key)) continue
       if (Array.isArray(value)) value.forEach(visit)

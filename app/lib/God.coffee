@@ -1,3 +1,4 @@
+{ rewritePythonStrings } = require 'teaching/python-strings'
 # Each LevelView or Simulator has a God which listens for spells cast and summons new Angels on the main thread to
 # oversee simulation of the World on worker threads. The Gods and Angels even have names. It's kind of fun.
 # (More fun than ThreadPool and WorkerAgentManager and such.)
@@ -150,6 +151,7 @@ module.exports = class God extends CocoClass
         if typeof spell.source is 'string'
           spell.thang.aether.transpile spell.source
           serialized = spell.thang.aether.serialize()
+        rewritePythonStrings serialized.ast
         rewriteEnvironmentQueries serialized.ast
         rewritePrintAsHeroSay serialized.ast
         instrumentLearning serialized.ast, Number(@level.slug.slice(-2))

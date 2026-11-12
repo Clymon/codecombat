@@ -3,6 +3,16 @@
 (() => {
   const root = document.querySelector('.world-campaign')
   if (!root) return
+  if (document.body.classList.contains('cabin-map-embedded') && window.parent !== window) {
+    for (const link of root.querySelectorAll('.level-card a.button')) link.textContent = '选择这关 · 查看任务'
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a[href]'); const match = link?.getAttribute('href')?.match(/^\/play\/level\/(local-python-\d{2})/)
+      if (!match) return
+      event.preventDefault(); event.stopImmediatePropagation()
+      window.parent.postMessage({ type: 'cabin-map-select', slug: match[1] }, location.origin)
+    }, true)
+    document.addEventListener('submit', event => { event.preventDefault() }, true)
+  }
   const viewport = root.querySelector('.map-viewport'); const canvas = root.querySelector('.map-canvas')
   const cards = [...root.querySelectorAll('.level-card')]; const nodes = [...root.querySelectorAll('.map-node')]
   const sections = [...root.querySelectorAll('.world-details .chapter')]
@@ -110,7 +120,7 @@
     const section = card.closest('.chapter')
     root.querySelector('.selected-region').textContent = section.querySelector('.chapter-heading h2').textContent + ' · ' + card.querySelector('h3').textContent
     for (const link of root.querySelectorAll('[data-region]')) link.classList.toggle('is-selected', link.dataset.region === section.id.slice(8))
-    if (updateUrl) history.replaceState(null, '', `?level=${encodeURIComponent(slug)}#${slug}`)
+    if (updateUrl) history.replaceState(null, '', `?${document.body.classList.contains('cabin-map-embedded') ? 'embed=1&' : ''}level=${encodeURIComponent(slug)}#${slug}`)
     if (moveMap) pan(node)
     if (showDetails) openDrawer()
     return true

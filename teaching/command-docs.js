@@ -45,6 +45,8 @@ function commandDocs (slug, design, language) {
   docs.pathLength = method('pathLength',
     '读取本场景路牌上给出的**路程格数**，括号里不用填内容。可以先存入变量，再决定走几次。\n\n这是路牌上的数，英雄走动后它**不会自动减1**；记录剩余格数的变量需要自己更新。',
     'length = hero.pathLength()', [], result('number', '路牌给出的非负整数，例如0、2或4。0表示不需要前进。'))
+  docs.openTag = method('openTag', '走到货箱正下方紧邻的一格，转向货箱并拆封，取下纸签带在身上。开盖和取签约需1.2秒，动作结束才执行下一行。已经打开的货箱不会重复拆封。', 'hero.openTag("货箱封签")', [arg('name', 'string', '货箱名称。', '"货箱封签"')])
+  docs.readTag = method('readTag', '读取已拆封货箱上的完整文字。先用 hero.openTag 拆封；拆开后可在任意位置读取。读取不移动英雄，也不会自动取出字符；使用索引取得任务要求的字符后再发言。', 'label = readTag("货箱封签")', [arg('name', 'string', '封签名称。', '"货箱封签"')], result('string', '封签的完整文字，例如 东-药品-07。'))
   docs.readSignal = method('readSignal',
     '读取当前场景石刻或徽章上的**能量数值**，括号里不用填内容。读数不会移动英雄，也不会自动选择通道。',
     'score = hero.readSignal()', [], result('number', '本场景给定的整数，可与任务中的门槛比较，例如 `score >= 80`。'))
@@ -78,6 +80,13 @@ function commandDocs (slug, design, language) {
   docs.isVictory = method('isVictory',
     '检查守营任务是否已经**击败全部增援**，括号里不用填内容。它只检查结果，不会让英雄自动战斗。\n\n暂时没有敌人不代表已经获胜，后面可能还有增援。`not hero.isVictory()` 表示“还没获胜”。',
     'finished = hero.isVictory()', [], result('boolean', '守营目标完成为 `True`，尚未完成为 `False`。可放在while条件中反复检查。'))
+  docs.readObject = method('readObject', '读取指定装置本次的文字。**先走到装置正下方一格**，名称必须完全一致。返回字符串，不会自动执行后续动作。救援后重新读取会得到更新的回声图。', `text = hero.readObject("${design.stringMission?.object || '回声镜'}")`, [arg('name', 'string', '地图装置的名字。', `"${design.stringMission?.object || '回声镜'}"`)], result('string', '本次现场文字；保存到变量中处理。'))
+  docs.buildBridge = method('buildBridge', '在卷轴台安装三个符文桥板。参数是卷轴方括号内的文字；动作完成后桥板升起，才能过桥。', 'hero.buildBridge(runes)', [arg('runes', 'string', '三块符文，按卷轴顺序。', 'runes')])
+  docs.playTune = method('playTune', '站在回声鼓下方敲一段完整节拍。参数每个字对应一拍；胸口灯随节拍亮起，敲错那一拍会变红。', 'hero.playTune(tune)', [arg('tune', 'string', '三遍原节拍，再接一遍倒序节拍。', 'tune')])
+  docs.rescue = method('rescue', '在回声镜旁控制吊索，把指定矿洞的矿工拉回。位置从0开始；必须确实有人。救完重新读取回声图。', 'hero.rescue(position)', [arg('position', 'number', '回声图中“人”的位置，0到5。不能传-1。', 'position')])
+  docs.purify = method('purify', '在净水泵旁写入清理后的识别码。水色变蓝后才可以穿过水渠。', 'hero.purify(clean)', [arg('clean', 'string', '去两端空格、删除所有“毒”、统一为大写后的文字。', 'clean')])
+  docs.pack = method('pack', '在订单台装车。物品和数量来自本次订单；必须同时正确。装车后还要走到营地卸货。', 'hero.pack(item, amount)', [arg('item', 'string', '订单中的物品名称。', 'item'), arg('amount', 'number', '整数数量；拆开的文字要先用int转换。', 'amount')])
+  docs.deliver = method('deliver', '走到营地旗帜正下方一格，卸下已装好的补给。括号留空；不能远程送达，也不能空车交货。', 'hero.deliver()')
   const print = {
     name: 'print',
     displayName: 'print(message)',
@@ -94,7 +103,7 @@ function commandDocs (slug, design, language) {
   return [...new Set([...Object.keys(moves), 'say', ...(design.apis || [])])].map(name => {
     if (!docs[name]) throw new Error(`Missing teaching command documentation: ${name}`)
     const doc = docs[name]
-    doc.teachingScope = GLOBAL_QUERIES.includes(name) ? 'global' : ['take', 'give', 'press'].includes(name) ? 'nearby' : name === 'attack' ? 'target' : 'hero'
+    doc.teachingScope = GLOBAL_QUERIES.includes(name) ? 'global' : ['take', 'give', 'press', 'openTag', 'readObject', 'buildBridge', 'playTune', 'rescue', 'purify', 'pack', 'deliver'].includes(name) ? 'nearby' : name === 'attack' ? 'target' : 'hero'
     const labels = { global: '环境查询 · 随时可调用', nearby: '近距离交互 · 先走到目标位置', target: '指定目标 · 自动靠近后攻击', hero: '英雄动作或感知' }
     doc.description = `**${labels[doc.teachingScope]}**\n\n${doc.description}`
     for (const globalName of GLOBAL_QUERIES) {

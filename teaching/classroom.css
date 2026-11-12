@@ -920,3 +920,5 @@ footer a {
 .world-campaign .world-ambience *,.world-campaign .map-traveler,.world-campaign .next-node:after{animation-play-state:paused}
 .world-campaign.map-animated .world-ambience *,.world-campaign.map-animated .map-traveler,.world-campaign.map-animated .next-node:after{animation-play-state:running}
 @media(prefers-reduced-motion:reduce){.world-campaign .world-ambience *,.world-campaign .map-traveler,.world-campaign .next-node:after{animation:none!important}.map-idle .next-node:after{display:none}}
+/* The map is a cabin tool, not another student homepage. */
+.cabin-map-embedded .masthead,.cabin-map-embedded footer,.cabin-map-embedded .party-roster,.cabin-map-embedded .scenes,.cabin-map-embedded .skip{display:none}.cabin-map-embedded .world-campaign{max-width:none;padding:14px}.cabin-map-embedded .world-heading{margin-bottom:12px}.cabin-map-embedded .world-heading h1{font-size:24px}.cabin-map-embedded .map-viewport{max-height:60vh}.cabin-map-embedded .world-heading p:not(.eyebrow){display:none}

@@ -1,0 +1,37 @@
+/* The student cabin is a viewport, not a scrolling document. */
+html:has(body[data-role=student]),body[data-role=student]{width:100%;height:100%;overflow:hidden;overscroll-behavior:none;background:#342a26;color:#f4e9cf;color-scheme:dark}
+body[data-role=student] main{position:fixed;inset:0;max-width:none;padding:0;margin:0;overflow:hidden;isolation:isolate}
+body[data-role=student] .lesson-header{position:fixed;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));z-index:5;padding:0;border:0;background:none;display:block}
+body[data-role=student] .lesson-header>a,body[data-role=student] .lesson-header>span{display:none}
+body[data-role=student] .lesson-header nav{margin:0}
+body[data-role=student] .lesson-header button{font-size:12px;padding:7px 11px;background:#243b36eb;border:1px solid #ad9265;border-radius:3px}
+.cabin-home,.cabin-scene{position:absolute;inset:0;overflow:hidden}
+.cabin-scene canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
+.cabin-heading{position:absolute;z-index:2;left:max(18px,env(safe-area-inset-left));top:max(14px,env(safe-area-inset-top));max-width:calc(100% - 130px);pointer-events:none;text-shadow:0 2px 3px #231e19;display:flex;gap:16px;align-items:center}
+.cabin-heading .eyebrow{font-size:11px;color:#e3d4b2;margin:0 0 4px}
+body[data-role=student] .cabin-heading h1{font-size:clamp(17px,2vw,26px);margin:0;color:#f8e6bd}
+#cabin-badge{font-size:12px;background:#203b35df;border:1px solid #a28e5c;padding:7px 10px;max-width:220px}
+body[data-cabin-state=ready] #cabin-badge{border-color:#d1b67c;color:#ffe3a3}
+.cabin-hotspot{position:absolute;background:transparent;border:2px solid transparent;padding:0;border-radius:2px;box-shadow:none;min-width:40px;min-height:40px}
+.cabin-hotspot:hover:not(:disabled),.cabin-hotspot:focus-visible{border-color:#f1d195;background:#ffe29c12;outline:2px solid #4c3926;outline-offset:2px}
+.cabin-hotspot span{position:absolute;left:50%;transform:translateX(-50%);bottom:-12px;white-space:nowrap;font-size:clamp(11px,1vw,14px);line-height:1.3;background:#263a36f2;color:#ffde9c;padding:5px 9px;border:1px solid #ad8c5b;pointer-events:none}
+.cabin-fire span{opacity:0}.cabin-fire:hover span,.cabin-fire:focus-visible span{opacity:1}
+.cabin-door:disabled{opacity:1;cursor:default}.cabin-door:disabled span{color:#d2c8ae;background:#3b423c}
+.cabin-caption{position:absolute;bottom:15px;left:18px;font-size:11px;color:#e7d6b9;text-shadow:1px 1px #332b26;pointer-events:none}
+#cabin-motion{position:absolute;right:max(14px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));background:#263c35ed;border-color:#9d855b;font-size:11px;padding:6px 9px;border-radius:3px}
+.cabin-dialogue{position:absolute;z-index:2;left:50%;bottom:50px;transform:translateX(-50%);width:min(680px,calc(100% - 36px));display:flex;align-items:flex-start;gap:16px;padding:12px 18px;background:#203835e8;border:1px solid #9c8a62;border-radius:5px;box-shadow:0 6px 25px #0003;max-height:110px;overflow:auto;overscroll-behavior:contain}
+.cabin-speaker{font-size:11px;letter-spacing:1px;color:#e6bb77;padding-top:4px;font-weight:700}.cabin-dialogue p{margin:0;font-size:14px;color:#eee2c8;line-height:1.6}
+body[data-role=student] #notice{position:absolute;z-index:4;left:50%;bottom:48px;transform:translateX(-50%);width:min(680px,calc(100% - 32px));max-height:140px;overflow:auto;margin:0;background:#334a3bf5;color:#f9d79c;border:1px solid #b8a06c;overscroll-behavior:contain}
+/* Dialogs live in the native top layer, bounded by the same full-screen cabin. */
+.hub-panel{position:fixed;inset:16px;width:min(850px,calc(100% - 32px));height:fit-content;max-width:calc(100% - 32px);max-height:calc(100% - 32px);max-height:calc(100dvh - 32px);margin:auto;border:2px solid #ae945f;border-radius:5px;padding:20px;overflow:auto;overscroll-behavior:contain;box-shadow:0 24px 100px #0009;background:#1d3034;color:#f1e3c5}
+.hub-panel::backdrop{background:#081c25b8}
+.hub-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #647365;margin:-20px -20px 18px;padding:16px 20px;position:sticky;top:-20px;background:#1d3034;z-index:2}
+.hub-panel-heading h2{font-size:21px;margin:0}.hub-panel-heading button{flex-shrink:0;padding:8px 12px;font-size:13px}
+.hub-panel p{overflow-wrap:anywhere}.hub-panel .card{padding:20px}.hub-panel .cabin-task.card{margin-top:0;background:#ebe0c2;color:#3d443a;border:2px solid #c0a773;border-radius:3px}.cabin-task p{color:#525b4e}.cabin-task .eyebrow{font-size:12px;color:#736346;margin:0 0 7px}.cabin-task h2{font-size:22px;margin:0;color:#354b42}.cabin-task-head{display:flex;justify-content:space-between;gap:15px}.cabin-seal{font-size:34px;color:#9e6346}.cabin-task #lesson-status{font-size:13px;color:#7d6948}.cabin-task #result:empty,.cabin-task #task-description:empty{display:none}.cabin-task #skip-basic,.cabin-task #need-help{background:transparent;color:#4b6252}.hub-panel #hub-progress{font-size:13px}.hub-panel #review-tasks{display:flex;flex-wrap:wrap;gap:10px}.hub-panel pre{max-height:35dvh;overflow:auto}.hub-panel details{margin:12px 0}.hub-panel summary{cursor:pointer}.cabin-route{font-size:14px}.cabin-route code{color:#edcf95}#free-task button{margin-top:14px}
+.hub-map-panel{width:calc(100% - 32px);max-width:1400px;height:calc(100% - 32px);height:calc(100dvh - 32px);overflow:hidden}
+.hub-map-panel[open]{display:flex;flex-direction:column}
+.hub-map-panel .hub-panel-heading{position:static;flex-shrink:0;margin-bottom:10px}.hub-map-panel #hub-map-status{font-size:13px;flex-shrink:0;margin:4px 0 12px}
+.hub-map-panel #hub-map-frame{width:100%;flex:1;min-height:0;border:1px solid #687465;background:#172b31}
+@media(max-width:640px){.cabin-heading{left:16px;top:16px;display:block}.cabin-heading .eyebrow{font-size:9px}.cabin-heading h1{font-size:18px}#cabin-badge{display:inline-block;font-size:10px;padding:4px 7px;margin-top:7px}.cabin-dialogue{gap:6px;flex-direction:column;bottom:46px;padding:10px 12px;max-height:92px}.cabin-dialogue p{font-size:12px}.cabin-speaker{font-size:9px;padding:0}.cabin-caption{display:none}.cabin-hotspot span{font-size:11px;padding:4px 7px}.hub-panel{inset:8px;width:calc(100% - 16px);max-width:calc(100% - 16px);max-height:calc(100dvh - 16px);padding:14px}.hub-panel-heading{top:-14px;margin:-14px -14px 14px;padding:12px 14px}.hub-panel-heading h2{font-size:18px}.hub-panel .card{padding:14px}.hub-map-panel{height:calc(100dvh - 16px)}.cabin-task h2{font-size:19px}}
+@media(max-height:500px){.cabin-dialogue{bottom:40px;padding:6px 12px;max-height:64px;width:min(600px,70%)}.cabin-heading{top:8px}.cabin-heading .eyebrow{display:none}.cabin-caption{display:none}.cabin-heading h1{font-size:17px}#cabin-badge{font-size:10px;padding:4px}.cabin-hotspot span{bottom:-5px;font-size:11px;padding:3px 6px}}
+@media(max-height:500px){.cabin-dialogue{left:18px;transform:none;width:min(44vw,400px);bottom:40px}}

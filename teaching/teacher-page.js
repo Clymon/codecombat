@@ -21,7 +21,7 @@ function teacherPage ({ levels, students, releases, visibility = {}, progressByI
   levels = [...levels].sort(compareLevels)
   const prerequisites = prerequisitesFor(levels.filter(l => visibleLevel(l, visibility)))
   const sections = [...new Set(levels.map(level => level.teachingMap.section || 1))]
-  const bulk = `<form id="bulk-controls" class="bulk-controls" method="post" action="/teaching/teacher/bulk">
+  const bulk = `<p><a href="/teaching/teacher/lesson">进入课堂控制 · 暂停、分组任务与教师提示</a></p><form id="bulk-controls" class="bulk-controls" method="post" action="/teaching/teacher/bulk">
     ${notice ? `<p class="notice" role="status">${escape(notice)}</p>` : ''}
     <input type="hidden" name="formToken" value="${escape(formToken)}">
     <div class="selection-heading"><strong><span id="selected-count" aria-live="polite">0</span> 关已选</strong><button class="secondary" type="button" data-select-all>全选 ${levels.length} 关</button><button class="secondary" type="button" data-clear-selection>清空选择</button></div>

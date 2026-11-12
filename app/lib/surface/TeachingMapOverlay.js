@@ -1,3 +1,5 @@
+const { drawStrings } = require('teaching/string-view')
+const { tagPose } = require('teaching/tag-view')
 // Read-only map annotations for our original local teaching levels.
 // All positions use the native CodeCombat camera and replay world state.
 const { cellsFor, drawGrid, HERO_SCALE } = require('teaching/grid-space')
@@ -14,6 +16,7 @@ const { applyHeroFrame } = require('teaching/hero-animation')
 const VillageDialogue = require('teaching/dialogue-view')
 const MapInspector = require('teaching/map-inspector-view')
 const DeepSeekGuide = require('teaching/onboarding-view')
+const LessonGame = require('teaching/lesson-game')
 module.exports = class TeachingMapOverlay {
   constructor (surface, design) {
     this.surface = surface
@@ -31,7 +34,7 @@ module.exports = class TeachingMapOverlay {
     root?.querySelector('#teaching-task')?.remove()
     const task = document.createElement('details')
     task.id = 'teaching-task'
-    const title = document.createElement('summary'); title.textContent = '任务日志 · 提示'
+    const title = document.createElement('summary'); title.textContent = '本关任务'
     task.appendChild(title)
     const scene = document.createElement('p'); scene.textContent = `${design.prototype ? '互动样关' : `${design.world?.chapterName || '新手村'} · ${design.world?.area || `第 ${design.section || 1} 小节`}`} · ${design.knowledge || '顺序与移动'} · ${design.scenarioTitles?.[design.scenarioIndex || 0] || '主场景'}`; task.appendChild(scene)
     const quest = document.createElement('p'); quest.textContent = design.quest || design.description; task.appendChild(quest)
@@ -50,6 +53,7 @@ module.exports = class TeachingMapOverlay {
     if (root) {
       this.onboarding = new DeepSeekGuide(root, design, surface, task, this.dialogue)
       this.inspector = new MapInspector(root, design, surface)
+      this.lesson = new LessonGame(root, design, surface, this.onboarding)
     }
 
     this.container = new createjs.Container()
@@ -81,10 +85,6 @@ module.exports = class TeachingMapOverlay {
       this.container.addChild(box, text)
       return { gate, box, text }
     })
-    this.taskCue = new createjs.Text('', 'bold 15px Arial', '#f7e7b8')
-    this.taskCue.textAlign = 'center'; this.taskCue.lineHeight = 23
-    this.taskCueBox = new createjs.Shape()
-    this.container.addChild(this.taskCueBox, this.taskCue)
     this.message = new createjs.Text('', 'bold 16px Arial', '#ffe2d1')
     this.message.textAlign = 'center'
     this.container.addChild(this.message)
@@ -159,20 +159,40 @@ module.exports = class TeachingMapOverlay {
     this.updateDeparture(hero, world, camera)
     const floorGraphics = this.floorInk.graphics.clear()
     drawGrid(floorGraphics, this.cells, hero, camera)
+    if (this.design.sensor?.tag) {
+      const pose = tagPose(hero, world.age)
+      const opened = pose.opened
+      for (const label of this.labels) if (['待拆封', '拆封中…', '已拆封', '已取签'].includes(label.text.text)) label.text.text = opened ? '已取签' : pose.opening ? '拆封中…' : '待拆封'
+      const tag = this.design.sensor.tag; const p = camera.worldToCanvas({ x: tag.at[0], y: tag.at[1] }); const z = 10 * camera.zoom
+      floorGraphics.setStrokeStyle(2).beginStroke('#3c2918').beginFill('#865531').drawRoundRect(p.x - 3.4 * z, p.y - 2.2 * z, 6.8 * z, 3.3 * z, 3).endFill().endStroke()
+      floorGraphics.beginFill('#cba362').drawRect(p.x - 2.6 * z, p.y - 2.2 * z, 0.6 * z, 3.3 * z).drawRect(p.x + 2 * z, p.y - 2.2 * z, 0.6 * z, 3.3 * z).endFill()
+      // Lid rises off the box; torn red seal halves move with it.
+      const lift = pose.lid * 3.5 * z
+      floorGraphics.beginFill('#30251d').drawRect(p.x - 2.8 * z, p.y - 2 * z, 5.6 * z, 1.1 * z).endFill()
+      floorGraphics.setStrokeStyle(2).beginStroke('#54381f').beginFill('#b4854b').drawRect(p.x - 3.5 * z, p.y - 2.5 * z - lift, 7 * z, 1.5 * z).endFill().endStroke()
+      floorGraphics.beginFill('#bc4540').drawRect(p.x - 0.45 * z, p.y - 2.5 * z - lift, 0.9 * z, 1.2 * z).drawRect(p.x - 0.45 * z, p.y - z, 0.9 * z, 1.5 * z).endFill()
+      if (pose.paper > 0 && !(hero?.teachingExitStartedAt >= 0)) {
+        const hand = camera.worldToCanvas(hero.pos)
+        const transfer = pose.paper * pose.paper
+        const x = p.x + (hand.x + 1.8 * z - p.x) * transfer
+        const y = p.y - (2 + 2.8 * pose.paper) * z + ((hand.y - 3 * z) - (p.y - (2 + 2.8 * pose.paper) * z)) * transfer
+        floorGraphics.beginFill('#f9e6b5').drawRect(x - 1.2 * z, y, 2.4 * z, 2 * z * pose.paper).endFill()
+        floorGraphics.setStrokeStyle(2).beginStroke('#90714d').moveTo(x - 0.7 * z, y + 0.6 * z).lineTo(x + 0.7 * z, y + 0.6 * z).endStroke()
+      }
+      if (pose.opening && hero?.pos) {
+        const hand = camera.worldToCanvas(hero.pos)
+        const reach = Math.sin(Math.PI * Math.min(1, pose.progress / 0.65))
+        floorGraphics.setStrokeStyle(Math.max(2, 0.3 * z)).beginStroke('#f3d7ba').moveTo(hand.x + z, hand.y - 3 * z).lineTo(hand.x + z, hand.y - (3 + 4 * reach) * z).endStroke()
+        floorGraphics.setStrokeStyle(3).beginStroke('#f4d178').arc(p.x, p.y - 6 * z, z, -Math.PI / 2, -Math.PI / 2 + pose.progress * Math.PI * 2).endStroke()
+      }
+    }
     this.inspector?.update(hero, world, floorGraphics)
     const feedback = taskFeedback(this.design, hero, world)
-    this.taskCue.visible = this.taskCueBox.visible = !!feedback.title && !taskPanel?.open
-    this.taskCue.text = [feedback.title, feedback.status, feedback.observation].filter(Boolean).join('\n')
-    this.taskCue.x = camera.canvasWidth / 2; this.taskCue.y = 18
-    this.taskCue.lineWidth = Math.min(330, camera.canvasWidth - 28)
-    const cueWidth = this.taskCue.lineWidth + 20; const cueHeight = this.taskCue.getMeasuredHeight() + 16
-    if ((normalCanvas?.getBoundingClientRect().width || camera.canvasWidth) < 850) this.taskCue.y = Math.max(18, camera.canvasHeight - cueHeight - 95)
-    this.taskCueBox.graphics.clear().beginFill('rgba(16,30,33,0.88)').drawRoundRect(this.taskCue.x - cueWidth / 2, this.taskCue.y - 8, cueWidth, cueHeight, 8).endFill()
     drawTaskFeedback(floorGraphics, g, this.design, hero, world, camera, feedback)
     // The current cell replaces the large native circular selection marker.
     this.surface.lankBoss.selectionMark?.toggle(false)
     if (this.design.adventure?.mode !== 'defend') drawDungeonDevices(floorGraphics, this.design, hero, world, camera, g)
-    const labels = [...drawChargePlates(floorGraphics, g, this.design, hero, world, camera), ...drawAdventure(g, floorGraphics, this.design, hero, world, camera, this.surface), ...drawItems(floorGraphics, g, this.design, hero, world, camera)]
+    const labels = [...drawStrings(g, floorGraphics, this.design, hero, world, camera), ...drawChargePlates(floorGraphics, g, this.design, hero, world, camera), ...drawAdventure(g, floorGraphics, this.design, hero, world, camera, this.surface), ...drawItems(floorGraphics, g, this.design, hero, world, camera)]
     this.adventureLabels.forEach((text, i) => { text.visible = !!labels[i]; if (labels[i]) Object.assign(text, labels[i]) })
     const stage = this.surface.webGLStage; const obstacles = this.surface.lankBoss.layerAdapters.Obstacle.container
     if (this.floorInk.parent !== stage) stage.addChildAt(this.floorInk, stage.getChildIndex(obstacles))
@@ -203,6 +223,7 @@ module.exports = class TeachingMapOverlay {
   destroy () {
     window.removeEventListener('resize', this.onResize)
     cancelAnimationFrame(this.resizeFrame)
+    this.lesson?.destroy()
     this.inspector?.destroy()
     this.onboarding?.destroy()
     this.dialogue?.destroy()

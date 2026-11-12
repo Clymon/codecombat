@@ -124,7 +124,7 @@ function saveClientPreferences (studentId, input) {
   writeJson(accountFile(studentId), student)
 }
 function withoutLocalCookies (header = '') {
-  return header.split(';').map(value => value.trim()).filter(value => !/^(localStudentSession|localTeaching|localTeachingForm)=/.test(value)).join('; ')
+  return header.split(';').map(value => value.trim()).filter(value => !/^(localStudentSession|localTeacherSession|localTeaching|localTeachingForm)=/.test(value)).join('; ')
 }
 
 module.exports = { PersistenceError, CLASS_NAME, COOKIE_NAME, normalStudentId, account, ensureStudent, currentStudent, startSession, endSession, readProgress, saveProgress, registeredStudents, formToken, validForm, withoutLocalCookies, saveClientPreferences }
