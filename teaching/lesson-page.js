@@ -29,12 +29,13 @@
   function renderTeacher () {
     $('#room-status').textContent = state.status === 'live' ? `${phaseName[state.phase]} · ${state.gathered ? '已召集回小屋' : state.paused ? '原地暂停' : '正在练习'} · ${state.controlling ? '本设备控制' : '本设备仅查看'}` : state.status === 'ended' ? '本节课已结束，记录已保存。可以开始新的课堂。' : '尚未开课'
     document.querySelectorAll('[data-action]').forEach(b => { b.disabled = b.dataset.action === 'start' ? state.status === 'live' : b.dataset.action === 'takeover' ? state.status !== 'live' || state.controlling : state.status !== 'live' || !state.controlling })
-    document.querySelectorAll('[data-assign],#send-hint,#hint-all').forEach(b => { b.disabled = !state.controlling || state.status !== 'live' })
+    document.querySelectorAll('#publish-task-button,#send-hint,#hint-all').forEach(b => { b.disabled = pending || !state.controlling || state.status !== 'live' })
     const students = state.students || []; const counts = {}
     for (const p of students) counts[p.stage] = (counts[p.stage] || 0) + 1
     const masters = students.filter(p => p.mastered).length
     $('#counts').innerHTML = `<span>当前任务已完成 ${students.filter(p => p.results?.[p.task]?.complete).length} / ${students.length}</span><span>当前任务独立完成 ${masters} / ${students.length}</span>` + Object.entries(counts).map(([label, n]) => `<span>${esc(label)} ${n}人</span>`).join('')
-    $('#students').innerHTML = students.map(p => `<tr><td><input type="checkbox" data-student="${esc(p.id)}" aria-label="选择${esc(p.id)}" ${selected.has(p.id) ? 'checked' : ''}></td><td>${esc(p.id)}</td><td>${esc(p.stage)}${p.offeredTask ? ' · 有新安排待进入' : ''}</td><td>${p.mastered ? '独立完成' : p.pending ? '待补验收' : p.results?.[p.task]?.complete ? '任务已完成' : p.assisted ? '已获操作帮助' : '正在完成任务'}</td><td>${esc(p.lastError || '暂无报错记录')}</td><td><button data-code="${esc(p.id)}">查看</button></td></tr>`).join('') || '<tr><td colspan="6">等待学生登录并进入本节课。</td></tr>'
+    $('#students').innerHTML = students.map(p => `<tr><td><input type="checkbox" data-student="${esc(p.id)}" aria-label="选择${esc(p.id)}" ${selected.has(p.id) ? 'checked' : ''}></td><td>${esc(p.id)}</td><td>${esc(p.taskTitle || p.stage)}</td><td>${esc(p.offeredTitle || '暂无待接任务')}</td><td>${p.mastered ? '独立完成' : p.pending ? '待补验收' : p.results?.[p.task]?.complete ? '任务已完成' : p.assisted ? '已获操作帮助' : '正在完成任务'}</td><td>${esc(p.lastError || '暂无报错记录')}</td><td><button data-code="${esc(p.id)}">查看</button></td></tr>`).join('') || '<tr><td colspan="7">等待学生登录并进入本节课。</td></tr>'
+    $('#assignment-history').innerHTML = (state.assignments || []).slice(-12).reverse().map(a => `<p><strong>${esc(a.title)}</strong> · ${esc(new Date(a.publishedAt).toLocaleTimeString())} · ${a.targets === 'all' ? '全班（含稍后进入）' : esc(a.targets.join('、'))} · 已接取 ${Object.keys(a.accepted || {}).length} 人${a.note ? '<br>' + esc(a.note) : ''}</p>`).join('') || '<p>本节还没有发布记录。</p>'
     const errors = {}; for (const p of students) if (p.lastError) errors[p.lastError] = (errors[p.lastError] || 0) + 1
     $('#hint-history').innerHTML = '<h3>共同卡点</h3>' + (Object.entries(errors).map(([err, n]) => `<p>${n}人：${esc(err)}</p>`).join('') || '<p>暂无已报告的错误。</p>') + '<h3>最近发送</h3>' + (state.hints || []).slice(-20).reverse().map(h => `<p>${esc(h.studentId)} · ${h.level}级 · ${h.seenAt ? '学生已查看' : h.deliveredAt ? '已送达' : '待送达'} · ${esc(h.text)}</p>`).join('')
   }
@@ -45,6 +46,7 @@
     const shownTask = state.offeredTask || (state.result?.complete ? state.next?.detail : null) || state.task
     $('#task-title').textContent = shownTask?.title || '还没有新的任务'
     $('#task-description').textContent = shownTask?.brief || (shownTask ? '先找到货箱并拆封，再读取封签。到区域岗报开头的字，到尾号岗报最后一个字符；两处都放行后，把封签送到法阵。' : '')
+    $('#assignment-note').hidden = !shownTask?.note; $('#assignment-note').textContent = shownTask?.note ? '老师的说明：' + shownTask.note : ''
     $('#enter').hidden = state.status !== 'live' || !state.task || state.gathered || !!state.offeredTask || !!(state.result?.complete && state.next)
     if (state.task) { $('#enter').href = `/play/level/${state.task.slug}?codeLanguage=python`; $('#enter').textContent = state.paused ? '进入现场 · 暂停中' : '出发 · 继续当前任务' }
     $('#next-task').hidden = state.status !== 'live' || !state.next
@@ -83,7 +85,6 @@
     if (entry) { event.preventDefault(); if (state && !state.gathered) await leaveTo(entry.href); return }
     const b = event.target.closest('button'); if (!b || b.disabled) return
     if (b.dataset.action) return act(api + '/command', { action: b.dataset.action, phase: b.dataset.phase })
-    if (b.dataset.assign) return act(api + '/command', { action: 'assign', task: b.dataset.assign, targets: [...selected] })
     if (b.id === 'select-all') { state.students.forEach(p => selected.add(p.id)); return renderTeacher() }
     if (b.id === 'clear') { selected.clear(); return renderTeacher() }
     if (['send-hint', 'hint-all'].includes(b.id)) return act(api + '/command', { action: 'hint', targets: b.id === 'hint-all' ? 'all' : [...selected], level: Number($('#hint-level').value), text: $('#hint-text').value, code: $('#hint-code').value })
@@ -93,8 +94,26 @@
     if (b.id === 'close-code') $('#code-dialog').close()
     if (b.dataset.review) return act('/teaching/room/review', { task: b.dataset.review })
     if (b.dataset.seen) return act('/teaching/room/ack', { hintId: b.dataset.seen, kind: 'seen' })
-    if (['next-task', 'skip-basic', 'need-help'].includes(b.id)) return act('/teaching/room/move', { action: b.id === 'skip-basic' ? 'independent' : b.id === 'need-help' ? 'help' : 'next' })
+    if (['next-task', 'skip-basic', 'need-help'].includes(b.id)) return act('/teaching/room/move', { action: b.id === 'skip-basic' ? 'independent' : b.id === 'need-help' ? 'help' : 'next', assignmentId: b.id === 'next-task' ? state.offeredTask?.assignmentId : undefined })
   })
+  if (teacher) {
+    const updatePublisher = () => {
+      $('#publish-ids-label').hidden = $('#publish-audience').value !== 'ids'
+      $('#publish-goal').textContent = '任务目标：' + $('#publish-task').selectedOptions[0].dataset.goal
+    }
+    $('#publish-task').onchange = updatePublisher; $('#publish-audience').onchange = updatePublisher; updatePublisher()
+    $('#publish-form').onsubmit = async event => {
+      event.preventDefault()
+      if (pending || !state?.controlling || state.status !== 'live') return
+      const targets = $('#publish-audience').value === 'all' ? 'all' : [...new Set($('#publish-ids').value.trim().split(/[\s,，;；]+/).filter(Boolean))]
+      if (targets !== 'all' && (!targets.length || targets.length > 200 || targets.some(id => !/^\d{4,20}$/.test(id)))) { $('#publish-result').textContent = '请填写4—20位数字学号，用换行、空格或逗号分隔；最多200人。'; return }
+      pending = true; $('#publish-task-button').disabled = true
+      try {
+        await post(api + '/command', { action: 'assign', task: $('#publish-task').value, targets, note: $('#publish-note').value })
+        $('#publish-result').textContent = '已发送「' + $('#publish-task').selectedOptions[0].textContent + '」。' + (targets === 'all' ? '全班及稍后进入的学生都会收到。' : targets.length + '位学生会收到，尚未进入课堂的学生将在进入时收到。') + '当前关卡和课堂暂停状态不变。'
+      } catch (error) { $('#publish-result').textContent = error.message } finally { pending = false; await refresh() }
+    }
+  }
   window.lessonNavigate = leaveTo
   async function poll () { await refresh(); setTimeout(poll, 1500) }
   poll()

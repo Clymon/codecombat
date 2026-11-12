@@ -89,7 +89,7 @@ module.exports = class LessonGame {
         const assigned = state.task?.slug === this.slug
         this.freeze(state.paused || state.gathered || !assigned)
         this.call.hidden = !state.gathered && !state.offeredTask && assigned
-        this.call.querySelector('p').textContent = state.gathered ? '老师叫我们回小屋集合啦。先把代码保存好，我陪你回去。' : '老师送来了新任务。先保存代码，回小屋看看任务板，再一起出发。'
+        this.call.querySelector('p').textContent = state.gathered ? '老师叫我们回小屋集合啦。先把代码保存好，我陪你回去。' : state.offeredTask ? `收到新任务「${state.offeredTask.title}」。可以先继续当前任务，准备好后保存代码，回小屋确认新安排。` : '当前任务已经变更，先保存代码，回小屋查看安排。'
         this.status(state.gathered ? '小屋集合 · 游戏已暂停，代码可以继续编辑' : !assigned ? '老师已安排新任务。先保存，再返回本节课。' : state.paused ? '一起看这里 · 游戏已暂停，代码仍可编辑保存' : '')
         const hint = state.hints.at(-1)
         if (hint) {

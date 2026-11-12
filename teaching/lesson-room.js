@@ -18,10 +18,19 @@ function control (room, teacher, revision) {
   if (room.controller !== teacher.id) throw new RoomError(409, '此设备目前仅查看，请先接管课堂。')
   if (Number(revision) !== room.revision) throw new RoomError(409, '课堂状态已经更新，请查看最新状态后再操作。')
 }
+function latestAssignment (room, id) {
+  return (room.assignments || []).findLast(a => a.targets === 'all' || a.targets.includes(id))
+}
+function offer (student, assignment) {
+  student.offeredTask = assignment.task
+  student.offeredAssignmentId = assignment.id
+}
 function join (id) {
   const room = load()
   if (room.status !== 'live' || room.students[id]) return room
-  room.students[id] = { task: Object.keys(course.groups[room.group || 0].tasks)[0], attempt: 1, results: {}, assisted: {}, completed: false, pending: false, lastError: '', joinedAt: Date.now() }
+  const assignment = latestAssignment(room, id)
+  room.students[id] = { task: assignment?.task || Object.keys(course.groups[room.group || 0].tasks)[0], attempt: 1, results: {}, assisted: {}, completed: false, pending: false, lastError: '', joinedAt: Date.now() }
+  if (assignment) offer(room.students[id], assignment)
   return save(room)
 }
 function command (teacher, input) {
@@ -30,7 +39,7 @@ function command (teacher, input) {
     if (room.status === 'live') throw new RoomError(409, '课堂已经开始，请先结束当前课堂。')
     if (Number(input.revision) !== room.revision) throw new RoomError(409, '课堂状态已更新，请刷新。')
     if (room.id) write(path.join(root(), 'lesson-archive', room.id + '.json'), room)
-    room = { id: crypto.randomBytes(12).toString('hex'), status: 'live', revision: room.revision, controller: teacher.id, controllerUser: teacher.user, courseId: course.id, group: 0, phase: 'present', paused: true, gathered: true, startedAt: Date.now(), students: {}, hints: [] }
+    room = { id: crypto.randomBytes(12).toString('hex'), status: 'live', revision: room.revision, controller: teacher.id, controllerUser: teacher.user, courseId: course.id, group: 0, phase: 'present', paused: true, gathered: true, startedAt: Date.now(), students: {}, hints: [], assignments: [] }
     return save(room, true)
   }
   requireLive(room)
@@ -47,28 +56,31 @@ function command (teacher, input) {
   else if (input.action === 'resume') { room.paused = false; room.gathered = false; room.phase = 'practice' } else if (input.action === 'advance') {
     if (room.group + 1 >= course.groups.length) throw new RoomError(409, '已经是最后一组，可以进入总结或结束课堂。')
     room.group++; room.phase = 'explain'; room.paused = true
-  } else if (input.action === 'end') { room.status = 'ended'; room.paused = true; room.endedAt = Date.now() } else if (['hint', 'assign'].includes(input.action)) {
+  } else if (input.action === 'end') { room.status = 'ended'; room.paused = true; room.endedAt = Date.now() } else if (input.action === 'assign') {
+    if (!Object.hasOwn(tasks, input.task)) throw new RoomError(400, '请选择有效任务。')
+    const all = input.targets === 'all'
+    if (!all && (!Array.isArray(input.targets) || !input.targets.length || input.targets.length > 200 || input.targets.some(id => typeof id !== 'string' || !/^\d{4,20}$/.test(id)))) throw new RoomError(400, '请填写4—20位数字学号；最多200人。学生无需提前进入课堂。')
+    const note = typeof input.note === 'string' ? input.note.trim() : ''
+    if (note.length > 400) throw new RoomError(400, '任务说明最多400字。')
+    const assignment = { id: crypto.randomBytes(12).toString('hex'), task: input.task, targets: all ? 'all' : [...new Set(input.targets)], note, publishedAt: Date.now(), accepted: {} }
+    room.assignments ||= []; room.assignments.push(assignment)
+    for (const [id, p] of Object.entries(room.students)) {
+      if (!all && !assignment.targets.includes(id)) continue
+      if (['independent', 'recheck', 'challenge'].includes(input.task) && !p.results.independent?.independent && !p.results.recheck?.independent) p.pending = true
+      // Publication is independent of location, activity and attendance. Accept later.
+      offer(p, assignment)
+    }
+    if (all) { const group = course.groups.findIndex(g => Object.hasOwn(g.tasks, input.task)); if (group >= 0) room.group = group }
+  } else if (input.action === 'hint') {
     const ids = input.targets === 'all' ? Object.keys(room.students) : input.targets
     if (!Array.isArray(ids) || !ids.length || ids.length > 200 || ids.some(id => !room.students[id])) throw new RoomError(400, '请先选择已进入课堂的学生。')
-    if (input.action === 'assign') {
-      if (!Object.hasOwn(tasks, input.task)) throw new RoomError(400, '请选择有效任务。')
-      for (const id of ids) {
-        const p = room.students[id]
-        if (['independent', 'recheck', 'challenge'].includes(input.task) && !p.results.independent?.independent && !p.results.recheck?.independent) p.pending = true
-        // Offer assignment; never throw students out of an unsaved native scene.
-        p.offeredTask = input.task
-      }
-      if (ids.length === Object.keys(room.students).length) { const group = course.groups.findIndex(g => Object.hasOwn(g.tasks, input.task)); if (group >= 0) room.group = group }
-    } else {
-      if (![1, 2, 3].includes(Number(input.level))) throw new RoomError(400, '提示级别须为1、2或3。')
-      const text = typeof input.text === 'string' ? input.text.trim() : ''; const code = typeof input.code === 'string' ? input.code.trim() : ''
-      if (text.length > 800 || code.length > 1200) throw new RoomError(400, '提示太长，请保留一个明确操作。')
-      for (const id of new Set(ids)) {
-        const p = room.students[id]; const template = templates(p.task)[Number(input.level) - 1]
-        room.hints.push({ id: crypto.randomBytes(12).toString('hex'), studentId: id, task: p.task, attempt: p.attempt || 1, level: Number(input.level), text: text || template.text, code: code || template.code || '', target: template.target, sentAt: Date.now(), deliveredAt: null, seenAt: null })
-        // Explicit assistance is recorded at issuance, including while validation is in flight.
-        if ((Number(input.level) >= 2 || code)) p.assisted[p.task] = true
-      }
+    if (![1, 2, 3].includes(Number(input.level))) throw new RoomError(400, '提示级别须为1、2或3。')
+    const text = typeof input.text === 'string' ? input.text.trim() : ''; const code = typeof input.code === 'string' ? input.code.trim() : ''
+    if (text.length > 800 || code.length > 1200) throw new RoomError(400, '提示太长，请保留一个明确操作。')
+    for (const id of new Set(ids)) {
+      const p = room.students[id]; const template = templates(p.task)[Number(input.level) - 1]
+      room.hints.push({ id: crypto.randomBytes(12).toString('hex'), studentId: id, task: p.task, attempt: p.attempt || 1, level: Number(input.level), text: text || template.text, code: code || template.code || '', target: template.target, sentAt: Date.now(), deliveredAt: null, seenAt: null })
+      if ((Number(input.level) >= 2 || code)) p.assisted[p.task] = true
     }
   } else throw new RoomError(400, '未知课堂操作。')
   return save(room, true)
@@ -76,22 +88,31 @@ function command (teacher, input) {
 function studentView (id) {
   const room = load(); const p = room.students[id]
   const next = p ? nextTask(p) : null
-  return { studentId: id, id: room.id, status: room.status, revision: room.revision, title: course.title, groupTitle: (course.groups.find(g => Object.hasOwn(g.tasks, p?.offeredTask || p?.task)) || course.groups[room.group || 0]).title, phase: room.phase, gathered: !!room.gathered, paused: room.paused !== false, task: p ? { id: p.task, ...tasks[p.task] } : null, reviewTasks: room.status === 'ended' && p ? Object.keys(p.results).filter(k => p.results[k].complete).map(id => ({ id, title: tasks[id].title })) : [], progress: p ? Object.entries(p.results).filter(([, result]) => result.complete).map(([id, result]) => ({ id, title: tasks[id].title, independent: result.independent, assisted: result.assisted })) : [], result: p?.results[p.task], pending: p?.pending || false, offeredTask: p?.offeredTask ? { id: p.offeredTask, ...tasks[p.offeredTask] } : null, next: next ? { ...next, detail: { id: next.task, ...tasks[next.task] } } : null, hints: room.hints.filter(h => h.studentId === id && h.task === p?.task && (h.attempt || 1) === (p.attempt || 1)).map(({ studentId, ...h }) => h) }
+  const assignment = (room.assignments || []).find(a => a.id === p?.offeredAssignmentId)
+  return { studentId: id, id: room.id, status: room.status, revision: room.revision, title: course.title, groupTitle: (course.groups.find(g => Object.hasOwn(g.tasks, p?.offeredTask || p?.task)) || course.groups[room.group || 0]).title, phase: room.phase, gathered: !!room.gathered, paused: room.paused !== false, task: p ? { id: p.task, ...tasks[p.task], note: p.assignmentNote || '' } : null, reviewTasks: room.status === 'ended' && p ? Object.keys(p.results).filter(k => p.results[k].complete).map(id => ({ id, title: tasks[id].title })) : [], progress: p ? Object.entries(p.results).filter(([, result]) => result.complete).map(([id, result]) => ({ id, title: tasks[id].title, independent: result.independent, assisted: result.assisted })) : [], result: p?.results[p.task], pending: p?.pending || false, offeredTask: p?.offeredTask ? { id: p.offeredTask, ...tasks[p.offeredTask], assignmentId: p.offeredAssignmentId, note: assignment?.note || '' } : null, next: next ? { ...next, detail: { id: next.task, ...tasks[next.task] } } : null, hints: room.hints.filter(h => h.studentId === id && h.task === p?.task && (h.attempt || 1) === (p.attempt || 1)).map(({ studentId, ...h }) => h) }
 }
 function nextTask (p) {
   if (p.offeredTask) return { task: p.offeredTask, label: `老师安排：${tasks[p.offeredTask].title}` }
   return null // Optional practice is assigned explicitly; completion never queues a clone of this mission.
 }
-function move (id, roomId, action) {
+function move (id, roomId, action, assignmentId) {
   const room = load(); requireLive(room)
   if (room.id !== roomId || !room.students[id]) throw new RoomError(409, '课堂已改变，请回到本节课。')
   if (room.paused) throw new RoomError(409, '老师正在讲解，请稍后继续。')
   const p = room.students[id]
+  if (assignmentId && assignmentId !== p.offeredAssignmentId) throw new RoomError(409, '老师已经更新任务，请查看任务板上的最新安排后再出发。')
   const next = action === 'help' ? 'remedial' : action === 'independent' && p.task === 'basic' ? 'independent' : nextTask(p)?.task
   if (!next) throw new RoomError(409, '请先完成当前任务。')
-  p.task = next; p.attempt = (p.attempt || 1) + 1; p.lastError = ''; delete p.results[next]; delete p.assisted[next]; delete p.offeredTask
-  // A fresh recheck does not inherit assistance from a previous task.
-  const file = progressFile(room.id, id); const progress = read(file) || {}; delete progress[tasks[next].slug]; write(file, progress)
+  if (action === 'next') {
+    const assignment = (room.assignments || []).find(a => a.id === p.offeredAssignmentId)
+    if (assignment) { assignment.accepted[id] = Date.now(); p.acceptedAssignmentId = assignment.id; p.assignmentNote = assignment.note }
+    // Returning to an assigned task preserves code, completion and assistance.
+    p.task = next; p.lastError = ''
+  } else {
+    p.task = next; p.assignmentNote = ''; p.attempt = (p.attempt || 1) + 1; p.lastError = ''; delete p.results[next]; delete p.assisted[next]
+    const file = progressFile(room.id, id); const progress = read(file) || {}; delete progress[tasks[next].slug]; write(file, progress)
+  }
+  delete p.offeredTask; delete p.offeredAssignmentId
   save(room); return `/play/level/${tasks[next].slug}?codeLanguage=python`
 }
 function acknowledge (id, roomId, hintId, kind) {

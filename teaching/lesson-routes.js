@@ -68,7 +68,7 @@ function install (app, { readLevel, freeLifecycle }) {
   app.get('/teaching/teacher/lesson/state', (req, res) => {
     const t = teacher(req, res); if (!t) return
     const state = room.load()
-    res.json({ ...state, controller: undefined, controlling: state.controller === t.id, students: Object.entries(state.students).map(([id, p]) => ({ ...p, id, stage: tasks[p.task].stage, mastered: !!p.results[p.task]?.independent, assisted: !!p.assisted[p.task] })) })
+    res.json({ ...state, controller: undefined, controlling: state.controller === t.id, assignments: (state.assignments || []).map(a => ({ ...a, title: tasks[a.task].title })), students: Object.entries(state.students).map(([id, p]) => ({ ...p, id, stage: tasks[p.task].stage, taskTitle: tasks[p.task].title, offeredTitle: tasks[p.offeredTask]?.title, mastered: !!p.results[p.task]?.independent, assisted: !!p.assisted[p.task] })) })
   })
   app.post('/teaching/teacher/lesson/command', json, (req, res, next) => {
     try {
@@ -101,7 +101,7 @@ function install (app, { readLevel, freeLifecycle }) {
         const s = student(req, res); if (!s) return
         if (!accounts.validForm(req)) return res.sendStatus(403)
         if (route === 'review') return res.json({ url: room.review(s.studentId, req.body.task) })
-        if (route === 'move') return res.json({ url: room.move(s.studentId, req.body.roomId, req.body.action) })
+        if (route === 'move') return res.json({ url: room.move(s.studentId, req.body.roomId, req.body.action, req.body.assignmentId) })
         if (route === 'ack') room.acknowledge(s.studentId, req.body.roomId, req.body.hintId, req.body.kind)
         if (route === 'error') room.reportError(s.studentId, req.body.roomId, req.body.message)
         res.json({ ok: true })
